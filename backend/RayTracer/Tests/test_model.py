@@ -74,6 +74,7 @@ class VectorTest(unittest.TestCase):
         self.assertEqual(r.y, 14)
         self.assertEqual(r.z, -5)
 
+
 class SphereTest(unittest.TestCase):
 
     def test_intersection(self):
@@ -86,6 +87,15 @@ class SphereTest(unittest.TestCase):
         self.assertEqual(intersection.point.x, 3)
         self.assertEqual(intersection.point.y, 3)
         self.assertEqual(intersection.point.z, 0)
+
+    def test_NoIntersection(self):
+        startPoint = Vector(1,1,4)
+        direction = Vector(2,3,1)
+        line = Line(startPoint, direction)
+        center = Vector(5, 1, 3)
+        sphere = Sphere(center, 2)
+        intersection = sphere.intersection(line)
+        self.assertIsNone(intersection)
 
 class MathUtilTest(unittest.TestCase):
 
@@ -104,6 +114,11 @@ class MathUtilTest(unittest.TestCase):
         self.assertRaises(Exception, MathUtil.solveQuadraticFormula(a, b, c))
 
 
+class TupleTest(unittest.TestCase):
+
+    def test_getSmallestPositiv(self):
+        t = Tuple(-1, 4)
+        self.assertEqual(t.x1, 4)
 
 
 class LightTest(unittest.TestCase):
