@@ -32,7 +32,7 @@ class VectorTest(unittest.TestCase):
         self.assertEqual(b.calcLength(), 11)
 
     def test_add(self):
-        v = Vector(3,5,1)
+        v = Vector(3, 5, 1)
         b = Vector(1, 0, 2)
         r = v.add(b)
         self.assertEqual(r.x, 4)
@@ -52,23 +52,23 @@ class VectorTest(unittest.TestCase):
         self.assertEqual(v.getNormalizedLength(), 1)
 
     def test_multiply(self):
-        v = Vector(3,2,5)
+        v = Vector(3, 2, 5)
         r = v.multiply(2)
         self.assertEqual(r.x, 6)
         self.assertEqual(r.y, 4)
         self.assertEqual(r.z, 10)
 
     def test_multiply(self):
-        v = Vector(3,2,5)
-        b = Vector(4,1,2)
+        v = Vector(3, 2, 5)
+        b = Vector(4, 1, 2)
         r = v.multiply(b)
         self.assertEqual(r.x, 12)
         self.assertEqual(r.y, 2)
         self.assertEqual(r.z, 10)
 
     def test_crossProduct(self):
-        v = Vector(3,2,5)
-        b = Vector(4,1,2)
+        v = Vector(3, 2, 5)
+        b = Vector(4, 1, 2)
         r = v.crossProduct(b)
         self.assertEqual(r.x, -1)
         self.assertEqual(r.y, 14)
@@ -78,8 +78,8 @@ class VectorTest(unittest.TestCase):
 class SphereTest(unittest.TestCase):
 
     def test_intersection(self):
-        startPoint = Vector(0,0,0)
-        direction = Vector(2,2,0)
+        startPoint = Vector(0, 0, 0)
+        direction = Vector(2, 2, 0)
         line = Line(startPoint, direction)
         center = Vector(5, 3, 0)
         sphere = Sphere(center, 2)
@@ -89,13 +89,14 @@ class SphereTest(unittest.TestCase):
         self.assertEqual(intersection.point.z, 0)
 
     def test_NoIntersection(self):
-        startPoint = Vector(1,1,4)
-        direction = Vector(2,3,1)
+        startPoint = Vector(1, 1, 4)
+        direction = Vector(2, 3, 1)
         line = Line(startPoint, direction)
         center = Vector(5, 1, 3)
         sphere = Sphere(center, 2)
         intersection = sphere.intersection(line)
         self.assertIsNone(intersection)
+
 
 class MathUtilTest(unittest.TestCase):
 
@@ -103,7 +104,7 @@ class MathUtilTest(unittest.TestCase):
         a = 8
         b = -32
         c = 30
-        result = MathUtil.solveQuadraticFormula(a,b,c)
+        result = MathUtil.solveQuadraticFormula(a, b, c)
         self.assertEqual(result.x1, 1.5)
         self.assertEqual(result.x2, 2.5)
 
