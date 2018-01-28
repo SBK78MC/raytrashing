@@ -1,6 +1,6 @@
-from Classes.Object3D import Object3D
-from Classes.Ray import Ray
-from Classes.Vector import Vector
+from Classes.Models.Object3D import Object3D
+from Classes.Models.Ray import Ray
+from Classes.Models.Vector import Vector
 
 
 class Intersection:

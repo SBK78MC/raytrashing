@@ -1,6 +1,6 @@
 import math
 
-from Classes.Tuple import Tuple
+from Classes.Models.Tuple import Tuple
 
 
 class MathUtil:

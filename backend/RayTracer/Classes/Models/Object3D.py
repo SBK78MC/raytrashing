@@ -1,4 +1,4 @@
-from Classes.Vector import Vector
+from Classes.Models.Vector import Vector
 
 
 class Object3D:

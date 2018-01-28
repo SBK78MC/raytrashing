@@ -1,5 +1,5 @@
-from Classes.AmbientLight import AmbientLight
-from Classes.Vector import Vector
+from Classes.Models.AmbientLight import AmbientLight
+from Classes.Models.Vector import Vector
 
 
 class Light(AmbientLight):

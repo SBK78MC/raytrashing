@@ -1,9 +1,9 @@
 import math
 
-from Classes.MathUtil import MathUtil
-from Classes.Intersection import Intersection
-from Classes.Object3D import Object3D
-from Classes.Vector import Vector
+from Classes.Models.MathUtil import MathUtil
+from Classes.Models.Intersection import Intersection
+from Classes.Models.Object3D import Object3D
+from Classes.Models.Vector import Vector
 
 
 class Sphere(Object3D):
