@@ -9,11 +9,12 @@ from Classes.Models.Vector import Vector
 class Sphere(Object3D):
 
     def __init__(self, v=Vector(0, 0, 0), radius=0):
-        Object3D.__init__(self, v)
+        super().__init__(v)
         self.radius = radius
 
     def intersection(self, ray):
-        cameraToCenter = ray.getStartPoint().sub(self.center)
+        startP=ray.getStartPoint()
+        cameraToCenter = startP.sub(self.center)
 
         a = self.calculateA(ray.getDirection())
         b = self.calculateB(cameraToCenter, ray.getDirection())

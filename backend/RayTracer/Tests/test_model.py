@@ -1,5 +1,6 @@
 import unittest
 
+from Classes.Models.Light import Light
 from Classes.Models.MathUtil import MathUtil
 from Classes.Models.Ray import Ray
 from Classes.Models.Sphere import Sphere
@@ -97,7 +98,7 @@ class SphereTest(unittest.TestCase):
         startPoint = Vector(1, 1, 4)
         direction = Vector(2, 3, 1)
         line = Ray(startPoint, direction)
-        center = Vector(5, 1, 3)
+        center = Vector(5.0, 1, 3)
         sphere = Sphere(center, 2)
         intersection = sphere.intersection(line)
         self.assertIsNone(intersection)
@@ -127,7 +128,7 @@ class TupleTest(unittest.TestCase):
         self.assertEqual(t.getSmallestPositive(), 4)
 
 
-'''class LightTest(unittest.TestCase):
+class LightTest(unittest.TestCase):
 
     def test_getLightRay(self):
         point = Vector(7, 3, 1)
@@ -136,4 +137,3 @@ class TupleTest(unittest.TestCase):
         self.assertEqual(lightray.x, -5)
         self.assertEqual(lightray.y, -1)
         self.assertEqual(lightray.z, 1)
-'''

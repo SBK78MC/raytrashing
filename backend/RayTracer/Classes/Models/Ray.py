@@ -9,7 +9,7 @@ class Ray:
 
     def getPointOfRay(self, t):
         result = Vector()
-        result.x = (self.startPoint.x + (t * self.direction.getX()))
+        result.setX(self.startPoint.x + (t * self.direction.x))
         result.setY(self.startPoint.y + (t * self.direction.y))
         result.setZ(self.startPoint.z + (t * self.direction.z))
         return result
