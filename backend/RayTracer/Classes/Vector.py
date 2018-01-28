@@ -25,7 +25,8 @@ class Vector:
         return Vector(self.x - v.x, self.y - v.y, self.z - v.z)
 
     def multiply(self, d):
-        return Vector(self.x * d, self.y * d, self.z * d)
+        v = Vector(self.x * d, self.y * d, self.z * d)
+        return v
 
     def dotProduct(self, v):
         return (self.x * v.x) + (self.y * v.y) + (self.z * v.z)
@@ -33,7 +34,7 @@ class Vector:
     def crossProduct(self, v):
         newX = self.y * v.z - self.z * v.y
         newY = self.z * v.x - self.x * v.z
-        newZ = self.x * v.y - self.y * v.y
+        newZ = self.x * v.y - self.y * v.x
 
         return Vector(newX, newY, newZ)
 
@@ -43,17 +44,18 @@ class Vector:
     def setX(self, x):
         self.x = x
 
-    def setY(self,y):
+    def setY(self, y):
         self.y = y
 
     def setZ(self, z):
         self.z = z
 
+    def getX(self):
+        return self.x
 
-if __name__ == '__main__':
-    v1 = Vector()
-    v2 = Vector()
+    def getY(self):
+        return self.y
 
-    v2.setZ(1)
+    def getZ(self):
+        return self.z
 
-    v2.print()
