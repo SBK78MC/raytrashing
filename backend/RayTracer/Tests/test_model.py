@@ -1,5 +1,11 @@
 import unittest
-import math
+
+from Classes.Models.Light import Light
+from Classes.Models.MathUtil import MathUtil
+from Classes.Models.Ray import Ray
+from Classes.Models.Sphere import Sphere
+from Classes.Models.Tuple import Tuple
+from Classes.Models.Vector import Vector
 
 if __name__ == '__main__':
     unittest.main()
@@ -19,11 +25,11 @@ class VectorTest(unittest.TestCase):
 
     def test_normalize(self):
         v = Vector(3, 2, 0)
-        self.assertEqual(v.normalize().length(), 1)
+        self.assertEqual(v.getNormalizedLength(), 1)
 
     def test_dotproduct(self):
         v = Vector(2, 2, 2)
-        self.assertEqual(v.dotProduct(v), 4)
+        self.assertEqual(v.dotProduct(v), 12)
 
     def test_calcLength(self):
         v = Vector(4, 0, 3)
@@ -58,14 +64,6 @@ class VectorTest(unittest.TestCase):
         self.assertEqual(r.y, 4)
         self.assertEqual(r.z, 10)
 
-    def test_multiply(self):
-        v = Vector(3, 2, 5)
-        b = Vector(4, 1, 2)
-        r = v.multiply(b)
-        self.assertEqual(r.x, 12)
-        self.assertEqual(r.y, 2)
-        self.assertEqual(r.z, 10)
-
     def test_crossProduct(self):
         v = Vector(3, 2, 5)
         b = Vector(4, 1, 2)
@@ -74,15 +72,24 @@ class VectorTest(unittest.TestCase):
         self.assertEqual(r.y, 14)
         self.assertEqual(r.z, -5)
 
+    def test_equals(self):
+        v = Vector(3, 2, 5)
+        b = Vector(4, 1, 2)
+        v2 = Vector(3, 2, 5)
+        vb = v.equals(b)
+        vv = v.equals(v2)
+        self.assertFalse(vb)
+        self.assertTrue(vv)
+
 
 class SphereTest(unittest.TestCase):
 
     def test_intersection(self):
         startPoint = Vector(0, 0, 0)
-        direction = Vector(2, 2, 0)
-        line = Line(startPoint, direction)
-        center = Vector(5, 3, 0)
-        sphere = Sphere(center, 2)
+        direction = Vector(2.0, 2.0, 0)
+        line = Ray(startPoint, direction)
+        center = Vector(5.0, 3.0, 0.0)
+        sphere = Sphere(center, 2.0)
         intersection = sphere.intersection(line)
         self.assertEqual(intersection.point.x, 3)
         self.assertEqual(intersection.point.y, 3)
@@ -91,8 +98,8 @@ class SphereTest(unittest.TestCase):
     def test_NoIntersection(self):
         startPoint = Vector(1, 1, 4)
         direction = Vector(2, 3, 1)
-        line = Line(startPoint, direction)
-        center = Vector(5, 1, 3)
+        line = Ray(startPoint, direction)
+        center = Vector(5.0, 1, 3)
         sphere = Sphere(center, 2)
         intersection = sphere.intersection(line)
         self.assertIsNone(intersection)
@@ -105,21 +112,21 @@ class MathUtilTest(unittest.TestCase):
         b = -32
         c = 30
         result = MathUtil.solveQuadraticFormula(a, b, c)
-        self.assertEqual(result.x1, 1.5)
-        self.assertEqual(result.x2, 2.5)
+        self.assertEqual(result.x1, 2.5)
+        self.assertEqual(result.x2, 1.5)
 
     def test_solveQuadraticFormulaFail(self):
         a = 3
         b = 1
         c = 13
-        self.assertRaises(Exception, MathUtil.solveQuadraticFormula(a, b, c))
+        self.assertEqual(None, MathUtil.solveQuadraticFormula(a, b, c))
 
 
 class TupleTest(unittest.TestCase):
 
     def test_getSmallestPositiv(self):
         t = Tuple(-1, 4)
-        self.assertEqual(t.x1, 4)
+        self.assertEqual(t.getSmallestPositive(), 4)
 
 
 class LightTest(unittest.TestCase):
