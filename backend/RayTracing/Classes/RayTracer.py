@@ -2,15 +2,15 @@ import math
 import numpy
 import matplotlib.pyplot as plt
 
-from Classes.Models.Light import Light
-from Classes.Models.Imageplane import Imageplane
-from Classes.Models.Ray import Ray
-from Classes.Models.Scene import Scene
-from Classes.Models.Sphere import Sphere
-from Classes.Models.Vector import Vector
+from RayTracer.Classes.Models.Light import Light
+from RayTracer.Classes.Models.Imageplane import Imageplane
+from RayTracer.Classes.Models.Ray import Ray
+from RayTracer.Classes.Models.Scene import Scene
+from RayTracer.Classes.Models.Sphere import Sphere
+from RayTracer.Classes.Models.Vector import Vector
 
 
-class RayTracer:
+class RayTracers:
 
     fov = 30
 
@@ -55,5 +55,5 @@ if __name__ == "__main__":
 
     imagepl = Imageplane(500, 500)
 
-    raytrace = RayTracer(imagepl, scene)
+    raytrace = RayTracers(imagepl, scene)
     raytrace.startRayTracing()

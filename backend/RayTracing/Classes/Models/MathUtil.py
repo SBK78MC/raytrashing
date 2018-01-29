@@ -1,6 +1,6 @@
 import math
 
-from Classes.Models.Tuple import Tuple
+from RayTracer.Classes.Models.Tuple import Tuple
 
 
 class MathUtil:

@@ -1,11 +1,15 @@
 import unittest
 
-from Classes.Models.Light import Light
-from Classes.Models.MathUtil import MathUtil
-from Classes.Models.Ray import Ray
-from Classes.Models.Sphere import Sphere
-from Classes.Models.Tuple import Tuple
-from Classes.Models.Vector import Vector
+from RayTracer.Classes.Models.Light import Light
+from RayTracer.Classes.Models.MathUtil import MathUtil
+from RayTracer.Classes.Models.Ray import Ray
+from RayTracer.Classes.Models.Sphere import Sphere
+from RayTracer.Classes.Models.Tuple import Tuple
+from RayTracer.Classes.Models.Vector import Vector
+
+from RayTracer.Classes.Models.Imageplane import Imageplane
+from RayTracer.Classes.Models.Scene import Scene
+from RayTracer.Classes.RayTracers import RayTracer
 
 if __name__ == '__main__':
     unittest.main()
@@ -138,3 +142,19 @@ class LightTest(unittest.TestCase):
         self.assertEqual(lightray.x, -5)
         self.assertEqual(lightray.y, -1)
         self.assertEqual(lightray.z, 1)
+
+class RayTracerTest(unittest.TestCase):
+
+    def test_getColorForPixel(self):
+        sCenter = Vector(1, 1, 15)
+        s1 = Sphere(sCenter, 1)
+        light1 = Light(2, 4, 5, 0.4)
+
+        scene = Scene()
+        scene.addLight(light1)
+        scene.addObject3D(s1)
+
+        imagepl = Imageplane(500, 500)
+
+        raytrace = RayTracer(imagepl, scene)
+        raytrace.startRayTracing()

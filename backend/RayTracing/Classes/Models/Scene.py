@@ -1,4 +1,4 @@
-from Classes.Models import Object3D, Light
+from . import Object3D, Light
 
 
 class Scene:
