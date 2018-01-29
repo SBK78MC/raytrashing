@@ -13,4 +13,5 @@ class Object3D:
     def intersection(self, ray):
         pass
 
-
+    def getCenter(self):
+        return self.center

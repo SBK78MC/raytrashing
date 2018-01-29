@@ -8,6 +8,10 @@ from Classes.Models.Vector import Vector
 
 class Sphere(Object3D):
 
+    def __init__(self, x=0, y=0, z=0, radius=0):
+        super().__init__(x, y, z)
+        self.radius = radius
+
     def __init__(self, v=Vector(0, 0, 0), radius=0):
         super().__init__(v)
         self.radius = radius

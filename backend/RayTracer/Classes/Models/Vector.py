@@ -59,3 +59,8 @@ class Vector:
     def getZ(self):
         return self.z
 
+    def equals(self, v):
+        if self.x == v.getX() and self.y == v.getY() and self.z == v.getZ():
+            return True
+        else:
+            return False

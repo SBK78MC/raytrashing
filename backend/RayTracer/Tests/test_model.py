@@ -64,14 +64,6 @@ class VectorTest(unittest.TestCase):
         self.assertEqual(r.y, 4)
         self.assertEqual(r.z, 10)
 
-    '''def test_multiply(self):
-        v = Vector(3, 2, 5)
-        b = Vector(4, 1, 2)
-        r = v.multiply(b)
-        self.assertEqual(r.x, 12)
-        self.assertEqual(r.y, 2)
-        self.assertEqual(r.z, 10)'''
-
     def test_crossProduct(self):
         v = Vector(3, 2, 5)
         b = Vector(4, 1, 2)
@@ -79,6 +71,15 @@ class VectorTest(unittest.TestCase):
         self.assertEqual(r.x, -1)
         self.assertEqual(r.y, 14)
         self.assertEqual(r.z, -5)
+
+    def test_equals(self):
+        v = Vector(3, 2, 5)
+        b = Vector(4, 1, 2)
+        v2 = Vector(3, 2, 5)
+        vb = v.equals(b)
+        vv = v.equals(v2)
+        self.assertFalse(vb)
+        self.assertTrue(vv)
 
 
 class SphereTest(unittest.TestCase):
