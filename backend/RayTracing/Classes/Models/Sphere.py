@@ -1,9 +1,9 @@
 import math
 
-from RayTracer.Classes.Models.MathUtil import MathUtil
-from RayTracer.Classes.Models.Intersection import Intersection
-from RayTracer.Classes.Models.Object3D import Object3D
-from RayTracer.Classes.Models.Vector import Vector
+from RayTracing.Classes.Models.MathUtil import MathUtil
+from RayTracing.Classes.Models.Intersection import Intersection
+from RayTracing.Classes.Models.Object3D import Object3D
+from RayTracing.Classes.Models.Vector import Vector
 
 
 class Sphere(Object3D):

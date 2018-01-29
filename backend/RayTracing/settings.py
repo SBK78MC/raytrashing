@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'RayTracer.wsgi.application'
+WSGI_APPLICATION = 'RayTracing.wsgi.application'
 
 
 # Database

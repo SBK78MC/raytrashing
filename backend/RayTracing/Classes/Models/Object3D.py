@@ -1,4 +1,4 @@
-from RayTracer.Classes.Models.Vector import Vector
+from RayTracing.Classes.Models.Vector import Vector
 
 
 class Object3D:

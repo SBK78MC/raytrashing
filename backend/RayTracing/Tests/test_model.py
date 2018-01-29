@@ -1,15 +1,16 @@
 import unittest
 
-from RayTracer.Classes.Models.Light import Light
-from RayTracer.Classes.Models.MathUtil import MathUtil
-from RayTracer.Classes.Models.Ray import Ray
-from RayTracer.Classes.Models.Sphere import Sphere
-from RayTracer.Classes.Models.Tuple import Tuple
-from RayTracer.Classes.Models.Vector import Vector
+from RayTracing.Classes.Models.Camera import Camera
+from RayTracing.Classes.Models.Light import Light
+from RayTracing.Classes.Models.MathUtil import MathUtil
+from RayTracing.Classes.Models.Ray import Ray
+from RayTracing.Classes.Models.Sphere import Sphere
+from RayTracing.Classes.Models.Tuple import Tuple
+from RayTracing.Classes.Models.Vector import Vector
 
-from RayTracer.Classes.Models.Imageplane import Imageplane
-from RayTracer.Classes.Models.Scene import Scene
-from RayTracer.Classes.RayTracers import RayTracer
+from RayTracing.Classes.Models.Imageplane import Imageplane
+from RayTracing.Classes.Models.Scene import Scene
+from RayTracing.Classes.RayTracer import RayTracer
 
 if __name__ == '__main__':
     unittest.main()
@@ -143,18 +144,9 @@ class LightTest(unittest.TestCase):
         self.assertEqual(lightray.y, -1)
         self.assertEqual(lightray.z, 1)
 
-class RayTracerTest(unittest.TestCase):
 
-    def test_getColorForPixel(self):
-        sCenter = Vector(1, 1, 15)
-        s1 = Sphere(sCenter, 1)
-        light1 = Light(2, 4, 5, 0.4)
+class CameraTest(unittest.TestCase):
 
-        scene = Scene()
-        scene.addLight(light1)
-        scene.addObject3D(s1)
-
-        imagepl = Imageplane(500, 500)
-
-        raytrace = RayTracer(imagepl, scene)
-        raytrace.startRayTracing()
+    def test_calculateAngle(self):
+        c = Camera(Vector(0,0,0), Vector(1,2,3), 30)
+        self.assertEqual(0.2679491924311227, c.getAngle())
