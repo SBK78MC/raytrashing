@@ -28,7 +28,7 @@ class RayTracer:
 
                 pixelDirection = Vector(px, py, self.camera.position.getZ() + 1)
 
-                pixelRay = Ray(self.camera, pixelDirection)
+                pixelRay = Ray(self.camera.position, pixelDirection)
 
                 for obj in self.scene.getObjects():
                     if obj.intersection(pixelRay):
@@ -52,5 +52,7 @@ if __name__ == "__main__":
 
     imagepl = Imageplane(500, 500)
 
-    raytrace = RayTracer(imagepl, scene)
+    camera = Camera(Vector(0,0,0), Vector(0,0,0), 30)
+
+    raytrace = RayTracer(imagepl, scene, camera)
     raytrace.startRayTracing()
