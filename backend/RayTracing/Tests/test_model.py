@@ -1,11 +1,16 @@
 import unittest
 
-from Classes.Models.Light import Light
-from Classes.Models.MathUtil import MathUtil
-from Classes.Models.Ray import Ray
-from Classes.Models.Sphere import Sphere
-from Classes.Models.Tuple import Tuple
-from Classes.Models.Vector import Vector
+from RayTracing.Classes.Models.Camera import Camera
+from RayTracing.Classes.Models.Light import Light
+from RayTracing.Classes.Models.MathUtil import MathUtil
+from RayTracing.Classes.Models.Ray import Ray
+from RayTracing.Classes.Models.Sphere import Sphere
+from RayTracing.Classes.Models.Tuple import Tuple
+from RayTracing.Classes.Models.Vector import Vector
+
+from RayTracing.Classes.Models.Imageplane import Imageplane
+from RayTracing.Classes.Models.Scene import Scene
+from RayTracing.Classes.RayTracer import RayTracer
 
 if __name__ == '__main__':
     unittest.main()
@@ -138,3 +143,10 @@ class LightTest(unittest.TestCase):
         self.assertEqual(lightray.x, -5)
         self.assertEqual(lightray.y, -1)
         self.assertEqual(lightray.z, 1)
+
+
+class CameraTest(unittest.TestCase):
+
+    def test_calculateAngle(self):
+        c = Camera(Vector(0,0,0), Vector(1,2,3), 30)
+        self.assertEqual(0.2679491924311227, c.getAngle())

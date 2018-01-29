@@ -1,5 +1,5 @@
-from Classes.Models.AmbientLight import AmbientLight
-from Classes.Models.Vector import Vector
+from RayTracing.Classes.Models.AmbientLight import AmbientLight
+from RayTracing.Classes.Models.Vector import Vector
 
 
 class Light(AmbientLight):
