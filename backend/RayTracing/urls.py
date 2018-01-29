@@ -16,9 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-from . import view
+from . import endpoint
 
 urlpatterns = [
-    path('test', view.index, name='index'),
+    path('raytrace', endpoint.raytrace, name='index'),
     path('admin/', admin.site.urls),
 ]
