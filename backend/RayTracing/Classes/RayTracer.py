@@ -24,7 +24,7 @@ class RayTracer:
         for x in range(0, self.imageplane.getWidth()):
             for y in range(0, self.imageplane.getHeight()):
                 px = (2 * ((x + 0.5) / self.imageplane.getWidth()) - 1) * self.camera.angle * self.imageAspectRatio
-                py = (2 * ((y + 0.5) / self.imageplane.getHeight()) - 1) * self.camera.angle
+                py = (1 - 2 * ((y + 0.5) / self.imageplane.getHeight())) * self.camera.angle
 
                 pixelDirection = Vector(px, py, self.camera.position.getZ() + 1)
 
