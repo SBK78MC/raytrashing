@@ -16,9 +16,10 @@ The page is divided into 3 parts:
 -right: where we have the controls of the shapes
 
 -->
-<h1 id="title"> RAYTRASHING </h1>
+
 
 <div id="left">
+
 <form action="/action_page.php">
 <h4>Light Source</h4> 
 <input class="inputs" type="text" name="Light Source x" placeholder="x">
@@ -40,15 +41,18 @@ The page is divided into 3 parts:
 </select>
 
 <br>
+<div>
 <button style="margin-top: 10%;" class="buttons" type="button" onclick="addShape()">Add Shape</button>
 <button class="buttons" type="button" onclick="clearGrid()">Clear Grid</button>
-<br>
-<button id="render" style="margin-top: 8%;" class="buttons" type="button" onclick="alert('Hello world!')">Render</button>
+</div>
+<button id="render" class="buttons" type="button" onclick="alert('Hello world!')">Render</button>
 </form>
+
 </div>
 
 
 
+<h1 id="title">RAYTRASHING</h1>
 <div id="center">
 <canvas id="myCanvas"></canvas>
 </div>
