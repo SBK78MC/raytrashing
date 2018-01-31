@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="css/raytracing.css" />
+<link rel="stylesheet" href="css/farbtastic.css" type="text/css" />
+</head>
+
+
+
+
+<body>
+<!--
+The page is divided into 3 parts:
+-left: where take information about the lighting 
+-center: where is the grid we add the shapes
+-right: where we have the controls of the shapes
+
+-->
+<h1 id="title"> RAYTRASHING </h1>
+
+<div id="left">
+<form action="/action_page.php">
+<h4>Light Source</h4> 
+<input class="inputs" type="text" name="Light Source x" placeholder="x">
+<input style="margin-left:3%;"  class="inputs" type="text" name="Light Source y" placeholder="y">
+<input style="margin-left:3%;" class="inputs" type="text" name="Light Source z" placeholder="z">
+<h4>Brightness</h4> 
+<input type="range" min="1" max="100" value="1" class="bar">
+<h4>Reflection</h4> 
+<input type="range" min="1" max="100" value="100" class="bar">
+
+<h4>Image Size</h4>
+<select id="screenSize" onchange="gridSize()" class="boxes" >
+  <option value="1">500x500</option>
+  <option value="2">600x600</option>
+  <option value="3">700x700</option>
+  <option value="4">800x800</option>
+  <option value="5">900x900</option>
+  <option value="6">1000x1000</option>
+</select>
+
+<br>
+<button style="margin-top: 10%;" class="buttons" type="button" onclick="addShape()">Add Shape</button>
+<button class="buttons" type="button" onclick="clearGrid()">Clear Grid</button>
+<br>
+<button id="render" style="margin-top: 8%;" class="buttons" type="button" onclick="alert('Hello world!')">Render</button>
+</form>
+</div>
+
+
+
+<div id="center">
+<canvas id="myCanvas"></canvas>
+</div>
+
+<div id="right">
+<form action="/action_page.php">
+
+<h4>Shape</h4> 
+<select id="shape" class="boxes" >
+  <option value="Circle">Circle</option>
+  <option value="Cube">Cube</option>
+</select>
+
+<h4>Coordinates</h4> 
+<input id="shape_x" class="inputs" type="text" name="Coordinates x" placeholder="x">
+<input id="shape_y" style="margin-left:3%;"  class="inputs" type="text" name="Coordinates y" placeholder="y">
+<input style="margin-left:3%;" class="inputs" type="text" name="Coordinates z" placeholder="z">
+
+<h4>Size</h4>
+<input id="size" class="boxes" type="text" name="Size" placeholder="Radious/Sidelength"> 
+
+
+<h4>Colour</h4>
+<input id="color" type="text" name="color" id="color" value="#123456" /> 
+<div id="picker"></div>
+
+</form>
+</div>
+
+
+
+
+
+
+</body>
+
+<script  type="text/javascript" src="js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="js/raytracing.js"></script>
+<script type="text/javascript" src="js/farbtastic.js"></script>
+
+</body>
+</html>
