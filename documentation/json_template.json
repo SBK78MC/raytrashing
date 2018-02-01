@@ -1,6 +1,6 @@
 {
     "imageplane":{
-        "with":"INTEGER VALUE",
+        "width":"INTEGER VALUE",
         "height": "INTEGER VALUE"
     },
     "scene":{
@@ -47,6 +47,10 @@
             },
             "brightness":"DOUBLE VALUE"
          }
-      ]
+      ],
+      "AmbientLight":{
+          "active":"BOOLEAN VALUE",
+          "brightness":"DOUBLE VALUE"
+      }
    }
 }
