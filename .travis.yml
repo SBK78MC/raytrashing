@@ -4,6 +4,8 @@ python:
 # command to install dependencies
 install:
   - pip install -r requirements.txt
+before_script:
+  - cd backend/Tests
 # command to run tests
 script: 
   - python test_model.py
