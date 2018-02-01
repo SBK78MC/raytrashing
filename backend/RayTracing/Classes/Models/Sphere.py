@@ -8,12 +8,12 @@ from RayTracing.Classes.Models.Vector import Vector
 
 class Sphere(Object3D):
 
-    def __init__(self, x=0, y=0, z=0, radius=0, colorRGB=[0, 0, 0]):
-        super().__init__(x, y, z, colorRGB)
+    def __init__(self, x=0, y=0, z=0, radius=0, colorRGB=[0, 0, 0], reflection=10):
+        super().__init__(x, y, z, colorRGB, reflection)
         self.radius = radius
 
-    def __init__(self, v=Vector(0, 0, 0), radius=0, colorRGB=[0, 0, 0]):
-        super().__init__(v,colorRGB)
+    def __init__(self, v=Vector(0, 0, 0), radius=0, colorRGB=[0, 0, 0], reflection=10):
+        super().__init__(v, colorRGB, reflection)
         self.radius = radius
 
     def intersection(self, ray):
