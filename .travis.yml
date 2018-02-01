@@ -5,8 +5,9 @@ python:
 install:
   - pip install -r requirements.txt
 before_script:
-  - cd backend/RayTracing/Tests
+  - cd backend/
   - pip install .
+  - cd RayTracing/Tests
 # command to run tests
 script: 
   - python test_model.py
