@@ -1,3 +1,11 @@
+cycler==0.10.0
+Distutils==1.0
 Django==2.0.1
+matplotlib==2.1.2
+numpy==1.14.0
+pyparsing==2.2.0
+python-dateutil==2.6.1
 pytz==2017.3
+RayTracing==0.1
+six==1.11.0
 virtualenv==15.1.0
