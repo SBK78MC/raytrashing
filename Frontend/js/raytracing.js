@@ -1,7 +1,5 @@
 function addShape() {
 	
-	
-	
 		//get the canvas
 		var c = document.getElementById("myCanvas");
 		var ctx = c.getContext("2d");
@@ -75,18 +73,47 @@ function addShape() {
 			
 			
 		}
+		
+		//reset values
+		document.getElementById("resetShape").reset();
 	
 		
-	}
+};
 	
 function clearGrid() {
 	var c = document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
 	ctx.clearRect(0, 0, c.width, c.height);
-}
+};
+
+function addLight() {
+	
+	var x = parseInt(document.getElementById("light_x").value);
+	var y = parseInt(document.getElementById("light_y").value);
+	var z = parseInt(document.getElementById("light_z").value);
+	
+	var canvas = document.getElementById('myCanvas');
+	context = canvas.getContext('2d');
+	
+	y = -y + canvas.height/2;
+	x = x + canvas.width/2;
+	
+	
+	base_image = new Image();
+	base_image.src = './images/light.png';
+	base_image.onload = function(){
+		context.drawImage(base_image, x, y, 15, 18);
+	}
+	
+	
+	//reset values
+	document.getElementById("resetLight").reset();
+};
+
 
 function gridSize() {
-	var v = document.getElementById("screenSize").value;
+	
+	var v = document.getElementById("screenSize1").value;
 	if(v == '1'){
 		document.getElementById("center").style.backgroundSize = "10% 10%";
 	}else if(v == '2'){
@@ -110,9 +137,7 @@ function gridSize() {
 }
 
 
-function cartToScreen(py) {
-  return -py + HEIGHT;
-};	
+
 
 
 	//setup page

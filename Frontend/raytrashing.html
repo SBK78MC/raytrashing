@@ -20,18 +20,23 @@ The page is divided into 3 parts:
 
 <div id="left">
 
-<form action="/action_page.php">
+<form id="resetLight"  action="/action_page.php">
 <h4>Light Source</h4> 
-<input class="inputs" type="text" name="Light Source x" placeholder="x">
-<input style="margin-left:3%;"  class="inputs" type="text" name="Light Source y" placeholder="y">
-<input style="margin-left:3%;" class="inputs" type="text" name="Light Source z" placeholder="z">
+<input id="light_x" class="inputs" type="text" name="Light Source x" placeholder="x">
+<input id="light_y" style="margin-left:3%;" class="inputs" type="text" name="Light Source y" placeholder="y">
+<input id="light_z" style="margin-left:3%;" class="inputs" type="text" name="Light Source z" placeholder="z">
 <h4>Brightness</h4> 
 <input type="range" min="1" max="100" value="1" class="bar">
 <h4>Reflection</h4> 
 <input type="range" min="1" max="100" value="100" class="bar">
+<h4>Ambient Light</h4> 
+<input type="range" min="1" max="100" value="0" class="bar">
 
+
+
+<!--
 <h4>Image Size</h4>
-<select id="screenSize" onchange="gridSize()" class="boxes" >
+<select onchange="gridSize()" class="boxes" >
   <option value="1">500x500</option>
   <option value="2">600x600</option>
   <option value="3">700x700</option>
@@ -39,12 +44,14 @@ The page is divided into 3 parts:
   <option value="5">900x900</option>
   <option value="6">1000x1000</option>
 </select>
+-->
 
 <br>
 <div>
 <button style="margin-top: 10%;" class="buttons" type="button" onclick="addShape()">Add Shape</button>
-<button class="buttons" type="button" onclick="clearGrid()">Clear Grid</button>
+<button class="buttons" type="button" onclick="addLight()">Add Light</button>
 </div>
+<button id="render" class="buttons" type="button" onclick="clearGrid()">Clear Grid</button>
 <button id="render" class="buttons" type="button" onclick="alert('Hello world!')">Render</button>
 </form>
 
@@ -57,8 +64,11 @@ The page is divided into 3 parts:
 <canvas id="myCanvas"></canvas>
 </div>
 
+
+
+
 <div id="right">
-<form action="/action_page.php">
+<form id = "resetShape" action="/action_page.php">
 
 <h4>Shape</h4> 
 <select id="shape" class="boxes" >
@@ -83,7 +93,17 @@ The page is divided into 3 parts:
 </div>
 
 
-
+<div id="screenSize" >
+<h3>Image Size</h4>
+<select style="width: 200px; " id="screenSize1" onchange="gridSize()" >
+  <option value="1">500x500</option>
+  <option value="2">600x600</option>
+  <option value="3">700x700</option>
+  <option value="4">800x800</option>
+  <option value="5">900x900</option>
+  <option value="6">1000x1000</option>
+</select>
+</div>
 
 
 
