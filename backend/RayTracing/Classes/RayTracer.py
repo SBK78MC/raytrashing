@@ -46,7 +46,7 @@ class RayTracer:
                 if minObjInter:
                     self.img[y, x] = self.getColorForIntersection(minObjInter)
 
-        plt.imsave('FirstImages.png', self.img)
+        return self.img
 
     def getColorForIntersection(self, intersection):
 
@@ -65,31 +65,28 @@ class RayTracer:
                 if ptcDotltp > 0:
                     colorBrightness += light.getBrightness() * ptcDotltp / lightToPoint.calcLength()
 
+                if intersection.getObject().getReflection() > 0:
+                    lightReflection = (pointToCenter.multiply(2 * ptcDotltp)).sub(lightToPoint)
+                    negativeCameraDirection = intersection.getRay().getDirection().getNegative()
+                    lightRDotCamera = lightReflection.dotProduct(negativeCameraDirection)
+
+                    if lightRDotCamera > 0:
+                        lRlength = lightReflection.calcLength()
+                        negCamlength = negativeCameraDirection.calcLength()
+                        s = intersection.getObject().getReflection()
+                        colorBrightness += light.getBrightness() * pow(lightRDotCamera / (lRlength * negCamlength), s)
+
         initialColor = intersection.getObject().getColor().getArray()
-        finalColor = [initialColor[0]*colorBrightness, initialColor[1]*colorBrightness, initialColor[2]*colorBrightness]
+        redValue = initialColor[0]*colorBrightness
+        if redValue > 1:
+            redValue=1
+        greenValue = initialColor[1] * colorBrightness
+        if greenValue > 1:
+            greenValue = 1
+        blueValue = initialColor[2] * colorBrightness
+        if blueValue > 1:
+            blueValue = 1
+        finalColor = [redValue, greenValue, blueValue]
 
         return finalColor
 
-
-if __name__ == "__main__":
-
-    sCenter = Vector(2, 2, 15)
-    sCenter1 = Vector(1, 1, 19)
-
-    s1 = Sphere(sCenter, 1, [1.0, 0.0, 0.0])
-    s2 = Sphere(sCenter1, 2, [0.0, 1.0, 0.0])
-    light1 = Light(2, 15, 20, 0.7)
-    light0 = AmbientLight(0.1)
-
-    scene = Scene()
-    scene.addLight(light0)
-    scene.addLight(light1)
-    scene.addObject3D(s1)
-    scene.addObject3D(s2)
-
-    imagepl = Imageplane(500, 500)
-
-    camera = Camera(Vector(0, 0, 0), Vector(0, 0, 1), 30)
-
-    raytrace = RayTracer(imagepl, scene, camera)
-    raytrace.startRayTracing()
