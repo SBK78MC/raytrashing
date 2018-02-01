@@ -12,7 +12,7 @@ class Light(AmbientLight):
         AmbientLight.__init__(self, brightness)
         self.position = Vector(x, y, z)
 
-    def getLightRay(self,point):
+    def getLightRay(self, point):
         lightRay = self.position.sub(point)
         return lightRay
 
