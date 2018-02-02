@@ -1,0 +1,56 @@
+{
+    "ImagePlane":{
+        "width":"INTEGER VALUE",
+        "height": "INTEGER VALUE"
+    },
+    "Scene":{
+      "Object3D":[
+         {
+            "Sphere":{
+               "center":{
+                  "x":"DOUBLE VALUE",
+                  "y":"DOUBLE VALUE",
+                  "z":"DOUBLE VALUE"
+               },
+               "radius":"DOUBLE VALUE",
+               "color":{
+                  "r":"INTEGER VALUE",
+                  "g":"INTEGER VALUE",
+                  "b":"INTEGER VALUE"
+               },
+               "reflection":"DOUBLE VALUE"
+            }
+         },
+         {
+            "Cube":{
+               "center":{
+                  "x":"DOUBLE VALUE",
+                  "y":"DOUBLE VALUE",
+                  "z":"DOUBLE VALUE"
+               },
+               "sideLength":"DOUBLE VALUE",
+               "color":{
+                  "r":"INTEGER VALUE",
+                  "g":"INTEGER VALUE",
+                  "b":"INTEGER VALUE"
+               },
+               "reflection":"DOUBLE VALUE"
+            }
+         }
+      ],
+      "Light":[
+         {
+            "center":{
+               "x":"DOUBLE VALUE",
+               "y":"DOUBLE VALUE",
+               "z":"DOUBLE VALUE"
+            },
+            "brightness":"DOUBLE VALUE"
+         }
+      ],
+      "AmbientLight":{
+          "active":"BOOLEAN VALUE",
+          "brightness":"DOUBLE VALUE"
+      }
+   }
+}

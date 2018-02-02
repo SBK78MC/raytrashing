@@ -9,8 +9,6 @@ from RayTracing.Classes.Models.Tuple import Tuple
 from RayTracing.Classes.Models.Vector import Vector
 
 
-if __name__ == '__main__':
-    unittest.main()
 
 
 class VectorTest(unittest.TestCase):
@@ -157,3 +155,9 @@ class CameraTest(unittest.TestCase):
     def test_calculateAngle(self):
         c = Camera(Vector(0,0,0), Vector(1,2,3), 30)
         self.assertEqual(0.2679491924311227, c.getAngle())
+
+
+
+
+if __name__ == '__main__':
+    unittest.main()
