@@ -1,5 +1,5 @@
 function addShape() {
-	
+		
 		//get the canvas
 		var c = document.getElementById("myCanvas");
 		var ctx = c.getContext("2d");
@@ -12,6 +12,7 @@ function addShape() {
 		//get coordinates(circle center, cube upper left corner
 		var x = parseInt(document.getElementById('shape_x').value);
 		var y = parseInt(document.getElementById('shape_y').value);
+		var z = parseInt(document.getElementById('shape_z').value);
 		y = -y + c.height/2;
 		x = x + c.width/2;
 		
@@ -19,6 +20,18 @@ function addShape() {
 		//get size and color
 		var size = parseInt(document.getElementById('size').value);
 		var color = document.getElementById('color').value;
+		
+		//alert message if not all values are correct
+		var modal = document.getElementById('myModal');
+		if( (x || x == 0) && (y || y == 0) && (z || z == 0) && (size || size == 0) ) {
+		}else{
+			document.getElementById("alertMessage").innerHTML = "Please fill all necessary Shape values(x, y, z, size).";
+			modal.style.display = "block";
+			return;
+			
+		}
+		
+		
 		
 		
 		//paint the shape
@@ -88,10 +101,21 @@ function clearGrid() {
 
 function addLight() {
 	
+	
 	var x = parseInt(document.getElementById("light_x").value);
 	var y = parseInt(document.getElementById("light_y").value);
 	var z = parseInt(document.getElementById("light_z").value);
 	
+	//alert message if not all values are correct
+	var modal = document.getElementById('myModal');	
+	if( (x || x == 0) && (y || y == 0) && (z || z == 0) ) {
+	}else{		
+		document.getElementById("alertMessage").innerHTML = "Please fill all necessary Light Source values(x, y, z).";
+		modal.style.display = "block";
+		return;
+	}
+	
+	//paint an image
 	var canvas = document.getElementById('myCanvas');
 	context = canvas.getContext('2d');
 	
@@ -108,40 +132,16 @@ function addLight() {
 	
 	//reset values
 	document.getElementById("resetLight").reset();
+	
 };
-
-
-function gridSize() {
-	
-	var v = document.getElementById("screenSize1").value;
-	if(v == '1'){
-		document.getElementById("center").style.backgroundSize = "10% 10%";
-	}else if(v == '2'){
-		document.getElementById("center").style.backgroundSize = "9% 9%";
-	}else if(v == '3'){
-		document.getElementById("center").style.backgroundSize = "8% 8%";
-	}else if(v == '4'){
-		document.getElementById("center").style.backgroundSize = "7% 7%";
-	}else if(v == '5'){
-		document.getElementById("center").style.backgroundSize = "6% 6%";
-	}else if(v == '6'){
-		document.getElementById("center").style.backgroundSize = "5% 5%";
-	}
-	
-	
-	
-	
-	
-	
-	
-}
-
 
 
 
 
 	//setup page
   $(document).ready(function() {
+	  
+	
     
     $('#picker').farbtastic('#color');
 	
@@ -157,6 +157,14 @@ function gridSize() {
 		canvas.width  = canvas.offsetWidth;
 		canvas.height = canvas.offsetHeight;
 	}
+	
+	//close alert window if user clickes the window
+	window.onclick = function(event) {
+	var modal = document.getElementById('myModal');
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
 
   });
   
