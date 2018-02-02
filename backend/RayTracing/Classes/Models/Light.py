@@ -1,4 +1,5 @@
 from RayTracing.Classes.Models.AmbientLight import AmbientLight
+from RayTracing.Classes.Models.Ray import Ray
 from RayTracing.Classes.Models.Vector import Vector
 
 
@@ -12,8 +13,12 @@ class Light(AmbientLight):
         AmbientLight.__init__(self, brightness)
         self.position = Vector(x, y, z)
 
-    def getLightRay(self, point):
+    def getLightVector(self, point):
         lightRay = self.position.sub(point)
+        return lightRay
+
+    def getLightRay(self, point):
+        lightRay = Ray(self.position, point)
         return lightRay
 
     def getPosition(self):

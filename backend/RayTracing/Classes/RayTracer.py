@@ -56,25 +56,21 @@ class RayTracer:
             if type(light) is AmbientLight:
                 colorBrightness += light.getBrightness()
             else:
-                lightToPoint = light.getLightRay(intersection.getPoint())
-                pointToCenter = intersection.getPoint().sub(intersection.getObject().getCenter())
 
-                pointToCenter = pointToCenter.normalize()
+                isShadow = False
+                for objectIter in self.scene.getObjects():
+                    if objectIter != intersection.getObject():
+                        lightToPoint = light.getLightRay(intersection.getPoint())
+                        shadowIntersection = objectIter.intersection(lightToPoint)
+                        if shadowIntersection:
+                            print(shadowIntersection.getDistance())
+                            if 0 < shadowIntersection.getDistance() <= 1:
+                                print(shadowIntersection.getDistance(), " IN ")
+                                isShadow = True
 
-                ptcDotltp = pointToCenter.dotProduct(lightToPoint)
-                if ptcDotltp > 0:
-                    colorBrightness += light.getBrightness() * ptcDotltp / lightToPoint.calcLength()
+                if not isShadow:
+                    colorBrightness = self.diffuseAndSpecularReflection(light, intersection, colorBrightness)
 
-                if intersection.getObject().getReflection() > 0:
-                    lightReflection = (pointToCenter.multiply(2 * ptcDotltp)).sub(lightToPoint)
-                    negativeCameraDirection = intersection.getRay().getDirection().getNegative()
-                    lightRDotCamera = lightReflection.dotProduct(negativeCameraDirection)
-
-                    if lightRDotCamera > 0:
-                        lRlength = lightReflection.calcLength()
-                        negCamlength = negativeCameraDirection.calcLength()
-                        s = intersection.getObject().getReflection()
-                        colorBrightness += light.getBrightness() * pow(lightRDotCamera / (lRlength * negCamlength), s)
 
         initialColor = intersection.getObject().getColor().getArray()
         redValue = initialColor[0]*colorBrightness
@@ -90,3 +86,28 @@ class RayTracer:
 
         return finalColor
 
+    def getShadows(self):
+        return 0
+
+    def diffuseAndSpecularReflection(self, light, intersection, colorBrightness):
+        lightToPoint = light.getLightVector(intersection.getPoint())
+        pointToCenter = intersection.getPoint().sub(intersection.getObject().getCenter())
+
+        pointToCenter = pointToCenter.normalize()
+
+        ptcDotltp = pointToCenter.dotProduct(lightToPoint)
+        if ptcDotltp > 0:
+            colorBrightness += light.getBrightness() * ptcDotltp / lightToPoint.calcLength()
+
+        if intersection.getObject().getReflection() > 0:
+            lightReflection = (pointToCenter.multiply(2 * ptcDotltp)).sub(lightToPoint)
+            negativeCameraDirection = intersection.getRay().getDirection().getNegative()
+            lightRDotCamera = lightReflection.dotProduct(negativeCameraDirection)
+
+            if lightRDotCamera > 0:
+                lRlength = lightReflection.calcLength()
+                negCamlength = negativeCameraDirection.calcLength()
+                s = intersection.getObject().getReflection()
+                colorBrightness += light.getBrightness() * pow(lightRDotCamera / (lRlength * negCamlength), s)
+
+        return colorBrightness

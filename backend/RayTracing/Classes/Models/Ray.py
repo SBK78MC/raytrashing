@@ -25,3 +25,9 @@ class Ray:
 
     def setStartPoint(self, newStartPoint):
         self.startPoint = newStartPoint
+
+    def getReverse(self):
+        temp = self.direction
+        self.direction = self.startPoint
+        self.startPoint = temp
+        return self
