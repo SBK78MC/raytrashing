@@ -11,13 +11,14 @@ from RayTracing.Classes.Models.Vector import Vector
 from RayTracing.Classes.RayTracer import RayTracer
 
 if __name__ == '__main__':
-    sCenter = Vector(2, 2, 15)
-    sCenter1 = Vector(1, 1, 19)
+
+    sCenter1 = Vector(-1, 0, 19)
+    sCenter = Vector(3, 0, 16)
 
     s1 = Sphere(sCenter, 1, [1.0, 0.0, 0.0], 1000)
-    s2 = Sphere(sCenter1, 2, [0.0, 1.0, 0.0], 500)
-    light1 = Light(2, 3, 11, 0.7)
-    light0 = AmbientLight(0.1)
+    s2 = Sphere(sCenter1, 4, [0.0, 1.0, 0.0], 500)
+    light1 = Light(5, 0, 8, 0.7)
+    light0 = AmbientLight(0.2)
 
     scene = Scene()
     scene.addLight(light0)
@@ -25,7 +26,7 @@ if __name__ == '__main__':
     scene.addObject3D(s1)
     scene.addObject3D(s2)
 
-    imagepl = Imageplane(500, 500)
+    imagepl = Imageplane(400, 400)
 
     camera = Camera(Vector(0, 0, 0), Vector(0, 0, 1), 30)
 

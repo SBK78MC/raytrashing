@@ -31,3 +31,7 @@ class Ray:
         self.direction = self.startPoint
         self.startPoint = temp
         return self
+
+    def calcLength(self, endPoint):
+        tempVector = self.startPoint.sub(endPoint)
+        return tempVector.calcLength()

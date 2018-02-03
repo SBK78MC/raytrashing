@@ -60,12 +60,12 @@ class RayTracer:
                 isShadow = False
                 for objectIter in self.scene.getObjects():
                     if objectIter != intersection.getObject():
+
                         lightToPoint = light.getLightRay(intersection.getPoint())
                         shadowIntersection = objectIter.intersection(lightToPoint)
                         if shadowIntersection:
-                            print(shadowIntersection.getDistance())
-                            if 0 < shadowIntersection.getDistance() <= 1:
-                                print(shadowIntersection.getDistance(), " IN ")
+
+                            if 0 < shadowIntersection.getComparableLength() <= 1:
                                 isShadow = True
 
                 if not isShadow:
@@ -90,7 +90,7 @@ class RayTracer:
         return 0
 
     def diffuseAndSpecularReflection(self, light, intersection, colorBrightness):
-        lightToPoint = light.getLightVector(intersection.getPoint())
+        lightToPoint = light.getPosition().sub(intersection.getPoint())
         pointToCenter = intersection.getPoint().sub(intersection.getObject().getCenter())
 
         pointToCenter = pointToCenter.normalize()
