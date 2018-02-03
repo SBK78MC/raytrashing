@@ -57,16 +57,7 @@ class RayTracer:
                 colorBrightness += light.getBrightness()
             else:
 
-                isShadow = False
-                for objectIter in self.scene.getObjects():
-                    if objectIter != intersection.getObject():
-
-                        lightToPoint = light.getLightRay(intersection.getPoint())
-                        shadowIntersection = objectIter.intersection(lightToPoint)
-                        if shadowIntersection:
-
-                            if 0 < shadowIntersection.getComparableLength() <= 1:
-                                isShadow = True
+                isShadow = self.getShadows(intersection, light)
 
                 if not isShadow:
                     colorBrightness = self.diffuseAndSpecularReflection(light, intersection, colorBrightness)
@@ -86,8 +77,19 @@ class RayTracer:
 
         return finalColor
 
-    def getShadows(self):
-        return 0
+    def getShadows(self, intersection, light):
+        isShadow = False
+        for objectIter in self.scene.getObjects():
+            if objectIter != intersection.getObject():
+
+                lightToPoint = light.getLightRay(intersection.getPoint())
+                shadowIntersection = objectIter.intersection(lightToPoint)
+                if shadowIntersection:
+
+                    if 0 < shadowIntersection.getComparableLength() <= 1:
+                        isShadow = True
+
+        return isShadow
 
     def diffuseAndSpecularReflection(self, light, intersection, colorBrightness):
         lightToPoint = light.getPosition().sub(intersection.getPoint())
