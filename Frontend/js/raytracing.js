@@ -12,12 +12,48 @@ function addShape() {
 		//get coordinates(circle center, cube upper left corner
 		var x = parseInt(document.getElementById('shape_x').value);
 		var y = parseInt(document.getElementById('shape_y').value);
+		var z = parseInt(document.getElementById('shape_z').value);
+		
+		
+		//coordiates verification start (Farhad)
+		
+		if ( (x < 100) || ( isNaN(x) ) )
+		{
+			alert("invalid value for x");
+		}
+	
+		if ( (y < 100) || ( isNaN(y) ) )
+		{
+			alert("invalid value for y");
+		}
+		
+		if ( (z < 100) || ( isNaN(z) ) )
+		{
+			alert("invalid value for z");
+		}
+		
+		//coordiates verification end (Farhad)
+		
+		
+		
 		y = -y + c.height/2;
 		x = x + c.width/2;
 		
 		
+
+		
 		//get size and color
 		var size = parseInt(document.getElementById('size').value);
+		
+		//size verification start (Farhad)
+		
+		if ( (size < 100) || ( isNaN(size) ) )
+		{
+			alert(" invalid value for Radious/Sidelength ");
+		}
+		
+		//size verification end (Farhad)
+		
 		var color = document.getElementById('color').value;
 		
 		
@@ -92,6 +128,29 @@ function addLight() {
 	var y = parseInt(document.getElementById("light_y").value);
 	var z = parseInt(document.getElementById("light_z").value);
 	
+	
+		//coordiates verification start (Farhad)
+		if ( (x < 100) || ( isNaN(x) ) )
+		{
+			alert("invalid value for x");
+		}
+	
+		if ( (y < 100) || ( isNaN(y) ) )
+		{
+			alert("invalid value for y");
+		}
+		
+		if ( (z < 100) || ( isNaN(z) ) )
+		{
+			alert("invalid value for z");
+		}
+		//coordiates verification end (Farhad)
+	
+	
+	
+	
+	
+	
 	var canvas = document.getElementById('myCanvas');
 	context = canvas.getContext('2d');
 	
@@ -128,16 +187,20 @@ function gridSize() {
 		document.getElementById("center").style.backgroundSize = "5% 5%";
 	}
 	
-	
-	
-	
-	
-	
-	
 }
 
+// Lightbox
+$(function(){
+	var $render = $('.render a').simpleLightbox();
 
-
+	$render.on('show.simplelightbox', function(){
+		console.log('Requested for showing');
+	})
+	.on('error.simplelightbox', function(e){
+		console.log('No image found, go to the next/prev');
+		console.log(e);
+	});
+});
 
 
 	//setup page
@@ -159,5 +222,8 @@ function gridSize() {
 	}
 
   });
+  
+  
+
   
   
