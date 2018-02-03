@@ -43,9 +43,17 @@ function addShape() {
 			ctx.stroke();
 		
 		}else if(shape == "Cube"){
+			//boring rect
+			x = x - size/2;
+			y = y - size/2;
+			ctx.beginPath();
+			ctx.rect(x,y,size,size);
+			ctx.fillStyle = color;
+			ctx.fill();
+			ctx.stroke();
 			
+			/*
 			//awesome cube code I made myself and the team doesnt need
-			
 			ctx.beginPath();
 			ctx.rect(x, y, size, size);
 			ctx.fillStyle = color;
@@ -83,6 +91,8 @@ function addShape() {
 			ctx.fillStyle = color;
 			ctx.stroke();
 			ctx.fill();
+			*/
+			
 			
 			
 		}
