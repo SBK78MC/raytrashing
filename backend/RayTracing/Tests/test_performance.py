@@ -1,8 +1,13 @@
 import unittest
 import time
 
-if __name__ == '__main__':
-    unittest.main()
+from RayTracing.Classes import RayTracer
+from RayTracing.Classes.Models.AmbientLight import AmbientLight
+from RayTracing.Classes.Models.Light import Light
+from RayTracing.Classes.Models.Scene import Scene
+from RayTracing.Classes.Models.Sphere import Sphere
+from RayTracing.Classes.Models.Vector import Vector
+
 
 class PerformanceTest(unittest.TestCase):
 
@@ -19,6 +24,7 @@ class PerformanceTest(unittest.TestCase):
         raytracer.startRayTracing()
         endTime = time.time()
         self.assertLessEqual(endTime - startTime, 10)
+
 
     def test_largeScene(self):
         light = Light(0, 2, 6, 1)
@@ -59,3 +65,8 @@ class PerformanceTest(unittest.TestCase):
         endTime = time.time()
 
         self.assertLessEqual(endTime - startTime, 30)
+
+
+
+if __name__ == '__main__':
+    unittest.main()

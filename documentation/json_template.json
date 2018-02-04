@@ -1,9 +1,9 @@
 {
-    "imageplane":{
-        "with":"INTEGER VALUE",
+    "ImagePlane":{
+        "width":"INTEGER VALUE",
         "height": "INTEGER VALUE"
     },
-    "scene":{
+    "Scene":{
       "Object3D":[
          {
             "Sphere":{
@@ -47,6 +47,10 @@
             },
             "brightness":"DOUBLE VALUE"
          }
-      ]
+      ],
+      "AmbientLight":{
+          "active":"BOOLEAN VALUE",
+          "brightness":"DOUBLE VALUE"
+      }
    }
 }
