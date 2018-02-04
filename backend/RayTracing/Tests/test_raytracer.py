@@ -26,7 +26,7 @@ if __name__ == '__main__':
     scene.addObject3D(s1)
     scene.addObject3D(s2)
 
-    imagepl = Imageplane(400, 400)
+    imagepl = Imageplane(800, 800)
 
     camera = Camera(Vector(0, 0, 0), Vector(0, 0, 1), 30)
 

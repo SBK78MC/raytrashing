@@ -1,7 +1,7 @@
+import multiprocessing
 import time
 import numpy
 
-from multiprocessing.dummy import Pool as ThreadPool
 
 from RayTracing.Classes.Models.AmbientLight import AmbientLight
 from RayTracing.Classes.Models.Light import Light
@@ -29,7 +29,11 @@ class RayTracer:
         for y in range(0, self.imageplane.getHeight()):
             yValues.append(y)
 
-        pool = ThreadPool(4)
+        pool = multiprocessing.Pool(8)
+
+        pool.map(self.threadTrace, yValues, chunksize=1)
+
+        #pool = ThreadPool(4)
 
         #self.threadTrace(0, self.imageplane.getHeight())
 
