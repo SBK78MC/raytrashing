@@ -1,8 +1,7 @@
-import math
-import types
-
+import time
 import numpy
-import matplotlib.pyplot as plt
+
+from multiprocessing.dummy import Pool as ThreadPool
 
 from RayTracing.Classes.Models.AmbientLight import AmbientLight
 from RayTracing.Classes.Models.Light import Light
@@ -24,29 +23,49 @@ class RayTracer:
 
     def startRayTracing(self):
 
+        start_time = time.time()
+
+        yValues = list()
         for y in range(0, self.imageplane.getHeight()):
-            for x in range(0, self.imageplane.getWidth()):
-                px = (2 * ((x + 0.5) / self.imageplane.getWidth()) - 1) * self.camera.angle * self.imageAspectRatio
-                py = (1 - 2 * ((y + 0.5) / self.imageplane.getHeight())) * self.camera.angle
+            yValues.append(y)
 
-                pixelDirection = Vector(px, py, self.camera.pointOfView.getZ())
+        pool = ThreadPool(4)
 
-                pixelRay = Ray(self.camera.position, pixelDirection)
+        #self.threadTrace(0, self.imageplane.getHeight())
 
-                minDist = -1
-                minObjInter = None
+        results = pool.map(self.threadTrace, yValues)
 
-                for obj in self.scene.getObjects():
-                    objIntersection = obj.intersection(pixelRay)
-                    if objIntersection:
-                        if minDist < 0 or minDist > objIntersection.getDistance():
-                            minDist = objIntersection.getDistance()
-                            minObjInter = objIntersection
+        pool.close()
+        pool.join()
 
-                if minObjInter:
-                    self.img[y, x] = self.getColorForIntersection(minObjInter)
+        print("--- %s seconds ---" % (time.time() - start_time))
 
         return self.img
+
+    def threadTrace(self, y):
+        #print("Doing y=", y)
+
+        for x in range(0, self.imageplane.getWidth()):
+            px = (2 * ((x + 0.5) / self.imageplane.getWidth()) - 1) * self.camera.angle * self.imageAspectRatio
+            py = (1 - 2 * ((y + 0.5) / self.imageplane.getHeight())) * self.camera.angle
+
+            pixelDirection = Vector(px, py, self.camera.pointOfView.getZ())
+
+            pixelRay = Ray(self.camera.position, pixelDirection)
+
+            minDist = -1
+            minObjInter = None
+
+            for obj in self.scene.getObjects():
+                objIntersection = obj.intersection(pixelRay)
+                if objIntersection:
+                    if minDist < 0 or minDist > objIntersection.getDistance():
+                        minDist = objIntersection.getDistance()
+                        minObjInter = objIntersection
+
+            if minObjInter:
+                self.img[y, x] = self.getColorForIntersection(minObjInter)
+
 
     def getColorForIntersection(self, intersection):
 
