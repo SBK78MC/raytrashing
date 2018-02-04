@@ -8,9 +8,6 @@ from RayTracing.Classes.Models.Sphere import Sphere
 from RayTracing.Classes.Models.Tuple import Tuple
 from RayTracing.Classes.Models.Vector import Vector
 
-from RayTracing.Classes.Models.Imageplane import Imageplane
-from RayTracing.Classes.Models.Scene import Scene
-from RayTracing.Classes.RayTracer import RayTracer
 
 
 
@@ -84,6 +81,16 @@ class VectorTest(unittest.TestCase):
         self.assertFalse(vb)
         self.assertTrue(vv)
 
+    def test_negative(self):
+        v = Vector(3, 2, 5)
+        b = Vector(-3, -2, -5)
+        v2 = Vector(-1, 2, 3)
+        v3 = Vector(1, -2, -3)
+        vb = v.equals(b.getNegative())
+        vv = v2.equals(v3.getNegative())
+        self.assertTrue(vb)
+        self.assertTrue(vv)
+
 
 class SphereTest(unittest.TestCase):
 
@@ -134,10 +141,10 @@ class TupleTest(unittest.TestCase):
 
 class LightTest(unittest.TestCase):
 
-    def test_getLightRay(self):
+    def test_getLightVector(self):
         point = Vector(7, 3, 1)
         light = Light(2, 2, 2, 1)
-        lightray = light.getLightRay(point)
+        lightray = light.getLightVector(point)
         self.assertEqual(lightray.x, -5)
         self.assertEqual(lightray.y, -1)
         self.assertEqual(lightray.z, 1)

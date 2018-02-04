@@ -64,3 +64,8 @@ class Vector:
             return True
         else:
             return False
+
+    def getNegative(self):
+        v = Vector(- self.x, - self.y, - self.z)
+        return v
+
