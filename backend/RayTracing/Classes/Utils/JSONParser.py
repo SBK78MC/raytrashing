@@ -13,15 +13,15 @@ class JSONParser:
     def deserializeRayTracingTask(self, json):
         imageplane = self.createImageplane(json)
         camera = Camera()
-        scene = self.deserializeScene(self, json)
+        scene = self.deserializeScene(json)
 
-        return RayTracer(self, imageplane, scene, camera)
+        return RayTracer(imageplane, scene, camera)
 
 
     def deserializeScene(self, json):
         scene = Scene()
 
-        jsonScene = json["scene"]
+        jsonScene = json["Scene"]
 
         for object in jsonScene["Object3D"]:
             type = list(object.keys())[0]
@@ -33,14 +33,14 @@ class JSONParser:
         for light in jsonScene["Light"]:
             scene.addLight(self.deserializeLight(light))
 
-        scene.addLight(self.deserializeAmbientLight(json["AmbientLight"]))
+        scene.addLight(self.deserializeAmbientLight(jsonScene["AmbientLight"]))
 
         return scene
 
 
     def createImageplane(self, json):
-        width = json["imageplane"]["width"]
-        height = json["imageplane"]["height"]
+        width = json["Imageplane"]["width"]
+        height = json["Imageplane"]["height"]
         return Imageplane(width, height)
 
 
@@ -81,4 +81,5 @@ class JSONParser:
         if(active == True):
             brightness = ambientLightJson["brightnesse"]
 
-        return AmbientLight(self, brightness)
+        return AmbientLight(brightness)
+

@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'RayTracer.urls'
+ROOT_URLCONF = 'RayTracing.urls'
 
 TEMPLATES = [
     {
