@@ -34,7 +34,8 @@ class RayTracer:
                     if obj.intersection(pixelRay):
                         self.img[x, y] = [1, 0, 0]
 
-        plt.imsave('FirstImages.png', self.img)
+        return self.img
+
 
     def getColorForIntersection(self, intersection):
         return 0

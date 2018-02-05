@@ -14,9 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import path
 
-from . import endpoint
+from RayTracing.Classes.Webservice import endpoint
 
 urlpatterns = [
     path('raytrace', endpoint.raytrace, name='index'),
