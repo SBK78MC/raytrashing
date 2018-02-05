@@ -1,5 +1,6 @@
 from RayTracing.Classes.Models.AmbientLight import AmbientLight
 from RayTracing.Classes.Models.Camera import Camera
+from RayTracing.Classes.Models.Color import Color
 from RayTracing.Classes.Models.Imageplane import Imageplane
 from RayTracing.Classes.Models.Light import Light
 from RayTracing.Classes.Models.Scene import Scene
@@ -62,9 +63,9 @@ class JSONParser:
         center = self.deserializeVector(sphereJson["center"])
         reflection = sphereJson["reflection"]
         radius = sphereJson["radius"]
+        color = self.deserializeColor(sphereJson["color"])
 
-        return Sphere(center, radius, reflection)
-
+        return Sphere(center, radius, color, reflection)
 
 
     '''def deserializeCube(self, cubeJson):
@@ -78,8 +79,15 @@ class JSONParser:
     def deserializeAmbientLight(self, ambientLightJson):
         active = ambientLightJson["active"]
         brightness = 0
-        if(active == True):
-            brightness = ambientLightJson["brightnesse"]
+        if(bool(active) == True):
+            brightness = float(ambientLightJson["brightness"])
 
         return AmbientLight(brightness)
 
+
+    def deserializeColor(self, colorJson):
+        r = colorJson["r"]
+        g = colorJson["g"]
+        b = colorJson["b"]
+
+        return Color(r, g, b)
