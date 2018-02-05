@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<!--   headers for  lightbox  start -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link href='./lightbox/simplelightbox.css' rel='stylesheet' type='text/css'>
+<!--   headers for  lightbox  end -->
+
 <link rel="stylesheet" type="text/css" href="css/raytracing.css" />
 <link rel="stylesheet" href="css/farbtastic.css" type="text/css" />
 
@@ -53,7 +60,12 @@ The page is divided into 3 parts:
 <button class="buttons" type="button" onclick="addLight()">Add Light</button>
 </div>
 <button id="render" class="buttons" type="button" onclick="clearGrid()">Clear Grid</button>
-<button id="render" class="buttons" type="button" onclick="alert('Hello world!')">Render</button>
+
+<div class="render">
+	<a href="./lightbox/loading.gif" class="buttons" type="button" style="width:127px" >Render</a>
+</div>
+
+
 </form>
 
 </div>
@@ -122,6 +134,8 @@ The page is divided into 3 parts:
 <script type="text/javascript" src="js/raytracing.js"></script>
 <script type="text/javascript" src="js/farbtastic.js"></script>
 
+<!--   Script for lightbox -->
+<script type="text/javascript" src="./lightbox/simple-lightbox.js"></script>
 
 </body>
 </html>

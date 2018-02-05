@@ -179,3 +179,15 @@ function addLight() {
   });
   
   
+// Lightbox
+$(function(){
+	var $render = $('.render a').simpleLightbox();
+
+	$render.on('show.simplelightbox', function(){
+		console.log('Requested for showing');
+	})
+	.on('error.simplelightbox', function(e){
+		console.log('No image found, go to the next/prev');
+		console.log(e);
+	});
+});
