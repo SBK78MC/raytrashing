@@ -34,3 +34,9 @@ class Intersection:
 
     def setDistance(self, distance):
         self.distance = distance
+
+    def getComparableLength(self):
+        rayToPoint = self.ray.calcLength(self.point)
+        rayToDirection = self.ray.calcLength(self.ray.getDirection())
+
+        return rayToPoint/rayToDirection

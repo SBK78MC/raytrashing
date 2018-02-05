@@ -7,7 +7,7 @@ class Camera():
 
     angle = 0
 
-    def __init__(self, position=Vector(0,0,0), pointOfView=Vector(0,0,0), fov=0):
+    def __init__(self, position=Vector(0, 0, 0), pointOfView=Vector(0, 0, 1), fov=40):
         self.position = position
         self.pointOfView = pointOfView
         self.fov = fov
