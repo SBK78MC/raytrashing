@@ -27,11 +27,11 @@ The page is divided into 3 parts:
 <input id="light_y" style="margin-left:3%;" class="inputs" type="text" name="Light Source y" placeholder="y">
 <input id="light_z" style="margin-left:3%;" class="inputs" type="text" name="Light Source z" placeholder="z">
 <h4>Brightness</h4> 
-<input type="range" min="1" max="100" value="1" class="bar">
+<input id = "brightness" type="range" min="1" max="100" value="1" class="bar">
 <h4>Reflection</h4> 
-<input type="range" min="1" max="100" value="100" class="bar">
+<input id = "reflection" type="range" min="1" max="100" value="100" class="bar">
 <h4>Ambient Light</h4> 
-<input type="range" min="1" max="100" value="0" class="bar">
+<input id = "ambient" type="range" min="1" max="100" value="0" class="bar">
 
 
 
@@ -53,7 +53,7 @@ The page is divided into 3 parts:
 <button class="buttons" type="button" onclick="addLight()">Add Light</button>
 </div>
 <button id="render" class="buttons" type="button" onclick="clearGrid()">Clear Grid</button>
-<button id="render" class="buttons" type="button" onclick="alert('Hello world!')">Render</button>
+<button id="render" class="buttons" type="button" onclick="renderShapes()">Render</button>
 </form>
 
 </div>
@@ -83,7 +83,7 @@ The page is divided into 3 parts:
 <input id="shape_z" style="margin-left:3%;" class="inputs" type="text" name="Coordinates z" placeholder="z">
 
 <h4>Size</h4>
-<input id="size" class="boxes" type="text" name="Size" placeholder="Radious/Sidelength"> 
+<input id="size" class="boxes" type="text" name="Size" placeholder="Radius/Sidelength"> 
 
 
 <h4>Colour</h4>
