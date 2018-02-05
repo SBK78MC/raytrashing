@@ -30,8 +30,7 @@ class JSONParserTest(unittest.TestCase):
         self.assertEqual(raytracer.scene.getObjects()[0].center.z, 2)
         self.assertEqual(raytracer.scene.getObjects()[0].radius, 2)
         # Check Ambient Light
-        self.assertEqual(raytracer.scene.getObjects()[0].radius, 2)
-        self.assertEqual(raytracer.scene.getObjects()[0].radius, 2)
+        self.assertEqual(raytracer.scene.getLights()[1].brightness, 1)
 
 
 
@@ -54,6 +53,16 @@ class JSONParserTest(unittest.TestCase):
         self.assertEqual(1, light.position.y)
         self.assertEqual(1, light.position.z)
         self.assertEqual(1.0, light.brightness)
+
+
+    def test_deserializeAmbientLight(self):
+        ambientLightString = '{"active":"true", "brightness":"1.0"}'
+        ambientLightJSON = json.loads(ambientLightString)
+
+        jsonParser = JSONParser()
+        light = jsonParser.deserializeAmbientLight(ambientLightJSON)
+        self.assertEqual(1.0, light.brightness)
+
 
     def test_deserializeSphere(self):
         sphereString = '{"center":{"x":3.0,"y":1.0,"z":2.0},"radius":2.0,"color":{"r":255,"g":0,"b":0},"reflection":1.0}'

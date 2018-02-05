@@ -67,19 +67,20 @@ class JSONParser:
 
 
 
-    '''def deserializeCube(self, cubeJson):
+    def deserializeCube(self, cubeJson):
         center = self.deserializeVector(cubeJson["center"])
         reflection = cubeJson["reflection"]
         sideLength = cubeJson["sideLength"]
 
-        return Cube(center, sideLength, reflection)'''
+        #return Cube(center, sideLength, reflection)
 
 
     def deserializeAmbientLight(self, ambientLightJson):
         active = ambientLightJson["active"]
         brightness = 0
-        if(active == True):
-            brightness = ambientLightJson["brightnesse"]
+
+        if(bool(active) == True):
+            brightness = float(ambientLightJson["brightness"])
 
         return AmbientLight(brightness)
 
