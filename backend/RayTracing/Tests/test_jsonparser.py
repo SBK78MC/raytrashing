@@ -3,10 +3,6 @@ import unittest
 
 from RayTracing.Classes.Utils.JSONParser import JSONParser
 
-if __name__ == '__main__':
-    unittest.main()
-
-
 class JSONParserTest(unittest.TestCase):
 
     def test_deserializeRayTracingTask(self):
@@ -97,3 +93,7 @@ class JSONParserTest(unittest.TestCase):
         self.assertEqual(color.getR(), 1)
         self.assertEqual(color.getG(), 0)
         self.assertEqual(color.getB(), 0)
+
+
+if __name__ == '__main__':
+    unittest.main()
