@@ -150,8 +150,16 @@ function addShape() {
 };
 
 function renderShapes() {
-	//generate the JSON file for the form data
-	console.log(JSON.stringify({"ImagePlane": {"width": globalWidth, "height": globalHeight}, "Scene": {"Object3D": arrayListForObject, "Light": arrayListForLight, "AmbientLight": globalAmbientLight}}));
+	//generate the JSON file for the form data and send it as HTTP request
+
+	xhr = new XMLHttpRequest();
+	var url = "url";
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json");
+	var jsonData = JSON.stringify({"ImagePlane": {"width": globalWidth, "height": globalHeight}, "Scene": {"Object3D": arrayListForObject, "Light": arrayListForLight, "AmbientLight": globalAmbientLight}});
+	xhr.send(jsonData);
+
+	//console.log(JSON.stringify({"ImagePlane": {"width": globalWidth, "height": globalHeight}, "Scene": {"Object3D": arrayListForObject, "Light": arrayListForLight, "AmbientLight": globalAmbientLight}}));
 }
 
 class CenterForShapesAndLight {
