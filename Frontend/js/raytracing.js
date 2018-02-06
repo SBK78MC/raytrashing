@@ -152,7 +152,7 @@ function addShape() {
 function renderShapes() {
 	//generate the JSON file for the form data and send it as HTTP request
 
-	xhr = new XMLHttpRequest();
+	var xhr = new XMLHttpRequest();
 	var url = "url";
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json");
