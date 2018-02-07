@@ -1,11 +1,19 @@
 from . import Object3D, Light
 
 
-class Scene:
+class Scene(object):
 
-    def __init__(self, objects=list(), lights=list()):
-        self.objects = objects
-        self.lights = lights
+    def __init__(self, objects=None, lights=None):
+        if objects == None:
+            self.objects = list()
+        else:
+            self.objects = objects
+
+        if lights == None:
+            self.lights = list()
+        else:
+            self.lights = lights
+
 
     def addObject3D(self,obj):
         self.objects.append(obj)

@@ -27,6 +27,7 @@ class Camera():
 
     def setFov(self, fov):
         self.fov = fov
+        self.setAngle(self.calculateAngle())
 
     def getPosition(self):
         return self.position

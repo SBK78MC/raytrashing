@@ -48,6 +48,7 @@ class RayTracer:
 
         return self.img
 
+
     def getColorForIntersection(self, intersection):
 
         colorBrightness = 0.0

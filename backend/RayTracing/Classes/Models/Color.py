@@ -1,14 +1,20 @@
-class Color:
+class Color(object):
 
-    def __init__(self, r=0.0, g=0.0, b=0.0):
-        if 0.0 >= r >= 1.0 or 0.0 >= g >= 1.0 or 0.0 >= b >= 1.0:
+    def __init__(self):
+        self.color = [0, 0, 0]
+
+
+    def __init__(self, r=float(0), g=float(0), b=float(0)):
+        if self.isValid(r, g, b) == False:
             raise ValueError("Invalid RGB values!")
         self.color = [r, g, b]
 
-    def __init__(self, color=[0.0,0.0,0.0]):
-        if 0.0 >= color[0] >= 1.0 or 0.0 >= color[1] >= 1.0 or 0.0 >= color[2] >= 1.0:
-            raise ValueError("Invalid RGB values!")
-        self.color = color
+
+    def isValid(self, r, g, b):
+        if 0.0 <= r <= 1.0 or 0.0 <= g <= 1.0 or 0.0 <= b <= 1.0:
+            return True
+        else:
+            return False
 
     def red(self):
         self.color = [1.0, 0.0, 0.0]
