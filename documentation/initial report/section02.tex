@@ -1,0 +1,70 @@
+\section{Project Organisation}
+
+\subsection{Team-organization}
+
+At the moment three people working on the front-end and the other three people on the back-end. But after a few weeks we will have rotations, that means one person from the front-end team exchange with one developer from the back-end. This helps to get another view on the software, because after working a long time on the same part, it is possible, to fall into a \grqq{}tunnel\grqq{}.
+
+\subsubsection{Processes}
+
+To achieve a good collaboration and integrate everyone of the team we are using two main approaches for the software development process.
+
+\paragraph{Pair Programming}
+
+According to the principle: Two heads are better than one, we are developing in pairs. This helps us to discuss thoughts and opinions, while writing the code. Furthermore, the probability to overlook a mistake decreases. In the end the software contains less bugs.
+
+\paragraph{Test Driven Development}
+
+Testing a software product is one of the most important steps during the development. To improve the code quality we try to reach a very high code coverage. TDD helps us to achieve this, by first writing the tests and than implementing the functionality. Moreover, the person who implements a feature does not write the tests for it. 
+
+\subsubsection{Tools}
+
+As a support for the mentioned processes, we are using different software tools.
+
+\paragraph{Slack}
+
+For the main communication we are using the collaboration tool Slack. One of the most important features is the usage of different channels to separate unrelated topics. Our essential channels are:
+
+\begin{itemize}  
+\item Back-end: All questions, discussions regarding the back-end development
+\item Front-end: All questions, discussions regarding the front-end development
+\item Announcements: Important announcements, like appointments, deadlines, etc.
+\item Documentation: All discussions relating to the documentation 
+\item General: A channel for general topics 
+\end{itemize}
+
+\paragraph{Trello}
+
+As described above, we are using the scrum framework as a agile strategy for the software development process. Trello is our scrum board, where we manage our user stories. A user stories traverse through multiple states. At the beginning, a user story is defined and added to the general backlog. Than she is assigned to a developer and moved to the sprint backlog. During the sprint she will move to the state \textit{in progress} and than to \textit{verifying}. Finally, if the implementation passed the tests and reviews, the user story is \textit{done}.
+
+\paragraph{Travis CI}
+
+Because of our approach using Test Driven Development, we have a very good code coverage and as a result a lot of tests. In the next few weeks, the number of tests will increase and running all the tests manually is time consuming. Travis runs the whole list of tests automatically, as soon as it recognizes a push to the repository. 
+\\
+Furthermore, Travis CI helps us to find bugs before a pull request gets merged. If the manual code review was successful, it is still possible, that a test runs unsuccessful. As a result Travis CI will block the merging and request changes. Especially during the refactoring progress, this automated tests are really helpful. 
+
+\paragraph{Skype}
+
+If we are unable to meet in person, we are using Skype for pair programming. The advantage is, that even if it is late in the evening, you can start a pair programming session. 
+
+\subsection{Peer-Assessment}
+
+In our last meeting we discussed different possibilities, to handle the final peer assessment. To make it fair and uninfluenced we decided to use a anonymized scoring method, that gets described in detail in the next session. Furthermore, we looked for a way, to handle conflicts, that may arise as a result of the peer assessment. 
+
+\subsubsection{Method}
+
+The mechanism we are using for the peer assessment allows each team members, to score the other members anonymously. This helps to avoid influenced decisions, because a person may doesn't have the courage and self-awareness to express his opinion. To get a clear understanding how the proposed method works we will look at an example.
+
+\paragraph{Example} \\\\
+
+The student team TrashingRay, with the four members, Alice, Bob, Charlie and David, is using the given assessment method. 
+
+\begin{enumerate}  
+\item Every team member has a total of 100 marks, which it has to distribute and assign to hisself and the other members. Alice e.g. may assign herself 30, Bob 24, Charlie 25 and David 21 points. 
+\item Let assume Alice received the following points 30, 30, 26, 24. To avoid, that a person assigns hisself a very high or a person he doesn't like a very small number of points, the points for each individual are sorted and the highest and lowest values are deleted. 
+\item For each person the average of the remaining points is calculated. In Alice case this is the average of 30 and 26. 
+\item As a result of the deletion, it is possible, that some points get \grqq{}lost\grqq{}. In this example, we assume, that the sum of marks is only 99 and one point is missing. To compensate this, the remaining points, in this case 1, is distributed equally to all team members 
+\end{enumerate}
+
+\subsubsection{Solving Conflicts}
+
+Of course it could be possible, that some team members are not happy with the result of the peer assessment. If at least two people are not satisfied, we will start a open discussion. This should help, to clarify, why they think, the marks are to low. 
