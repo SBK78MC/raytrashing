@@ -3,7 +3,7 @@ var arrayListForCube 		 = [];
 var arrayListForLight 		 = [];
 var arrayListForObject 		 = [];
 
-var globalWidth, globalHeight, globalAmbientLight;
+var globalImagePlaneSizeObject, globalSceneObject, globalRaytracerObject, globalAmbientLight;
 
 function addShape() {
 	//get the canvas
@@ -54,17 +54,8 @@ function addShape() {
 		ctx.stroke();
 	}
 		
-		/*
-		//awesome cube code I made myself and the team doesnt need
-		ctx.beginPath();
-		ctx.rect(x, y, size, size);
-		ctx.fillStyle = color;
-		ctx.fill();
-		ctx.stroke();
-		ctx.closePath();
-	} else if(shape == "Cube") {
-			
-		//awesome cube code I made myself and the team doesnt need
+		/*	
+		//awesome cube code I made myself and the team doesnt need (legacy of chikans)
 		ctx.beginPath();
 		ctx.rect(x, y, size, size);
 		ctx.fillStyle = color;
@@ -112,31 +103,29 @@ function addShape() {
 		ctx.stroke();
 		ctx.fill();
 		*/		
-
+	
 	//for Shape
-	var centerObject = new CenterForShapesAndLight(document.getElementById('shape_x').value, document.getElementById('shape_y').value, document.getElementById('shape_z').value);
-	var radius		 = document.getElementById('size').value;
-	var reflection   = document.getElementById('reflection').value;
+	var centerObject	     = new CenterForShapesAndLight(document.getElementById('shape_x').value, document.getElementById('shape_y').value, document.getElementById('shape_z').value);
+	var radius		 		 = document.getElementById('size').value;
+	var reflection   		 = document.getElementById('reflection').value;
 
 	//converting Hex to RGB. 
-	var hexToRGB 	 = hexToRgb(color); 
-	var colorObject  = new colorObj(hexToRGB[0], hexToRGB[1], hexToRGB[2]);
-
-	//dummy value at the moment for imagePlane Class
-	globalWidth 	 = radius;
-	globalHeight	 = radius;
+	var hexToRGB 	 		 = hexToRgb(color); 
+	var colorObject  		 = new colorObj((hexToRGB[0]/255), (hexToRGB[1]/255), (hexToRGB[2]/255));
 
 	//object creation for sphere
-	var sphere 		 = new Shape(centerObject, radius, colorObject, reflection, "Sphere");
-	var sphereObject = new SphereObj(sphere);
+	var sphere 		 		 = new Shape(centerObject, radius, colorObject, reflection, "Sphere");
+	var sphereObject 		 = new SphereObj(sphere);
 
 	//object creation for cube
-	var cube 		 = new Shape(centerObject, radius, colorObject, reflection, "Cube");
-	var cubeObject   = new CubeObj(cube);
+	var cube 		 		 = new Shape(centerObject, radius, colorObject, reflection, "Cube");
+	var cubeObject   		 = new CubeObj(cube);
 
 	//for Ambient Light
-	var ambientLight 	= new AmbientLight(document.getElementById('brightness').value, document.getElementById('ambient').value);
-	globalAmbientLight  = ambientLight;
+	var active = "true";
+	if(document.getElementById('brightness').value == 0) active = "false";
+	var ambientLight 		 = new AmbientLight(active, document.getElementById('ambient').value);
+	globalAmbientLight  	 = ambientLight;
 
    	 if(shape == "Circle") {
 		arrayListForObject.push(sphereObject);
@@ -152,14 +141,66 @@ function addShape() {
 function renderShapes() {
 	//generate the JSON file for the form data and send it as HTTP request
 
+	imagePlaneObjectCreation();
+	sceneObjectCreation();
+	raytracerObjectCreation();
+
 	var xhr = new XMLHttpRequest();
-	var url = "url";
+	var url = "url"; //please replace the "url" with the url of the webservice for the code to work!
 	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json");
-	var jsonData = JSON.stringify({"ImagePlane": {"width": globalWidth, "height": globalHeight}, "Scene": {"Object3D": arrayListForObject, "Light": arrayListForLight, "AmbientLight": globalAmbientLight}});
+	var jsonData = JSON.stringify(JSON.stringify(globalRaytracerObject));
 	xhr.send(jsonData);
 
-	//console.log(JSON.stringify({"ImagePlane": {"width": globalWidth, "height": globalHeight}, "Scene": {"Object3D": arrayListForObject, "Light": arrayListForLight, "AmbientLight": globalAmbientLight}}));
+	//console.log(JSON.stringify(globalRaytracerObject));
+}
+
+function imagePlaneObjectCreation() {
+	/*
+	* ImagePlane class.
+	* The reason to put the Image Plane object creation in the imagePlaneObjectCreation() function and calling 
+	* it in the renderShapes() function is because whenever the Image plane size changes, there should be a  
+	* different rendering for the same set of already added shapes.
+	*/
+	var screenSize			   = document.getElementById("sizeOfScreen");
+	var sizeValue 			   = screenSize.options[screenSize.selectedIndex].value;
+	var imageObject 		   = new ImagePlane(sizeValue, sizeValue);
+	globalImagePlaneSizeObject = imageObject;
+}
+
+function raytracerObjectCreation() {
+	var raytracerObject    = new RayTracer(globalImagePlaneSizeObject, globalSceneObject);
+	globalRaytracerObject  = raytracerObject;
+}
+
+function sceneObjectCreation() {
+	var sceneObject   = new Scene(arrayListForObject, arrayListForLight, globalAmbientLight);
+	globalSceneObject = sceneObject;
+}
+
+class RayTracer {
+	//to encompass all the objects in one parent class - RayTracer
+	constructor(imagePlane, scene) {
+		this.ImagePlane = imagePlane;
+		this.Scene 		= scene;
+	}
+
+}
+
+class Scene {
+	//to add all the shapes, lights and ambient light to a single class for cleaner JSON
+	constructor(shapes, light, ambientLight) {
+		this.Object3D 	  = shapes;
+		this.Light 		  = light;
+		this.AmbientLight = ambientLight;
+	}
+}
+
+class ImagePlane {
+	//to populate the size of the screen which is also the size of the Image Plane
+	constructor(width, height) {
+		this.width  = width;
+		this.height = height; 
+	}
 }
 
 class CenterForShapesAndLight {
