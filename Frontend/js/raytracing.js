@@ -23,13 +23,13 @@ function addShape() {
 		
 		//Validate and alert message if not all values are correct
 		
-		var validation_01 = true;
-		var validation_02 = true;
+		var valid_size = true;
+		var valid_coordinate = true;
 		
-		validation_01 = validate_size(size);
-		validation_02 = validate_coordinates(x,y,z);
+		valid_size = validate_size(size);
+		valid_coordinate = validate_coordinates(x,y,z);
 		
-		if(validation_01 && validation_02)
+		if(valid_size && valid_coordinate)
 		{
 			//paint the shape
 			if(shape == "Circle"){
@@ -113,10 +113,10 @@ function addLight() {
 	
 	// Validate and alert message if not all values are correct
 	
-	var validation_01 = true;
-	validation_01 = validate_coordinates(x,y,z);
+	var valid_coordinate = true;
+	valid_coordinate = validate_coordinates(x,y,z);
 	
-	if( validation_01 )
+	if(valid_coordinate)
 	{
 		//paint an image
 		var canvas = document.getElementById('myCanvas');
