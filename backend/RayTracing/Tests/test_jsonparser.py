@@ -6,7 +6,7 @@ from RayTracing.Classes.Utils.JSONParser import JSONParser
 class JSONParserTest(unittest.TestCase):
 
     def test_deserializeRayTracingTask(self):
-        jsonstring = '{"Imageplane":{"width":500, "height":500}, "Scene":{"Object3D":[{"Sphere":{"center":{"x":3.0,"y":1.0,"z":2.0},"radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0}}],"Light":[{"center":{"x":2, "y":1, "z":1}, "brightness":1.0}], "AmbientLight":{"active":"true", "brightness":"1.0"}}}'
+        jsonstring = '{"ImagePlane":{"width":500, "height":500}, "Scene":{"Object3D":[{"Sphere":{"center":{"x":3.0,"y":1.0,"z":2.0},"radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0}}],"Light":[{"center":{"x":2, "y":1, "z":1}, "brightness":1.0}], "AmbientLight":{"active":"true", "brightness":"1.0"}}}'
         j = json.loads(jsonstring)
 
         raytracer = JSONParser().deserializeRayTracingTask(j)
@@ -28,7 +28,7 @@ class JSONParserTest(unittest.TestCase):
 
         # Check another JSON
 
-        jsonstring = '{"Imageplane":{"width":500, "height":500}, "Scene":{"Object3D":[{"Sphere":{"center":{"x":4.0,"y":1.0,"z":2.0},"radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0}}],"Light":[{"center":{"x":2, "y":1, "z":1}, "brightness":1.0}], "AmbientLight":{"active":"false", "brightness":"1.0"}}}'
+        jsonstring = '{"ImagePlane":{"width":500, "height":500}, "Scene":{"Object3D":[{"Sphere":{"center":{"x":4.0,"y":1.0,"z":2.0},"radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0}}],"Light":[{"center":{"x":2, "y":1, "z":1}, "brightness":1.0}], "AmbientLight":{"active":"false", "brightness":"1.0"}}}'
         j = json.loads(jsonstring)
         raytracer = JSONParser().deserializeRayTracingTask(j)
 
@@ -51,7 +51,7 @@ class JSONParserTest(unittest.TestCase):
 
 
     def test_deserializeScene(self):
-        jsonstring = '{"Imageplane":{"width":500, "height":500}, "Scene":{"Object3D":[{"Sphere":{"center":{"x":3.0,"y":1.0,"z":2.0},"radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0}}],"Light":[{"center":{"x":2, "y":1, "z":1}, "brightness":1.0}], "AmbientLight":{"active":"true", "brightness":"1.0"}}}'
+        jsonstring = '{"ImagePlane":{"width":500, "height":500}, "Scene":{"Object3D":[{"Sphere":{"center":{"x":3.0,"y":1.0,"z":2.0},"radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0}}],"Light":[{"center":{"x":2, "y":1, "z":1}, "brightness":1.0}], "AmbientLight":{"active":"true", "brightness":"1.0"}}}'
         j = json.loads(jsonstring)
 
         jsonParser = JSONParser()
