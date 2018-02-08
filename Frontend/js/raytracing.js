@@ -150,8 +150,6 @@ function renderShapes() {
 	xhr.open("POST", url, true);
 	var jsonData = JSON.stringify(globalRaytracerObject);
 	xhr.send(jsonData);
-
-	//console.log(JSON.stringify(globalRaytracerObject));
 }
 
 function imagePlaneObjectCreation() {
@@ -183,7 +181,6 @@ class RayTracer {
 		this.ImagePlane = imagePlane;
 		this.Scene 		= scene;
 	}
-
 }
 
 class Scene {
@@ -317,6 +314,7 @@ function clearGrid() {
 	var c = document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
 	ctx.clearRect(0, 0, c.width, c.height);
+	globalRaytracerObject = "";
 };
 
 	//setup page
