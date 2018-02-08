@@ -146,7 +146,7 @@ function renderShapes() {
 	raytracerObjectCreation();
 
 	var xhr = new XMLHttpRequest();
-	var url = "url"; //please replace the "url" with the url of the webservice for the code to work!
+	var url = "http://127.0.0.1:8000/raytrace"; 
 	xhr.open("POST", url, true);
 	var jsonData = JSON.stringify(globalRaytracerObject);
 	xhr.send(jsonData);
