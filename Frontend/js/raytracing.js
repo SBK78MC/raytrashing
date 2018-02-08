@@ -319,24 +319,6 @@ function clearGrid() {
 	ctx.clearRect(0, 0, c.width, c.height);
 };
 
-function gridSize() {
-	
-	var v = document.getElementById("screenSize1").value;
-	if(v == '1'){
-		document.getElementById("center").style.backgroundSize = "10% 10%";
-	}else if(v == '2'){
-		document.getElementById("center").style.backgroundSize = "9% 9%";
-	}else if(v == '3'){
-		document.getElementById("center").style.backgroundSize = "8% 8%";
-	}else if(v == '4'){
-		document.getElementById("center").style.backgroundSize = "7% 7%";
-	}else if(v == '5'){
-		document.getElementById("center").style.backgroundSize = "6% 6%";
-	}else if(v == '6'){
-		document.getElementById("center").style.backgroundSize = "5% 5%";
-	}
-}
-
 	//setup page
   $(document).ready(function() {
     
