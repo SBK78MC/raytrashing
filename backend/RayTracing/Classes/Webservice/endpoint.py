@@ -24,6 +24,7 @@ def raytrace(request):
 
         plt.imsave(response, img)
     elif(request.method == "OPTIONS"):
+        print(request.body.decode('utf-8'))
         return HttpResponse()
     else:
         return HttpResponse("Method not Allowed", status=405)
