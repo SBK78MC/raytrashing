@@ -148,7 +148,7 @@ function renderShapes() {
 	var xhr = new XMLHttpRequest();
 	var url = "url"; //please replace the "url" with the url of the webservice for the code to work!
 	xhr.open("POST", url, true);
-	var jsonData = JSON.stringify(JSON.stringify(globalRaytracerObject));
+	var jsonData = JSON.stringify(globalRaytracerObject);
 	xhr.send(jsonData);
 
 	//console.log(JSON.stringify(globalRaytracerObject));
