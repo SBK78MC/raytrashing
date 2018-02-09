@@ -25,25 +25,23 @@ function addShape() {
 	var size = parseInt(document.getElementById('size').value);
 	var color = document.getElementById('color').value;
 		
-		//alert message if not all values are correct
-	var modal = document.getElementById('myModal');
-	if( (x || x == 0) && (y || y == 0) && (z || z == 0) && (size || size == 0) ) {
-	} else {
-		document.getElementById("alertMessage").innerHTML = "Please fill all necessary Shape values(x, y, z, size).";
-		modal.style.display = "block";
-		return;
-			
-	}
+	//alert message if not all values are correct
+
+	var valid_size = true;
+	var valid_coordinate = true;
+		
+	valid_size = validate_size(size);
+	valid_coordinate = validate_coordinates(x,y,z);
 		
 	//paint the shape
-	if(shape == "Circle"){
+	if( (shape == "Circle") && valid_size && valid_coordinate){
 		ctx.beginPath();
 		ctx.arc(x,y,size,0,2*Math.PI);
 		ctx.fillStyle = color;
 		ctx.fill();
 		ctx.stroke();
 		
-	} else if(shape == "Cube") {
+	} else if( (shape == "Cube") && valid_size && valid_coordinate) {
 		//boring rect
 		x = x - size/2;
 		y = y - size/2;
@@ -264,28 +262,28 @@ function addLight() {
 	var z = parseInt(document.getElementById("light_z").value);
 	
 	//alert message if not all values are correct
-	var modal = document.getElementById('myModal');	
-	if ( (x || x == 0) && (y || y == 0) && (z || z == 0) ) {
-	} else {		
-		document.getElementById("alertMessage").innerHTML = "Please fill all necessary Light Source values(x, y, z).";
-		modal.style.display = "block";
-		return;
-	}
+	var valid_coordinate = true;
+	valid_coordinate = validate_coordinates(x,y,z);
 	
-	//paint an image
-	var canvas = document.getElementById('myCanvas');
-	context = canvas.getContext('2d');
-	
-	y = -y + canvas.height/2;
-	x = x + canvas.width/2;
-	
-	
-	base_image = new Image();
-	base_image.src = './images/light.png';
-	base_image.onload = function(){
+	if(valid_coordinate)
+	{	
+		//paint an image
+		var canvas = document.getElementById('myCanvas');
+		context = canvas.getContext('2d');
+		
+		y = -y + canvas.height/2;
+		x = x + canvas.width/2;
+		
+		
+		base_image = new Image();
+		base_image.src = './images/light.png';
+		base_image.onload = function(){
 		context.drawImage(base_image, x, y, 15, 18);
-	}
+		}
 
+	}
+	
+	
 	//for adding Light to JSON
 	var lightSourceCenter = new CenterForShapesAndLight(document.getElementById('light_x').value, document.getElementById('light_y').value, document.getElementById('light_z').value);
 	var brightness 		  = document.getElementById('brightness').value;
@@ -345,3 +343,68 @@ function clearGrid() {
 
 });
     
+// Lightbox
+$(function(){
+	var $render = $('.render a').simpleLightbox();
+
+	$render.on('show.simplelightbox', function(){
+		console.log('Requested for showing');
+	})
+	.on('error.simplelightbox', function(e){
+		console.log('No image found, go to the next/prev');
+		console.log(e);
+	});
+});
+
+// Validating the Coordinates of Shape or Light
+function validate_coordinates(x,y,z)
+{
+	var min_x = -1000;
+	var min_y = -1000;
+	var min_z = -1000;
+
+	var max_x = 1000;
+	var max_y = 1000;
+	var max_z = 1000;
+
+	if
+	( 
+		(  (isNaN(x)) || (x > max_x) || (x < min_x) ) &&
+		(  (isNaN(y)) || (y > max_y) || (y < min_y) ) &&
+		(  (isNaN(z)) || (z > max_z) || (z < min_z) ) 
+	)
+	{			
+		var modal = document.getElementById('myModal');
+		
+		document.getElementById("alertMessage").innerHTML = "Invalid Coordinates, Minimum Value:-500, Maximum Value:500";
+		modal.style.display = "block";
+		return false;
+		
+	}
+	else
+	{
+		return true;
+	}
+};
+
+// Validating the Size of Shapes
+function validate_size(size)
+{
+	var min_size = 10;
+	var max_size = 500;
+
+	if( (isNaN(size)) || (size > max_size) || (size < min_size) )
+	{			
+		var modal = document.getElementById('myModal');
+		
+		document.getElementById("alertMessage").innerHTML = "Invalid Size, Minimum Value:10, Maximum Value:500";
+		modal.style.display = "block";
+		return false;
+		
+	}
+	else
+	{
+		return true;
+	}
+};
+
