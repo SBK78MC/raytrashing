@@ -8,6 +8,8 @@ from RayTracing.Classes.Models.Sphere import Sphere
 from RayTracing.Classes.Models.Vector import Vector
 from RayTracing.Classes.RayTracer import RayTracer
 
+import json as jsons
+
 
 class JSONParser:
 
@@ -40,8 +42,9 @@ class JSONParser:
 
 
     def createImageplane(self, json):
-        width = int(json["ImagePlane"]["width"])
-        height = int(json["ImagePlane"]["height"])
+        jsonImagePlane = json["ImagePlane"]
+        width = int(jsonImagePlane["width"])
+        height = int(jsonImagePlane["height"])
         return Imageplane(width, height)
 
 

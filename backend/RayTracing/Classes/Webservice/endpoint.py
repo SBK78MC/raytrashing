@@ -16,16 +16,12 @@ def raytrace(request):
     if(request.method == "POST"):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
-        parser = JSONParser()
 
-        raytracer = parser.deserializeRayTracingTask(body)
+        raytracer = JSONParser().deserializeRayTracingTask(body)
 
         img = raytracer.startRayTracing()
 
         plt.imsave(response, img)
-    elif(request.method == "OPTIONS"):
-        print(request.body.decode('utf-8'))
-        return HttpResponse()
     else:
         return HttpResponse("Method not Allowed", status=405)
 
