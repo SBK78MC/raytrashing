@@ -16,9 +16,8 @@ def raytrace(request):
     if(request.method == "POST"):
         body_unicode = request.body.decode('utf-8')
         body = json.loads(body_unicode)
-        parser = JSONParser()
 
-        raytracer = parser.deserializeRayTracingTask(body)
+        raytracer = JSONParser().deserializeRayTracingTask(body)
 
         img = raytracer.startRayTracing()
 

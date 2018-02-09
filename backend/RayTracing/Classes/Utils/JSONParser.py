@@ -8,6 +8,8 @@ from RayTracing.Classes.Models.Sphere import Sphere
 from RayTracing.Classes.Models.Vector import Vector
 from RayTracing.Classes.RayTracer import RayTracer
 
+import json as jsons
+
 
 class JSONParser:
 
@@ -40,8 +42,9 @@ class JSONParser:
 
 
     def createImageplane(self, json):
-        width = json["Imageplane"]["width"]
-        height = json["Imageplane"]["height"]
+        jsonImagePlane = json["ImagePlane"]
+        width = int(jsonImagePlane["width"])
+        height = int(jsonImagePlane["height"])
         return Imageplane(width, height)
 
 
@@ -49,20 +52,20 @@ class JSONParser:
     def deserializeLight(self, json):
         light = Light()
         light.position = self.deserializeVector(json["center"])
-        light.setBrightness(json["brightness"])
+        light.setBrightness(float(json["brightness"]))
         return light
 
 
 
     def deserializeVector(self, vector):
-        return Vector(vector["x"], vector["y"], vector["z"])
+        return Vector(float(vector["x"]), float(vector["y"]), float(vector["z"]))
 
 
 
     def deserializeSphere(self, sphereJson):
         center = self.deserializeVector(sphereJson["center"])
-        reflection = sphereJson["reflection"]
-        radius = sphereJson["radius"]
+        reflection = float(sphereJson["reflection"])
+        radius = float(sphereJson["radius"])
         color = self.deserializeColor(sphereJson["color"])
 
         return Sphere(center, radius, color, reflection)
@@ -77,17 +80,17 @@ class JSONParser:
 
 
     def deserializeAmbientLight(self, ambientLightJson):
-        active = ambientLightJson["active"]
+        active = bool(ambientLightJson["active"])
         brightness = 0
-        if(bool(active) == True):
+        if(active == True):
             brightness = float(ambientLightJson["brightness"])
 
         return AmbientLight(brightness)
 
 
     def deserializeColor(self, colorJson):
-        r = colorJson["r"]
-        g = colorJson["g"]
-        b = colorJson["b"]
+        r = float(colorJson["r"])
+        g = float(colorJson["g"])
+        b = float(colorJson["b"])
 
         return Color(r, g, b)
