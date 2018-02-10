@@ -1,5 +1,6 @@
 import unittest
 
+from RayTracing.Classes.Models.Color import Color
 from RayTracing.Classes.Models.Camera import Camera
 from RayTracing.Classes.Models.Color import Color
 from RayTracing.Classes.Models.Light import Light
@@ -176,6 +177,16 @@ class ColorTest(unittest.TestCase):
         self.assertEqual(additionResult.getArray(), [0.5, 1.0, 0.78])
         self.assertEqual(additionResult2.getArray(), [0.5, 1.0, 0.78])
 
+
+    def test_compareBrightness(self):
+        red = Color()
+        red.red()
+        white = Color()
+        white.white()
+        test1 = red.isBrighterOrEqualTo(white)
+        test2 = white.isBrighterOrEqualTo(red)
+        self.assertFalse(test1)
+        self.assertTrue(test2)
 
 
 if __name__ == '__main__':
