@@ -1,5 +1,6 @@
 import unittest
 
+from RayTracing.Classes.Models.Color import Color
 from RayTracing.Classes.Models.Camera import Camera
 from RayTracing.Classes.Models.Light import Light
 from RayTracing.Classes.Models.MathUtil import MathUtil
@@ -156,7 +157,17 @@ class CameraTest(unittest.TestCase):
         c = Camera(Vector(0,0,0), Vector(1,2,3), 30)
         self.assertEqual(0.2679491924311227, c.getAngle())
 
+class ColorTest(unittest.TestCase):
 
+    def test_compareBrightness(self):
+        red = Color()
+        red.red()
+        white = Color()
+        white.white()
+        test1 = red.isBrighterOrEqualTo(white)
+        test2 = white.isBrighterOrEqualTo(red)
+        self.assertFalse(test1)
+        self.assertTrue(test2)
 
 
 if __name__ == '__main__':
