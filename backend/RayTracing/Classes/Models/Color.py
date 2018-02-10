@@ -42,3 +42,9 @@ class Color(object):
 
     def getB(self):
         return self.color[2]
+
+    def isBrighterOrEqualTo(self, otherColor):
+        if self.getR() >= otherColor.getR() and self.getB() >= otherColor.getB() and self.getG() >= otherColor.getG():
+            return True
+        else:
+            return False
