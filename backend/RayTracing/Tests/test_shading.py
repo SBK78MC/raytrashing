@@ -12,7 +12,7 @@ from RayTracing.Classes.RayTracer import RayTracer
 
 
 class MyTestCase(unittest.TestCase):
-    def test_specularReflection(self):
+    def test_specularReflection1(self):
         #Light
         light = Light(0, 0, 0, 1)
 
@@ -30,7 +30,7 @@ class MyTestCase(unittest.TestCase):
 
         raytracer = RayTracer(imagepl, scene, camera)
 
-        pixelRay = Ray(camera.position, Vector(0, 0, 1))
+        pixelRay = Ray(camera.position, Vector(0.01, 0, 1))
 
         sphereIntersection = s1.intersection(pixelRay)
 
@@ -42,6 +42,38 @@ class MyTestCase(unittest.TestCase):
 
         testValue = testColor.isBrighterOrEqualTo(green)
         self.assertTrue(testValue)
+
+    def test_specularReflection2(self):
+        #Light
+        light = Light(0, 0, 0, 1)
+
+        # Sphere 1
+        c1 = Vector(0, 0, 12)
+        s1 = Sphere(c1, 1, Color(0, 1, 0), 0)
+
+        scene = Scene()
+        scene.addObject3D(s1)
+        scene.addLight(light)
+
+        camera = Camera(Vector(0, 0, 0), Vector(0, 0, 1), 30)
+
+        imagepl = Imageplane(500, 500)
+
+        raytracer = RayTracer(imagepl, scene, camera)
+
+        pixelRay = Ray(camera.position, Vector(0.001, 0, 1))
+
+        sphereIntersection = s1.intersection(pixelRay)
+
+        arrColor = raytracer.getColorForIntersection(sphereIntersection)
+        testColor = Color(arrColor[0], arrColor[1], arrColor[2])
+
+        print(arrColor)
+        green = Color()
+        green.green()
+
+        testValue = testColor.isBrighterOrEqualTo(green)
+        self.assertFalse(testValue)
 
 
 if __name__ == '__main__':
