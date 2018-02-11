@@ -125,7 +125,6 @@ class MyTestCase(unittest.TestCase):
 
         testColor4 = Color(arrColor4[0], arrColor3[1], arrColor3[2])
 
-
         testValue3 = testColor3.isBrighterOrEqualTo(testColor4)
         self.assertTrue(testValue3)
 
