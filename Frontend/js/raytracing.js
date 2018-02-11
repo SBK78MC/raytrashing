@@ -15,17 +15,15 @@ function addShape() {
 	var shape = e.options[e.selectedIndex].value;
 		
 	//get coordinates(circle center, cube upper left corner
-	var x = parseInt(document.getElementById('shape_x').value);
-	var y = parseInt(document.getElementById('shape_y').value);
-	var z = parseInt(document.getElementById('shape_z').value);
-	y = -y + c.height/2;
-	x = x + c.width/2;
+	var x = parseFloat(document.getElementById('shape_x').value);
+	var y = parseFloat(document.getElementById('shape_y').value);
+	var z = parseFloat(document.getElementById('shape_z').value);
 			
 	//get size and color
-	var size = parseInt(document.getElementById('size').value);
+	var size = parseFloat(document.getElementById('size').value);
 	var color = document.getElementById('color').value;
 		
-		//alert message if not all values are correct
+	//alert message if not all values are correct
 	var modal = document.getElementById('myModal');
 	if( (x || x == 0) && (y || y == 0) && (z || z == 0) && (size || size == 0) ) {
 	} else {
@@ -34,11 +32,21 @@ function addShape() {
 		return;
 			
 	}
+	
+	//translate to the center of the canvas
+	y = -y + c.height/2;
+	x = x + c.width/2;
+		
+	//set values depending on z(depth)
+	size = size * 50;
+	var sizeNew = (size * 15)/z;
+	var xNew = ((x - c.width/2)  * 10 / z) + c.width/2 ;
+	var yNew = ((y - c.width/2)  * 10 / z) + c.width/2 ;
 		
 	//paint the shape
 	if(shape == "Circle"){
 		ctx.beginPath();
-		ctx.arc(x,y,size,0,2*Math.PI);
+		ctx.arc(xNew,yNew,sizeNew,0,2*Math.PI);
 		ctx.fillStyle = color;
 		ctx.fill();
 		ctx.stroke();
@@ -121,11 +129,6 @@ function addShape() {
 	var cube 		 		 = new Shape(centerObject, radius, colorObject, reflection, "Cube");
 	var cubeObject   		 = new CubeObj(cube);
 
-	//for Ambient Light
-	var active = "true";
-	if(document.getElementById('brightness').value == 0) active = "false";
-	var ambientLight 		 = new AmbientLight(active, document.getElementById('ambient').value);
-	globalAmbientLight  	 = ambientLight;
 
    	 if(shape == "Circle") {
 		arrayListForObject.push(sphereObject);
@@ -139,6 +142,18 @@ function addShape() {
 };
 
 function renderShapes() {
+	
+	//for Ambient Light
+	var active = "true";
+	if(document.getElementById('brightness').value == 0) active = "false";
+	var ambientLight 		 = new AmbientLight(active, document.getElementById('ambient').value / 100);
+	globalAmbientLight  	 = ambientLight;
+	
+	
+	var modal = document.getElementById('myModal1');
+	document.getElementById("loadingKati").src = "./images/spinner.gif";
+	modal.style.display = "block";
+	
 	//generate the JSON file for the form data and send it as HTTP request
 
 	imagePlaneObjectCreation();
@@ -150,6 +165,33 @@ function renderShapes() {
 	xhr.open("POST", url, true);
 	var jsonData = JSON.stringify(globalRaytracerObject);
 	xhr.send(jsonData);
+	
+	//get binary and make it an image... {there is a problem with headers called CORS from backend.. we have to fix it}
+	xhr.responseType = 'arraybuffer';
+	xhr.onreadystatechange = function() {
+		
+		if (this.readyState == 4 && this.status == 200) {
+			
+			
+			var uInt8Array = new Uint8Array(this.response);
+			var i = uInt8Array.length;
+			var binaryString = new Array(i);
+			while (i--)
+			{
+				binaryString[i] = String.fromCharCode(uInt8Array[i]);
+			}
+			var data = binaryString.join('');
+
+			var base64 = window.btoa(data);
+			
+			
+			var modal = document.getElementById('myModal1');
+			document.getElementById("loadingKati").src = "data:image/png;base64," + base64;
+			
+			
+			
+		}
+	}
 }
 
 function imagePlaneObjectCreation() {
@@ -203,8 +245,8 @@ class ImagePlane {
 class CenterForShapesAndLight {
 	//to populate coordinates for the centers of shapes and also the light source
 	constructor(x, y, z) {
-    	this.x = x;
-    	this.y = y;
+    	this.x = x / 71.4285714286;
+    	this.y = y / 71.4285714286;
 		this.z = z;
 	}
 }
@@ -259,9 +301,9 @@ class Shape {
 
 function addLight() {
 	
-	var x = parseInt(document.getElementById("light_x").value);
-	var y = parseInt(document.getElementById("light_y").value);
-	var z = parseInt(document.getElementById("light_z").value);
+	var x = parseFloat(document.getElementById("light_x").value);
+	var y = parseFloat(document.getElementById("light_y").value);
+	var z = parseFloat(document.getElementById("light_z").value);
 	
 	//alert message if not all values are correct
 	var modal = document.getElementById('myModal');	
@@ -314,33 +356,71 @@ function clearGrid() {
 	var c = document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
 	ctx.clearRect(0, 0, c.width, c.height);
-	globalRaytracerObject = "";
+	
 };
 
-	//setup page
+function zoomIn(){
+	var canvas = document.getElementById("myCanvas");
+	var currentSize = parseInt(canvas.style.height);
+	
+	canvas.style.height = currentSize + 100 + "px";
+	canvas.style.width = currentSize + 100 + "px";
+}
+
+function zoomOut(){
+	var canvas = document.getElementById("myCanvas");
+	var currentSize = parseInt(canvas.style.height);
+	
+	canvas.style.height = currentSize - 100 + "px";
+	canvas.style.width = currentSize - 100 + "px";
+	
+	
+}
+
+function resizeCanvas(){
+	
+	var size = document.getElementById("sizeOfScreen").value;
+	var canvas = document.getElementById("myCanvas");
+	document.getElementById("coor").innerHTML = "Coordinates(" + -size/2 + "," + size/2 + ")";  
+	
+	canvas.style.width = size + 'px' ;
+	canvas.style.height= size + 'px';
+	canvas.width = size;
+	canvas.height = size;
+}
+
+function sliderDrag() {
+	if(document.getElementById("inputText").style.display == "none"){
+		$('#dragDrop').slideUp(1000, up);
+		function up(){
+		$('#inputText').slideDown(1000);
+		}
+	}else{
+		$('#inputText').slideUp(1000, up);
+		function up(){
+		$('#dragDrop').slideDown(1000);
+		}
+		
+	}
+	
+}
+
+
+	
   $(document).ready(function() {
     
 	$('#picker').farbtastic('#color');
 	
-	//fit canvas to div
 	var canvas = document.getElementById("myCanvas");
-	fitToContainer(canvas);
-
-	function fitToContainer(canvas) {
-		// Make it visually fill the positioned parent
-		canvas.style.width ='100%';
-		canvas.style.height='100%';
-		// ...then set the internal size to match
-		canvas.width  = canvas.offsetWidth;
-		canvas.height = canvas.offsetHeight;
-	}
+	canvas.style.width ='500px';
+	canvas.style.height='500px';
 	
 	//close alert window if user clickes the window
 	window.onclick = function(event) {
 	var modal = document.getElementById('myModal');
     if (event.target == modal) {
-       	 modal.style.display = "none";
-    	}
+        modal.style.display = "none";
+    }
 	}
 
 });
