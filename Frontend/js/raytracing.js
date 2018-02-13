@@ -446,18 +446,18 @@ $(function(){
 // Validating the Coordinates of Shape or Light(Farhad)
 function validate_coordinates(x,y,z)
 {
-	var min_x = -1000;
-	var min_y = -1000;
-	var min_z = -1000;
+	var min_x = -250;
+	var min_y = -250;
+	var min_z = -250;
 
-	var max_x = 1000;
-	var max_y = 1000;
-	var max_z = 1000;
+	var max_x = 250;
+	var max_y = 250;
+	var max_z = 250;
 
 	if
 	( 
-		(  (isNaN(x)) || (x > max_x) || (x < min_x) ) &&
-		(  (isNaN(y)) || (y > max_y) || (y < min_y) ) &&
+		(  (isNaN(x)) || (x > max_x) || (x < min_x) )  ||
+		(  (isNaN(y)) || (y > max_y) || (y < min_y) )  ||
 		(  (isNaN(z)) || (z > max_z) || (z < min_z) ) 
 	)
 	{			
