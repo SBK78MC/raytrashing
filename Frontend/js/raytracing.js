@@ -477,7 +477,7 @@ function validate_coordinates(x,y,z)
 // Validating the Size of Shapes (Farhad)
 function validate_size(size)
 {
-	var min_size = 10;
+	var min_size = 1;
 	var max_size = 500;
 
 	if( (isNaN(size)) || (size > max_size) || (size < min_size) )
