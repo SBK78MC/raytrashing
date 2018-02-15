@@ -172,12 +172,11 @@ function renderShapes() {
 	var jsonData = JSON.stringify(globalRaytracerObject);
 	xhr.send(jsonData);
 	
-	//get binary and make it an image... {there is a problem with headers called CORS from backend.. we have to fix it}
+	//get binary and make it an image... {there is a problem with headers called CORS from backend.. we have to fix it} (fixed as of 13.02.2018!)
 	xhr.responseType = 'arraybuffer';
 	xhr.onreadystatechange = function() {
 		
 		if (this.readyState == 4 && this.status == 200) {
-			
 			
 			var uInt8Array = new Uint8Array(this.response);
 			var i = uInt8Array.length;
@@ -190,12 +189,8 @@ function renderShapes() {
 
 			var base64 = window.btoa(data);
 			
-			
-			
+            var modal = document.getElementById('myModal1');
 			document.getElementById("loadingKati").src = "data:image/png;base64," + base64;
-			
-			
-			
 		}
 	}
 }
@@ -333,7 +328,6 @@ function addLight() {
 	var xCoord = ((x - canvas.width/2)  * 10 / z) + canvas.width/2 ;
 	var yCoord = ((y - canvas.height/2)  * 10 / z) + canvas.height/2 ;
 	
-	
 	base_image = new Image();
 	base_image.src = './images/light.png';
 	base_image.onload = function(){
@@ -371,27 +365,32 @@ function clearGrid() {
 	var c = document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
 	ctx.clearRect(0, 0, c.width, c.height);
-	
+	arrayListForSphere 	   		= [];
+	arrayListForCube	   		= [];
+	arrayListForLight      		= [];
+	arrayListForObject	 	    = [];
+	globalRaytracerObject 		= "";
+	globalAmbientLight			= "";
+	globalSceneObject			= "";
+	globalImagePlaneSizeObject  = "";
 };
 
 
 function sliderDrag() {
-	if(document.getElementById("inputText").style.display == "none"){
+	if(document.getElementById("inputText").style.display == "none") {
 		$('#dragDrop').slideUp(1000, up);
-		function up(){
-		$('#inputText').slideDown(1000);
+		function up() {
+			$('#inputText').slideDown(1000);
 		}
-	}else{
+	} else {
 		$('#inputText').slideUp(1000, up);
-		function up(){
-		$('#dragDrop').slideDown(1000);
+		function up() {
+			$('#dragDrop').slideDown(1000);
 		}
 		
 	}
 	
 }
-
- 
 	
   $(document).ready(function() {
     
@@ -406,9 +405,9 @@ function sliderDrag() {
 	//close alert window if user clicks the window
 	window.onclick = function(event) {
 	var modal = document.getElementById('myModal');
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
+    	if (event.target == modal) {
+       	 modal.style.display = "none";
+   	  }
 	}
 
 });
