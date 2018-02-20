@@ -16,8 +16,8 @@ if __name__ == '__main__':
     sCenter1 = Vector(-1, 0, 19)
     sCenter = Vector(3, 0, 16)
 
-    s1 = Sphere(sCenter, 1, Color(1.0, 0, 0), 1000)
-    s2 = Sphere(sCenter1, 4, Color(0, 1.0, 0), 500)
+    s1 = Sphere(sCenter, 1, Color(1.0, 0, 0), 50, 0.05)
+    s2 = Sphere(sCenter1, 3, Color(0, 1.0, 0.5), 140, 0.5)
     light1 = Light(5, 0, 8, 0.7)
     light0 = AmbientLight(0.2)
 
