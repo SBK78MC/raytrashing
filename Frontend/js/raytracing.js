@@ -5,6 +5,99 @@ var arrayListForObject 		 = [];
 
 var globalImagePlaneSizeObject, globalSceneObject, globalRaytracerObject, globalAmbientLight;
 
+// Arrays of information for shapes in the scene
+var responsive_shpe_number = 0;
+var responsive_shpe_name = [];
+var responsive_shpe_x = [];
+var responsive_shpe_y = [];
+var responsive_shpe_z = [];
+var responsive_shpe_size = [];
+var tmp_responsive_shpe_size = 0;
+var responsive_shpe_color = [];
+// Arrays of information for  lights in the scene
+var responsive_light_number = 0;
+var responsive_light_x = [];
+var responsive_light_y = [];
+var responsive_light_z = [];
+
+// Redrawing shapes 
+function draw() 
+{	
+	var responsive_center = document.getElementById('center');	
+	var responsive_canvas = document.getElementById('myCanvas');
+	responsive_canvas.width = $(center).width();
+	responsive_canvas.height = $(center).height();
+	
+	var responsive_ctx = responsive_canvas.getContext("2d");
+	
+	for(var i = 0; i < responsive_shpe_number; i++)
+	{
+		
+		if(responsive_shpe_name[i] == "Cube")
+		{
+			tmp_responsive_shpe_size =  (responsive_canvas.width+responsive_canvas.height) / (responsive_shpe_size[i]/2.7);
+		}
+		
+		if(responsive_shpe_name[i] == "Circle")
+		{
+			tmp_responsive_shpe_size =  (responsive_canvas.width+responsive_canvas.height) / (responsive_shpe_size[i]/3.55);
+		}
+		
+		Add_Responsive_Shape(responsive_ctx,responsive_shpe_name[i], responsive_shpe_x[i], responsive_shpe_y[i], 
+										responsive_shpe_z[i], tmp_responsive_shpe_size, responsive_shpe_color[i]);
+										
+	}
+	
+	for(var i = 0; i < responsive_light_number; i++)
+	{
+		Add_Responsive_Light(responsive_ctx, responsive_light_x[i], responsive_light_y[i], responsive_light_z[i]);
+	}
+}
+	
+// Drawing based on relative values of  shapes
+function Add_Responsive_Shape(responsive_ctx, R_shpe_name,R_shpe_x,R_shpe_y,R_shpe_z,R_shpe_size,R_shpe_color) 
+{
+	if(R_shpe_name == "Circle")
+	{
+		responsive_ctx.beginPath();
+		responsive_ctx.arc(R_shpe_x,R_shpe_y,R_shpe_size,0,2*Math.PI);
+		responsive_ctx.fillStyle = R_shpe_color;
+		responsive_ctx.fill();
+		responsive_ctx.stroke();
+		
+	} 
+	else if(R_shpe_name == "Cube") {
+		R_shpe_x = R_shpe_x - R_shpe_size/2;
+		R_shpe_y = R_shpe_y - R_shpe_size/2;
+		responsive_ctx.beginPath();
+		responsive_ctx.rect(R_shpe_x,R_shpe_y,R_shpe_size,R_shpe_size);
+		responsive_ctx.fillStyle = R_shpe_color;
+		responsive_ctx.fill();
+		responsive_ctx.stroke();
+	}
+}	
+
+// Drawing based on relative values of  Lights
+function Add_Responsive_Light(responsive_ctx,R_light_x,R_light_y,R_light_z) 
+{
+	responsive_image = new Image();
+	responsive_image.src = './images/light.png';
+	
+	responsive_image.onload = 
+	function()
+	{
+		responsive_ctx.drawImage(responsive_image, R_light_x, R_light_y, 15, 18);
+		
+		console.log("yo");
+	}
+}		
+	
+// 	Calling Draw() funcrion after each window move
+$(function () {
+		$(window).resize(draw);
+ });	
+
+
 function addShape() {
 	//get the canvas
 	var c = document.getElementById("myCanvas");
@@ -117,6 +210,16 @@ function addShape() {
 		ctx.stroke();
 		ctx.fill();
 		*/		
+		
+	
+	//  Gathering info for Responsive Shape Redraw
+	responsive_shpe_name[responsive_shpe_number] = shape ;
+	responsive_shpe_x [responsive_shpe_number] = xCoord;
+	responsive_shpe_y [responsive_shpe_number] = yCoord;
+	responsive_shpe_z [responsive_shpe_number] = z;
+	responsive_shpe_size [responsive_shpe_number] = convertSize;
+	responsive_shpe_color [responsive_shpe_number] = color;
+	responsive_shpe_number++;
 	
 	//for Shape
 	var centerObject	     = new CenterForShapesAndLight(document.getElementById('shape_x').value, document.getElementById('shape_y').value, document.getElementById('shape_z').value);
@@ -339,7 +442,13 @@ function addLight() {
 	base_image.onload = function(){
 		context.drawImage(base_image, xCoord, yCoord, 15, 18);
 	}
-
+	
+	//  Gathering info for Responsive Light Redraw
+	responsive_light_x [responsive_light_number] = xCoord;
+	responsive_light_y [responsive_light_number] = yCoord;
+	responsive_light_z [responsive_light_number] = z;
+	responsive_light_number++;
+	
 	//for adding Light to JSON
 	var lightSourceCenter = new CenterForShapesAndLight(document.getElementById('light_x').value, document.getElementById('light_y').value, document.getElementById('light_z').value);
 	var brightness 		  = document.getElementById('brightness').value;
@@ -372,8 +481,21 @@ function clearGrid() {
 	var ctx = c.getContext("2d");
 	ctx.clearRect(0, 0, c.width, c.height);
 	
+	// Resetting Shape Arrays
+	responsive_shpe_number = 0;
+	responsive_shpe_name = [];
+	responsive_shpe_x = [];
+	responsive_shpe_y = [];
+	responsive_shpe_z = [];
+	responsive_shpe_size = [];
+	tmp_responsive_shpe_size = 0;
+	responsive_shpe_color = [];
+	// Resetting Light Arrays
+	responsive_light_number = 0;
+	responsive_light_x = [];
+	responsive_light_y = [];
+	responsive_light_z = [];
 };
-
 
 function sliderDrag() {
 	if(document.getElementById("inputText").style.display == "none"){
@@ -391,8 +513,6 @@ function sliderDrag() {
 	
 }
 
- 
-	
   $(document).ready(function() {
     
 	$('#picker').farbtastic('#color');
