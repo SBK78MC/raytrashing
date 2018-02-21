@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <link rel="stylesheet" type="text/css" href="css/raytracing.css" />
 <link rel="stylesheet" href="css/farbtastic.css" type="text/css" />
 
@@ -49,9 +50,41 @@ The page is divided into 3 parts:
 
 
 <h1 id="title">RAYTRASHING</h1>
+
+
+
+ 
 <div id="center">
-	<canvas id="myCanvas" ></canvas>
+
+	<div class="tab">
+		<button class="tablinks" onclick="OpenView(event, 'Front')" id="defaultOpen">Front View</button>
+		<button class="tablinks" onclick="OpenView(event, 'Top')">Top View</button>
+		<button class="tablinks" onclick="OpenView(event, 'Side')">Side View</button>
+	</div>
+
+	
+	
+	<div id="Front" class="tabcontent">
+
+		<canvas id="myCanvas" class="canvas" ></canvas>
+	 
+	</div>
+
+	<div id="Top" class="tabcontent">
+	 
+		<canvas id="myCanvasTop" class="canvas" ></canvas>
+	 
+	</div>
+
+	<div id="Side" class="tabcontent">
+	 
+		<canvas id="myCanvasSide"  class="canvas" ></canvas>
+	  
+	</div>
+
 </div>
+  
+
 
 
 

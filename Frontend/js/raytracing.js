@@ -12,13 +12,18 @@ var responsive_shpe_x = [];
 var responsive_shpe_y = [];
 var responsive_shpe_z = [];
 var responsive_shpe_size = [];
-var tmp_responsive_shpe_size = 0;
 var responsive_shpe_color = [];
+var tmp_responsive_shpe_size = 0;
+var tmp_responsive_shpe_x = 0;
+var tmp_responsive_shpe_y = 0;
 // Arrays of information for  lights in the scene
 var responsive_light_number = 0;
 var responsive_light_x = [];
 var responsive_light_y = [];
 var responsive_light_z = [];
+
+var tmp_responsive_light_x = 0;
+var tmp_responsive_light_y = 0;
 
 // Redrawing shapes 
 function draw() 
@@ -41,16 +46,31 @@ function draw()
 		if(responsive_shpe_name[i] == "Circle")
 		{
 			tmp_responsive_shpe_size =  (responsive_canvas.width+responsive_canvas.height) / (responsive_shpe_size[i]/3.55);
+			
+			
+			tmp_responsive_shpe_x =   (responsive_canvas.width  *  responsive_shpe_x[i]) / responsive_canvas.width  ;
+			
+			
+			tmp_responsive_shpe_y =   (responsive_canvas.height  * responsive_shpe_y[i]) / responsive_canvas.height  ;
+			
+			
 		}
 		
-		Add_Responsive_Shape(responsive_ctx,responsive_shpe_name[i], responsive_shpe_x[i], responsive_shpe_y[i], 
+		Add_Responsive_Shape(responsive_ctx,responsive_shpe_name[i], tmp_responsive_shpe_x, tmp_responsive_shpe_y, 
 										responsive_shpe_z[i], tmp_responsive_shpe_size, responsive_shpe_color[i]);
 										
 	}
 	
 	for(var i = 0; i < responsive_light_number; i++)
 	{
-		Add_Responsive_Light(responsive_ctx, responsive_light_x[i], responsive_light_y[i], responsive_light_z[i]);
+		
+			tmp_responsive_light_x =   (responsive_canvas.width  *  responsive_light_x[i]) / responsive_canvas.width  ;
+			
+			
+			tmp_responsive_light_y =   (responsive_canvas.height  * responsive_light_y[i]) / responsive_canvas.height  ;
+		
+		
+		Add_Responsive_Light(responsive_ctx, tmp_responsive_light_x, tmp_responsive_light_y, responsive_light_z[i]);
 	}
 }
 	
@@ -87,8 +107,6 @@ function Add_Responsive_Light(responsive_ctx,R_light_x,R_light_y,R_light_z)
 	function()
 	{
 		responsive_ctx.drawImage(responsive_image, R_light_x, R_light_y, 15, 18);
-		
-		console.log("yo");
 	}
 }		
 	
@@ -533,3 +551,18 @@ function sliderDrag() {
 
 });
     
+// Canvas Tabs	
+function OpenView(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+document.getElementById("defaultOpen").click();
