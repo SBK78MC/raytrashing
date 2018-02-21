@@ -103,13 +103,13 @@ function Add_Responsive_Shape(responsive_ctx,responsive_ctx_top,responsive_ctx_s
 		responsive_ctx.stroke();
 		
 		responsive_ctx_top.beginPath();
-		responsive_ctx_top.arc(R_shpe_z*100,R_shpe_x*0.7,R_shpe_size,0,2*Math.PI);
+		responsive_ctx_top.arc(R_shpe_z*20,R_shpe_x*1.2,R_shpe_size,0,2*Math.PI);
 		responsive_ctx_top.fillStyle = R_shpe_color;
 		responsive_ctx_top.fill();
 		responsive_ctx_top.stroke();
 
 		responsive_ctx_side.beginPath();
-		responsive_ctx_side.arc(R_shpe_y*2,R_shpe_z*50,R_shpe_size,0,2*Math.PI);
+		responsive_ctx_side.arc(R_shpe_y,R_shpe_z*25,R_shpe_size,0,2*Math.PI);
 		responsive_ctx_side.fillStyle = R_shpe_color;
 		responsive_ctx_side.fill();
 		responsive_ctx_side.stroke();		
@@ -125,13 +125,13 @@ function Add_Responsive_Shape(responsive_ctx,responsive_ctx_top,responsive_ctx_s
 		responsive_ctx.stroke();
 		
 		responsive_ctx_top.beginPath();
-		responsive_ctx_top.rect(R_shpe_z*64,R_shpe_x*0.68,R_shpe_size,R_shpe_size);
+		responsive_ctx_top.rect(R_shpe_z*30,R_shpe_x*1.2,R_shpe_size,R_shpe_size);
 		responsive_ctx_top.fillStyle = R_shpe_color;
 		responsive_ctx_top.fill();
 		responsive_ctx_top.stroke();
 		
 		responsive_ctx_side.beginPath();
-		responsive_ctx_side.rect(R_shpe_y*6.2,R_shpe_z*10,R_shpe_size,R_shpe_size);
+		responsive_ctx_side.rect(R_shpe_y,R_shpe_z*30,R_shpe_size,R_shpe_size);
 		responsive_ctx_side.fillStyle = R_shpe_color;
 		responsive_ctx_side.fill();
 		responsive_ctx_side.stroke();
@@ -149,8 +149,8 @@ function Add_Responsive_Light(responsive_ctx,responsive_ctx_top,responsive_ctx_s
 	function()
 	{
 		responsive_ctx.drawImage(responsive_image, R_light_x, R_light_y, 15, 18);
-		responsive_ctx_top.drawImage(responsive_image, R_light_z*530, R_light_x*0.6, 15, 18);
-		responsive_ctx_side.drawImage(responsive_image,R_light_z*500, R_light_y , 15, 18);
+		responsive_ctx_top.drawImage(responsive_image, R_light_z*250, R_light_x*1.2, 15, 18);
+		responsive_ctx_side.drawImage(responsive_image,R_light_z*300, R_light_y , 15, 18);
 	}
 }		
 	
@@ -594,24 +594,24 @@ function sliderDrag() {
     
 	$('#picker').farbtastic('#color');
 	
-	var canvas = document.getElementById("myCanvas");
-	canvas.style.width ='100%';
-	canvas.style.height='100%';
-	canvas.width  = canvas.offsetWidth;
-	canvas.height = canvas.offsetHeight;
+	//var canvas = document.getElementById("myCanvas");
+	//canvas.style.width ='100%';
+	//canvas.style.height='100%';
+	//canvas.width  = canvas.offsetWidth;
+	//canvas.height = canvas.offsetHeight;
 	
 	
-	var canvas_top = document.getElementById("myCanvasTop");
-	canvas_top.style.width ='100%';
-	canvas_top.style.height='100%';
-	canvas_top.width  = canvas_top.offsetWidth;
-	canvas_top.height = canvas_top.offsetHeight;
+	//var canvas_top = document.getElementById("myCanvasTop");
+	//canvas_top.style.width ='100%';
+	//canvas_top.style.height='100%';
+	//canvas_top.width  = canvas_top.offsetWidth;
+	//canvas_top.height = canvas_top.offsetHeight;
 
-	var canvas_side = document.getElementById("myCanvasSide");
-	canvas_side.style.width ='100%';
-	canvas_side.style.height='100%';
-	canvas_side.width  = canvas_side.offsetWidth;
-	canvas_side.height = canvas_side.offsetHeight;	
+	//var canvas_side = document.getElementById("myCanvasSide");
+	//canvas_side.style.width ='100%';
+	//canvas_side.style.height='100%';
+	//canvas_side.width  = canvas_side.offsetWidth;
+	//canvas_side.height = canvas_side.offsetHeight;	
 	
 	
 	
