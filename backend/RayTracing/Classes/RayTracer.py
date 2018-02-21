@@ -51,7 +51,7 @@ class RayTracer:
         for obj in self.scene.getObjects():
             objIntersection = obj.intersection(pixelRay)
             if objIntersection:
-                if minDist < 0 or minDist > objIntersection.getDistance():
+                if (minDist < 0 or minDist > objIntersection.getDistance()) and objIntersection.getComparableLength() > 1e-4:
                     minDist = objIntersection.getDistance()
                     minObjInter = objIntersection
 
@@ -85,6 +85,7 @@ class RayTracer:
             brightColorWithInverseRate = brightColor.multiply(1 - intersection.getObject().getReflection())
 
             finalColor = reflectionColorWithRate.add(brightColorWithInverseRate)
+            print(reflectionColorWithRate.getArray(), "  bright ", brightColorWithInverseRate.getArray(), " final :", finalColor.getArray())
 
         else:
             finalColor = brightColor
@@ -94,34 +95,22 @@ class RayTracer:
     def getReflection(self, intersection, recursionDepth):
         reflectedColor = None
         if intersection.getObject().getReflection() > 0 and recursionDepth < self.recursionLimit:
+            cameraDirection = intersection.getRay().getDirection()
             negativeCameraDirection = intersection.getRay().getDirection().getNegative()
             pointToCenter = intersection.getPoint().sub(intersection.getObject().getCenter())
 
             pointToCenter = pointToCenter.normalize()
 
-            ptcDotNCD = pointToCenter.dotProduct(negativeCameraDirection)
+            ptcDotNCD = pointToCenter.dotProduct(cameraDirection)
 
-            reflectionDirection = (pointToCenter.multiply(2 * ptcDotNCD)).sub(negativeCameraDirection)
+            reflectionDirection = cameraDirection.sub(pointToCenter.multiply(2 * ptcDotNCD))
+            reflectionDirection = reflectionDirection.normalize()
 
             reflectionRay = Ray(intersection.getPoint(), reflectionDirection)
             reflectedColor = self.traceRay(reflectionRay, recursionDepth + 1)
+            print(reflectedColor.getArray())
 
         return reflectedColor
-
-
-    def getShadows(self, intersection, light):
-        isShadow = False
-        for objectIter in self.scene.getObjects():
-            if objectIter != intersection.getObject():
-
-                lightToPoint = light.getLightRay(intersection.getPoint())
-                shadowIntersection = objectIter.intersection(lightToPoint)
-                if shadowIntersection:
-
-                    if 0 < shadowIntersection.getComparableLength() <= 1:
-                        isShadow = True
-
-        return isShadow
 
     def diffuseAndSpecularReflection(self, light, intersection, colorBrightness):
         lightToPoint = light.getPosition().sub(intersection.getPoint())
@@ -145,3 +134,17 @@ class RayTracer:
                 colorBrightness += light.getBrightness() * pow(lightRDotCamera / (lRlength * negCamlength), s)
 
         return colorBrightness
+
+    def getShadows(self, intersection, light):
+        isShadow = False
+        for objectIter in self.scene.getObjects():
+            if objectIter != intersection.getObject():
+
+                lightToPoint = light.getLightRay(intersection.getPoint())
+                shadowIntersection = objectIter.intersection(lightToPoint)
+                if shadowIntersection:
+
+                    if 0 < shadowIntersection.getComparableLength() <= 1:
+                        isShadow = True
+
+        return isShadow

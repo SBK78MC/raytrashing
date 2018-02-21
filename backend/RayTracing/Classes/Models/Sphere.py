@@ -25,9 +25,11 @@ class Sphere(Object3D):
         b = self.calculateB(cameraToCenter, ray.getDirection())
         c = self.calculateC(cameraToCenter)
 
-        t = MathUtil.solveQuadraticFormula(a, b, c)
+        t = None
+        if a != 0:
+            t = MathUtil.solveQuadraticFormula(a, b, c)
 
-        if t is not None:
+        if t is not None :
             distanceT = t.getSmallestPositive()
             point = ray.getPointOfRay(distanceT)
             intersect = Intersection(point, self, ray, distanceT)
