@@ -52,8 +52,8 @@ class Color(object):
 
     def add(self, addition):
         redV = self.color[0] + addition.getR()
-        greenV = self.color[1] * addition.getG()
-        blueV = self.color[2] * addition.getB()
+        greenV = self.color[1] + addition.getG()
+        blueV = self.color[2] + addition.getB()
         newColor = Color(redV, greenV, blueV)
         newColor.checkNotOutbound()
         return newColor
