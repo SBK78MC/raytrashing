@@ -204,19 +204,18 @@ font-family: "Helvetica Neue", Arial, sans-serif;
     width: 50%;
 }
 
-#loadingModal{
+#loadingModal {
 	text-align: center; 
 	padding:0; 
-	margin-top: 5%;
-	height: 100%;
-	
-	
-	
+    margin-top: 11%;
+    margin-right: 3.7%;
+    height: 100%;
+    top: 70%;
 }
 
 #myModal1{
 	display: none; 
-    position: fixed; 
+    position: fixed;
     z-index: 1; 
 	left: 0;
     top: 0;
@@ -225,8 +224,6 @@ font-family: "Helvetica Neue", Arial, sans-serif;
     overflow: auto; 
     background-color: rgb(0,0,0); 
     background-color: rgba(0,0,0,0.4); 
-	
-	
 }
 
 
