@@ -85,7 +85,6 @@ class RayTracer:
             brightColorWithInverseRate = brightColor.multiply(1 - intersection.getObject().getReflection())
 
             finalColor = reflectionColorWithRate.add(brightColorWithInverseRate)
-            print(reflectionColorWithRate.getArray(), "  bright ", brightColorWithInverseRate.getArray(), " final :", finalColor.getArray())
 
         else:
             finalColor = brightColor
@@ -108,7 +107,6 @@ class RayTracer:
 
             reflectionRay = Ray(intersection.getPoint(), reflectionDirection)
             reflectedColor = self.traceRay(reflectionRay, recursionDepth + 1)
-            print(reflectedColor.getArray())
 
         return reflectedColor
 
@@ -138,13 +136,13 @@ class RayTracer:
     def getShadows(self, intersection, light):
         isShadow = False
         for objectIter in self.scene.getObjects():
-            if objectIter != intersection.getObject():
 
-                lightToPoint = light.getLightRay(intersection.getPoint())
-                shadowIntersection = objectIter.intersection(lightToPoint)
-                if shadowIntersection:
+            lightToPoint = light.getLightRay(intersection.getPoint())
+            shadowIntersection = objectIter.intersection(lightToPoint)
+            if shadowIntersection:
 
-                    if 0 < shadowIntersection.getComparableLength() <= 1:
-                        isShadow = True
+                if 1e-4 < shadowIntersection.getComparableLength() < 1:
+                    #print(shadowIntersection.getPoint().getArray(), " this", shadowIntersection.getObject().getCenter().getArray() )
+                    isShadow = True
 
         return isShadow
