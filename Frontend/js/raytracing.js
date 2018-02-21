@@ -16,6 +16,7 @@ var responsive_shpe_color = [];
 var tmp_responsive_shpe_size = 0;
 var tmp_responsive_shpe_x = 0;
 var tmp_responsive_shpe_y = 0;
+var tmp_responsive_shpe_z = 0;
 // Arrays of information for  lights in the scene
 var responsive_light_number = 0;
 var responsive_light_x = [];
@@ -24,16 +25,29 @@ var responsive_light_z = [];
 
 var tmp_responsive_light_x = 0;
 var tmp_responsive_light_y = 0;
+var tmp_responsive_light_z = 0;
 
 // Redrawing shapes 
 function draw() 
-{	
+{
 	var responsive_center = document.getElementById('center');	
+	
 	var responsive_canvas = document.getElementById('myCanvas');
+	var responsive_canvas_top = document.getElementById('myCanvasTop');
+	var responsive_canvas_side = document.getElementById('myCanvasSide');
+	
 	responsive_canvas.width = $(center).width();
 	responsive_canvas.height = $(center).height();
 	
+	responsive_canvas_top.width = $(center).width();
+	responsive_canvas_top.height = $(center).height();
+
+	responsive_canvas_side.width = $(center).width();
+	responsive_canvas_side.height = $(center).height();	
+	
 	var responsive_ctx = responsive_canvas.getContext("2d");
+	var responsive_ctx_top = responsive_canvas_top.getContext("2d");
+	var responsive_ctx_side = responsive_canvas_side.getContext("2d");
 	
 	for(var i = 0; i < responsive_shpe_number; i++)
 	{
@@ -41,41 +55,44 @@ function draw()
 		if(responsive_shpe_name[i] == "Cube")
 		{
 			tmp_responsive_shpe_size =  (responsive_canvas.width+responsive_canvas.height) / (responsive_shpe_size[i]/2.7);
+			
+			tmp_responsive_shpe_x =   (responsive_canvas.width  *  responsive_shpe_x[i]) / responsive_canvas.width  ;
+			
+			tmp_responsive_shpe_y =   (responsive_canvas.height  * responsive_shpe_y[i]) / responsive_canvas.height  ;
+			
+			tmp_responsive_shpe_z =   (responsive_canvas.height  * responsive_shpe_z[i]) / responsive_canvas.height  ;
 		}
 		
 		if(responsive_shpe_name[i] == "Circle")
 		{
 			tmp_responsive_shpe_size =  (responsive_canvas.width+responsive_canvas.height) / (responsive_shpe_size[i]/3.55);
 			
-			
 			tmp_responsive_shpe_x =   (responsive_canvas.width  *  responsive_shpe_x[i]) / responsive_canvas.width  ;
-			
 			
 			tmp_responsive_shpe_y =   (responsive_canvas.height  * responsive_shpe_y[i]) / responsive_canvas.height  ;
 			
-			
+			tmp_responsive_shpe_z =   (responsive_canvas.height  * responsive_shpe_z[i]) / responsive_canvas.width  ;
 		}
 		
-		Add_Responsive_Shape(responsive_ctx,responsive_shpe_name[i], tmp_responsive_shpe_x, tmp_responsive_shpe_y, 
-										responsive_shpe_z[i], tmp_responsive_shpe_size, responsive_shpe_color[i]);
+		Add_Responsive_Shape(responsive_ctx,responsive_ctx_top,responsive_ctx_side,responsive_shpe_name[i], tmp_responsive_shpe_x, tmp_responsive_shpe_y, 
+										tmp_responsive_shpe_z, tmp_responsive_shpe_size, responsive_shpe_color[i]);
 										
 	}
 	
 	for(var i = 0; i < responsive_light_number; i++)
 	{
+		tmp_responsive_light_x =   (responsive_canvas.width  *  responsive_light_x[i]) / responsive_canvas.width  ;
+					
+		tmp_responsive_light_y =   (responsive_canvas.height  * responsive_light_y[i]) / responsive_canvas.height  ;
 		
-			tmp_responsive_light_x =   (responsive_canvas.width  *  responsive_light_x[i]) / responsive_canvas.width  ;
-			
-			
-			tmp_responsive_light_y =   (responsive_canvas.height  * responsive_light_y[i]) / responsive_canvas.height  ;
+		tmp_responsive_light_z =   (responsive_canvas.height  * responsive_light_z[i]) / responsive_canvas.height  ;
 		
-		
-		Add_Responsive_Light(responsive_ctx, tmp_responsive_light_x, tmp_responsive_light_y, responsive_light_z[i]);
+		Add_Responsive_Light(responsive_ctx,responsive_ctx_top,responsive_ctx_side, tmp_responsive_light_x, tmp_responsive_light_y, tmp_responsive_light_z);
 	}
 }
 	
 // Drawing based on relative values of  shapes
-function Add_Responsive_Shape(responsive_ctx, R_shpe_name,R_shpe_x,R_shpe_y,R_shpe_z,R_shpe_size,R_shpe_color) 
+function Add_Responsive_Shape(responsive_ctx,responsive_ctx_top,responsive_ctx_side, R_shpe_name,R_shpe_x,R_shpe_y,R_shpe_z,R_shpe_size,R_shpe_color) 
 {
 	if(R_shpe_name == "Circle")
 	{
@@ -84,6 +101,18 @@ function Add_Responsive_Shape(responsive_ctx, R_shpe_name,R_shpe_x,R_shpe_y,R_sh
 		responsive_ctx.fillStyle = R_shpe_color;
 		responsive_ctx.fill();
 		responsive_ctx.stroke();
+		
+		responsive_ctx_top.beginPath();
+		responsive_ctx_top.arc(R_shpe_z*100,R_shpe_x*0.7,R_shpe_size,0,2*Math.PI);
+		responsive_ctx_top.fillStyle = R_shpe_color;
+		responsive_ctx_top.fill();
+		responsive_ctx_top.stroke();
+
+		responsive_ctx_side.beginPath();
+		responsive_ctx_side.arc(R_shpe_y*2,R_shpe_z*50,R_shpe_size,0,2*Math.PI);
+		responsive_ctx_side.fillStyle = R_shpe_color;
+		responsive_ctx_side.fill();
+		responsive_ctx_side.stroke();		
 		
 	} 
 	else if(R_shpe_name == "Cube") {
@@ -94,11 +123,24 @@ function Add_Responsive_Shape(responsive_ctx, R_shpe_name,R_shpe_x,R_shpe_y,R_sh
 		responsive_ctx.fillStyle = R_shpe_color;
 		responsive_ctx.fill();
 		responsive_ctx.stroke();
+		
+		responsive_ctx_top.beginPath();
+		responsive_ctx_top.rect(R_shpe_z*64,R_shpe_x*0.68,R_shpe_size,R_shpe_size);
+		responsive_ctx_top.fillStyle = R_shpe_color;
+		responsive_ctx_top.fill();
+		responsive_ctx_top.stroke();
+		
+		responsive_ctx_side.beginPath();
+		responsive_ctx_side.rect(R_shpe_y*6.2,R_shpe_z*10,R_shpe_size,R_shpe_size);
+		responsive_ctx_side.fillStyle = R_shpe_color;
+		responsive_ctx_side.fill();
+		responsive_ctx_side.stroke();
+		
 	}
 }	
 
 // Drawing based on relative values of  Lights
-function Add_Responsive_Light(responsive_ctx,R_light_x,R_light_y,R_light_z) 
+function Add_Responsive_Light(responsive_ctx,responsive_ctx_top,responsive_ctx_side,R_light_x,R_light_y,R_light_z) 
 {
 	responsive_image = new Image();
 	responsive_image.src = './images/light.png';
@@ -107,6 +149,8 @@ function Add_Responsive_Light(responsive_ctx,R_light_x,R_light_y,R_light_z)
 	function()
 	{
 		responsive_ctx.drawImage(responsive_image, R_light_x, R_light_y, 15, 18);
+		responsive_ctx_top.drawImage(responsive_image, R_light_z*530, R_light_x*0.6, 15, 18);
+		responsive_ctx_side.drawImage(responsive_image,R_light_z*500, R_light_y , 15, 18);
 	}
 }		
 	
@@ -115,11 +159,13 @@ $(function () {
 		$(window).resize(draw);
  });	
 
-
 function addShape() {
-	//get the canvas
-	var c = document.getElementById("myCanvas");
+	//get the canvas Front
+	var c = document.getElementById("myCanvas");	
+	
+	//front canvas
 	var ctx = c.getContext("2d");	
+	
 		
 	//get shape
 	var e = document.getElementById("shape");
@@ -167,7 +213,7 @@ function addShape() {
 		ctx.fillStyle = color;
 		ctx.fill();
 		ctx.stroke();
-		
+				
 	} else if(shape == "Cube") {
 		//boring rect
 		x = x - size/2;
@@ -177,6 +223,7 @@ function addShape() {
 		ctx.fillStyle = color;
 		ctx.fill();
 		ctx.stroke();
+		
 	}
 		
 		/*	
@@ -445,6 +492,7 @@ function addLight() {
 	var canvas = document.getElementById('myCanvas');
 	context = canvas.getContext('2d');
 	
+	
 	//translate to zero and the 250 sets the limits of what the user can see.
 	//to change the 250 we should also change the value send to the back end 
 	//at a new analogy. (class CenterForShapesAndLight)
@@ -457,9 +505,11 @@ function addLight() {
 	
 	base_image = new Image();
 	base_image.src = './images/light.png';
+	
 	base_image.onload = function(){
 		context.drawImage(base_image, xCoord, yCoord, 15, 18);
 	}
+	
 	
 	//  Gathering info for Responsive Light Redraw
 	responsive_light_x [responsive_light_number] = xCoord;
@@ -498,6 +548,15 @@ function clearGrid() {
 	var c = document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
 	ctx.clearRect(0, 0, c.width, c.height);
+	
+	var c_top = document.getElementById("myCanvasTop");
+	var ctx_top = c_top.getContext("2d");
+	ctx_top.clearRect(0, 0, c_top.width, c_top.height);
+	
+	var c_side = document.getElementById("myCanvasSide");
+	var ctx_side = c_side.getContext("2d");
+	ctx_side.clearRect(0, 0, c_side.width, c_side.height);
+	
 	
 	// Resetting Shape Arrays
 	responsive_shpe_number = 0;
@@ -541,6 +600,22 @@ function sliderDrag() {
 	canvas.width  = canvas.offsetWidth;
 	canvas.height = canvas.offsetHeight;
 	
+	
+	var canvas_top = document.getElementById("myCanvasTop");
+	canvas_top.style.width ='100%';
+	canvas_top.style.height='100%';
+	canvas_top.width  = canvas_top.offsetWidth;
+	canvas_top.height = canvas_top.offsetHeight;
+
+	var canvas_side = document.getElementById("myCanvasSide");
+	canvas_side.style.width ='100%';
+	canvas_side.style.height='100%';
+	canvas_side.width  = canvas_side.offsetWidth;
+	canvas_side.height = canvas_side.offsetHeight;	
+	
+	
+	
+	
 	//close alert window if user clicks the window
 	window.onclick = function(event) {
 	var modal = document.getElementById('myModal');
@@ -552,7 +627,7 @@ function sliderDrag() {
 });
     
 // Canvas Tabs	
-function OpenView(evt, cityName) {
+function OpenView(evt, viewName) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
@@ -562,7 +637,9 @@ function OpenView(evt, cityName) {
     for (i = 0; i < tablinks.length; i++) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
-    document.getElementById(cityName).style.display = "block";
+    document.getElementById(viewName).style.display = "block";
     evt.currentTarget.className += " active";
+	
+	draw() ;
 }
-document.getElementById("defaultOpen").click();
+document.getElementById("front").click();

@@ -73,9 +73,6 @@ position: fixed;
 	background-color: white;
 	background-size: 10% 10%;
 	background-image: linear-gradient(to right, #bfbfbf 1px, transparent 1px), linear-gradient(to bottom, #bfbfbf 1px, transparent 1px);	
-	
-	width: 100%;
-	height: 100%;
 }
 
 
