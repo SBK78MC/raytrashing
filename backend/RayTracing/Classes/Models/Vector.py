@@ -69,3 +69,5 @@ class Vector:
         v = Vector(- self.x, - self.y, - self.z)
         return v
 
+    def getArray(self):
+        return [self.x, self.y, self.z]
