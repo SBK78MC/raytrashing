@@ -17,7 +17,7 @@ from RayTracing.Classes.Models.Camera import Camera
 class RayTracer:
 
     def __init__(self, imageplane=Imageplane(), mainscene=Scene(), camera=Camera()):
-        self.recursionLimit = 1
+        self.recursionLimit = 2
         self.backgroundColor = Color(0., 0., 0.)
 
         self.imageplane = imageplane
@@ -49,9 +49,9 @@ class RayTracer:
         returnColor = self.backgroundColor
 
         for obj in self.scene.getObjects():
-            objIntersection = obj.intersection(pixelRay)
+            objIntersection = obj.intersectionv2(pixelRay, 1, math.inf)
             if objIntersection:
-                if (minDist < 0 or minDist > objIntersection.getDistance()) and objIntersection.getComparableLength() > 1e-4:
+                #if (minDist < 0 or minDist > objIntersection.getDistance()) and objIntersection.getComparableLength() > 1e-4:
                     minDist = objIntersection.getDistance()
                     minObjInter = objIntersection
 
@@ -68,7 +68,6 @@ class RayTracer:
             if type(light) is AmbientLight:
                 colorBrightness += light.getBrightness()
             else:
-
                 isShadow = self.getShadows(intersection, light)
 
                 if not isShadow:
@@ -137,12 +136,10 @@ class RayTracer:
         isShadow = False
         for objectIter in self.scene.getObjects():
 
-            lightToPoint = light.getLightRay(intersection.getPoint())
-            shadowIntersection = objectIter.intersection(lightToPoint)
-            if shadowIntersection:
+            lightToPoint = light.getLightRay(intersection.getPoint().sub(light.getPosition()))
 
-                if 1e-4 < shadowIntersection.getComparableLength() < 1:
-                    #print(shadowIntersection.getPoint().getArray(), " this", shadowIntersection.getObject().getCenter().getArray() )
-                    isShadow = True
+            shadowIntersection = objectIter.intersectionv2(lightToPoint, 0.001, 0.9999)
+            if shadowIntersection:
+                isShadow = True
 
         return isShadow
