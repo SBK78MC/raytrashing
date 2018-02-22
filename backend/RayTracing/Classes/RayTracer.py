@@ -86,6 +86,7 @@ class RayTracer:
                     worker.setColor(y, x, self.getColorForIntersection(minObjInter))
 
 
+
     def getColorForIntersection(self, intersection):
 
         colorBrightness = 0.0

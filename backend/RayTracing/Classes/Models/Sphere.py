@@ -1,5 +1,6 @@
 import math
 
+from RayTracing.Classes.Models.Color import Color
 from RayTracing.Classes.Models.MathUtil import MathUtil
 from RayTracing.Classes.Models.Intersection import Intersection
 from RayTracing.Classes.Models.Object3D import Object3D
@@ -8,12 +9,12 @@ from RayTracing.Classes.Models.Vector import Vector
 
 class Sphere(Object3D):
 
-    def __init__(self, x=0, y=0, z=0, radius=0, colorRGB=[0, 0, 0], reflection=10):
-        super().__init__(x, y, z, colorRGB, reflection)
+    def __init__(self, x=0, y=0, z=0, radius=0, color=Color(), reflection=10):
+        super().__init__(x, y, z, color, reflection)
         self.radius = radius
 
-    def __init__(self, v=Vector(0, 0, 0), radius=0, colorRGB=[0, 0, 0], reflection=10):
-        super().__init__(v, colorRGB, reflection)
+    def __init__(self, v=Vector(0, 0, 0), radius=0, color=Color(), reflection=10):
+        super().__init__(v, color, reflection)
         self.radius = radius
 
     def intersection(self, ray):

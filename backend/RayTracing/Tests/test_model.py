@@ -141,10 +141,10 @@ class TupleTest(unittest.TestCase):
 
 class LightTest(unittest.TestCase):
 
-    def test_getLightRay(self):
+    def test_getLightVector(self):
         point = Vector(7, 3, 1)
         light = Light(2, 2, 2, 1)
-        lightray = light.getLightRay(point)
+        lightray = light.getLightVector(point)
         self.assertEqual(lightray.x, -5)
         self.assertEqual(lightray.y, -1)
         self.assertEqual(lightray.z, 1)
