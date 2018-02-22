@@ -10,7 +10,7 @@ class MathUtil:
         results = Tuple()
 
         root = math.pow(b, 2) - (4 * a * c)
-        if root < 0:
+        if root < 0 or a < 0:
             return None
 
         results.setx1(self.solveAdd(a, b, root))

@@ -11,6 +11,10 @@ from RayTracing.Classes.Models.Scene import Scene
 from RayTracing.Classes.Models.Sphere import Sphere
 from RayTracing.Classes.Models.Vector import Vector
 from RayTracing.Classes.Models.Camera import Camera
+from RayTracing.Classes.Models.Worker import Worker
+
+from multiprocessing.managers import BaseManager
+
 
 class RayTracer:
 
@@ -21,54 +25,65 @@ class RayTracer:
         self.imageAspectRatio = imageplane.width/imageplane.height
         self.img = numpy.zeros((imageplane.getHeight(), imageplane.getWidth(), 3))
 
+
     def startRayTracing(self):
 
-        start_time = time.time()
+        final = numpy.zeros((self.imageplane.getHeight(), self.imageplane.getWidth(), 3))
 
-        yValues = list()
-        for y in range(0, self.imageplane.getHeight()):
-            yValues.append(y)
+        cpu_count = multiprocessing.cpu_count()
 
-        pool = multiprocessing.Pool(8)
+        stepSize = int(self.imageplane.getHeight()/cpu_count)
 
-        pool.map(self.threadTrace, yValues, chunksize=1)
+        processes = []
+        managers = []
+        workers = []
 
-        #pool = ThreadPool(4)
+        for i in range(0, cpu_count):
+            manager = BaseManager()
+            manager.register('Worker', Worker)
+            manager.start()
 
-        #self.threadTrace(0, self.imageplane.getHeight())
+            managers.append(manager)
 
-        results = pool.map(self.threadTrace, yValues)
+            worker = manager.Worker(i*stepSize, (i+1)*stepSize, 0, self.imageplane.getWidth(), self.imageplane.getHeight(),self.imageplane.getWidth())
+            print(i*stepSize, (i+1)*stepSize, 0, self.imageplane.getWidth())
+            workers.append(worker)
 
-        pool.close()
-        pool.join()
+            process = multiprocessing.Process(target=self.trace, args=[worker])
+            process.start()
+            processes.append(process)
 
-        print("--- %s seconds ---" % (time.time() - start_time))
+        for i in range(0, cpu_count):
+            processes[i].join()
 
-        return self.img
+        for i in range(0, cpu_count):
+            final[i*stepSize:(i+1)*stepSize, :] = workers[i].getImg()
 
-    def threadTrace(self, y):
-        #print("Doing y=", y)
+        return final
 
-        for x in range(0, self.imageplane.getWidth()):
-            px = (2 * ((x + 0.5) / self.imageplane.getWidth()) - 1) * self.camera.angle * self.imageAspectRatio
-            py = (1 - 2 * ((y + 0.5) / self.imageplane.getHeight())) * self.camera.angle
 
-            pixelDirection = Vector(px, py, self.camera.pointOfView.getZ())
+    def trace(self, worker):
+        for y in worker.getYRange():
+            for x in worker.getXRange():
+                px = (2 * ((x + 0.5) / self.imageplane.getWidth()) - 1) * self.camera.angle * self.imageAspectRatio
+                py = (1 - 2 * ((y + 0.5) / self.imageplane.getHeight())) * self.camera.angle
 
-            pixelRay = Ray(self.camera.position, pixelDirection)
+                pixelDirection = Vector(px, py, self.camera.pointOfView.getZ())
 
-            minDist = -1
-            minObjInter = None
+                pixelRay = Ray(self.camera.position, pixelDirection)
 
-            for obj in self.scene.getObjects():
-                objIntersection = obj.intersection(pixelRay)
-                if objIntersection:
-                    if minDist < 0 or minDist > objIntersection.getDistance():
-                        minDist = objIntersection.getDistance()
-                        minObjInter = objIntersection
+                minDist = -1
+                minObjInter = None
 
-            if minObjInter:
-                self.img[y, x] = self.getColorForIntersection(minObjInter)
+                for obj in self.scene.getObjects():
+                    objIntersection = obj.intersection(pixelRay)
+                    if objIntersection:
+                        if minDist < 0 or minDist > objIntersection.getDistance():
+                            minDist = objIntersection.getDistance()
+                            minObjInter = objIntersection
+
+                if minObjInter:
+                    worker.setColor(y, x, self.getColorForIntersection(minObjInter))
 
 
     def getColorForIntersection(self, intersection):
