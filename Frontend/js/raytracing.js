@@ -75,7 +75,7 @@ function draw()
 		}
 		
 		Add_Responsive_Shape(responsive_ctx,responsive_ctx_top,responsive_ctx_side,responsive_shpe_name[i], tmp_responsive_shpe_x, tmp_responsive_shpe_y, 
-										tmp_responsive_shpe_z, tmp_responsive_shpe_size, responsive_shpe_color[i]);
+										tmp_responsive_shpe_z, tmp_responsive_shpe_size, responsive_shpe_color[i], responsive_canvas.width, responsive_canvas.height);
 										
 	}
 	
@@ -87,29 +87,29 @@ function draw()
 		
 		tmp_responsive_light_z =   (responsive_canvas.height  * responsive_light_z[i]) / responsive_canvas.height  ;
 		
-		Add_Responsive_Light(responsive_ctx,responsive_ctx_top,responsive_ctx_side, tmp_responsive_light_x, tmp_responsive_light_y, tmp_responsive_light_z);
+		Add_Responsive_Light(responsive_ctx,responsive_ctx_top,responsive_ctx_side, tmp_responsive_light_x, tmp_responsive_light_y, tmp_responsive_light_z,  responsive_canvas.width, responsive_canvas.height);
 	}
 }
 	
 // Drawing based on relative values of  shapes
-function Add_Responsive_Shape(responsive_ctx,responsive_ctx_top,responsive_ctx_side, R_shpe_name,R_shpe_x,R_shpe_y,R_shpe_z,R_shpe_size,R_shpe_color) 
+function Add_Responsive_Shape(responsive_ctx,responsive_ctx_top,responsive_ctx_side, R_shpe_name,R_shpe_x,R_shpe_y,R_shpe_z,R_shpe_size,R_shpe_color, width, height) 
 {
 	if(R_shpe_name == "Circle")
 	{
 		responsive_ctx.beginPath();
-		responsive_ctx.arc(R_shpe_x,R_shpe_y,R_shpe_size,0,2*Math.PI);
+		responsive_ctx.arc(R_shpe_x ,R_shpe_y  ,R_shpe_size,0,2*Math.PI);
 		responsive_ctx.fillStyle = R_shpe_color;
 		responsive_ctx.fill();
 		responsive_ctx.stroke();
 		
 		responsive_ctx_top.beginPath();
-		responsive_ctx_top.arc(R_shpe_z*20,R_shpe_x*1.2,R_shpe_size,0,2*Math.PI);
+		responsive_ctx_top.arc(R_shpe_z + (width/4)  ,  R_shpe_x  - (width/5.5)  ,R_shpe_size,0,2*Math.PI);
 		responsive_ctx_top.fillStyle = R_shpe_color;
 		responsive_ctx_top.fill();
 		responsive_ctx_top.stroke();
 
 		responsive_ctx_side.beginPath();
-		responsive_ctx_side.arc(R_shpe_y,R_shpe_z*25,R_shpe_size,0,2*Math.PI);
+		responsive_ctx_side.arc(R_shpe_z + (width/4), R_shpe_y   ,R_shpe_size,0,2*Math.PI);
 		responsive_ctx_side.fillStyle = R_shpe_color;
 		responsive_ctx_side.fill();
 		responsive_ctx_side.stroke();		
@@ -125,13 +125,13 @@ function Add_Responsive_Shape(responsive_ctx,responsive_ctx_top,responsive_ctx_s
 		responsive_ctx.stroke();
 		
 		responsive_ctx_top.beginPath();
-		responsive_ctx_top.rect(R_shpe_z*30,R_shpe_x*1.2,R_shpe_size,R_shpe_size);
+		responsive_ctx_top.rect(R_shpe_z + (width/4)  ,  R_shpe_x  - (width/5.5) ,R_shpe_size,R_shpe_size);
 		responsive_ctx_top.fillStyle = R_shpe_color;
 		responsive_ctx_top.fill();
 		responsive_ctx_top.stroke();
 		
 		responsive_ctx_side.beginPath();
-		responsive_ctx_side.rect(R_shpe_y,R_shpe_z*30,R_shpe_size,R_shpe_size);
+		responsive_ctx_side.rect(R_shpe_z + (width/4), R_shpe_y ,R_shpe_size,R_shpe_size);
 		responsive_ctx_side.fillStyle = R_shpe_color;
 		responsive_ctx_side.fill();
 		responsive_ctx_side.stroke();
@@ -140,7 +140,7 @@ function Add_Responsive_Shape(responsive_ctx,responsive_ctx_top,responsive_ctx_s
 }	
 
 // Drawing based on relative values of  Lights
-function Add_Responsive_Light(responsive_ctx,responsive_ctx_top,responsive_ctx_side,R_light_x,R_light_y,R_light_z) 
+function Add_Responsive_Light(responsive_ctx,responsive_ctx_top,responsive_ctx_side,R_light_x,R_light_y,R_light_z, width, height) 
 {
 	responsive_image = new Image();
 	responsive_image.src = './images/light.png';
