@@ -110,19 +110,13 @@ class MyTestCase(unittest.TestCase):
         sphereIntersection4 = s1.intersection(pixelRay4)
 
         arrColor1 = raytracer.getColorForIntersection(sphereIntersection1)
-
         arrColor2 = raytracer.getColorForIntersection(sphereIntersection2)
-
         arrColor3 = raytracer.getColorForIntersection(sphereIntersection3)
-
         arrColor4 = raytracer.getColorForIntersection(sphereIntersection4)
 
         testColor1 = Color(arrColor1[0], arrColor1[1], arrColor1[2])
-
         testColor2 = Color(arrColor2[0], arrColor2[1], arrColor2[2])
-
         testColor3 = Color(arrColor3[0], arrColor3[1], arrColor3[2])
-
         testColor4 = Color(arrColor4[0], arrColor3[1], arrColor3[2])
 
         testValue3 = testColor3.isBrighterOrEqualTo(testColor4)
