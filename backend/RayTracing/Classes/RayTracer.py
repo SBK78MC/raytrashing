@@ -49,7 +49,7 @@ class RayTracer:
         returnColor = self.backgroundColor
 
         for obj in self.scene.getObjects():
-            objIntersection = obj.intersectionv2(pixelRay, 1, math.inf)
+            objIntersection = obj.intersection(pixelRay, 1, math.inf)
             if objIntersection:
                 if (minDist < 0 or minDist > objIntersection.getDistance()): #and objIntersection.getComparableLength() > 1e-4:
                     minDist = objIntersection.getDistance()
@@ -138,7 +138,7 @@ class RayTracer:
 
             lightToPoint = light.getLightRay(intersection.getPoint().sub(light.getPosition()))
 
-            shadowIntersection = objectIter.intersectionv2(lightToPoint, 0.001, 0.9999)
+            shadowIntersection = objectIter.intersection(lightToPoint, 0.001, 0.9999)
             if shadowIntersection:
                 isShadow = True
 

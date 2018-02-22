@@ -18,7 +18,7 @@ class Sphere(Object3D):
         super().__init__(v, color, specular, reflection)
         self.radius = radius
 
-    def intersection(self, ray):
+    def intersection(self, ray, tMin, tMax):
         startP=ray.getStartPoint()
         cameraToCenter = startP.sub(self.center)
 
@@ -30,42 +30,20 @@ class Sphere(Object3D):
         if a != 0:
             t = MathUtil.solveQuadraticFormula(a, b, c)
 
+        intersect = None
+
         if t is not None:
-            distanceT = t.getSmallestPositive()
-            point = ray.getPointOfRay(distanceT)
-            intersect = Intersection(point, self, ray, distanceT)
-        else:
-            intersect = None
+            tSmallest = math.inf
+            if tMin < t.getx1() < tMax and t.getx1() < tSmallest:
+                tSmallest = t.getx1()
+            if tMin < t.getx2() < tMax and t.getx2() < tSmallest:
+                tSmallest = t.getx2()
 
-        return intersect
+            if tSmallest == math.inf:
+                return None
 
-    def intersectionv2(self, ray, tMin, tMax):
-        sphereCenter = self.center
-        r = self.radius
-        originToCenter = ray.getStartPoint().sub(sphereCenter)
-
-        k1 = ray.getDirection().dotProduct(ray.getDirection())
-        k2 = 2 * originToCenter.dotProduct(ray.getDirection())
-        k3 = originToCenter.dotProduct(originToCenter) - r*r
-
-        discriminant = k2*k2 - 4*k1*k3
-        if discriminant < 0:
-            return None
-
-        t1 = (-k2 + math.sqrt(discriminant)) / (2*k1)
-        t2 = (-k2 - math.sqrt(discriminant)) / (2*k1)
-
-        tSmallest = math.inf
-        if tMin < t1 < tMax and t1 < tSmallest:
-            tSmallest = t1
-        if tMin < t2 < tMax and t2 < tSmallest:
-            tSmallest = t2
-
-        if tSmallest == math.inf:
-            return None
-
-        point = ray.getPointOfRay(tSmallest)
-        intersect = Intersection(point, self, ray, tSmallest)
+            point = ray.getPointOfRay(tSmallest)
+            intersect = Intersection(point, self, ray, tSmallest)
 
         return intersect
 

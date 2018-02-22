@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
     #sCenter1 = Vector(3, 1, 16)
     sCenter2 = Vector(-1, 0, 19)
-    sCenter3 = Vector(2.5, 0.5, 20)
+    sCenter3 = Vector(3.5, 0.5, 16.5)
 
     #sCenter4 = Vector(0, 0, -10)
 
