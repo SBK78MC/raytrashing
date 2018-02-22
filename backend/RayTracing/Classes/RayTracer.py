@@ -17,7 +17,7 @@ from RayTracing.Classes.Models.Camera import Camera
 class RayTracer:
 
     def __init__(self, imageplane=Imageplane(), mainscene=Scene(), camera=Camera()):
-        self.recursionLimit = 2
+        self.recursionLimit = 1
         self.backgroundColor = Color(0., 0., 0.)
 
         self.imageplane = imageplane
@@ -51,7 +51,7 @@ class RayTracer:
         for obj in self.scene.getObjects():
             objIntersection = obj.intersectionv2(pixelRay, 1, math.inf)
             if objIntersection:
-                #if (minDist < 0 or minDist > objIntersection.getDistance()) and objIntersection.getComparableLength() > 1e-4:
+                if (minDist < 0 or minDist > objIntersection.getDistance()): #and objIntersection.getComparableLength() > 1e-4:
                     minDist = objIntersection.getDistance()
                     minObjInter = objIntersection
 

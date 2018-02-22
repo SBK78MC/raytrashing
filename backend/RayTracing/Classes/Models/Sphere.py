@@ -69,14 +69,11 @@ class Sphere(Object3D):
 
         return intersect
 
-
-
     def getCenter(self):
         return self.center
 
     def getRadius(self):
         return self.radius
-
 
     def calculateA(self, ray):
         return ray.dotProduct(ray)
