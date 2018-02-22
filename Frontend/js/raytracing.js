@@ -149,8 +149,8 @@ function Add_Responsive_Light(responsive_ctx,responsive_ctx_top,responsive_ctx_s
 	function()
 	{
 		responsive_ctx.drawImage(responsive_image, R_light_x, R_light_y, 15, 18);
-		responsive_ctx_top.drawImage(responsive_image, R_light_z*250, R_light_x*1.2, 15, 18);
-		responsive_ctx_side.drawImage(responsive_image,R_light_z*300, R_light_y , 15, 18);
+		responsive_ctx_top.drawImage(responsive_image, R_light_z + (width/4), R_light_x - (width/5.5), 15, 18);
+		responsive_ctx_side.drawImage(responsive_image,R_light_z+(width/4), R_light_y, 15, 18);
 	}
 }		
 	
