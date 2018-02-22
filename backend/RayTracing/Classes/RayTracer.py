@@ -46,7 +46,6 @@ class RayTracer:
             managers.append(manager)
 
             worker = manager.Worker(i*stepSize, (i+1)*stepSize, 0, self.imageplane.getWidth(), self.imageplane.getHeight(),self.imageplane.getWidth())
-            print(i*stepSize, (i+1)*stepSize, 0, self.imageplane.getWidth())
             workers.append(worker)
 
             process = multiprocessing.Process(target=self.trace, args=[worker])
