@@ -17,5 +17,9 @@ class Light(AmbientLight):
         lightRay = Ray(self.position, point)
         return lightRay
 
+    def getLightVector(self, point):
+        lightVector = self.position.sub(point)
+        return lightVector
+
     def getPosition(self):
         return self.position
