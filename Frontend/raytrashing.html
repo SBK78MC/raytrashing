@@ -22,6 +22,9 @@ The page is divided into 3 parts:
 
 <div id="left">
 
+<h2 id="title">RAYTRASHING</h1>
+
+
 <form id="resetLight"  action="">
 	<h4>Light Source</h4> 
 	<input id="light_x" class="inputs" type="text" name="Light Source x" placeholder="x"  />
@@ -49,16 +52,18 @@ The page is divided into 3 parts:
 
 
 
-<h1 id="title">RAYTRASHING</h1>
 
-
-<div class="tab" style="width:55.2%;margin-left: 21%;position: fixed;margin-top:60px;">
-	<button class="tablinks" onclick="OpenView(event, 'Front')" id="front">Front View</button>
-	<button class="tablinks" onclick="OpenView(event, 'Top')" id="top">Top View</button>
-	<button class="tablinks" onclick="OpenView(event, 'Side')" id="side">Side View</button>
-</div>
  
 <div id="center">
+
+
+	<div class="tab" >
+		<button class="tablinks" onclick="OpenView(event, 'Front')" id="front">Front View</button>
+		<button class="tablinks" onclick="OpenView(event, 'Top')" id="top">Top View</button>
+		<button class="tablinks" onclick="OpenView(event, 'Side')" id="side">Side View</button>
+	</div>
+
+
 
 	<div id="Front" class="tabcontent">
 
@@ -77,6 +82,24 @@ The page is divided into 3 parts:
 		<canvas id="myCanvasSide"  class="canvas"></canvas>
 	  
 	</div>
+	
+	<div id="screenSize" >
+	<h3 style="display: inline;">Floor   </h3>
+	<input type="checkbox" name="floor" value="true" id="floor">
+
+	<h3 style="display: inline; margin-left:27%;">Image Size</h3>
+
+	<br>
+	<select onchange="resizeCanvas()" style="width: 200px; margin-left:33%; " id = "sizeOfScreen" >
+		<option value="500">500x500</option>
+		<option value="600">600x600</option>
+		<option value="700">700x700</option>
+		<option value="800">800x800</option>
+		<option value="900">900x900</option>
+		<option value="1000">1000x1000</option>
+	</select>
+</div>
+	
 
 </div>
   
@@ -118,22 +141,7 @@ The page is divided into 3 parts:
 </div>
 
 
-<div id="screenSize" >
-	<h3 style="display: inline;">Floor   </h3>
-	<input type="checkbox" name="floor" value="true" id="floor">
 
-	<h3 style="display: inline; margin-left:27%;">Image Size</h3>
-
-	<br>
-	<select onchange="resizeCanvas()" style="width: 200px; margin-left:33%; " id = "sizeOfScreen" >
-		<option value="500">500x500</option>
-		<option value="600">600x600</option>
-		<option value="700">700x700</option>
-		<option value="800">800x800</option>
-		<option value="900">900x900</option>
-		<option value="1000">1000x1000</option>
-	</select>
-</div>
 
 
 <!-- Alert Box -->

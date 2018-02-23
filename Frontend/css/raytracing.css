@@ -1,12 +1,4 @@
 
-#title{
-	text-align: center;
-	position: fixed;
-	margin-left: 21%;
-	width:10%;
-	height: 10%;
-}
-
 h4{
 	color: #d9d9d9;
 }
@@ -51,7 +43,7 @@ overflow: auto;
 
 #center{
 
-margin-top: 110px;
+margin-top: 6%;
 margin-left: 21%;
 text-align: center;
 height: 75%;
@@ -166,18 +158,7 @@ font-family: "Helvetica Neue", Arial, sans-serif;
 #render:hover {background-color: #00091a; color: #d9d9d9;}
 
 
-#screenSize {
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	margin-left: 25%;
-	
-	width: 50%;
-	padding-bottom: 20px;
-	
-	
-}
+
 
 
 /* Modal Content */
@@ -251,7 +232,36 @@ font-family: "Helvetica Neue", Arial, sans-serif;
 
 
 
+#title{
+	text-align: center;
+	position: fixed;
 
+	margin-top:-3%;
+	width:10%;
+	height: 10%;
+	
+	margin-left: 1%;
+	
+	color: white;
+	
+}
+
+
+
+#screenSize {
+	position: relative;
+
+
+	margin-left: -5%;
+	
+	margin-top: -3%;
+	
+	width: 100%;
+	padding-bottom: 20px;
+	
+	height:10%;
+	
+}
 
 
 /* Style the tab */
@@ -259,6 +269,13 @@ font-family: "Helvetica Neue", Arial, sans-serif;
     overflow: hidden;
     border: 1px solid #ccc;
     background-color: #f1f1f1;
+	
+	width:55.3%;
+	margin-left: -0.3%;
+	position: fixed;
+	margin-top:-6%;
+
+
 }
 
 /* Style the buttons inside the tab */
