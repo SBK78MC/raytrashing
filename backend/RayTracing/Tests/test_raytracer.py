@@ -31,13 +31,9 @@ if __name__ == '__main__':
 
     scene.addLight(light0)
     scene.addLight(light1)
-    #scene.addObject3D(s1)
-    scene.addObject3D(s2)
-    scene.addObject3D(s3)
-
     scene.addObject3D(s1)
     scene.addObject3D(s2)
-    #scene.addObject3D(s3)
+    scene.addObject3D(s3)
 
 
     #scene.addObject3D(s4)
