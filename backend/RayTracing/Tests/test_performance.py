@@ -74,7 +74,7 @@ class PerformanceTest(unittest.TestCase):
 
         endTime = time.time()
 
-        self.assertLessEqual(endTime - startTime, 30)
+        self.assertLessEqual(endTime - startTime, 50)
 
 
 if __name__ == '__main__':
