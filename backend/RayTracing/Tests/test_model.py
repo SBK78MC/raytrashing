@@ -112,7 +112,7 @@ class SphereTest(unittest.TestCase):
         line = Ray(startPoint, direction)
         center = Vector(5.0, 1, 3)
         sphere = Sphere(center, 2)
-        intersection = sphere.intersection(line)
+        intersection = sphere.intersection(line, 0, 1000)
         self.assertIsNone(intersection)
 
 
