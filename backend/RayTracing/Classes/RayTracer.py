@@ -54,14 +54,14 @@ class RayTracer:
         colorBrightness = 0.0
 
         for light in self.scene.getLights():
-            if type(light) is AmbientLight:
+            #if type(light) is AmbientLight:
                 colorBrightness += light.getBrightness()
-            else:
+            #else:
 
-                isShadow = self.getShadows(intersection, light)
+                #isShadow = self.getShadows(intersection, light)
 
-                if not isShadow:
-                    colorBrightness = self.diffuseAndSpecularReflection(light, intersection, colorBrightness)
+                #if not isShadow:
+                    #colorBrightness = self.diffuseAndSpecularReflection(light, intersection, colorBrightness)
 
 
         initialColor = intersection.getObject().getColor().getArray()
