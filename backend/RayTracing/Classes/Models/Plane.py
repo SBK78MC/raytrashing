@@ -9,18 +9,19 @@ class Plane(Object3D):
 
     def __init__(self, point, normal, color=Color()):
         super().__init__(point, color, 10)
-        self.n = normal
-        self.p = point
+        self.direction = normal
+        self.center = point
 
-    def intersection(self, l):
-        dot = l.direction.dotProduct(self.n)
-        if dot == 0:
-            return None
-        else:
-            dot = (self.p - l.startPoint).dotProduct(self.n) / dot
+    def intersection(self, ray, tMin, tMax):
+        dot = ray.direction.dotProduct(self.direction)
+        if dot > 1e-6:
+            rayToCenter = self.center.sub(ray.getStartPoint())
+            distance = rayToCenter.dotProduct(self.direction) / dot
 
-            return Intersection(l.startPoint + l.direction * dot, self, self.n, dot)
+            if tMin < distance < tMax:
+                return Intersection(ray.startPoint.add(ray.direction.multiply(distance)), self, ray, distance)
 
+        return None
 
-
-
+    def getSurfaceNormal(self, point):
+        return self.direction
