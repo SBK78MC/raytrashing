@@ -1,8 +1,8 @@
-import math
-import types
-
+import multiprocessing
+import time
 import numpy
-import matplotlib.pyplot as plt
+import math
+
 
 from RayTracing.Classes.Models.AmbientLight import AmbientLight
 from RayTracing.Classes.Models.Color import Color
@@ -13,23 +13,60 @@ from RayTracing.Classes.Models.Scene import Scene
 from RayTracing.Classes.Models.Sphere import Sphere
 from RayTracing.Classes.Models.Vector import Vector
 from RayTracing.Classes.Models.Camera import Camera
+from RayTracing.Classes.Models.Worker import Worker
+
+from multiprocessing.managers import BaseManager
+
 
 class RayTracer:
 
     def __init__(self, imageplane=Imageplane(), mainscene=Scene(), camera=Camera()):
         self.recursionLimit = 1
         self.backgroundColor = Color(0., 0., 0.)
-
         self.imageplane = imageplane
         self.scene = mainscene
         self.camera = camera
         self.imageAspectRatio = imageplane.width/imageplane.height
         self.img = numpy.zeros((imageplane.getHeight(), imageplane.getWidth(), 3))
 
+
     def startRayTracing(self):
 
-        for y in range(0, self.imageplane.getHeight()):
-            for x in range(0, self.imageplane.getWidth()):
+        final = numpy.zeros((self.imageplane.getHeight(), self.imageplane.getWidth(), 3))
+
+        cpu_count = multiprocessing.cpu_count()
+
+        stepSize = int(self.imageplane.getHeight()/cpu_count)
+
+        processes = []
+        managers = []
+        workers = []
+
+        for i in range(0, cpu_count):
+            manager = BaseManager()
+            manager.register('Worker', Worker)
+            manager.start()
+
+            managers.append(manager)
+
+            worker = manager.Worker(i*stepSize, (i+1)*stepSize, 0, self.imageplane.getWidth(), self.imageplane.getHeight(), self.imageplane.getWidth())
+            workers.append(worker)
+
+            process = multiprocessing.Process(target=self.trace, args=[worker])
+            process.start()
+            processes.append(process)
+
+        for i in range(0, cpu_count):
+            processes[i].join()
+
+        for i in range(0, cpu_count):
+            final[i*stepSize:(i+1)*stepSize, :] = workers[i].getImg()
+
+        return final
+
+    def trace(self, worker):
+        for y in worker.getYRange():
+            for x in worker.getXRange():
                 px = (2 * ((x + 0.5) / self.imageplane.getWidth()) - 1) * self.camera.angle * self.imageAspectRatio
                 py = (1 - 2 * ((y + 0.5) / self.imageplane.getHeight())) * self.camera.angle
 
@@ -37,9 +74,7 @@ class RayTracer:
 
                 pixelRay = Ray(self.camera.position, pixelDirection)
 
-                self.img[y, x] = self.traceRay(pixelRay, 0).getArray()
-
-        return self.img
+                worker.setColor(y, x, self.traceRay(pixelRay, 0).getArray())
 
     def traceRay(self, pixelRay, recursionDepth):
 
@@ -51,7 +86,7 @@ class RayTracer:
         for obj in self.scene.getObjects():
             objIntersection = obj.intersection(pixelRay, 1, math.inf)
             if objIntersection:
-                if (minDist < 0 or minDist > objIntersection.getDistance()): #and objIntersection.getComparableLength() > 1e-4:
+                if minDist < 0 or minDist > objIntersection.getDistance():
                     minDist = objIntersection.getDistance()
                     minObjInter = objIntersection
 
