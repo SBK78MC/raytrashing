@@ -35,7 +35,7 @@ class PerformanceTest(unittest.TestCase):
         raytracer.startRayTracing()
         endTime = time.time()
 
-        self.assertLessEqual(endTime - startTime, 10)
+        self.assertLessEqual(endTime - startTime, 20)
 
 
     def test_largeScene(self):
