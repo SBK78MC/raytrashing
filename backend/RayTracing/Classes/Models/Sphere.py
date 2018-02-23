@@ -26,9 +26,7 @@ class Sphere(Object3D):
         b = self.calculateB(cameraToCenter, ray.getDirection())
         c = self.calculateC(cameraToCenter)
 
-        t = None
-        if a != 0:
-            t = MathUtil.solveQuadraticFormula(a, b, c)
+        t = MathUtil.solveQuadraticFormula(a, b, c)
 
         intersect = None
 
