@@ -94,7 +94,6 @@ class RayTracer:
         reflectedColor = None
         if intersection.getObject().getReflection() > 0 and recursionDepth < self.recursionLimit:
             cameraDirection = intersection.getRay().getDirection()
-            negativeCameraDirection = intersection.getRay().getDirection().getNegative()
             pointToCenter = intersection.getPoint().sub(intersection.getObject().getCenter())
 
             pointToCenter = pointToCenter.normalize()
