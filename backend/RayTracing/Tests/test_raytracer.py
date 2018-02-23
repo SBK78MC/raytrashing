@@ -18,7 +18,7 @@ if __name__ == '__main__':
     sCenter1 = Vector(-1, 0, 19)
     sCenter = Vector(3, 0, 16)
     sCenter2 = Vector(0, 0, -12)
-    sCenter3 = Vector(0, 0, 1)
+    sCenter3 = Vector(0, 0, 22)
 
     s1 = Sphere(sCenter, 1, Color(1.0, 0, 0), 1000)
     s2 = Sphere(sCenter1, 4, Color(0, 1.0, 0), 500)
@@ -30,6 +30,8 @@ if __name__ == '__main__':
 
     scene.addLight(light0)
     scene.addLight(light1)
+    scene.addObject3D(s1)
+    scene.addObject3D(s2)
     scene.addObject3D(s3)
 
     imagepl = Imageplane(400, 400)
