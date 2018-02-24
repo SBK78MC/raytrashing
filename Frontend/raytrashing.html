@@ -84,21 +84,23 @@ The page is divided into 3 parts:
 	</div>
 	
 	<div id="screenSize" >
-	<h3 style="display: inline;">Floor   </h3>
-	<input type="checkbox" name="floor" value="true" id="floor">
+	
+		<h3 style=" float:left; display:inline ; width:10px;  margin-top:0%; ">Floor </h3>
+		
+		<input type="checkbox" name="floor" value="true" id="floor">
 
-	<h3 style="display: inline; margin-left:27%;">Image Size</h3>
+		<h3 style=" float:left; display:inline ; width:20px%;  margin-top:0%; margin-left:5%;  ">Image Size</h3>
 
-	<br>
-	<select onchange="resizeCanvas()" style="width: 200px; margin-left:33%; " id = "sizeOfScreen" >
-		<option value="500">500x500</option>
-		<option value="600">600x600</option>
-		<option value="700">700x700</option>
-		<option value="800">800x800</option>
-		<option value="900">900x900</option>
-		<option value="1000">1000x1000</option>
-	</select>
-</div>
+		<select onchange="resizeCanvas()" id = "sizeOfScreen" >
+			<option value="500">500x500</option>
+			<option value="600">600x600</option>
+			<option value="700">700x700</option>
+			<option value="800">800x800</option>
+			<option value="900">900x900</option>
+			<option value="1000">1000x1000</option>
+		</select>
+		
+	</div>
 	
 
 </div>
