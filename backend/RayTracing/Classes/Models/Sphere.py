@@ -4,20 +4,21 @@ from RayTracing.Classes.Models.Color import Color
 from RayTracing.Classes.Models.MathUtil import MathUtil
 from RayTracing.Classes.Models.Intersection import Intersection
 from RayTracing.Classes.Models.Object3D import Object3D
+from RayTracing.Classes.Models.Tuple import Tuple
 from RayTracing.Classes.Models.Vector import Vector
 
 
 class Sphere(Object3D):
 
-    def __init__(self, x=0, y=0, z=0, radius=0, color=Color(), reflection=10):
-        super().__init__(x, y, z, color, reflection)
+    def __init__(self, x=0, y=0, z=0, radius=0, color=Color(), specular=50, reflection=1.0):
+        super().__init__(x, y, z, color, specular, reflection)
         self.radius = radius
 
-    def __init__(self, v=Vector(0, 0, 0), radius=0, color=Color(), reflection=10):
-        super().__init__(v, color, reflection)
+    def __init__(self, v=Vector(0, 0, 0), radius=0, color=Color(), specular=50, reflection=1.0):
+        super().__init__(v, color, specular, reflection)
         self.radius = radius
 
-    def intersection(self, ray):
+    def intersection(self, ray, tMin, tMax):
         startP=ray.getStartPoint()
         cameraToCenter = startP.sub(self.center)
 
@@ -27,22 +28,28 @@ class Sphere(Object3D):
 
         t = MathUtil.solveQuadraticFormula(a, b, c)
 
+        intersect = None
+
         if t is not None:
-            distanceT = t.getSmallestPositive()
-            point = ray.getPointOfRay(distanceT)
-            intersect = Intersection(point, self, ray, distanceT)
-        else:
-            intersect = None
+            tSmallest = math.inf
+            if tMin < t.getx1() < tMax and t.getx1() < tSmallest:
+                tSmallest = t.getx1()
+            if tMin < t.getx2() < tMax and t.getx2() < tSmallest:
+                tSmallest = t.getx2()
+
+            if tSmallest == math.inf:
+                return None
+
+            point = ray.getPointOfRay(tSmallest)
+            intersect = Intersection(point, self, ray, tSmallest)
 
         return intersect
-
 
     def getCenter(self):
         return self.center
 
     def getRadius(self):
         return self.radius
-
 
     def calculateA(self, ray):
         return ray.dotProduct(ray)
