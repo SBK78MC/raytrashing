@@ -16,7 +16,10 @@ class Object3D:
         self.specular = specular
         self.reflection = reflection
 
-    def intersection(self, ray):
+    def intersection(self, ray, tMin, tMax):
+        pass
+
+    def getSurfaceNormal(self, point):
         pass
 
     def getCenter(self):

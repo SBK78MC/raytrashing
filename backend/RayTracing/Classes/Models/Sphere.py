@@ -45,6 +45,13 @@ class Sphere(Object3D):
 
         return intersect
 
+    def getSurfaceNormal(self, point):
+        pointToCenter = point.sub(self.getCenter())
+
+        pointToCenter = pointToCenter.normalize()
+
+        return pointToCenter
+
     def getCenter(self):
         return self.center
 

@@ -8,6 +8,7 @@ from RayTracing.Classes.Models.AmbientLight import AmbientLight
 from RayTracing.Classes.Models.Color import Color
 from RayTracing.Classes.Models.Light import Light
 from RayTracing.Classes.Models.Imageplane import Imageplane
+from RayTracing.Classes.Models.Plane import Plane
 from RayTracing.Classes.Models.Ray import Ray
 from RayTracing.Classes.Models.Scene import Scene
 from RayTracing.Classes.Models.Sphere import Sphere
@@ -67,8 +68,8 @@ class RayTracer:
     def trace(self, worker):
         for y in worker.getYRange():
             for x in worker.getXRange():
-                px = (2 * ((x + 0.5) / self.imageplane.getWidth()) - 1) * self.camera.angle * self.imageAspectRatio
-                py = (1 - 2 * ((y + 0.5) / self.imageplane.getHeight())) * self.camera.angle
+                px = (2 * ((x + 0.5) / self.imageplane.getWidth()) - 1) * self.camera.angle * self.imageAspectRatio + self.camera.pointOfView.getX()
+                py = (1 - 2 * ((y + 0.5) / self.imageplane.getHeight())) * self.camera.angle + self.camera.pointOfView.getY()
 
                 pixelDirection = Vector(px, py, self.camera.pointOfView.getZ())
 
@@ -111,7 +112,7 @@ class RayTracer:
         initialColor = intersection.getObject().getColor()
         brightColor = initialColor.multiply(colorBrightness)
 
-        reflectionColor = self.getReflection(intersection, recursionDepth)
+        '''reflectionColor = self.getReflection(intersection, recursionDepth)
 
         if reflectionColor:
             reflectionColorWithRate = reflectionColor.multiply(intersection.getObject().getReflection())
@@ -120,8 +121,8 @@ class RayTracer:
 
             finalColor = reflectionColorWithRate.add(brightColorWithInverseRate)
 
-        else:
-            finalColor = brightColor
+        else:'''
+        finalColor = brightColor
 
         return finalColor
 
@@ -129,13 +130,11 @@ class RayTracer:
         reflectedColor = None
         if intersection.getObject().getReflection() > 0 and recursionDepth < self.recursionLimit:
             cameraDirection = intersection.getRay().getDirection()
-            pointToCenter = intersection.getPoint().sub(intersection.getObject().getCenter())
+            surfaceNormal = intersection.getObject().getSurfaceNormal(intersection.getPoint())
 
-            pointToCenter = pointToCenter.normalize()
+            surfNormDotNCD = surfaceNormal.dotProduct(cameraDirection)
 
-            ptcDotNCD = pointToCenter.dotProduct(cameraDirection)
-
-            reflectionDirection = cameraDirection.sub(pointToCenter.multiply(2 * ptcDotNCD))
+            reflectionDirection = cameraDirection.sub(surfaceNormal.multiply(2 * surfNormDotNCD))
             reflectionDirection = reflectionDirection.normalize()
 
             reflectionRay = Ray(intersection.getPoint(), reflectionDirection)
@@ -145,16 +144,14 @@ class RayTracer:
 
     def diffuseAndSpecularReflection(self, light, intersection, colorBrightness):
         lightToPoint = light.getPosition().sub(intersection.getPoint())
-        pointToCenter = intersection.getPoint().sub(intersection.getObject().getCenter())
+        surfaceNormal = intersection.getObject().getSurfaceNormal(intersection.getPoint())
 
-        pointToCenter = pointToCenter.normalize()
-
-        ptcDotltp = pointToCenter.dotProduct(lightToPoint)
-        if ptcDotltp > 0:
-            colorBrightness += light.getBrightness() * ptcDotltp / lightToPoint.calcLength()
+        surfNormDotLTP = surfaceNormal.dotProduct(lightToPoint)
+        if surfNormDotLTP > 0:
+            colorBrightness += light.getBrightness() * surfNormDotLTP / lightToPoint.calcLength()
 
         if intersection.getObject().getSpecular() > 0:
-            lightReflection = (pointToCenter.multiply(2 * ptcDotltp)).sub(lightToPoint)
+            lightReflection = (surfaceNormal.multiply(2 * surfNormDotLTP)).sub(lightToPoint)
             negativeCameraDirection = intersection.getRay().getDirection().getNegative()
             lightRDotCamera = lightReflection.dotProduct(negativeCameraDirection)
 
@@ -174,6 +171,7 @@ class RayTracer:
 
             shadowIntersection = objectIter.intersection(lightToPoint, 0.001, 0.9999)
             if shadowIntersection:
+                #print("Found Shadow", shadowIntersection.getObject(), "item ", intersection.getObject())
                 isShadow = True
 
         return isShadow
