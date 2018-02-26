@@ -7,10 +7,10 @@ from RayTracing.Classes.Models.Intersection import Intersection
 
 class Plane(Object3D):
 
-    def __init__(self, point, normal, color=Color()):
-        super().__init__(point, color, 10)
-        self.direction = normal
+    def __init__(self, point, normal, color=Color(), specular=100, reflection=0.1):
+        super().__init__(point, color, specular, reflection)
         self.center = point
+        self.direction = normal
 
     def intersection(self, ray, tMin, tMax):
         dot = ray.direction.dotProduct(self.direction)
@@ -24,4 +24,7 @@ class Plane(Object3D):
         return None
 
     def getSurfaceNormal(self, point):
-        return self.direction
+        surfaceNormal = self.direction.sub(point)
+        surfaceNormal = surfaceNormal.normalize()
+
+        return surfaceNormal
