@@ -1,6 +1,8 @@
 import unittest
 
 from RayTracing.Classes.Models.Camera import Camera
+from RayTracing.Classes.Models.Color import Color
+from RayTracing.Classes.Models.Cube import Cube
 from RayTracing.Classes.Models.Light import Light
 from RayTracing.Classes.Models.MathUtil import MathUtil
 from RayTracing.Classes.Models.Ray import Ray
@@ -91,6 +93,13 @@ class VectorTest(unittest.TestCase):
         self.assertTrue(vb)
         self.assertTrue(vv)
 
+    def test_getInverse(self):
+        v = Vector(0, 0, 0.5)
+        invV = v.getInverse()
+#        self.assertEqual(invV.x, 0)
+#        self.assertEqual(invV.y, 0)
+#        self.assertEqual(invV.z, 2)
+
 
 class SphereTest(unittest.TestCase):
 
@@ -157,6 +166,28 @@ class CameraTest(unittest.TestCase):
         self.assertEqual(0.2679491924311227, c.getAngle())
 
 
+class RayTest(unittest.TestCase):
+
+    def test_constructor(self):
+        ray = Ray(Vector(0, 0, 0), Vector(0, 0, 1))
+
+
+class CubeTest(unittest.TestCase):
+
+    def test_constructor(self):
+        cube = Cube(Vector(1, 1, 1), 2, Color().red(), 10)
+        self.assertEqual(cube.minPoint.x, 0)
+        self.assertEqual(cube.minPoint.y, 0)
+        self.assertEqual(cube.minPoint.z, 0)
+        self.assertEqual(cube.maxPoint.x, 2)
+        self.assertEqual(cube.maxPoint.y, 2)
+        self.assertEqual(cube.maxPoint.z, 2)
+
+    def test_intersection(self):
+        cube = Cube(Vector(0, 0, 5), 2, 10, 10)
+        ray = Ray(Vector(0,0,0), Vector(0,0.25,1))
+        intersection = cube.intersection(ray)
+        #print(intersection.distance)
 
 
 if __name__ == '__main__':
