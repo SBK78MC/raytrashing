@@ -18,13 +18,14 @@ if __name__ == '__main__':
     sCenter1 = Vector(-1, 0, 19)
     sCenter = Vector(3, 0, 16)
     sCenter2 = Vector(0, 0, -12)
-    sCenter3 = Vector(0, 0, 22)
+    pCenter3 = Vector(0, -4, 0)
+    pDir = Vector(0, -2.5, 0)
 
-    s1 = Sphere(sCenter, 1, Color(1.0, 0, 0), 1000)
-    s2 = Sphere(sCenter1, 4, Color(0, 1.0, 0), 500)
-    s3 = Plane(sCenter3, sCenter3, Color(1.0, 1.0, 1.0))
-    light1 = Light(5, 0, 8, 0.7)
-    light0 = AmbientLight(0.2)
+    s1 = Sphere(sCenter, 1, Color(1.0, 0, 0), 1000, 0.5)
+    s2 = Sphere(sCenter1, 3, Color(0, 1.0, 0), 500, 0.1)
+    s3 = Plane(pCenter3, pDir, Color(1.0, 1.0, 1.0), 200, 0.2)
+    light1 = Light(5, 1, 0, 0.7)
+    light0 = AmbientLight(0.5)
 
     scene = Scene()
 
