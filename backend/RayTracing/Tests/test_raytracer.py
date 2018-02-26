@@ -32,11 +32,12 @@ if __name__ == '__main__':
     scene.addLight(light1)
     scene.addObject3D(s1)
     scene.addObject3D(s2)
-    scene.addObject3D(s3)
+    #scene.addObject3D(s3)
 
     imagepl = Imageplane(400, 400)
 
-    camera = Camera(Vector(0, 0, 0), Vector(0, 0, 1), 30)
+    #camera = Camera(Vector(0, 0, 0), Vector(0, 0, 1), 30)
+    camera = Camera(Vector(10, 0, 9), Vector(-1, 0.1, 1), 30)
 
     raytrace = RayTracer(imagepl, scene, camera)
 

@@ -68,8 +68,8 @@ class RayTracer:
     def trace(self, worker):
         for y in worker.getYRange():
             for x in worker.getXRange():
-                px = (2 * ((x + 0.5) / self.imageplane.getWidth()) - 1) * self.camera.angle * self.imageAspectRatio
-                py = (1 - 2 * ((y + 0.5) / self.imageplane.getHeight())) * self.camera.angle
+                px = (2 * ((x + 0.5) / self.imageplane.getWidth()) - 1) * self.camera.angle * self.imageAspectRatio + self.camera.pointOfView.getX()
+                py = (1 - 2 * ((y + 0.5) / self.imageplane.getHeight())) * self.camera.angle + self.camera.pointOfView.getY()
 
                 pixelDirection = Vector(px, py, self.camera.pointOfView.getZ())
 
