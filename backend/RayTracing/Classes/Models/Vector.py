@@ -1,5 +1,7 @@
 import math
 
+import sys
+
 
 class Vector:
 
@@ -68,3 +70,23 @@ class Vector:
     def getNegative(self):
         v = Vector(- self.x, - self.y, - self.z)
         return v
+
+    def getInverse(self):
+        v = Vector()
+        if self.x == 0:
+            v.x = sys.float_info.max
+        else:
+            v.x = 1/self.x
+
+        if self.y == 0:
+            v.y = sys.float_info.max
+        else:
+            v.y = 1 / self.y
+
+        if self.z == 0:
+            v.z = sys.float_info.max
+        else:
+            v.z = 1 / self.z
+
+        return v
+

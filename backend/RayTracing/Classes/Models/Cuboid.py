@@ -10,12 +10,18 @@ class Cuboid(Object3D):
         self.w = w;
         self.h = h;
         self.d = d;
+        shiftVector = Vector(w,h,d).multiply(0.5)
+        self.minPoint = self.center.sub(shiftVector)
+        self.maxPoint = self.center.add(shiftVector)
 
     def __init__(self, v=Vector(0,0,0), w=0, h=0, d=0, color=Color(), reflection=10):
         super().__init__(v, reflection)
         self.w = w;
         self.h = h;
         self.d = d;
+        shiftVector = Vector(w,h,d).multiply(0.5)
+        self.minPoint = self.center.sub(shiftVector)
+        self.maxPoint = self.center.add(shiftVector)
 
 
 

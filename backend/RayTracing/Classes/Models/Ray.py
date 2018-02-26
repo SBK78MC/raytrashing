@@ -7,6 +7,12 @@ class Ray:
         self.startPoint = startp
         self.direction = direction
 
+        self.inverseDirection = direction.getInverse()
+        self.inv = list()
+        self.inv.append(int(self.inverseDirection.x < 0))
+        self.inv.append(int(self.inverseDirection.y < 0))
+        self.inv.append(int(self.inverseDirection.z < 0))
+
     def getPointOfRay(self, t):
         result = Vector()
         result.setX(self.startPoint.x + (t * self.direction.x))
