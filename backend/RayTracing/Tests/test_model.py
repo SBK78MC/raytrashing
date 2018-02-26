@@ -8,14 +8,13 @@ from RayTracing.Classes.Models.Color import Color
 
 from RayTracing.Classes.Models.Cube import Cube
 from RayTracing.Classes.Models.Cylinder import Cylinder
+from RayTracing.Classes.Models.Cube import Cube
 from RayTracing.Classes.Models.Light import Light
 from RayTracing.Classes.Models.MathUtil import MathUtil
 from RayTracing.Classes.Models.Ray import Ray
 from RayTracing.Classes.Models.Sphere import Sphere
 from RayTracing.Classes.Models.Tuple import Tuple
 from RayTracing.Classes.Models.Vector import Vector
-
-
 
 
 class VectorTest(unittest.TestCase):
@@ -203,7 +202,6 @@ class CubeTest(unittest.TestCase):
         cube = Cube(Vector(0, 0, 5), 2, 10, 10)
         ray = Ray(Vector(0,0,0), Vector(0,0.25,1))
         intersection = cube.intersection(ray)
-
 
     def test_multiply(self):
         black = Color(0.0, 0.0, 0.0)
