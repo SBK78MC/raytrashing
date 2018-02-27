@@ -1,4 +1,3 @@
-
 from RayTracing.Classes.Models.Color import Color
 from RayTracing.Classes.Models.Object3D import Object3D
 from RayTracing.Classes.Models.Vector import Vector
@@ -14,7 +13,7 @@ class Plane(Object3D):
 
     def intersection(self, ray, tMin, tMax):
         dot = ray.direction.dotProduct(self.direction)
-        if dot > 1e-6:
+        if abs(dot) > 1e-6:
             rayToCenter = self.center.sub(ray.getStartPoint())
             distance = rayToCenter.dotProduct(self.direction) / dot
 
@@ -24,7 +23,4 @@ class Plane(Object3D):
         return None
 
     def getSurfaceNormal(self, point):
-        surfaceNormal = self.direction.sub(point)
-        surfaceNormal = surfaceNormal.normalize()
-
-        return surfaceNormal
+        return self.direction
