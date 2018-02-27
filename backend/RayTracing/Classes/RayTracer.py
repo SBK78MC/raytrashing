@@ -22,7 +22,7 @@ from multiprocessing.managers import BaseManager
 class RayTracer:
 
     def __init__(self, imageplane=Imageplane(), mainscene=Scene(), camera=Camera()):
-        self.recursionLimit = 1
+        self.recursionLimit = 3
         self.backgroundColor = Color(0., 0., 0.)
         self.imageplane = imageplane
         self.scene = mainscene
@@ -112,7 +112,7 @@ class RayTracer:
         initialColor = intersection.getObject().getColor()
         brightColor = initialColor.multiply(colorBrightness)
 
-        '''reflectionColor = self.getReflection(intersection, recursionDepth)
+        reflectionColor = self.getReflection(intersection, recursionDepth)
 
         if reflectionColor:
             reflectionColorWithRate = reflectionColor.multiply(intersection.getObject().getReflection())
@@ -121,8 +121,8 @@ class RayTracer:
 
             finalColor = reflectionColorWithRate.add(brightColorWithInverseRate)
 
-        else:'''
-        finalColor = brightColor
+        else:
+            finalColor = brightColor
 
         return finalColor
 
