@@ -53,7 +53,7 @@ overflow: auto;
 
 margin-top: 5%;
 margin-left: 21%;
-text-align: center;
+
 height: 75%;
 width: 55%;
 border: solid;
@@ -167,16 +167,12 @@ font-family: "Helvetica Neue", Arial, sans-serif;
 
 
 #screenSize {
-	position: fixed;
 	bottom: 0;
-	left: 0;
-	right: 0;
-	margin-left: 25%;
 	
-	width: 50%;
 	padding-bottom: 20px;
-	
-	
+	padding-top: 10px;
+	overflow: auto;
+
 }
 
 

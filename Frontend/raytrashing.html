@@ -30,6 +30,10 @@ The page is divided into 3 parts:
 	<input id = "brightness" type="range" min="0" max="200" value="40" class="bar">
 	<h4>Reflection</h4> 
 	<input id = "reflection" type="range" min="1" max="100" value="100" class="bar">
+	<h4>Translucency</h4> 
+	<input id = "translucency" type="range" min="1" max="100" value="100" class="bar">
+	<h4>Specular Reflection</h4> 
+	<input id = "specular" type="range" min="0" max="1000" value="0" class="bar">
 	<h4>Ambient Light</h4> 
 	<input id = "ambient" type="range" min="0" max="100" value="20" class="bar">
 
@@ -51,6 +55,37 @@ The page is divided into 3 parts:
 <h1 id="title">RAYTRASHING</h1>
 <div id="center">
 	<canvas id="myCanvas" ></canvas>
+	
+	<div id="screenSize" >
+		<h3 style="display: inline; margin-left:8%;">Floor   </h3>
+		<input type="checkbox" name="floor" value="true" id="floor">
+
+		<h3 style="display: inline; margin-left:23%;">Image Size</h3>
+	
+		<h3 style="display: inline; margin-left:25%; ">Camera</h3>
+		
+		
+	
+		<select onchange="resizeCanvas()" style="width: 200px; margin-left:35%;" id = "sizeOfScreen" >
+			<option value="500">500x500</option>
+			<option value="600">600x600</option>
+			<option value="700">700x700</option>
+			<option value="800">800x800</option>
+			<option value="900">900x900</option>
+			<option value="1000">1000x1000</option>
+		</select>
+		
+		
+		
+		<select onchange="" style="width: 200px; margin-left:10%;" id = "cameraView" >
+			<option value="front">Front Side View</option>
+			<option value="top">Top Side View</option>
+			<option value="left">Left Side View</option>
+			<option value="right">Right Side View</option>
+		</select>
+		
+	
+	</div>
 </div>
 
 
@@ -91,22 +126,7 @@ The page is divided into 3 parts:
 </div>
 
 
-<div id="screenSize" >
-	<h3 style="display: inline;">Floor   </h3>
-	<input type="checkbox" name="floor" value="true" id="floor">
 
-	<h3 style="display: inline; margin-left:27%;">Image Size</h3>
-
-	<br>
-	<select onchange="resizeCanvas()" style="width: 200px; margin-left:33%; " id = "sizeOfScreen" >
-		<option value="500">500x500</option>
-		<option value="600">600x600</option>
-		<option value="700">700x700</option>
-		<option value="800">800x800</option>
-		<option value="900">900x900</option>
-		<option value="1000">1000x1000</option>
-	</select>
-</div>
 
 
 <!-- Alert Box -->
