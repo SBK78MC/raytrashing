@@ -18,7 +18,7 @@ class MyTestCase(unittest.TestCase):
 
         # Sphere 1
         c1 = Vector(0, 0, 5)
-        s1 = Sphere(c1, 1, Color(0, 1, 0), 1000)
+        s1 = Sphere(c1, 1, Color(0, 1, 0), 1000, 0)
 
         scene = Scene()
         scene.addObject3D(s1)
@@ -32,10 +32,10 @@ class MyTestCase(unittest.TestCase):
 
         pixelRay = Ray(camera.position, Vector(0.01, 0, 1))
 
-        sphereIntersection = s1.intersection(pixelRay)
+        sphereIntersection = s1.intersection(pixelRay, 0, 1000)
 
-        arrColor = raytracer.getColorForIntersection(sphereIntersection)
-        testColor = Color(arrColor[0], arrColor[1], arrColor[2])
+        arrColor = raytracer.getColorForIntersection(sphereIntersection, 0)
+        testColor = arrColor
 
         green = Color()
         green.green()
@@ -63,10 +63,10 @@ class MyTestCase(unittest.TestCase):
 
         pixelRay = Ray(camera.position, Vector(0.001, 0, 1))
 
-        sphereIntersection = s1.intersection(pixelRay)
+        sphereIntersection = s1.intersection(pixelRay, 0, 1000)
 
-        arrColor = raytracer.getColorForIntersection(sphereIntersection)
-        testColor = Color(arrColor[0], arrColor[1], arrColor[2])
+        arrColor = raytracer.getColorForIntersection(sphereIntersection, 0)
+        testColor = arrColor
 
 
         green = Color()
@@ -101,23 +101,23 @@ class MyTestCase(unittest.TestCase):
 
         pixelRay4 = Ray(camera.position, Vector(0.03, 0, 1))
 
-        sphereIntersection1 = s1.intersection(pixelRay1)
+        sphereIntersection1 = s1.intersection(pixelRay1, 0, 1000)
 
-        sphereIntersection2 = s1.intersection(pixelRay2)
+        sphereIntersection2 = s1.intersection(pixelRay2, 0, 1000)
 
-        sphereIntersection3 = s1.intersection(pixelRay3)
+        sphereIntersection3 = s1.intersection(pixelRay3, 0, 1000)
 
-        sphereIntersection4 = s1.intersection(pixelRay4)
+        sphereIntersection4 = s1.intersection(pixelRay4, 0, 1000)
 
-        arrColor1 = raytracer.getColorForIntersection(sphereIntersection1)
-        arrColor2 = raytracer.getColorForIntersection(sphereIntersection2)
-        arrColor3 = raytracer.getColorForIntersection(sphereIntersection3)
-        arrColor4 = raytracer.getColorForIntersection(sphereIntersection4)
+        arrColor1 = raytracer.getColorForIntersection(sphereIntersection1, 0)
+        arrColor2 = raytracer.getColorForIntersection(sphereIntersection2, 0)
+        arrColor3 = raytracer.getColorForIntersection(sphereIntersection3, 0)
+        arrColor4 = raytracer.getColorForIntersection(sphereIntersection4, 0)
 
-        testColor1 = Color(arrColor1[0], arrColor1[1], arrColor1[2])
-        testColor2 = Color(arrColor2[0], arrColor2[1], arrColor2[2])
-        testColor3 = Color(arrColor3[0], arrColor3[1], arrColor3[2])
-        testColor4 = Color(arrColor4[0], arrColor3[1], arrColor3[2])
+        testColor1 = arrColor1
+        testColor2 = arrColor2
+        testColor3 = arrColor3
+        testColor4 = arrColor4
 
         testValue3 = testColor3.isBrighterOrEqualTo(testColor4)
         self.assertTrue(testValue3)
