@@ -2,6 +2,7 @@ import unittest
 
 from RayTracing.Classes.Models.Color import Color
 from RayTracing.Classes.Models.Camera import Camera
+from RayTracing.Classes.Models.Color import Color
 from RayTracing.Classes.Models.Light import Light
 from RayTracing.Classes.Models.MathUtil import MathUtil
 from RayTracing.Classes.Models.Ray import Ray
@@ -159,6 +160,7 @@ class CameraTest(unittest.TestCase):
 
 class ColorTest(unittest.TestCase):
 
+
     def test_compareBrightness(self):
         red = Color()
         red.red()
@@ -168,6 +170,23 @@ class ColorTest(unittest.TestCase):
         test2 = white.isBrighterOrEqualTo(red)
         self.assertFalse(test1)
         self.assertTrue(test2)
+
+    def test_multiply(self):
+        black = Color(0.0, 0.0, 0.0)
+        small = Color(0.1, 0.1, 0.1)
+        multiplier = 0.3
+        multiplicationResultblack = black.multiply(multiplier)
+        multiplicationResultsmall = small.multiply(multiplier)
+        self.assertEqual(multiplicationResultblack.getArray(), black.getArray())
+        self.assertEqual(multiplicationResultsmall.getArray(), [0.03, 0.03, 0.03])
+
+    def test_addition(self):
+        black = Color(0.3, 0.2, 0.16)
+        small = Color(0.2, 0.8, 0.62)
+        additionResult = black.add(small)
+        additionResult2 = small.add(black)
+        self.assertEqual(additionResult.getArray(), [0.5, 1.0, 0.78])
+        self.assertEqual(additionResult2.getArray(), [0.5, 1.0, 0.78])
 
 
 if __name__ == '__main__':
