@@ -2,7 +2,6 @@ import unittest
 
 from RayTracing.Classes.Models.Color import Color
 from RayTracing.Classes.Models.Camera import Camera
-from RayTracing.Classes.Models.Color import Color
 from RayTracing.Classes.Models.Light import Light
 from RayTracing.Classes.Models.MathUtil import MathUtil
 from RayTracing.Classes.Models.Ray import Ray
@@ -102,7 +101,7 @@ class SphereTest(unittest.TestCase):
         line = Ray(startPoint, direction)
         center = Vector(5.0, 3.0, 0.0)
         sphere = Sphere(center, 2.0)
-        intersection = sphere.intersection(line, 0, 1000)
+        intersection = sphere.intersection(line)
         self.assertEqual(intersection.point.x, 3)
         self.assertEqual(intersection.point.y, 3)
         self.assertEqual(intersection.point.z, 0)
@@ -113,7 +112,7 @@ class SphereTest(unittest.TestCase):
         line = Ray(startPoint, direction)
         center = Vector(5.0, 1, 3)
         sphere = Sphere(center, 2)
-        intersection = sphere.intersection(line, 0, 1000)
+        intersection = sphere.intersection(line)
         self.assertIsNone(intersection)
 
 
@@ -160,6 +159,16 @@ class CameraTest(unittest.TestCase):
 
 class ColorTest(unittest.TestCase):
 
+    def test_compareBrightness(self):
+        red = Color()
+        red.red()
+        white = Color()
+        white.white()
+        test1 = red.isBrighterOrEqualTo(white)
+        test2 = white.isBrighterOrEqualTo(red)
+        self.assertFalse(test1)
+        self.assertTrue(test2)
+
     def test_multiply(self):
         black = Color(0.0, 0.0, 0.0)
         small = Color(0.1, 0.1, 0.1)
@@ -177,7 +186,6 @@ class ColorTest(unittest.TestCase):
         self.assertEqual(additionResult.getArray(), [0.5, 1.0, 0.78])
         self.assertEqual(additionResult2.getArray(), [0.5, 1.0, 0.78])
 
-
     def test_compareBrightness(self):
         red = Color()
         red.red()
@@ -187,7 +195,6 @@ class ColorTest(unittest.TestCase):
         test2 = white.isBrighterOrEqualTo(red)
         self.assertFalse(test1)
         self.assertTrue(test2)
-
 
 if __name__ == '__main__':
     unittest.main()
