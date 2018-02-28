@@ -22,7 +22,7 @@ from multiprocessing.managers import BaseManager
 class RayTracer:
 
     def __init__(self, imageplane=Imageplane(), mainscene=Scene(), camera=Camera()):
-        self.recursionLimit = 3
+        self.recursionLimit = 1
         self.backgroundColor = Color(0., 0., 0.)
         self.imageplane = imageplane
         self.scene = mainscene
