@@ -129,13 +129,11 @@ class RayTracer:
         reflectedColor = None
         if intersection.getObject().getReflection() > 0 and recursionDepth < self.recursionLimit:
             cameraDirection = intersection.getRay().getDirection()
-            pointToCenter = intersection.getPoint().sub(intersection.getObject().getCenter())
+            surfaceNormal = intersection.getObject().getSurfaceNormal(intersection.getPoint())
 
-            pointToCenter = pointToCenter.normalize()
+            surfNormDotNCD = surfaceNormal.dotProduct(cameraDirection)
 
-            ptcDotNCD = pointToCenter.dotProduct(cameraDirection)
-
-            reflectionDirection = cameraDirection.sub(pointToCenter.multiply(2 * ptcDotNCD))
+            reflectionDirection = cameraDirection.sub(surfaceNormal.multiply(2 * surfNormDotNCD))
             reflectionDirection = reflectionDirection.normalize()
 
             reflectionRay = Ray(intersection.getPoint(), reflectionDirection)
@@ -145,16 +143,14 @@ class RayTracer:
 
     def diffuseAndSpecularReflection(self, light, intersection, colorBrightness):
         lightToPoint = light.getPosition().sub(intersection.getPoint())
-        pointToCenter = intersection.getPoint().sub(intersection.getObject().getCenter())
+        surfaceNormal = intersection.getObject().getSurfaceNormal(intersection.getPoint())
 
-        pointToCenter = pointToCenter.normalize()
-
-        ptcDotltp = pointToCenter.dotProduct(lightToPoint)
-        if ptcDotltp > 0:
-            colorBrightness += light.getBrightness() * ptcDotltp / lightToPoint.calcLength()
+        surfNormDotLTP = surfaceNormal.dotProduct(lightToPoint)
+        if surfNormDotLTP > 0:
+            colorBrightness += light.getBrightness() * surfNormDotLTP / lightToPoint.calcLength()
 
         if intersection.getObject().getSpecular() > 0:
-            lightReflection = (pointToCenter.multiply(2 * ptcDotltp)).sub(lightToPoint)
+            lightReflection = (surfaceNormal.multiply(2 * surfNormDotLTP)).sub(lightToPoint)
             negativeCameraDirection = intersection.getRay().getDirection().getNegative()
             lightRDotCamera = lightReflection.dotProduct(negativeCameraDirection)
 

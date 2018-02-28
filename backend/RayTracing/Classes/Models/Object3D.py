@@ -19,6 +19,9 @@ class Object3D:
     def intersection(self, ray):
         pass
 
+    def getSurfaceNormal(self,point):
+        pass
+
     def getCenter(self):
         return self.center
 
