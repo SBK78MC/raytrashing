@@ -3,7 +3,6 @@ class Color(object):
     def __init__(self):
         self.color = [0, 0, 0]
 
-
     def __init__(self, r=float(0), g=float(0), b=float(0)):
         if self.isValid(r, g, b) == False:
             raise ValueError("Invalid RGB values!")
@@ -42,6 +41,13 @@ class Color(object):
     def getB(self):
         return self.color[2]
 
+
+    def isBrighterOrEqualTo(self, otherColor):
+        if self.getR() >= otherColor.getR() and self.getB() >= otherColor.getB() and self.getG() >= otherColor.getG():
+            return True
+        else:
+            return False
+
     def multiply(self, multiplier):
         redV = self.color[0] * multiplier
         greenV = self.color[1] * multiplier
@@ -72,3 +78,4 @@ class Color(object):
             self.color[1] = 0
         if self.color[2] < 0:
             self.color[2] = 0
+
