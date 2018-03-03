@@ -415,33 +415,33 @@ function sliderDrag() {
 $('#lightNav').click(function(){
 	if($(this).css("left") <= "10px") {
 		$('#lightDiv').animate({'left':'0'});
-		$('#lightNav').animate({'left':"344px"});
+		$('#lightNav').animate({'left':"100%"});
 	}
 	else {
-		$('#lightDiv').animate({"left": '-500px'});
-		$('#lightNav').animate({"left": '-20px'});
+		$('#lightDiv').animate({"left": '-200%'});
+		$('#lightNav').animate({"left": '-6%'});
 	}
 });
 
 $('#shapesNav').click(function(){
 	if($(this).css("left") <= "10px") {
 		$('#shapesDiv').animate({'left':'0'});
-		$('#shapesNav').animate({'left':"344px"});
+		$('#shapesNav').animate({'left':"100%"});
 	}
 	else {
-		$('#shapesDiv').animate({"left": '-500px'});
-		$('#shapesNav').animate({"left": '-20px'});
+		$('#shapesDiv').animate({"left": '-200%'});
+		$('#shapesNav').animate({"left": '-6%'});
 	}
 });
 
 $('#settingsNav').click(function(){
 	if($(this).css("left") <= "10px") {
 		$('#settingsDiv').animate({'left':'0'});
-		$('#settingsNav').animate({'left':"344px"});
+		$('#settingsNav').animate({'left':"100%"});
 	}
 	else {
-		$('#settingsDiv').animate({"left": '-500px'});
-		$('#settingsNav').animate({"left": '-20px'});
+		$('#settingsDiv').animate({"left": '-200%'});
+		$('#settingsNav').animate({"left": '-6%'});
 	}
 });
 

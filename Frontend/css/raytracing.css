@@ -30,10 +30,10 @@ h4, input{
 
 #center{
     margin-top: 5%;
-    margin-left: 0.9%;
+    margin-left: 2.7%;
     text-align: center;
     height: 75%;
-    width: 97%;
+    width: 93%;
     border: solid;
     background-color: #cccccc;
     position: fixed;
@@ -216,7 +216,7 @@ body {
 } 
 
 #lightNav {
-    top: 82.4px;
+    top: 9%;
     background-color:#c1e90f;
     background-attachment: fixed;
     z-index: 10;
@@ -225,7 +225,7 @@ body {
 }
 
 #shapesNav {
-    top: 150px;
+    top: 16%;
     background-color: #28cccff3;
     background-attachment: fixed;
     z-index: 10;
@@ -234,7 +234,7 @@ body {
 }
 
 #settingsNav {
-    top: 218.2px;
+    top: 23%;
     background-color: #cf7928e0;
     background-attachment: fixed;
     z-index: 10;
@@ -244,7 +244,7 @@ body {
 
 #lightDiv {
     position: absolute;
-    left: -700px;
+    left: -200%;
     transition:0.3s;
     -webkit-transition:0.3s;
     -moz-transition:0.3s;
@@ -257,7 +257,7 @@ body {
 
 #shapesDiv {
     position: absolute;
-    left: -700px;
+    left: -200%;
     transition:0.3s;
     -webkit-transition:0.3s;
     -moz-transition:0.3s;
@@ -270,7 +270,7 @@ body {
 
 #settingsDiv {
     position: relative;
-    left: -700px;
+    left: -200%;
     transition:0.3s;
     -webkit-transition:0.3s;
     -moz-transition:0.3s;
