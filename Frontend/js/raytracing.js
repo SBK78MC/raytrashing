@@ -411,4 +411,44 @@ function sliderDrag() {
 	}
 
 });
+
+$('#lightNav').click(function(){
+	if($(this).css("left") <= "10px") {
+		$('#lightDiv').animate({'left':'0'});
+		$('#lightNav').animate({'left':"344px"});
+	}
+	else {
+		$('#lightDiv').animate({"left": '-500px'});
+		$('#lightNav').animate({"left": '-20px'});
+	}
+});
+
+$('#shapesNav').click(function(){
+	if($(this).css("left") <= "10px") {
+		$('#shapesDiv').animate({'left':'0'});
+		$('#shapesNav').animate({'left':"344px"});
+	}
+	else {
+		$('#shapesDiv').animate({"left": '-500px'});
+		$('#shapesNav').animate({"left": '-20px'});
+	}
+});
+
+$('#settingsNav').click(function(){
+	if($(this).css("left") <= "10px") {
+		$('#settingsDiv').animate({'left':'0'});
+		$('#settingsNav').animate({'left':"344px"});
+	}
+	else {
+		$('#settingsDiv').animate({"left": '-500px'});
+		$('#settingsNav').animate({"left": '-20px'});
+	}
+});
+
+
+// $('#lightNav').click(function(){
+// 	$('#lightDiv').toggle();
+// 	$('#lightDiv').animate({'left':"2%"}, 20);
+// });
+
     
