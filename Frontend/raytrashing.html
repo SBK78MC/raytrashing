@@ -37,6 +37,10 @@ The page is divided into 3 parts:
 		<input id = "brightness" color = "black" type="range" min="0" max="200" value="40" class="bar">
 		<h4>Reflection</h4> 
 		<input id = "reflection" type="range" min="1" max="100" value="100" class="bar">
+		<h4>Translucency</h4> 
+		<input id = "translucency" type="range" min="1" max="100" value="100" class="bar">
+		<h4>Specular</h4> 
+		<input id = "specular" type="range" min="0" max="100" value="0" class="bar">
 		<h4>Ambient Light</h4> 
 		<input id = "ambient" type="range" min="0" max="100" value="20" class="bar">
 		<br>
@@ -94,6 +98,15 @@ The page is divided into 3 parts:
 			<option value="900">900x900</option>
 			<option value="1000">1000x1000</option>
 		</select>
+		<br>
+		<h4>Camera</h4>
+		<select onchange="" style ="display:inline" id = "cameraView" >
+			<option value="front">Front Side View</option>
+			<option value="top">Top Side View</option>
+			<option value="left">Left Side View</option>
+			<option value="right">Right Side View</option>
+		</select>
+
 	</div>
 </div>
 
