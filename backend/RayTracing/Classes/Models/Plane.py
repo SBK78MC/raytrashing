@@ -8,13 +8,12 @@ class Plane(Object3D):
 
     def __init__(self, point, normal, color=Color(), specular=100, reflection=0.1):
         super().__init__(point, color, specular, reflection)
-        self.center = point
         self.direction = normal
 
     def intersection(self, ray, tMin, tMax):
         dot = ray.direction.dotProduct(self.direction)
         if abs(dot) > 1e-6:
-            rayToCenter = self.center.sub(ray.getStartPoint())
+            rayToCenter = self.getCenter().sub(ray.getStartPoint())
             distance = rayToCenter.dotProduct(self.direction) / dot
 
             if tMin < distance < tMax:

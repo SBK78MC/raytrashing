@@ -68,17 +68,3 @@ class Vector:
     def getNegative(self):
         v = Vector(- self.x, - self.y, - self.z)
         return v
-
-    def __add__(self, other):
-        return Vector(self.x + other.x, self.y + other.y, self.z + other.z)
-
-    def __mul__(self, other):
-        return Vector(self.x * other, self.y * other, self.z * other)
-
-    def __sub__(self, other):
-        return Vector(self.x - other.x, self.y - other.y, self.z - other.z)
-
-    def __str__(self):
-        return "x: %.2f y: %.2f z: %.2f" % (self.x, self.y, self.z)
-
-

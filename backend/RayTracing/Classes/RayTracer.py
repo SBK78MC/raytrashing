@@ -174,7 +174,6 @@ class RayTracer:
 
             shadowIntersection = objectIter.intersection(lightToPoint, 0.001, 0.9999)
             if shadowIntersection:
-                #print("Found Shadow", shadowIntersection.getObject(), "item ", intersection.getObject())
                 isShadow = True
 
         return isShadow
