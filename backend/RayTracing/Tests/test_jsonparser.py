@@ -71,6 +71,14 @@ class JSONParserTest(unittest.TestCase):
         self.assertEqual(1, light.position.z)
         self.assertEqual(1.0, light.brightness)
 
+    def test_deserializeAmbientLight(self):
+        ambientLightString = '{"active":"true", "brightness":"1.0"}'
+        ambientLightJSON = json.loads(ambientLightString)
+
+        jsonParser = JSONParser()
+        light = jsonParser.deserializeAmbientLight(ambientLightJSON)
+        self.assertEqual(1.0, light.brightness)
+
 
     def test_deserializeAmbientLight(self):
         ambientLightString = '{"active":"true", "brightness":"1.0"}'
