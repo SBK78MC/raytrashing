@@ -17,105 +17,115 @@ The page is divided into 3 parts:
 -right: where we have the controls of the shapes
 
 -->
-
+<h1 style = "margin-left: 42%" id="title">RAYTRASHING</h1>
 
 <div id="left">
 
-<form id="resetLight"  action="">
-	<h4>Light Source</h4> 
-	<input id="light_x" class="inputs" type="text" name="Light Source x" placeholder="x"  />
-	<input id="light_y" style="margin-left:3%;" class="inputs" type="text" name="Light Source y" placeholder="y">
-	<input id="light_z" style="margin-left:3%;" class="inputs" type="text" name="Light Source z" placeholder="z">
-	<h4>Brightness</h4> 
-	<input id = "brightness" type="range" min="0" max="200" value="40" class="bar">
-	<h4>Reflection</h4> 
-	<input id = "reflection" type="range" min="1" max="100" value="100" class="bar">
-	<h4>Ambient Light</h4> 
-	<input id = "ambient" type="range" min="0" max="100" value="20" class="bar">
-
-
-
-	<br>
-	<div>
-		<button class="buttons" type="button" onclick="addLight()">Add Light</button>
-		<button style="margin-top: 10%;" class="buttons" type="button" onclick="addShape()">Add Shape</button>
+	<div id = "sideNav">
+		<a href = "#lightDiv" class = "lightNav" id = "lightNav"> <img align = "right" src = "./images/idea.png"></a>
+		<a href = "#shapesDiv" id = "shapesNav"><img align = "right" src = "./images/shapes.png"></a>
+		<a href = "#settingsDiv" id = "settingsNav"><img align = "right" src = "./images/settings.png"></a>
 	</div>
-	<button id="render" class="buttons" type="button" onclick="clearGrid()">Clear Grid</button>
-	<button id="render" class="buttons" type="button" onclick="renderShapes()">Render</button>
-</form>
 
+	<div id="lightDiv">
+	<form id="resetLight"  action="">
+		<h4>Light Source</h4> 
+		<input id="light_x" class="inputs" type="text" name="Light Source x" placeholder="x"  />
+		<input id="light_y" style="margin-left:3%;" class="inputs" type="text" name="Light Source y" placeholder="y">
+		<input id="light_z" style="margin-left:3%;" class="inputs" type="text" name="Light Source z" placeholder="z">
+		<h4>Brightness</h4> 
+		<input id = "brightness" color = "black" type="range" min="0" max="200" value="40" class="bar">
+		<h4>Reflection</h4> 
+		<input id = "reflection" type="range" min="1" max="100" value="100" class="bar">
+		<h4>Translucency</h4> 
+		<input id = "translucency" type="range" min="1" max="100" value="100" class="bar">
+		<h4>Specular</h4> 
+		<input id = "specular" type="range" min="0" max="100" value="0" class="bar">
+		<h4>Ambient Light</h4> 
+		<input id = "ambient" type="range" min="0" max="100" value="20" class="bar">
+		<br><br>
+		<div>
+			<button id="render" class="buttons" type="button" onclick="addLight()">Add Light</button>
+			<!-- <button style="margin-top: 10%;" class="buttons" type="button" onclick="addShape()">Add Shape</button> -->
+		</div>
+		<button id="render" class="buttons" type="button" onclick="clearGrid()">Clear Grid</button>
+	</form>
+	</div>
+
+	<div id = "shapesDiv">
+		<form id = "resetShape" action="">
+			<h4 style="display: inline; margin-left: 10%;">Shape</h4> 
+			<img src="./images/drag.png" style="width: 25px; height: 25px;" onclick="sliderDrag()">
+			<br><br>
+		<div id="inputText">
+			<select id="shape" class="boxes" >
+				<option value="Circle">Circle</option>
+				<option value="Cube">Cube</option>
+			</select>
+		
+			<h4 id="coor">Coordinates(-250,250)</h4> 
+			<input id="shape_x" class="inputs" type="text" name="Coordinates x" placeholder="x">
+			<input id="shape_y" style="margin-left:3%;"  class="inputs" type="text" name="Coordinates y" placeholder="y">
+			<input id="shape_z" style="margin-left:3%;" class="inputs" type="text" name="Coordinates z" value="10">
+		
+			<h4>Size</h4>
+			<input id="size" class="boxes" type="text" name="Size" value="1"> 
+		</div>
+		<div id="dragDrop" style="display: none; color: white;">
+			<p style="height: 200px;" >Drag and drop goes here. to be continued...</p>
+		</div>
+		</form>
+		
+		<form id = "formForColors" action = "">
+			<h4>Colour</h4>
+			<input id="color" type="text" name="color" id="color" value="#123456" /> 
+		<div id="picker"></div>
+		</form>
+		<div>
+				<button class="buttons" type="button" onclick="clearGrid()">Clear Grid</button>
+				<button style="margin-top: 10%;" class="buttons" type="button" onclick="addShape()">Add Shape</button>
+		</div>
+	</div>
+	<div id = "settingsDiv">
+		<h4>Floor</h4>
+		<input type="checkbox" name="floor" value="true" id="floor">
+		<h4 >Image Size</h4>
+		<select style ="display:inline" align = "center" item-width="10%" onchange="resizeCanvas()" style="width: 200px; margin-left:33%; " id = "sizeOfScreen" >
+			<option value="500">500x500</option>
+			<option value="600">600x600</option>
+			<option value="700">700x700</option>
+			<option value="800">800x800</option>
+			<option value="900">900x900</option>
+			<option value="1000">1000x1000</option>
+		</select>
+		<br>
+		<h4>Camera</h4>
+		<select onchange="" style ="display:inline" id = "cameraView" >
+			<option value="front">Front Side View</option>
+			<option value="top">Top Side View</option>
+			<option value="left">Left Side View</option>
+			<option value="right">Right Side View</option>
+		</select>
+
+	</div>
 </div>
 
 
-
-<h1 id="title">RAYTRASHING</h1>
 <div id="center">
 	<canvas id="myCanvas" ></canvas>
 </div>
 
-
-
-
-<div id="right">
-<form id = "resetShape" action="">
-
-	<h4 style="display: inline; margin-left: 10%;">Shape</h4> 
-	<img src="./images/drag.png" style="width: 25px; height: 25px;" onclick="sliderDrag()">
-	<br><br>
-	<div id="inputText">
-		<select id="shape" class="boxes" >
-			<option value="Circle">Circle</option>
-			<option value="Cube">Cube</option>
-		</select>
-
-		<h4 id="coor">Coordinates(-250,250)</h4> 
-		<input id="shape_x" class="inputs" type="text" name="Coordinates x" placeholder="x">
-		<input id="shape_y" style="margin-left:3%;"  class="inputs" type="text" name="Coordinates y" placeholder="y">
-		<input id="shape_z" style="margin-left:3%;" class="inputs" type="text" name="Coordinates z" value="10">
-
-		<h4>Size</h4>
-		<input id="size" class="boxes" type="text" name="Size" value="1"> 
-	</div>
-
-	<div id="dragDrop" style="display: none; color: white;">
-		<p style="height: 200px;" >Drag and drop goes here. to be continued...</p>
-	</div>
-
-</form>
-
-<form id = "formForColors" action = "">
-    <h4>Colour</h4>
-    <input id="color" type="text" name="color" id="color" value="#123456" /> 
-    <div id="picker"></div>
-</form>
-</div>
-
-
-<div id="screenSize" >
-	<h3 style="display: inline;">Floor   </h3>
-	<input type="checkbox" name="floor" value="true" id="floor">
-
-	<h3 style="display: inline; margin-left:27%;">Image Size</h3>
-
-	<br>
-	<select onchange="resizeCanvas()" style="width: 200px; margin-left:33%; " id = "sizeOfScreen" >
-		<option value="500">500x500</option>
-		<option value="600">600x600</option>
-		<option value="700">700x700</option>
-		<option value="800">800x800</option>
-		<option value="900">900x900</option>
-		<option value="1000">1000x1000</option>
-	</select>
+<div id="screenSize" align = "center">
+	<button id="render" class="buttons" type="button" onclick="renderShapes()">Render</button>
 </div>
 
 
 <!-- Alert Box -->
 <div id="myModal" class="modal">  
   <div class="modal-content">
-    <span onclick="this.parentElement.parentElement.style.display='none';" class="close">&times;</span>
-    <p id="alertMessage"></p>
+		<span onclick="this.parentElement.parentElement.style.display='none';" class="close">&times;</span>
+    	<p id="alertMessage"></p>
   </div>
-
 </div>
 
 
@@ -123,10 +133,9 @@ The page is divided into 3 parts:
 <!-- Loading Image -->
 <div align="center" id="myModal1" >  
   <div align="center" id="loadingModal" >
-    <span style=" position: absolute; margin-left: 1%; margin-top: 1%;" onclick="this.parentElement.parentElement.style.display='none';" class="close">&times;</span>
-    <img id="loadingKati"  src="" alt="Red dot"></img>
+    	<span style=" position: absolute; margin-left: 1%; margin-top: 1%;" onclick="this.parentElement.parentElement.style.display='none';" class="close">&times;</span>
+    	<img id="loadingKati"  src="" alt="Red dot"></img>
   </div>
-
 </div>
 
 </body>
