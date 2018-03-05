@@ -16,6 +16,7 @@ class Sphere(Object3D):
 
     def __init__(self, v=Vector(0, 0, 0), radius=0, color=Color(), specular=50, reflection=1.0, transparency=0):
         super().__init__(v, color, specular, reflection, transparency)
+
         self.radius = radius
 
     def intersection(self, ray, tMin, tMax):

@@ -2,8 +2,15 @@ var arrayListForSphere 		 = [];
 var arrayListForCube 		 = [];
 var arrayListForLight 		 = [];
 var arrayListForObject 		 = [];
-
+var paintOrder               = [];
+var boolDraged               = [];
+var rendered                 = [];
 var globalImagePlaneSizeObject, globalSceneObject, globalRaytracerObject, globalAmbientLight;
+var convertSize;
+
+
+
+
 
 function addShape() {
 	//get the canvas
@@ -43,7 +50,7 @@ function addShape() {
 		
 	//set values depending on z(depth)
 	size = size * 50;
-	var convertSize = (size * 15)/z;
+	convertSize = (size * 15)/z;
 	
 	
 	var xCoord = ((x - c.width/2)  * 10 / z) + c.width/2 ;
@@ -125,6 +132,7 @@ function addShape() {
 
 	//converting Hex to RGB. 
 	var hexToRGB 	 		 = hexToRgb(color); 
+	
 	var colorObject  		 = new colorObj((hexToRGB[0]/255), (hexToRGB[1]/255), (hexToRGB[2]/255));
 
 	//object creation for sphere
@@ -135,19 +143,38 @@ function addShape() {
 	var cube 		 		 = new Shape(centerObject, radius, colorObject, reflection, "Cube");
 	var cubeObject   		 = new CubeObj(cube);
 
-
+	
    	 if(shape == "Circle") {
 		arrayListForObject.push(sphereObject);
-		
 	} else {
 		arrayListForObject.push(cubeObject);
 	}
+	
+	function compare(a,b) {
+		return b[1] - a[1];
+	}
+	
+	paintOrder.push([arrayListForObject.length - 1, arrayListForObject[arrayListForObject.length - 1].Sphere.center.z]);
+	paintOrder.sort(compare);
+	boolDraged.push([arrayListForObject.length - 1, false]);
+	rendered.push([arrayListForObject.length - 1, false]);
+	
 	//reset values
 	document.getElementById("resetShape").reset();
 		
 };
 
 function renderShapes() {
+	
+	for(i = 0; i < arrayListForObject.length; i++){
+		console.log(arrayListForObject[boolDraged[i][0]].Sphere.center.x);
+		if(boolDraged[i][1]){
+			arrayListForObject[boolDraged[i][0]].Sphere.center.x = (arrayListForObject[boolDraged[i][0]].Sphere.center.z/10)*arrayListForObject[boolDraged[i][0]].Sphere.center.x;
+			arrayListForObject[boolDraged[i][0]].Sphere.center.y = (arrayListForObject[boolDraged[i][0]].Sphere.center.z/10)*arrayListForObject[boolDraged[i][0]].Sphere.center.y;
+			rendered[i][1] = true;
+		}
+		console.log(arrayListForObject[boolDraged[i][0]].Sphere.center.x);
+	}
 	
 	//for Ambient Light
 	var active = "true";
@@ -192,6 +219,23 @@ function renderShapes() {
             var modal = document.getElementById('myModal1');
 			document.getElementById("loadingKati").src = "data:image/png;base64," + base64;
 		}
+		
+		
+		
+		for(i = 0; i < arrayListForObject.length; i++){
+		
+		if(rendered[i][1]){
+			arrayListForObject[boolDraged[i][0]].Sphere.center.x = (10/arrayListForObject[boolDraged[i][0]].Sphere.center.z)*arrayListForObject[boolDraged[i][0]].Sphere.center.x;
+			arrayListForObject[boolDraged[i][0]].Sphere.center.y = (10/arrayListForObject[boolDraged[i][0]].Sphere.center.z)*arrayListForObject[boolDraged[i][0]].Sphere.center.y;
+			
+			var canvas = document.getElementById("myCanvas");
+	        var ctx = canvas.getContext("2d");	
+			ctx.clearRect(0,0,canvas.width,canvas.height);
+			redraw(canvas, ctx);
+			
+		}
+		
+	}
 	}
 }
 
@@ -348,6 +392,9 @@ function addLight() {
 	document.getElementById("light_z").value = '';
 };
 	
+	
+	
+	
 function hexToRgb(hex) {
     var c;
     if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
@@ -361,6 +408,15 @@ function hexToRgb(hex) {
     throw new Error('Bad Hex');
 }
 
+function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
+
+function rgbToHex(r, g, b) {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
 function clearGrid() {
 	var c = document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
@@ -369,6 +425,7 @@ function clearGrid() {
 	arrayListForCube	   		= [];
 	arrayListForLight      		= [];
 	arrayListForObject	 	    = [];
+	paintOrder                  = [];
 	globalRaytracerObject 		= "";
 	globalAmbientLight			= "";
 	globalSceneObject			= "";
@@ -376,7 +433,34 @@ function clearGrid() {
 };
 
 
+function redraw(canvas, ctx){
+	for(j = 0; j < arrayListForObject.length; j++){
+		var i = paintOrder[j][0];
+		
+		
+		  var shapeX = arrayListForObject[i].Sphere.center.x*71.4285714286 + 250;
+		  var shapeY = arrayListForObject[i].Sphere.center.y*71.4285714286 + 250;
+		  var shapeR = arrayListForObject[i].Sphere.radius*50 * 15 / arrayListForObject[i].Sphere.center.z ;
+		  var shapeC = arrayListForObject[i].Sphere.color;
+		  var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
+		  //console.log(shapeC.r);
+		  
+		  
+		  ctx.beginPath();
+		  ctx.arc(shapeX/500 * canvas.width,	Math.abs(shapeY/500 * canvas.height - canvas.height) ,shapeR,0,2*Math.PI);
+		  ctx.fillStyle = color;
+		  ctx.fill();
+		  ctx.stroke();
+		
+		  
+	}
+	
+}
+
+
+
 function sliderDrag() {
+	
 	if(document.getElementById("inputText").style.display == "none") {
 		$('#dragDrop').slideUp(1000, up);
 		function up() {
@@ -397,6 +481,7 @@ function sliderDrag() {
 	$('#picker').farbtastic('#color');
 	
 	var canvas = document.getElementById("myCanvas");
+	var ctx=canvas.getContext("2d");
 	canvas.style.width ='100%';
 	canvas.style.height='100%';
 	canvas.width  = canvas.offsetWidth;
@@ -409,6 +494,180 @@ function sliderDrag() {
        	 modal.style.display = "none";
    	  }
 	}
+	
+	
+	//dragging is until the end of the file
+	
+	var canvasOffset=$("#myCanvas").offset();
+    var offsetX=canvasOffset.left;
+    var offsetY=canvasOffset.top;
+    var canvasWidth=canvas.width;
+    var canvasHeight=canvas.height;
+    var isDragging=false;
+	var index;
+	
+	
+	function handleMouseDown(e){
+		
+      canMouseX=parseInt(e.clientX-$("#myCanvas").offset().left);
+      canMouseY=parseInt(e.clientY-$("#myCanvas").offset().top);
+	  
+	  //canMouseX = ((canMouseX/ canvas.width) * 500 ) ;
+	  //canMouseY = Math.abs(((canMouseY/ canvas.height) * 500 ) - 500) ;
+	  
+	  canMouseX = ((canMouseX/ canvas.width) * 500 ) - 250 ;
+	  canMouseY = Math.abs(((canMouseY/ canvas.height) * 500 ) - 500) - 250 ;
+	  
+	  //console.log("mouse:",canMouseX,canMouseY);
+	  
+	  
+	  
+	  for(i = 0; i < arrayListForObject.length; i++){
+		  
+		  //var shapeR = (arrayListForObject[i].Sphere.radius*50)*15/arrayListForObject[i].Sphere.center.z;
+		  var shapeR = (arrayListForObject[i].Sphere.radius*50*15)/arrayListForObject[i].Sphere.center.z;
+		  var shapeX = arrayListForObject[i].Sphere.center.x*71.4285714286 ;
+		  var shapeY = arrayListForObject[i].Sphere.center.y*71.4285714286 ;
+		  if(!boolDraged[i][1]){
+			//shapeX = ((shapeX - canvas.width/2)  * 10 / arrayListForObject[i].Sphere.center.z) + canvas.width/2;
+			//shapeY = ((shapeY - canvas.height/2)  * 10 / arrayListForObject[i].Sphere.center.z) + canvas.height/2 ;
+			
+			shapeX = shapeX / (arrayListForObject[i].Sphere.center.z/10);
+			shapeY = shapeY / (arrayListForObject[i].Sphere.center.z/10);
+		  }
+		  
+		  //console.log("shape:",shapeX, shapeY, shapeR);
+		  
+		  if(canMouseX > shapeX - shapeR && canMouseX < shapeX + shapeR && canMouseY > shapeY - shapeR && canMouseY < shapeY + shapeR){
+			isDragging=true;
+			index = i;
+			boolDraged[i][1] = true;
+		  }
+		  
+	   }
+	   
+	   
+    }
+
+    function handleMouseUp(e){
+      canMouseX=parseInt(e.clientX-$("#myCanvas").offset().left);
+      canMouseY=parseInt(e.clientY-$("#myCanvas").offset().top);
+	  
+	  if(isDragging){
+		  
+		      arrayListForObject[index].Sphere.center.x = (((canMouseX/canvas.width*2)*250) - 250)/71.4285714286;
+		      arrayListForObject[index].Sphere.center.y = -(((canMouseY/canvas.height*2)*250) - 250)/71.4285714286;
+		    
+			
+			
+	    //console.log(arrayListForObject[index].Sphere.center);
+	    ctx.clearRect(0,0,canvas.width,canvas.height);
+	    redraw(canvas, ctx);
+		  
+	  }
+	  
+      // clear the drag flag
+      isDragging=false;
+	  //alert((((canMouseX/canvas.width*2)*250) - 250)/71.4285714286);
+	  
+	  
+    }
+
+    function handleMouseOut(e){
+      canMouseX=parseInt(e.clientX-$("#myCanvas").offset().left);
+      canMouseY=parseInt(e.clientY-$("#myCanvas").offset().top);
+      // user has left the canvas, so clear the drag flag
+	  if(isDragging){
+	  arrayListForObject[index].Sphere.center.x = (((canMouseX/canvas.width*2)*250) - 250)/71.4285714286;
+		arrayListForObject[index].Sphere.center.y = -(((canMouseY/canvas.height*2)*250) - 250)/71.4285714286;
+		ctx.clearRect(0,0,canvas.width,canvas.height);
+	    redraw(canvas, ctx);
+		
+	  }
+      isDragging=false;
+	  
+    }
+
+    function handleMouseMove(e){
+		
+      canMouseX=parseInt(e.clientX-$("#myCanvas").offset().left);
+      canMouseY=parseInt(e.clientY-$("#myCanvas").offset().top);
+      // if the drag flag is set, clear the canvas and draw the image
+      if(isDragging){
+		  ctx.clearRect(0,0,canvas.width,canvas.height);
+		  
+		  arrayListForObject[index].Sphere.center.x = 999999;
+		  arrayListForObject[index].Sphere.center.y = 999999;
+		  convertSize = (arrayListForObject[index].Sphere.radius * 50)*15/arrayListForObject[index].Sphere.center.z ;
+		  
+		  var shapeC = arrayListForObject[index].Sphere.color;
+		  var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
+		  
+		  ctx.beginPath();
+		  ctx.arc(canMouseX,canMouseY,convertSize,0,2*Math.PI);
+		  ctx.fillStyle = color;
+		  ctx.fill();
+		  ctx.stroke();
+		  redraw(canvas, ctx);
+		  
+	  }
+	  
+	  
+          
+      
+    }
+	
+	window.onresize = function(event) {
+		ctx.clearRect(0,0,canvas.width,canvas.height);
+		canvas = document.getElementById("myCanvas");
+		ctx=canvas.getContext("2d");
+		canvas.style.width ='100%';
+		canvas.style.height='100%';
+		canvas.width  = canvas.offsetWidth;
+		canvas.height = canvas.offsetHeight;
+		redraw(canvas, ctx);
+		
+	};
+
+    $("#myCanvas").mousedown(function(e){handleMouseDown(e);});
+    $("#myCanvas").mousemove(function(e){handleMouseMove(e);});
+    $("#myCanvas").mouseup(function(e){handleMouseUp(e);});
+    $("#myCanvas").mouseout(function(e){handleMouseOut(e);});
 
 });
+/* for slider menu */
+$('#lightNav').click(function(){
+	if($(this).css("left") <= "10px") {
+		$('#lightDiv').animate({'left':'0'});
+		$('#lightNav').animate({'left':"100%"});
+	}
+	else {
+		$('#lightDiv').animate({"left": '-400%'});
+		$('#lightNav').animate({"left": '-6%'});
+	}
+});
+
+$('#shapesNav').click(function(){
+	if($(this).css("left") <= "10px") {
+		$('#shapesDiv').animate({'left':'0'});
+		$('#shapesNav').animate({'left':"100%"});
+	}
+	else {
+		$('#shapesDiv').animate({"left": '-400%'});
+		$('#shapesNav').animate({"left": '-6%'});
+	}
+});
+
+$('#settingsNav').click(function(){
+	if($(this).css("left") <= "10px") {
+		$('#settingsDiv').animate({'left':'0'});
+		$('#settingsNav').animate({'left':"100%"});
+	}
+	else {
+		$('#settingsDiv').animate({"left": '-400%'});
+		$('#settingsNav').animate({"left": '-6%'});
+	}
+});
+
+
     
