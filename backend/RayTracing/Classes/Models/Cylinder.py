@@ -60,6 +60,13 @@ class Cylinder(Object3D):
         return intersect
 
 
+    def getSurfaceNormal(self,point):
+        surfaceNormal = Vector()
+        surfaceNormal.x = point.x - self.center.x
+        surfaceNormal.y = point.y
+        surfaceNormal.z = point.z - self.center.z
+        return surfaceNormal.normalize()
+
     def inCylinder(self, point):
         if point.y < self.bottom.y or point.y > self.top.y:
             return False
