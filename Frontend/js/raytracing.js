@@ -418,7 +418,7 @@ $('#lightNav').click(function(){
 		$('#lightNav').animate({'left':"100%"});
 	}
 	else {
-		$('#lightDiv').animate({"left": '-200%'});
+		$('#lightDiv').animate({"left": '-400%'});
 		$('#lightNav').animate({"left": '-6%'});
 	}
 });
@@ -429,7 +429,7 @@ $('#shapesNav').click(function(){
 		$('#shapesNav').animate({'left':"100%"});
 	}
 	else {
-		$('#shapesDiv').animate({"left": '-200%'});
+		$('#shapesDiv').animate({"left": '-400%'});
 		$('#shapesNav').animate({"left": '-6%'});
 	}
 });
@@ -440,7 +440,7 @@ $('#settingsNav').click(function(){
 		$('#settingsNav').animate({'left':"100%"});
 	}
 	else {
-		$('#settingsDiv').animate({"left": '-200%'});
+		$('#settingsDiv').animate({"left": '-400%'});
 		$('#settingsNav').animate({"left": '-6%'});
 	}
 });
