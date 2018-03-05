@@ -635,6 +635,39 @@ function sliderDrag() {
     $("#myCanvas").mouseout(function(e){handleMouseOut(e);});
 
 });
+/* for slider menu */
+$('#lightNav').click(function(){
+	if($(this).css("left") <= "10px") {
+		$('#lightDiv').animate({'left':'0'});
+		$('#lightNav').animate({'left':"100%"});
+	}
+	else {
+		$('#lightDiv').animate({"left": '-400%'});
+		$('#lightNav').animate({"left": '-6%'});
+	}
+});
+
+$('#shapesNav').click(function(){
+	if($(this).css("left") <= "10px") {
+		$('#shapesDiv').animate({'left':'0'});
+		$('#shapesNav').animate({'left':"100%"});
+	}
+	else {
+		$('#shapesDiv').animate({"left": '-400%'});
+		$('#shapesNav').animate({"left": '-6%'});
+	}
+});
+
+$('#settingsNav').click(function(){
+	if($(this).css("left") <= "10px") {
+		$('#settingsDiv').animate({'left':'0'});
+		$('#settingsNav').animate({'left':"100%"});
+	}
+	else {
+		$('#settingsDiv').animate({"left": '-400%'});
+		$('#settingsNav').animate({"left": '-6%'});
+	}
+});
 
 
     
