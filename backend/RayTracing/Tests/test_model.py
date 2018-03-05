@@ -2,6 +2,8 @@ import unittest
 
 import math
 
+import sys
+
 from RayTracing.Classes.Models.Color import Color
 from RayTracing.Classes.Models.Camera import Camera
 from RayTracing.Classes.Models.Color import Color
@@ -99,9 +101,9 @@ class VectorTest(unittest.TestCase):
     def test_getInverse(self):
         v = Vector(0, 0, 0.5)
         invV = v.getInverse()
-#        self.assertEqual(invV.x, 0)
-#        self.assertEqual(invV.y, 0)
-#        self.assertEqual(invV.z, 2)
+        self.assertEqual(invV.x, sys.float_info.max)
+        self.assertEqual(invV.y, sys.float_info.max)
+        self.assertEqual(invV.z, 2)
 
 
 class SphereTest(unittest.TestCase):
@@ -170,38 +172,6 @@ class CameraTest(unittest.TestCase):
 
 class ColorTest(unittest.TestCase):
 
-    def test_compareBrightness(self):
-        red = Color()
-        red.red()
-        white = Color()
-        white.white()
-        test1 = red.isBrighterOrEqualTo(white)
-        test2 = white.isBrighterOrEqualTo(red)
-        self.assertFalse(test1)
-        self.assertTrue(test2)
-
-class RayTest(unittest.TestCase):
-
-    def test_constructor(self):
-        ray = Ray(Vector(0, 0, 0), Vector(0, 0, 1))
-
-
-class CubeTest(unittest.TestCase):
-
-    def test_constructor(self):
-        cube = Cube(Vector(1, 1, 1), 2, Color().red(), 10)
-        self.assertEqual(cube.minPoint.x, 0)
-        self.assertEqual(cube.minPoint.y, 0)
-        self.assertEqual(cube.minPoint.z, 0)
-        self.assertEqual(cube.maxPoint.x, 2)
-        self.assertEqual(cube.maxPoint.y, 2)
-        self.assertEqual(cube.maxPoint.z, 2)
-
-    def test_intersection(self):
-        cube = Cube(Vector(0, 0, 5), 2, 10, 10)
-        ray = Ray(Vector(0,0,0), Vector(0,0.25,1))
-        intersection = cube.intersection(ray)
-
     def test_multiply(self):
         black = Color(0.0, 0.0, 0.0)
         small = Color(0.1, 0.1, 0.1)
@@ -228,6 +198,33 @@ class CubeTest(unittest.TestCase):
         test2 = white.isBrighterOrEqualTo(red)
         self.assertFalse(test1)
         self.assertTrue(test2)
+
+class RayTest(unittest.TestCase):
+
+    def test_constructor(self):
+        ray = Ray(Vector(0, 0, 0), Vector(0, 0, 1))
+        self.assertEqual(ray.direction.x, 0)
+
+class CubeTest(unittest.TestCase):
+
+    def test_constructor(self):
+        cube = Cube(Vector(1, 1, 1), 2, Color().red(), 10)
+        self.assertEqual(cube.minPoint.x, 0)
+        self.assertEqual(cube.minPoint.y, 0)
+        self.assertEqual(cube.minPoint.z, 0)
+        self.assertEqual(cube.maxPoint.x, 2)
+        self.assertEqual(cube.maxPoint.y, 2)
+        self.assertEqual(cube.maxPoint.z, 2)
+
+    def test_intersection(self):
+        cube = Cube(Vector(0, 0, 5), 2, 10, 10)
+        ray = Ray(Vector(0, 0, 0), Vector(0, 0.25, 1))
+        intersection = cube.intersection(ray, 1, 10000)
+        self.assertEqual(intersection.point.x, 0)
+        self.assertEqual(intersection.point.y, 1)
+        self.assertEqual(intersection.point.z, 4)
+
+
 
 if __name__ == '__main__':
     unittest.main()
