@@ -1,4 +1,5 @@
 import unittest
+import math
 
 from RayTracing.Classes.Models.Camera import Camera
 from RayTracing.Classes.Models.Color import Color
@@ -32,7 +33,7 @@ class MyTestCase(unittest.TestCase):
 
         pixelRay = Ray(camera.position, Vector(0.01, 0, 1))
 
-        sphereIntersection = s1.intersection(pixelRay, 0, 1000)
+        sphereIntersection = s1.intersection(pixelRay, 1, math.inf)
 
         arrColor = raytracer.getColorForIntersection(sphereIntersection, 0)
         testColor = arrColor
@@ -63,7 +64,7 @@ class MyTestCase(unittest.TestCase):
 
         pixelRay = Ray(camera.position, Vector(0.001, 0, 1))
 
-        sphereIntersection = s1.intersection(pixelRay, 0, 1000)
+        sphereIntersection = s1.intersection(pixelRay, 1, math.inf)
 
         arrColor = raytracer.getColorForIntersection(sphereIntersection, 0)
         testColor = arrColor

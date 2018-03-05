@@ -41,7 +41,6 @@ class Color(object):
     def getB(self):
         return self.color[2]
 
-
     def isBrighterOrEqualTo(self, otherColor):
         if self.getR() >= otherColor.getR() and self.getB() >= otherColor.getB() and self.getG() >= otherColor.getG():
             return True
@@ -49,33 +48,27 @@ class Color(object):
             return False
 
     def multiply(self, multiplier):
-        redV = self.color[0] * multiplier
-        greenV = self.color[1] * multiplier
-        blueV = self.color[2] * multiplier
+        redV = self.checkNotOutbound(self.color[0] * multiplier)
+        greenV = self.checkNotOutbound(self.color[1] * multiplier)
+        blueV = self.checkNotOutbound(self.color[2] * multiplier)
+
         newColor = Color(redV, greenV, blueV)
-        newColor.checkNotOutbound()
         return newColor
 
     def add(self, addition):
-        redV = self.color[0] + addition.getR()
-        greenV = self.color[1] + addition.getG()
-        blueV = self.color[2] + addition.getB()
+        redV = self.checkNotOutbound(self.color[0] + addition.getR())
+        greenV = self.checkNotOutbound(self.color[1] + addition.getG())
+        blueV = self.checkNotOutbound(self.color[2] + addition.getB())
         newColor = Color(redV, greenV, blueV)
-        newColor.checkNotOutbound()
         return newColor
 
-    def checkNotOutbound(self):
-        if self.color[0] > 1:
-            self.color[0] = 1
-        if self.color[1] > 1:
-            self.color[1] = 1
-        if self.color[2] > 1:
-            self.color[2] = 1
 
-        if self.color[0] < 0:
-            self.color[0] = 0
-        if self.color[1] < 0:
-            self.color[1] = 0
-        if self.color[2] < 0:
-            self.color[2] = 0
+    def checkNotOutbound(self, value):
+        if value > 1:
+            value = 1
+
+        if value < 0:
+            value = 0
+
+        return value
 

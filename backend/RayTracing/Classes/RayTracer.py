@@ -8,6 +8,7 @@ from RayTracing.Classes.Models.AmbientLight import AmbientLight
 from RayTracing.Classes.Models.Color import Color
 from RayTracing.Classes.Models.Light import Light
 from RayTracing.Classes.Models.Imageplane import Imageplane
+from RayTracing.Classes.Models.Plane import Plane
 from RayTracing.Classes.Models.Ray import Ray
 from RayTracing.Classes.Models.Scene import Scene
 from RayTracing.Classes.Models.Sphere import Sphere
@@ -102,8 +103,11 @@ class RayTracer:
         for light in self.scene.getLights():
             if type(light) is AmbientLight:
                 colorBrightness += light.getBrightness()
+
+
             else:
                 isShadow = self.getShadows(intersection, light)
+
 
                 if not isShadow:
                     colorBrightness = self.diffuseAndSpecularReflection(light, intersection, colorBrightness)
