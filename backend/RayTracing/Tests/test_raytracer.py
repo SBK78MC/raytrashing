@@ -24,8 +24,8 @@ if __name__ == '__main__':
 
     #s4 = Sphere(sCenter4, 3, Color(0.1, 0.1, 0.1), 500, 0.8)
 
-    light1 = Light(5, 0, 8, 0.9)
-    light0 = AmbientLight(0.3)
+    light1 = Light(5, 5, 8, 0.5)
+    light0 = AmbientLight(1.0)
 
     scene = Scene()
 
@@ -37,7 +37,7 @@ if __name__ == '__main__':
 
     #scene.addObject3D(s4)
 
-    imagepl = Imageplane(400, 400)
+    imagepl = Imageplane(750, 750)
 
     camera = Camera(Vector(0, 0, 0), Vector(0, 0, 1), 30)
 
