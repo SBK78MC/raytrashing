@@ -26,6 +26,7 @@ if __name__ == '__main__':
     light1 = Light(5, 4, 10, 0.7)
     light0 = AmbientLight(0.5)
 
+
     scene = Scene()
 
     scene.addLight(light0)
@@ -35,6 +36,10 @@ if __name__ == '__main__':
     scene.addObject3D(s3)
 
     imagepl = Imageplane(400, 400)
+
+    #scene.addObject3D(s4)
+
+    imagepl = Imageplane(750, 750)
 
     camera = Camera(Vector(0, 0, 0), Vector(0, 0, 1), 30)
 

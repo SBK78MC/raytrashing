@@ -5,7 +5,9 @@ import math
 from RayTracing.Classes.Models.Color import Color
 from RayTracing.Classes.Models.Camera import Camera
 from RayTracing.Classes.Models.Color import Color
+
 from RayTracing.Classes.Models.Cube import Cube
+from RayTracing.Classes.Models.Cylinder import Cylinder
 from RayTracing.Classes.Models.Light import Light
 from RayTracing.Classes.Models.MathUtil import MathUtil
 from RayTracing.Classes.Models.Ray import Ray
@@ -229,6 +231,24 @@ class CubeTest(unittest.TestCase):
         test2 = white.isBrighterOrEqualTo(red)
         self.assertFalse(test1)
         self.assertTrue(test2)
+
+class CylinderTest(unittest.TestCase):
+
+    def test_constructor(self):
+        cylinder = Cylinder(Vector(0, 0, 5), 2, 1, Color().red(), 10, 0.1)
+        self.assertEqual(cylinder.center.x, 0)
+        self.assertEqual(cylinder.center.y, 0)
+        self.assertEqual(cylinder.center.z, 5)
+        self.assertEqual(cylinder.radius, 1)
+        self.assertEqual(cylinder.height, 2)
+
+    def test_intersection(self):
+        cylinder = Cylinder(Vector(0, 0, 5), 2, 1, Color().red(), 10, 0.1)
+        ray = Ray(Vector(0,0,0), Vector(0.02, 0.2, 0.01))
+        intersection = cylinder.intersection(ray)
+        self.assertEqual(intersection.point.x, 0.41)
+        self.assertEqual(intersection.point.y, 4.09)
+        self.assertEqual(intersection.point.z, 0.2)
 
 if __name__ == '__main__':
     unittest.main()
