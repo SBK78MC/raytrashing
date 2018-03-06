@@ -23,7 +23,7 @@
                },
                "specular":"DOUBLE VALUE", // 0 < specular < 1000
                "reflection":"DOUBLE VALUE", // 0.0 < reflection < 1.0
-               "translucency":"DOUBLE VALUE" // 0.0 < translucency < 1.0
+               "transparency":"DOUBLE VALUE" // 0.0 < transparency < 1.0
             }
          },
          {
@@ -41,7 +41,7 @@
                },
                "specular":"DOUBLE VALUE",
                "reflection":"DOUBLE VALUE",
-               "translucency":"DOUBLE VALUE"
+               "transparency":"DOUBLE VALUE"
             }
          }, 
          {
@@ -60,7 +60,7 @@
                  },
                  "specular":"DOUBLE VALUE",
                  "reflection":"DOUBLE VALUE",
-                 "translucency":"DOUBLE VALUE"
+                 "transparency":"DOUBLE VALUE"
             }
         }
       ],

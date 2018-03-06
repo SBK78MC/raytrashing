@@ -9,8 +9,8 @@ from RayTracing.Classes.Models.Vector import Vector
 
 class Cylinder(Object3D):
 
-    def __init__(self, x=0, y=0, z=0, height=0, radius=0, color=Color(), specular=50, reflection=0.1):
-        super().__init__(x, y, z, color, specular, reflection)
+    def __init__(self, x=0, y=0, z=0, height=0, radius=0, color=Color(), specular=50, reflection=0.1, transparency=0):
+        super().__init__(x, y, z, color, specular, reflection, transparency)
         self.radius = radius
         self.height = height
         self.top = Vector(x, y + height / 2, z)
@@ -18,8 +18,8 @@ class Cylinder(Object3D):
         self.va = self.top.sub(self.center).normalize()
 
 
-    def __init__(self, v=Vector(0, 0, 0), height=0, radius=0, color=Color(), specular=50, reflection=0.1):
-        super().__init__(v, color, specular, reflection)
+    def __init__(self, v=Vector(0, 0, 0), height=0, radius=0, color=Color(), specular=50, reflection=0.1, transparency=0):
+        super().__init__(v, color, specular, reflection, transparency)
         self.radius = radius
         self.height = height
         self.top = Vector(v.x, v.y + height / 2, v.z)
