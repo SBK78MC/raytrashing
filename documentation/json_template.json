@@ -3,6 +3,9 @@
         "width":"INTEGER VALUE",
         "height": "INTEGER VALUE"
     },
+    "Camera":{
+        "position":"INTEGER VALUE" // 0 == Front, 1 == Top, 2 == Left, 3 == Right
+    },
     "Scene":{
       "Object3D":[
          {
@@ -18,7 +21,9 @@
                   "g":"INTEGER VALUE",
                   "b":"INTEGER VALUE"
                },
-               "reflection":"DOUBLE VALUE"
+               "specular":"DOUBLE VALUE", // 0 < specular < 1000
+               "reflection":"DOUBLE VALUE", // 0.0 < reflection < 1.0
+               "translucency":"DOUBLE VALUE" // 0.0 < translucency < 1.0
             }
          },
          {
@@ -34,9 +39,30 @@
                   "g":"INTEGER VALUE",
                   "b":"INTEGER VALUE"
                },
-               "reflection":"DOUBLE VALUE"
+               "specular":"DOUBLE VALUE",
+               "reflection":"DOUBLE VALUE",
+               "translucency":"DOUBLE VALUE"
             }
-         }
+         }, 
+         {
+            "Cylinder":{
+                "center":{
+                    "x":"DOUBLE VALUE",
+                    "y":"DOUBLE VALUE",
+                    "z":"DOUBLE VALUE"
+                 },
+                 "radius":"DOUBLE VALUE",
+                 "height":"DOUBLE VALUE",
+                 "color":{
+                    "r":"INTEGER VALUE",
+                    "g":"INTEGER VALUE",
+                    "b":"INTEGER VALUE"
+                 },
+                 "specular":"DOUBLE VALUE",
+                 "reflection":"DOUBLE VALUE",
+                 "translucency":"DOUBLE VALUE"
+            }
+        }
       ],
       "Light":[
          {
@@ -51,6 +77,9 @@
       "AmbientLight":{
           "active":"BOOLEAN VALUE",
           "brightness":"DOUBLE VALUE"
+      },
+      "Floor":{
+          "active":"BOOLEAN VALUE"
       }
    }
 }
