@@ -112,6 +112,41 @@ class JSONParserTest(unittest.TestCase):
         self.assertEqual(color.getG(), 0)
         self.assertEqual(color.getB(), 0)
 
+    def test_deserializeCube(self):
+        cubeString = '{"center":{"x":3.0,"y":1.0,"z":2.0},"sideLength":1.0,"color":{"r":1,"g":0,"b":0},"specular":1.0, "reflection":1.0, "transparency":0.0}'
+        cubeJSON = json.loads(cubeString)
+
+        cube = JSONParser().deserializeCube(cubeJSON)
+
+        self.assertEqual(cube.center.x, 3)
+        self.assertEqual(cube.center.y, 1)
+        self.assertEqual(cube.center.z, 2)
+
+        self.assertEqual(cube.w, 1)
+        self.assertEqual(cube.h, 1)
+        self.assertEqual(cube.d, 1)
+
+        self.assertEqual(cube.specular, 1)
+        self.assertEqual(cube.reflection, 1)
+        self.assertEqual(cube.transparency, 0)
+
+    def test_deserializeCylinder(self):
+        cylinderString = '{"center":{"x":3.0,"y":1.0,"z":2.0},"radius":1.0, "height":2.0, "color":{"r":1,"g":0,"b":0},"specular":1.0, "reflection":1.0, "transparency":0.0}'
+
+        cylinderJSON = json.loads(cylinderString)
+
+        cylinder = JSONParser().deserializeCylinder(cylinderJSON)
+
+        self.assertEqual(cylinder.center.x, 3)
+        self.assertEqual(cylinder.center.y, 1)
+        self.assertEqual(cylinder.center.z, 2)
+
+        self.assertEqual(cylinder.radius, 1)
+        self.assertEqual(cylinder.height, 2)
+
+        self.assertEqual(cylinder.specular, 1)
+        self.assertEqual(cylinder.reflection, 1)
+        self.assertEqual(cylinder.transparency, 0)
 
 if __name__ == '__main__':
     unittest.main()
