@@ -22,8 +22,8 @@ from multiprocessing.managers import BaseManager
 class RayTracer:
 
     def __init__(self, imageplane=Imageplane(), mainscene=Scene(), camera=Camera()):
-        self.recursionLimit = 5
-        self.backgroundColor = Color(0.1, 0.2, 0.2)
+        self.recursionLimit = 4
+        self.backgroundColor = Color(0, 0, 0)
         self.imageplane = imageplane
         self.scene = mainscene
         self.camera = camera
@@ -87,7 +87,7 @@ class RayTracer:
         for obj in self.scene.getObjects():
             objIntersection = obj.intersection(pixelRay, 0.0001, math.inf)
             if objIntersection:
-                if minDist < 0 or minDist > objIntersection.getDistance():
+                if (minDist < 0 or minDist > objIntersection.getDistance()) and objIntersection.getObject().getTransparency() < 1:
                     minDist = objIntersection.getDistance()
                     minObjInter = objIntersection
 
@@ -108,9 +108,13 @@ class RayTracer:
             else:
                 isShadow = self.getShadows(intersection, light)
 
+                if isShadow:
+                    colorBrightnessFromDiffuse = self.diffuseAndSpecularReflection(light, intersection)
+                    colorBrightness += colorBrightnessFromDiffuse * isShadow
+                else:
+                    colorBrightness += self.diffuseAndSpecularReflection(light, intersection)
 
-                if not isShadow:
-                    colorBrightness = self.diffuseAndSpecularReflection(light, intersection, colorBrightness)
+
 
         initialColor = intersection.getObject().getColor()
         brightColor = initialColor.multiply(colorBrightness)
@@ -121,18 +125,17 @@ class RayTracer:
         surfaceNormal = intersection.getObject().getSurfaceNormal(intersection.getPoint())
         viewDirection = intersection.getRay().getDirection()
 
-        fresnelEffect = self.getFresnel(viewDirection, surfaceNormal, 1.3)
+        fresnelEffect = self.getFresnel(viewDirection, surfaceNormal, 1.)
 
         if refractionColor and reflectionColor:
 
-            reflectionColorWithFresnel = reflectionColor.multiply(fresnelEffect).multiply(intersection.getObject().getReflection())
-            refractionColorWithFresnel = refractionColor.multiply((1 - fresnelEffect)).multiply(intersection.getObject().getTransparency())
+            reflectionColorWithFresnel = reflectionColor.multiply(fresnelEffect).multiply(intersection.getObject().getReflection()).multiply(colorBrightness)
+            refractionColorWithFresnel = refractionColor.multiply((1 - fresnelEffect)).multiply(intersection.getObject().getTransparency()).multiply(colorBrightness)
             brightColorWithInverseRate = brightColor.multiply(1 - intersection.getObject().getTransparency() - intersection.getObject().getReflection())
             finalColor = reflectionColorWithFresnel.add(refractionColorWithFresnel).add(brightColorWithInverseRate)
 
         elif reflectionColor:
-
-            reflectionColorWithRate = reflectionColor.multiply(intersection.getObject().getReflection())
+            reflectionColorWithRate = reflectionColor.multiply(intersection.getObject().getReflection()).multiply(colorBrightness)
             brightColorWithInverseRate = brightColor.multiply(1 - intersection.getObject().getReflection())
             finalColor = reflectionColorWithRate.add(brightColorWithInverseRate)
 
@@ -143,6 +146,8 @@ class RayTracer:
 
         else:
             finalColor = brightColor
+
+        #finalColor = finalColor.multiply(colorBrightness)
 
         return finalColor
 
@@ -175,7 +180,7 @@ class RayTracer:
 
             originalDirection = intersection.getRay().getDirection()
             surfaceNormal = intersection.getObject().getSurfaceNormal(intersection.getPoint())
-            ior = 1.3
+            ior = 1.
 
             cosi = originalDirection.dotProduct(surfaceNormal)
             etai = 1
@@ -207,9 +212,11 @@ class RayTracer:
 
         return refractedColor
 
-    def diffuseAndSpecularReflection(self, light, intersection, colorBrightness):
+    def diffuseAndSpecularReflection(self, light, intersection):
         lightToPoint = light.getPosition().sub(intersection.getPoint())
         surfaceNormal = intersection.getObject().getSurfaceNormal(intersection.getPoint())
+
+        colorBrightness = 0
 
         surfNormDotLTP = surfaceNormal.dotProduct(lightToPoint)
         if surfNormDotLTP > 0:
@@ -229,14 +236,18 @@ class RayTracer:
         return colorBrightness
 
     def getShadows(self, intersection, light):
-        isShadow = False
+        isShadow = None
         for objectIter in self.scene.getObjects():
 
             lightToPoint = light.getLightRay(intersection.getPoint().sub(light.getPosition()))
 
             shadowIntersection = objectIter.intersection(lightToPoint, 0.001, 0.9999)
             if shadowIntersection:
-                isShadow = True
+                if isShadow is not None:
+                    if isShadow > objectIter.getTransparency():
+                        isShadow = objectIter.getTransparency()
+                else:
+                    isShadow = objectIter.getTransparency()
 
         return isShadow
 
