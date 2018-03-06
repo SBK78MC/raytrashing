@@ -7,7 +7,9 @@ import sys
 from RayTracing.Classes.Models.Color import Color
 from RayTracing.Classes.Models.Camera import Camera
 from RayTracing.Classes.Models.Color import Color
+
 from RayTracing.Classes.Models.Cube import Cube
+from RayTracing.Classes.Models.Cylinder import Cylinder
 from RayTracing.Classes.Models.Light import Light
 from RayTracing.Classes.Models.MathUtil import MathUtil
 from RayTracing.Classes.Models.Ray import Ray
@@ -225,6 +227,46 @@ class CubeTest(unittest.TestCase):
         self.assertEqual(intersection.point.z, 4)
 
 
+
+class CylinderTest(unittest.TestCase):
+
+    def test_constructor(self):
+        cylinder = Cylinder(Vector(0, 0, 5), 2, 1, Color().red(), 10, 0.1)
+        self.assertEqual(cylinder.center.x, 0)
+        self.assertEqual(cylinder.center.y, 0)
+        self.assertEqual(cylinder.center.z, 5)
+        self.assertEqual(cylinder.radius, 1)
+        self.assertEqual(cylinder.height, 2)
+
+    def test_intersection(self):
+        cylinder = Cylinder(Vector(0, 0, 5), 2, 1, Color().red(), 10, 0.1)
+        ray = Ray(Vector(0,0,0), Vector(0.00, 0.0, 1.0))
+        intersection = cylinder.intersection(ray, 0, 1000)
+        self.assertEqual(intersection.point.x, 0.0)
+        self.assertEqual(intersection.point.y, 0.0)
+        self.assertEqual(intersection.point.z, 4.0)
+
+    def test_intersection2(self):
+        cylinder = Cylinder(Vector(0, 0, 5), 2, 1, Color().red(), 10, 0.1)
+        ray = Ray(Vector(0,0,0), Vector(0, 0.1, 1))
+        intersection = cylinder.intersection(ray, 0, 1000)
+        self.assertEqual(intersection.point.x, 0.0)
+        self.assertEqual(intersection.point.y, 0.4)
+        self.assertEqual(intersection.point.z, 4.0)
+
+    def test_intersection3(self):
+        cylinder = Cylinder(Vector(0, 0, 5), 2, 1, Color().red(), 10, 0.1)
+        ray = Ray(Vector(0,0,0), Vector(0, 1, 1))
+        intersection = cylinder.intersection(ray, 0, 1000)
+        self.assertIsNone(intersection)
+
+    def test_intersection4(self):
+        cylinder = Cylinder(Vector(0, 0, 5), 2, 1, Color().red(), 10, 0.1)
+        ray = Ray(Vector(0, 0, 0), Vector(0.1, -0.2, 1))
+        intersection = cylinder.intersection(ray, 0, 1000)
+        self.assertAlmostEqual(intersection.point.x, 0.4087346744)
+        self.assertAlmostEqual(intersection.point.y, -0.8174693488)
+        self.assertAlmostEqual(intersection.point.z, 4.0873467439)
 
 if __name__ == '__main__':
     unittest.main()

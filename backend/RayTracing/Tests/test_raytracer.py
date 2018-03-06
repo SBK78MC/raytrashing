@@ -20,6 +20,7 @@ if __name__ == '__main__':
     pCenter3 = Vector(0, -3, 0)
     pDir = Vector(0, 1, 0)
 
+
     s1 = Sphere(sCenter, 1, Color(1.0, 0, 0), 1000, 0.5)
     s2 = Sphere(sCenter1, 2, Color(0, 1.0, 0), 500, 0.3)
     s3 = Plane(pCenter3, pDir, Color(0.1, 1.0, 1.0), 200, 0.3)
@@ -34,7 +35,8 @@ if __name__ == '__main__':
     scene.addObject3D(s2)
     scene.addObject3D(s3)
 
-    imagepl = Imageplane(400, 400)
+
+    imagepl = Imageplane(750, 750)
 
     camera = Camera(Vector(0, 0, 0), Vector(0, 0, 1), 30)
 
