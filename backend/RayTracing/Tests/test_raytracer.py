@@ -44,8 +44,10 @@ if __name__ == '__main__':
     scene.addObject3D(s2)
     scene.addObject3D(s3)
     scene.addObject3D(s4)
+
     scene.addObject3D(p1)
     scene.addObject3D(p2)
+
 
     imagepl = Imageplane(400, 400)
 

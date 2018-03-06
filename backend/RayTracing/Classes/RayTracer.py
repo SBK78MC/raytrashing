@@ -22,8 +22,8 @@ from multiprocessing.managers import BaseManager
 class RayTracer:
 
     def __init__(self, imageplane=Imageplane(), mainscene=Scene(), camera=Camera()):
-        self.recursionLimit = 4
         self.backgroundColor = Color(0, 0, 0)
+        self.recursionLimit = 5
         self.imageplane = imageplane
         self.scene = mainscene
         self.camera = camera
@@ -180,6 +180,7 @@ class RayTracer:
 
             originalDirection = intersection.getRay().getDirection()
             surfaceNormal = intersection.getObject().getSurfaceNormal(intersection.getPoint())
+
             ior = 1.
 
             cosi = originalDirection.dotProduct(surfaceNormal)
@@ -213,6 +214,7 @@ class RayTracer:
         return refractedColor
 
     def diffuseAndSpecularReflection(self, light, intersection):
+
         lightToPoint = light.getPosition().sub(intersection.getPoint())
         surfaceNormal = intersection.getObject().getSurfaceNormal(intersection.getPoint())
 
