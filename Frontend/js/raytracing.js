@@ -5,12 +5,8 @@ var arrayListForObject 		 = [];
 var paintOrder               = [];
 var boolDraged               = [];
 var rendered                 = [];
-var globalImagePlaneSizeObject, globalSceneObject, globalRaytracerObject, globalAmbientLight;
+var globalImagePlaneSizeObject, globalCameraPositionObject, globalSceneObject, globalRaytracerObject, globalAmbientLight, globalFloor;
 var convertSize;
-
-
-
-
 
 function addShape() {
 	//get the canvas
@@ -39,19 +35,15 @@ function addShape() {
 		return;
 			
 	}
-	
 	//translate to zero and the 250 sets the limits of what the user can see.
 	//to change the 250 we should also change the value send to the back end 
 	//at a new analogy. (class CenterForShapesAndLight)
 	y = -y/250 * c.height/2 + c.height/2;
 	x = x/250 * c.width/2 + c.width/2;
 	
-	
-		
 	//set values depending on z(depth)
 	size = size * 50;
 	convertSize = (size * 15)/z;
-	
 	
 	var xCoord = ((x - c.width/2)  * 10 / z) + c.width/2 ;
 	var yCoord = ((y - c.height/2)  * 10 / z) + c.height/2 ;
@@ -128,21 +120,26 @@ function addShape() {
 	//for Shape
 	var centerObject	     = new CenterForShapesAndLight(document.getElementById('shape_x').value, document.getElementById('shape_y').value, document.getElementById('shape_z').value);
 	var radius		 		 = document.getElementById('size').value;
+	var height				 = document.getElementById('height').value;
 	var reflection   		 = document.getElementById('reflection').value;
+	var specular			 = document.getElementById('specular').value;
+	var translucency		 = document.getElementById('translucency').value;
 
 	//converting Hex to RGB. 
 	var hexToRGB 	 		 = hexToRgb(color); 
-	
 	var colorObject  		 = new colorObj((hexToRGB[0]/255), (hexToRGB[1]/255), (hexToRGB[2]/255));
 
 	//object creation for sphere
-	var sphere 		 		 = new Shape(centerObject, radius, colorObject, reflection, "Sphere");
+	var sphere 		 		 = new Shape(centerObject, radius, 0, colorObject, specular, reflection, translucency, "Sphere");
 	var sphereObject 		 = new SphereObj(sphere);
 
 	//object creation for cube
-	var cube 		 		 = new Shape(centerObject, radius, colorObject, reflection, "Cube");
+	var cube 		 		 = new Shape(centerObject, radius, 0, colorObject, specular, reflection, translucency, "Cube");
 	var cubeObject   		 = new CubeObj(cube);
 
+	//object creation for cylinder
+	var cylinder 			 = new Shape(centerObject, radius, height, colorObject, specular, reflection, translucency, "Cylinder");
+	var cylinderObject		 = new CylinderObj(cylinder);
 	
    	 if(shape == "Circle") {
 		arrayListForObject.push(sphereObject);
@@ -153,7 +150,6 @@ function addShape() {
 	function compare(a,b) {
 		return b[1] - a[1];
 	}
-	
 	paintOrder.push([arrayListForObject.length - 1, arrayListForObject[arrayListForObject.length - 1].Sphere.center.z]);
 	paintOrder.sort(compare);
 	boolDraged.push([arrayListForObject.length - 1, false]);
@@ -161,35 +157,36 @@ function addShape() {
 	
 	//reset values
 	document.getElementById("resetShape").reset();
-		
 };
 
 function renderShapes() {
 	
-	for(i = 0; i < arrayListForObject.length; i++){
-		console.log(arrayListForObject[boolDraged[i][0]].Sphere.center.x);
+	for(i = 0; i < arrayListForObject.length; i++) {
 		if(boolDraged[i][1]){
 			arrayListForObject[boolDraged[i][0]].Sphere.center.x = (arrayListForObject[boolDraged[i][0]].Sphere.center.z/10)*arrayListForObject[boolDraged[i][0]].Sphere.center.x;
 			arrayListForObject[boolDraged[i][0]].Sphere.center.y = (arrayListForObject[boolDraged[i][0]].Sphere.center.z/10)*arrayListForObject[boolDraged[i][0]].Sphere.center.y;
 			rendered[i][1] = true;
 		}
-		console.log(arrayListForObject[boolDraged[i][0]].Sphere.center.x);
 	}
 	
 	//for Ambient Light
-	var active = "true";
+	var active  = "true";
+	var checked = document.getElementById('floor').checked;
+	if(checked == true)	checked = "true";
+	else checked = "false";
 	if(document.getElementById('brightness').value == 0) active = "false";
 	var ambientLight 		 = new AmbientLight(active, document.getElementById('ambient').value / 100);
 	globalAmbientLight  	 = ambientLight;
-	
-	
-	var modal = document.getElementById('myModal1');
+	var floor				 = new Floor(checked);
+	globalFloor				 = floor;
+	var modal				 = document.getElementById('myModal1');
 	document.getElementById("loadingKati").src = "./images/spinner.gif";
 	modal.style.display = "block";
 	
 	//generate the JSON file for the form data and send it as HTTP request
 
 	imagePlaneObjectCreation();
+	cameraPositionObject();
 	sceneObjectCreation();
 	raytracerObjectCreation();
 
@@ -198,44 +195,34 @@ function renderShapes() {
 	xhr.open("POST", url, true);
 	var jsonData = JSON.stringify(globalRaytracerObject);
 	xhr.send(jsonData);
-	
 	//get binary and make it an image... {there is a problem with headers called CORS from backend.. we have to fix it} (fixed as of 13.02.2018!)
 	xhr.responseType = 'arraybuffer';
 	xhr.onreadystatechange = function() {
-		
 		if (this.readyState == 4 && this.status == 200) {
 			
 			var uInt8Array = new Uint8Array(this.response);
 			var i = uInt8Array.length;
 			var binaryString = new Array(i);
-			while (i--)
-			{
+			while (i--) {
 				binaryString[i] = String.fromCharCode(uInt8Array[i]);
 			}
 			var data = binaryString.join('');
-
 			var base64 = window.btoa(data);
-			
             var modal = document.getElementById('myModal1');
 			document.getElementById("loadingKati").src = "data:image/png;base64," + base64;
 		}
 		
-		
-		
-		for(i = 0; i < arrayListForObject.length; i++){
-		
-		if(rendered[i][1]){
-			arrayListForObject[boolDraged[i][0]].Sphere.center.x = (10/arrayListForObject[boolDraged[i][0]].Sphere.center.z)*arrayListForObject[boolDraged[i][0]].Sphere.center.x;
-			arrayListForObject[boolDraged[i][0]].Sphere.center.y = (10/arrayListForObject[boolDraged[i][0]].Sphere.center.z)*arrayListForObject[boolDraged[i][0]].Sphere.center.y;
-			
-			var canvas = document.getElementById("myCanvas");
-	        var ctx = canvas.getContext("2d");	
-			ctx.clearRect(0,0,canvas.width,canvas.height);
-			redraw(canvas, ctx);
-			
+		for(i = 0; i < arrayListForObject.length; i++) {
+			if(rendered[i][1]){
+				arrayListForObject[boolDraged[i][0]].Sphere.center.x = (10/arrayListForObject[boolDraged[i][0]].Sphere.center.z)*arrayListForObject[boolDraged[i][0]].Sphere.center.x;
+				arrayListForObject[boolDraged[i][0]].Sphere.center.y = (10/arrayListForObject[boolDraged[i][0]].Sphere.center.z)*arrayListForObject[boolDraged[i][0]].Sphere.center.y;
+				
+				var canvas = document.getElementById("myCanvas");
+				var ctx = canvas.getContext("2d");	
+				ctx.clearRect(0,0,canvas.width,canvas.height);
+				redraw(canvas, ctx);
+			}
 		}
-		
-	}
 	}
 }
 
@@ -252,30 +239,39 @@ function imagePlaneObjectCreation() {
 	globalImagePlaneSizeObject = imageObject;
 }
 
+function cameraPositionObject() {
+	var cameraPos 				= document.getElementById("cameraView");
+	var cameraValue				= cameraPos.options[cameraPos.selectedIndex].value;
+	var cameraObject 			= new Camera(cameraValue);
+	globalCameraPositionObject	= cameraObject;
+}
+
 function raytracerObjectCreation() {
-	var raytracerObject    = new RayTracer(globalImagePlaneSizeObject, globalSceneObject);
+	var raytracerObject    = new RayTracer(globalImagePlaneSizeObject, globalCameraPositionObject, globalSceneObject);
 	globalRaytracerObject  = raytracerObject;
 }
 
 function sceneObjectCreation() {
-	var sceneObject   = new Scene(arrayListForObject, arrayListForLight, globalAmbientLight);
+	var sceneObject   = new Scene(arrayListForObject, arrayListForLight, globalAmbientLight, globalFloor);
 	globalSceneObject = sceneObject;
 }
 
 class RayTracer {
 	//to encompass all the objects in one parent class - RayTracer
-	constructor(imagePlane, scene) {
+	constructor(imagePlane, camera, scene) {
 		this.ImagePlane = imagePlane;
+		this.Camera 	= camera;
 		this.Scene 		= scene;
 	}
 }
 
 class Scene {
 	//to add all the shapes, lights and ambient light to a single class for cleaner JSON
-	constructor(shapes, light, ambientLight) {
+	constructor(shapes, light, ambientLight, floor) {
 		this.Object3D 	  = shapes;
 		this.Light 		  = light;
 		this.AmbientLight = ambientLight;
+		this.Floor		  = floor;
 	}
 }
 
@@ -284,6 +280,21 @@ class ImagePlane {
 	constructor(width, height) {
 		this.width  = width;
 		this.height = height; 
+	}
+}
+
+class Camera {
+	//to populate the position of the camera 
+	constructor(pos) {
+		if(pos == "front") {
+			this.position = "0";
+		} else if(pos == "top") {
+			this.position = "1";
+		} else if(pos == "left") {
+			this.position = "2";
+		} else {
+			this.position = "3";
+		}
 	}
 }
 
@@ -319,6 +330,12 @@ class AmbientLight {
 	}
 }
 
+class Floor {
+	constructor(active) {
+		this.active = active;
+	}
+}
+
 class SphereObj {
 	//to encompass all the values of the sphere
 	constructor(sphere) {
@@ -333,19 +350,29 @@ class CubeObj {
 	}
 }
 
+class CylinderObj {
+	//to encompass all values of Cylinder
+	constructor(cylinder) {
+		this.Cylinder = cylinder;
+	}
+}
+
 class Shape {
 	//shape class for both sphere and cube.
-	constructor(center, radius, color, reflection, shape) {
+	constructor(center, radius, height, color, specular, reflection, translucency, shape) {
 		this.center 	= center;
-		if (shape == "Sphere") this.radius = radius;
-		else this.sideLength = radius;
-		this.color  	= color;
-		this.reflection = reflection;
+		if (shape == "Sphere" || shape == "Cylinder") this.radius = radius;
+		else if(shape == "Cube") this.sideLength = radius;
+
+		if(shape == "Cylinder") this.height = height;
+		this.color  		= color;
+		this.specular		= specular;
+		this.reflection 	= reflection;
+		this.translucency 	= translucency;
 	}
 }
 
 function addLight() {
-	
 	var x = parseFloat(document.getElementById("light_x").value);
 	var y = parseFloat(document.getElementById("light_y").value);
 	var z = parseFloat(document.getElementById("light_z").value);
@@ -358,7 +385,6 @@ function addLight() {
 		modal.style.display = "block";
 		return;
 	}
-	
 	
 	var canvas = document.getElementById('myCanvas');
 	context = canvas.getContext('2d');
@@ -391,9 +417,16 @@ function addLight() {
 	document.getElementById("light_y").value = '';
 	document.getElementById("light_z").value = '';
 };
-	
-	
-	
+
+function shapeSelect() {
+	var e = document.getElementById("shape");
+	var shape = e.options[e.selectedIndex].value;
+	if(shape == "Cylinder") {
+		document.getElementById("cylHeight").style.display='block';
+	} else {
+		document.getElementById("cylHeight").style.display='none';
+	}
+}
 	
 function hexToRgb(hex) {
     var c;
@@ -432,35 +465,25 @@ function clearGrid() {
 	globalImagePlaneSizeObject  = "";
 };
 
-
 function redraw(canvas, ctx){
 	for(j = 0; j < arrayListForObject.length; j++){
 		var i = paintOrder[j][0];
+		var shapeX = arrayListForObject[i].Sphere.center.x*71.4285714286 + 250;
+		var shapeY = arrayListForObject[i].Sphere.center.y*71.4285714286 + 250;
+		var shapeR = arrayListForObject[i].Sphere.radius*50 * 15 / arrayListForObject[i].Sphere.center.z ;
+		var shapeC = arrayListForObject[i].Sphere.color;
+		var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
 		
-		
-		  var shapeX = arrayListForObject[i].Sphere.center.x*71.4285714286 + 250;
-		  var shapeY = arrayListForObject[i].Sphere.center.y*71.4285714286 + 250;
-		  var shapeR = arrayListForObject[i].Sphere.radius*50 * 15 / arrayListForObject[i].Sphere.center.z ;
-		  var shapeC = arrayListForObject[i].Sphere.color;
-		  var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
-		  //console.log(shapeC.r);
-		  
-		  
-		  ctx.beginPath();
-		  ctx.arc(shapeX/500 * canvas.width,	Math.abs(shapeY/500 * canvas.height - canvas.height) ,shapeR,0,2*Math.PI);
-		  ctx.fillStyle = color;
-		  ctx.fill();
-		  ctx.stroke();
-		
-		  
+		ctx.beginPath();
+		ctx.arc(shapeX/500 * canvas.width,	Math.abs(shapeY/500 * canvas.height - canvas.height) ,shapeR,0,2*Math.PI);
+		ctx.fillStyle = color;
+		ctx.fill();
+		ctx.stroke(); 
 	}
-	
 }
 
-
-
 function sliderDrag() {
-	
+
 	if(document.getElementById("inputText").style.display == "none") {
 		$('#dragDrop').slideUp(1000, up);
 		function up() {
@@ -471,15 +494,12 @@ function sliderDrag() {
 		function up() {
 			$('#dragDrop').slideDown(1000);
 		}
-		
 	}
-	
 }
 	
   $(document).ready(function() {
     
 	$('#picker').farbtastic('#color');
-	
 	var canvas = document.getElementById("myCanvas");
 	var ctx=canvas.getContext("2d");
 	canvas.style.width ='100%';
@@ -491,11 +511,10 @@ function sliderDrag() {
 	window.onclick = function(event) {
 	var modal = document.getElementById('myModal');
     	if (event.target == modal) {
-       	 modal.style.display = "none";
-   	  }
+       	 	modal.style.display = "none";
+   	  	}
 	}
-	
-	
+
 	//dragging is until the end of the file
 	
 	var canvasOffset=$("#myCanvas").offset();
@@ -506,47 +525,27 @@ function sliderDrag() {
     var isDragging=false;
 	var index;
 	
-	
 	function handleMouseDown(e){
 		
       canMouseX=parseInt(e.clientX-$("#myCanvas").offset().left);
       canMouseY=parseInt(e.clientY-$("#myCanvas").offset().top);
-	  
-	  //canMouseX = ((canMouseX/ canvas.width) * 500 ) ;
-	  //canMouseY = Math.abs(((canMouseY/ canvas.height) * 500 ) - 500) ;
-	  
 	  canMouseX = ((canMouseX/ canvas.width) * 500 ) - 250 ;
 	  canMouseY = Math.abs(((canMouseY/ canvas.height) * 500 ) - 500) - 250 ;
 	  
-	  //console.log("mouse:",canMouseX,canMouseY);
-	  
-	  
-	  
 	  for(i = 0; i < arrayListForObject.length; i++){
-		  
-		  //var shapeR = (arrayListForObject[i].Sphere.radius*50)*15/arrayListForObject[i].Sphere.center.z;
 		  var shapeR = (arrayListForObject[i].Sphere.radius*50*15)/arrayListForObject[i].Sphere.center.z;
 		  var shapeX = arrayListForObject[i].Sphere.center.x*71.4285714286 ;
 		  var shapeY = arrayListForObject[i].Sphere.center.y*71.4285714286 ;
 		  if(!boolDraged[i][1]){
-			//shapeX = ((shapeX - canvas.width/2)  * 10 / arrayListForObject[i].Sphere.center.z) + canvas.width/2;
-			//shapeY = ((shapeY - canvas.height/2)  * 10 / arrayListForObject[i].Sphere.center.z) + canvas.height/2 ;
-			
 			shapeX = shapeX / (arrayListForObject[i].Sphere.center.z/10);
 			shapeY = shapeY / (arrayListForObject[i].Sphere.center.z/10);
 		  }
-		  
-		  //console.log("shape:",shapeX, shapeY, shapeR);
-		  
 		  if(canMouseX > shapeX - shapeR && canMouseX < shapeX + shapeR && canMouseY > shapeY - shapeR && canMouseY < shapeY + shapeR){
 			isDragging=true;
 			index = i;
 			boolDraged[i][1] = true;
 		  }
-		  
 	   }
-	   
-	   
     }
 
     function handleMouseUp(e){
@@ -555,22 +554,13 @@ function sliderDrag() {
 	  
 	  if(isDragging){
 		  
-		      arrayListForObject[index].Sphere.center.x = (((canMouseX/canvas.width*2)*250) - 250)/71.4285714286;
-		      arrayListForObject[index].Sphere.center.y = -(((canMouseY/canvas.height*2)*250) - 250)/71.4285714286;
-		    
-			
-			
-	    //console.log(arrayListForObject[index].Sphere.center);
+		arrayListForObject[index].Sphere.center.x = (((canMouseX/canvas.width*2)*250) - 250)/71.4285714286;
+		arrayListForObject[index].Sphere.center.y = -(((canMouseY/canvas.height*2)*250) - 250)/71.4285714286;
 	    ctx.clearRect(0,0,canvas.width,canvas.height);
 	    redraw(canvas, ctx);
-		  
 	  }
-	  
       // clear the drag flag
       isDragging=false;
-	  //alert((((canMouseX/canvas.width*2)*250) - 250)/71.4285714286);
-	  
-	  
     }
 
     function handleMouseOut(e){
@@ -578,14 +568,12 @@ function sliderDrag() {
       canMouseY=parseInt(e.clientY-$("#myCanvas").offset().top);
       // user has left the canvas, so clear the drag flag
 	  if(isDragging){
-	  arrayListForObject[index].Sphere.center.x = (((canMouseX/canvas.width*2)*250) - 250)/71.4285714286;
-		arrayListForObject[index].Sphere.center.y = -(((canMouseY/canvas.height*2)*250) - 250)/71.4285714286;
-		ctx.clearRect(0,0,canvas.width,canvas.height);
-	    redraw(canvas, ctx);
-		
-	  }
+			arrayListForObject[index].Sphere.center.x = (((canMouseX/canvas.width*2)*250) - 250)/71.4285714286;
+			arrayListForObject[index].Sphere.center.y = -(((canMouseY/canvas.height*2)*250) - 250)/71.4285714286;
+			ctx.clearRect(0,0,canvas.width,canvas.height);
+			redraw(canvas, ctx);
+	  	}
       isDragging=false;
-	  
     }
 
     function handleMouseMove(e){
@@ -595,28 +583,20 @@ function sliderDrag() {
       // if the drag flag is set, clear the canvas and draw the image
       if(isDragging){
 		  ctx.clearRect(0,0,canvas.width,canvas.height);
-		  
 		  arrayListForObject[index].Sphere.center.x = 999999;
 		  arrayListForObject[index].Sphere.center.y = 999999;
 		  convertSize = (arrayListForObject[index].Sphere.radius * 50)*15/arrayListForObject[index].Sphere.center.z ;
 		  
 		  var shapeC = arrayListForObject[index].Sphere.color;
 		  var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
-		  
 		  ctx.beginPath();
 		  ctx.arc(canMouseX,canMouseY,convertSize,0,2*Math.PI);
 		  ctx.fillStyle = color;
 		  ctx.fill();
 		  ctx.stroke();
 		  redraw(canvas, ctx);
-		  
 	  }
-	  
-	  
-          
-      
     }
-	
 	window.onresize = function(event) {
 		ctx.clearRect(0,0,canvas.width,canvas.height);
 		canvas = document.getElementById("myCanvas");
@@ -638,34 +618,34 @@ function sliderDrag() {
 /* for slider menu */
 $('#lightNav').click(function(){
 	if($(this).css("left") <= "10px") {
-		$('#lightDiv').animate({'left':'0'});
-		$('#lightNav').animate({'left':"100%"});
+		$('#lightDiv').animate({'left':'0'},250);
+		$('#lightNav').animate({'left':"100%"}, 250);
 	}
 	else {
-		$('#lightDiv').animate({"left": '-400%'});
-		$('#lightNav').animate({"left": '-6%'});
+		$('#lightDiv').animate({"left": '-400%'}, 250);
+		$('#lightNav').animate({"left": '-6%'}, 250);
 	}
 });
 
 $('#shapesNav').click(function(){
 	if($(this).css("left") <= "10px") {
-		$('#shapesDiv').animate({'left':'0'});
-		$('#shapesNav').animate({'left':"100%"});
+		$('#shapesDiv').animate({'left':'0'}, 250);
+		$('#shapesNav').animate({'left':"100%"}, 250);
 	}
 	else {
-		$('#shapesDiv').animate({"left": '-400%'});
-		$('#shapesNav').animate({"left": '-6%'});
+		$('#shapesDiv').animate({"left": '-400%'}, 250);
+		$('#shapesNav').animate({"left": '-6%'}, 250);
 	}
 });
 
 $('#settingsNav').click(function(){
 	if($(this).css("left") <= "10px") {
-		$('#settingsDiv').animate({'left':'0'});
-		$('#settingsNav').animate({'left':"100%"});
+		$('#settingsDiv').animate({'left':'0'}, 250);
+		$('#settingsNav').animate({'left':"100%"}, 250);
 	}
 	else {
-		$('#settingsDiv').animate({"left": '-400%'});
-		$('#settingsNav').animate({"left": '-6%'});
+		$('#settingsDiv').animate({"left": '-400%'}, 250);
+		$('#settingsNav').animate({"left": '-6%'}, 250);
 	}
 });
 
