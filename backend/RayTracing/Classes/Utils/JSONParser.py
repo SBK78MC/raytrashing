@@ -74,28 +74,30 @@ class JSONParser:
         center = self.deserializeVector(sphereJson["center"])
         reflection = float(sphereJson["reflection"])
         radius = float(sphereJson["radius"])
+        specular = float(sphereJson["specular"])
+        transparency = float(sphereJson["transparency"])
         color = self.deserializeColor(sphereJson["color"])
 
-        return Sphere(center, radius, color, reflection)
+        return Sphere(center, radius, color, specular, reflection, transparency)
 
 
     def deserializeCube(self, cubeJson):
         center = self.deserializeVector(cubeJson["center"])
-        reflection = cubeJson["reflection"]
-        sideLength = cubeJson["sideLength"]
-        specular = cubeJson["specular"]
-        transparency = cubeJson["transparency"]
+        reflection = float(cubeJson["reflection"])
+        sideLength = float(cubeJson["sideLength"])
+        specular = float(cubeJson["specular"])
+        transparency = float(cubeJson["transparency"])
         color = self.deserializeColor(cubeJson["color"])
 
         return Cube(center, sideLength, color, specular, reflection, transparency)
 
     def deserializeCylinder(self, cylinderJson):
         center = self.deserializeVector(cylinderJson["center"])
-        reflection = cylinderJson["reflection"]
-        height = cylinderJson["height"]
-        radius = cylinderJson["radius"]
-        specular = cylinderJson["specular"]
-        transparency = cylinderJson["transparency"]
+        reflection = float(cylinderJson["reflection"])
+        height = float(cylinderJson["height"])
+        radius = float(cylinderJson["radius"])
+        specular = float(cylinderJson["specular"])
+        transparency = float(cylinderJson["transparency"])
         color = self.deserializeColor(cylinderJson["color"])
 
         return Cylinder(center, height, radius, color, specular, reflection, transparency)
