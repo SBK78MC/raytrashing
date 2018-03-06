@@ -31,7 +31,7 @@ class JSONParser:
             if(type == "Sphere"):
                 scene.addObject3D(self.deserializeSphere(object[type]))
             elif(type == "Cube"):
-                print("CUBE")
+                scene.addObject3D(self.deserializeCube(object[type]))
 
         for light in jsonScene["Light"]:
             scene.addLight(self.deserializeLight(light))
@@ -76,7 +76,7 @@ class JSONParser:
         reflection = cubeJson["reflection"]
         sideLength = cubeJson["sideLength"]
 
-        #return Cube(center, sideLength, reflection)
+        return Cube(center, sideLength, reflection)
 
 
     def deserializeAmbientLight(self, ambientLightJson):
