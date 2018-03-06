@@ -90,7 +90,7 @@ class JSONParserTest(unittest.TestCase):
         self.assertEqual(1.0, light.brightness)
 
     def test_deserializeSphere(self):
-        sphereString = '{"center":{"x":3.0,"y":1.0,"z":2.0},"radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0}'
+        sphereString = '{"center":{"x":3.0,"y":1.0,"z":2.0},"radius":2.0,"color":{"r":1,"g":0,"b":0},"specular":1.0, "reflection":1.0, "transparency":0.0}'
         sphereJson = json.loads(sphereString)
 
         jsonParser = JSONParser()
@@ -99,7 +99,7 @@ class JSONParserTest(unittest.TestCase):
         self.assertEqual(1, sphere.center.y)
         self.assertEqual(2, sphere.center.z)
         self.assertEqual(2, sphere.radius)
-        # self.assertEqual(1.0, sphere.reflection)          #Not yet implemented properly on the JSONparser
+        self.assertEqual(1.0, sphere.reflection)          #Not yet implemented properly on the JSONparser
 
 
     def test_deserializeColor(self):
