@@ -22,8 +22,8 @@ from multiprocessing.managers import BaseManager
 class RayTracer:
 
     def __init__(self, imageplane=Imageplane(), mainscene=Scene(), camera=Camera()):
-        self.recursionLimit = 1
-        self.backgroundColor = Color(0., 0., 0.)
+        self.backgroundColor = Color(0, 0, 0)
+        self.recursionLimit = 5
         self.imageplane = imageplane
         self.scene = mainscene
         self.camera = camera
@@ -85,9 +85,9 @@ class RayTracer:
         returnColor = self.backgroundColor
 
         for obj in self.scene.getObjects():
-            objIntersection = obj.intersection(pixelRay, 1, math.inf)
+            objIntersection = obj.intersection(pixelRay, 0.0001, math.inf)
             if objIntersection:
-                if minDist < 0 or minDist > objIntersection.getDistance():
+                if (minDist < 0 or minDist > objIntersection.getDistance()) and objIntersection.getObject().getTransparency() < 1:
                     minDist = objIntersection.getDistance()
                     minObjInter = objIntersection
 
@@ -108,36 +108,61 @@ class RayTracer:
             else:
                 isShadow = self.getShadows(intersection, light)
 
+                if isShadow:
+                    colorBrightnessFromDiffuse = self.diffuseAndSpecularReflection(light, intersection)
+                    colorBrightness += colorBrightnessFromDiffuse * isShadow
+                else:
+                    colorBrightness += self.diffuseAndSpecularReflection(light, intersection)
 
-                if not isShadow:
-                    colorBrightness = self.diffuseAndSpecularReflection(light, intersection, colorBrightness)
+
 
         initialColor = intersection.getObject().getColor()
         brightColor = initialColor.multiply(colorBrightness)
 
         reflectionColor = self.getReflection(intersection, recursionDepth)
+        refractionColor = self.getRefraction(intersection, recursionDepth)
 
-        if reflectionColor:
-            reflectionColorWithRate = reflectionColor.multiply(intersection.getObject().getReflection())
+        surfaceNormal = intersection.getObject().getSurfaceNormal(intersection.getPoint())
+        viewDirection = intersection.getRay().getDirection()
 
+        fresnelEffect = self.getFresnel(viewDirection, surfaceNormal, 1.)
+
+        if refractionColor and reflectionColor:
+
+            reflectionColorWithFresnel = reflectionColor.multiply(fresnelEffect).multiply(intersection.getObject().getReflection()).multiply(colorBrightness)
+            refractionColorWithFresnel = refractionColor.multiply((1 - fresnelEffect)).multiply(intersection.getObject().getTransparency()).multiply(colorBrightness)
+            brightColorWithInverseRate = brightColor.multiply(1 - intersection.getObject().getTransparency() - intersection.getObject().getReflection())
+            finalColor = reflectionColorWithFresnel.add(refractionColorWithFresnel).add(brightColorWithInverseRate)
+
+        elif reflectionColor:
+            reflectionColorWithRate = reflectionColor.multiply(intersection.getObject().getReflection()).multiply(colorBrightness)
             brightColorWithInverseRate = brightColor.multiply(1 - intersection.getObject().getReflection())
-
             finalColor = reflectionColorWithRate.add(brightColorWithInverseRate)
+
+        elif refractionColor:
+            refractionColorWithRate = refractionColor.multiply(intersection.getObject().getTransparency())
+            brightColorWithInverseRate = brightColor.multiply(1 - intersection.getObject().getTransparency())
+            finalColor = refractionColorWithRate.add(brightColorWithInverseRate)
 
         else:
             finalColor = brightColor
 
+        #finalColor = finalColor.multiply(colorBrightness)
+
         return finalColor
 
     def getReflection(self, intersection, recursionDepth):
-        reflectedColor = None
+        if intersection.getObject().getReflection() <= 0:
+            return None
+
+        reflectedColor = self.backgroundColor
         if intersection.getObject().getReflection() > 0 and recursionDepth < self.recursionLimit:
-            cameraDirection = intersection.getRay().getDirection()
+            originalDirection = intersection.getRay().getDirection()
             surfaceNormal = intersection.getObject().getSurfaceNormal(intersection.getPoint())
 
-            surfNormDotNCD = surfaceNormal.dotProduct(cameraDirection)
+            surfNormDotNCD = surfaceNormal.dotProduct(originalDirection)
 
-            reflectionDirection = cameraDirection.sub(surfaceNormal.multiply(2 * surfNormDotNCD))
+            reflectionDirection = originalDirection.sub(surfaceNormal.multiply(2 * surfNormDotNCD))
             reflectionDirection = reflectionDirection.normalize()
 
             reflectionRay = Ray(intersection.getPoint(), reflectionDirection)
@@ -145,9 +170,55 @@ class RayTracer:
 
         return reflectedColor
 
-    def diffuseAndSpecularReflection(self, light, intersection, colorBrightness):
+    def getRefraction(self, intersection, recursionDepth):
+        if intersection.getObject().getTransparency() <= 0:
+            return None
+
+        refractedColor = self.backgroundColor
+        if intersection.getObject().getTransparency() > 0 and recursionDepth < self.recursionLimit:
+            refractedColor = self.backgroundColor
+
+            originalDirection = intersection.getRay().getDirection()
+            surfaceNormal = intersection.getObject().getSurfaceNormal(intersection.getPoint())
+
+            ior = 1.
+
+            cosi = originalDirection.dotProduct(surfaceNormal)
+            etai = 1
+            etat = ior
+
+            if cosi < -1:
+                cosi = -1
+            elif cosi > 1:
+                cosi = 1
+
+            if cosi >= 0:
+                etai = ior
+                etat = 1
+                surfaceNormal = surfaceNormal.getNegative()
+            else:
+                cosi = -cosi
+
+            eta = etai / etat
+
+            k = 1 - eta * eta *(1 - cosi * cosi)
+            if k < 0:
+                return refractedColor
+            else:
+                refractionDirection = originalDirection.multiply(eta).add(surfaceNormal.multiply(eta * cosi - math.sqrt(k)))
+                refractionDirection = refractionDirection.normalize()
+
+                refractionRay = Ray(intersection.getPoint(), refractionDirection)
+                refractedColor = self.traceRay(refractionRay, recursionDepth + 1)
+
+        return refractedColor
+
+    def diffuseAndSpecularReflection(self, light, intersection):
+
         lightToPoint = light.getPosition().sub(intersection.getPoint())
         surfaceNormal = intersection.getObject().getSurfaceNormal(intersection.getPoint())
+
+        colorBrightness = 0
 
         surfNormDotLTP = surfaceNormal.dotProduct(lightToPoint)
         if surfNormDotLTP > 0:
@@ -167,13 +238,43 @@ class RayTracer:
         return colorBrightness
 
     def getShadows(self, intersection, light):
-        isShadow = False
+        isShadow = None
         for objectIter in self.scene.getObjects():
 
             lightToPoint = light.getLightRay(intersection.getPoint().sub(light.getPosition()))
 
             shadowIntersection = objectIter.intersection(lightToPoint, 0.001, 0.9999)
             if shadowIntersection:
-                isShadow = True
+                if isShadow is not None:
+                    if isShadow > objectIter.getTransparency():
+                        isShadow = objectIter.getTransparency()
+                else:
+                    isShadow = objectIter.getTransparency()
 
         return isShadow
+
+    def getFresnel(self, viewDirection, surfaceNormal, ior):
+        cosi = viewDirection.dotProduct(surfaceNormal)
+        etai = 1
+        etat = ior
+
+        if cosi < -1:
+            cosi = -1
+        elif cosi > 1:
+            cosi =1
+        if cosi > 0:
+            etai = ior
+            etat = 1
+
+        sint = etai / etat * math.sqrt(max(0, 1 - cosi*cosi))
+
+        if sint >= 1:
+            kr = 1
+        else:
+            cost = math.sqrt(max(0,1 - sint*sint))
+            cosi = abs(cosi)
+            Rs = ((etat * cosi) - (etai * cost)) / ((etat * cosi) + (etai * cost))
+            Rp = ((etai * cosi) - (etat * cost)) / ((etai * cosi) + (etat * cost))
+            kr = (Rs * Rp + Rp * Rp) / 2
+
+        return kr

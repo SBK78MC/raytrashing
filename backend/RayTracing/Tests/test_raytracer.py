@@ -12,19 +12,29 @@ from RayTracing.Classes.Models.Vector import Vector
 from RayTracing.Classes.Models.Plane import Plane
 from RayTracing.Classes.RayTracer import RayTracer
 
-
 if __name__ == '__main__':
-    sCenter1 = Vector(-1, 0, 20)
-    sCenter = Vector(3, 0, 18)
 
-    pCenter3 = Vector(0, -3, 0)
-    pDir = Vector(0, 1, 0)
+    sCenter1 = Vector(-1, 1, 24)
+    sCenter2 = Vector(0.5, 0, 17)
+    sCenter3 = Vector(3.5, 1.5, 20)
+    sCenter4 = Vector(-8, 0, 17)
 
-    s1 = Sphere(sCenter, 1, Color(1.0, 0, 0), 1000, 0.5)
-    s2 = Sphere(sCenter1, 2, Color(0, 1.0, 0), 500, 0.3)
-    s3 = Plane(pCenter3, pDir, Color(0.1, 1.0, 1.0), 200, 0.3)
-    light1 = Light(5, 4, 10, 0.7)
-    light0 = AmbientLight(0.5)
+    pCenter1 = Vector(0, -3, 0)
+    pDir1 = Vector(0, 1, 0)
+
+    pCenter2 = Vector(0, 0, 22)
+    pDir2 = Vector(0, 0, -1)
+
+    p1 = Plane(pCenter1, pDir1, Color(0.1, 1.0, 1.0), 200, 0.3)
+    p2 = Plane(pCenter2, pDir2, Color(0.7, 0.7, 1.0), 200, 0.1, 0.6)
+
+    s1 = Sphere(sCenter1, 2, Color(1.0, 0, 0), 700, 0.6)
+    s2 = Sphere(sCenter2, 2, Color(1, 1, 0.1), 500, 0., 0.7)
+    s3 = Sphere(sCenter3, 1, Color(0, 0.3, 0.8), 500, 0.6)
+    s4 = Sphere(sCenter4, 3, Color(1, 0.5, 0), 500, 0.3)
+
+    light1 = Light(5, 0, 13, 0.7)
+    light0 = AmbientLight(0.3)
 
     scene = Scene()
 
@@ -33,6 +43,11 @@ if __name__ == '__main__':
     scene.addObject3D(s1)
     scene.addObject3D(s2)
     scene.addObject3D(s3)
+    scene.addObject3D(s4)
+
+    scene.addObject3D(p1)
+    scene.addObject3D(p2)
+
 
     imagepl = Imageplane(400, 400)
 
