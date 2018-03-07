@@ -51,7 +51,13 @@ class Color(object):
         redV = self.checkNotOutbound(self.color[0] * multiplier)
         greenV = self.checkNotOutbound(self.color[1] * multiplier)
         blueV = self.checkNotOutbound(self.color[2] * multiplier)
+        newColor = Color(redV, greenV, blueV)
+        return newColor
 
+    def multiplyColor(self, color):
+        redV = self.checkNotOutbound(self.color[0] * color.getR())
+        greenV = self.checkNotOutbound(self.color[1] * color.getG())
+        blueV = self.checkNotOutbound(self.color[2] * color.getB())
         newColor = Color(redV, greenV, blueV)
         return newColor
 
@@ -61,7 +67,6 @@ class Color(object):
         blueV = self.checkNotOutbound(self.color[2] + addition.getB())
         newColor = Color(redV, greenV, blueV)
         return newColor
-
 
     def checkNotOutbound(self, value):
         if value > 1:
