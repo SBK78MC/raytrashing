@@ -59,19 +59,19 @@ function Add_Responsive_Shape(responsive_ctx,responsive_ctx_top,responsive_ctx_s
 	if(R_shpe_name == "Circle")
 	{
 		responsive_ctx.beginPath();
-		responsive_ctx.arc(R_shpe_x - width/10  ,R_shpe_y + R_shpe_size/2 + height/8 ,R_shpe_size,0,2*Math.PI);
+		responsive_ctx.arc(  width / 2 + R_shpe_x  , height / 2 - R_shpe_y + R_shpe_size/2  ,R_shpe_size,0,2*Math.PI);
 		responsive_ctx.fillStyle = R_shpe_color;
 		responsive_ctx.fill();
 		responsive_ctx.stroke();
 		
 		responsive_ctx_top.beginPath();
-		responsive_ctx_top.arc(R_shpe_x + R_shpe_size - width/10  , height + R_shpe_size - R_shpe_z ,R_shpe_size,0,2*Math.PI);
+		responsive_ctx_top.arc( width / 2 + R_shpe_x + R_shpe_size , height / 2 - R_shpe_z + R_shpe_size  ,R_shpe_size,0,2*Math.PI);
 		responsive_ctx_top.fillStyle = R_shpe_color;
 		responsive_ctx_top.fill();
 		responsive_ctx_top.stroke();
 
 		responsive_ctx_side.beginPath();
-		responsive_ctx_side.arc(R_shpe_z + R_shpe_size/2 + width/10 , R_shpe_y + R_shpe_size/2 - height/20  ,R_shpe_size,0,2*Math.PI);
+		responsive_ctx_side.arc(width / 2 + R_shpe_z + R_shpe_size/2  ,  height/2 - R_shpe_y + R_shpe_size/2   ,R_shpe_size,0,2*Math.PI);
 		responsive_ctx_side.fillStyle = R_shpe_color;
 		responsive_ctx_side.fill();
 		responsive_ctx_side.stroke();		
@@ -79,19 +79,19 @@ function Add_Responsive_Shape(responsive_ctx,responsive_ctx_top,responsive_ctx_s
 	else if(R_shpe_name == "Cube") 
 	{
 		responsive_ctx.beginPath();
-		responsive_ctx.rect(R_shpe_x - R_shpe_size/2 - width/10  ,R_shpe_y + height/8 ,R_shpe_size,R_shpe_size);
+		responsive_ctx.rect(width / 2 + R_shpe_x - R_shpe_size/2  ,height / 2 - R_shpe_y ,R_shpe_size,R_shpe_size);
 		responsive_ctx.fillStyle = R_shpe_color;
 		responsive_ctx.fill();
 		responsive_ctx.stroke();
 		
 		responsive_ctx_top.beginPath();
-		responsive_ctx_top.rect(  R_shpe_x + R_shpe_size/2 - width/10 , height + R_shpe_size/2 - R_shpe_z , R_shpe_size,R_shpe_size);
+		responsive_ctx_top.rect(  width / 2 + R_shpe_x + R_shpe_size/2, height / 2 - R_shpe_z  + R_shpe_size/2 , R_shpe_size,R_shpe_size);
 		responsive_ctx_top.fillStyle = R_shpe_color;
 		responsive_ctx_top.fill();
 		responsive_ctx_top.stroke();
 		
 		responsive_ctx_side.beginPath();
-		responsive_ctx_side.rect(R_shpe_z + width/10 , R_shpe_y - height/20 ,R_shpe_size,R_shpe_size);
+		responsive_ctx_side.rect(width / 2 + R_shpe_z , height/2 - R_shpe_y ,R_shpe_size,R_shpe_size);
 		responsive_ctx_side.fillStyle = R_shpe_color;
 		responsive_ctx_side.fill();
 		responsive_ctx_side.stroke();
@@ -99,24 +99,24 @@ function Add_Responsive_Shape(responsive_ctx,responsive_ctx_top,responsive_ctx_s
 	else if(R_shpe_name == "Pyramid")
 	{
 		responsive_ctx.beginPath();
-		responsive_ctx.moveTo(R_shpe_x - width/10 ,R_shpe_y + height/8);
-		responsive_ctx.lineTo(R_shpe_x - R_shpe_size  - width/10 , R_shpe_y + R_shpe_size + height/8);
-		responsive_ctx.lineTo(R_shpe_x + R_shpe_size  - width/10 , R_shpe_y + R_shpe_size + height/8);
+		responsive_ctx.moveTo(width / 2 + R_shpe_x ,height / 2 - R_shpe_y);
+		responsive_ctx.lineTo(width / 2 + R_shpe_x - R_shpe_size  , height / 2 - R_shpe_y + R_shpe_size);
+		responsive_ctx.lineTo(width / 2 + R_shpe_x + R_shpe_size , height / 2 - R_shpe_y + R_shpe_size);
 		responsive_ctx.closePath();
 		responsive_ctx.fillStyle = R_shpe_color;
 		responsive_ctx.fill();
 		responsive_ctx.stroke();
 		
 		responsive_ctx_top.beginPath();
-		responsive_ctx_top.rect( R_shpe_x + R_shpe_size/4 - width/10 , height + R_shpe_size/4 - R_shpe_z , R_shpe_size*1.5,R_shpe_size*1.5);
+		responsive_ctx_top.rect( width / 2 + R_shpe_x  + R_shpe_size/4 , height / 2 - R_shpe_z  + R_shpe_size/4  , R_shpe_size*1.5,R_shpe_size*1.5);
 		responsive_ctx_top.fillStyle = R_shpe_color;
 		responsive_ctx_top.fill();
 		responsive_ctx_top.stroke();
 
 		responsive_ctx_side.beginPath();
-		responsive_ctx_side.moveTo(R_shpe_z + R_shpe_size/2 + width/10, R_shpe_y - height/20);
-		responsive_ctx_side.lineTo(R_shpe_z  - R_shpe_size + R_shpe_size/2 + width/10 , R_shpe_y + R_shpe_size - height/20);
-		responsive_ctx_side.lineTo(R_shpe_z  + R_shpe_size + R_shpe_size/2 + width/10 , R_shpe_y + R_shpe_size - height/20);
+		responsive_ctx_side.moveTo(width / 2 + R_shpe_z  + R_shpe_size/2 , height/2 - R_shpe_y);
+		responsive_ctx_side.lineTo(width / 2 + R_shpe_z  - R_shpe_size + R_shpe_size/2  , height/2 - R_shpe_y + R_shpe_size);
+		responsive_ctx_side.lineTo(width / 2 + R_shpe_z + R_shpe_size + R_shpe_size/2  , height/2 - R_shpe_y + R_shpe_size);
 		responsive_ctx_side.closePath();
 		responsive_ctx_side.fillStyle = R_shpe_color;
 		responsive_ctx_side.fill();
@@ -125,19 +125,19 @@ function Add_Responsive_Shape(responsive_ctx,responsive_ctx_top,responsive_ctx_s
 	else if(R_shpe_name == "Cylinder")
 	{
 		responsive_ctx.beginPath();
-		responsive_ctx.rect(R_shpe_x - R_shpe_size/2 - width/10  ,R_shpe_y - R_shpe_size/2 + height/8,R_shpe_size,R_shpe_size*2);
+		responsive_ctx.rect(width / 2 + R_shpe_x - R_shpe_size/2   ,height / 2 - R_shpe_y - R_shpe_size/2,R_shpe_size,R_shpe_size*2);
 		responsive_ctx.fillStyle = R_shpe_color;
 		responsive_ctx.fill();
 		responsive_ctx.stroke();
 		
 		responsive_ctx_top.beginPath();
-		responsive_ctx_top.arc(R_shpe_x +R_shpe_size - width/10  , height + R_shpe_size - R_shpe_z  ,R_shpe_size/2 ,0,2*Math.PI);
+		responsive_ctx_top.arc(width / 2 + R_shpe_x + R_shpe_size   , height / 2 - R_shpe_z + R_shpe_size  ,R_shpe_size/2 ,0,2*Math.PI);
 		responsive_ctx_top.fillStyle = R_shpe_color;
 		responsive_ctx_top.fill();
 		responsive_ctx_top.stroke();
 		
 		responsive_ctx_side.beginPath();
-		responsive_ctx_side.rect(R_shpe_z + width/10 , R_shpe_y - R_shpe_size/2 - height/20 ,R_shpe_size,R_shpe_size*2);
+		responsive_ctx_side.rect(width / 2 + R_shpe_z , height/2 - R_shpe_y - R_shpe_size/2  ,R_shpe_size,R_shpe_size*2);
 		responsive_ctx_side.fillStyle = R_shpe_color;
 		responsive_ctx_side.fill();
 		responsive_ctx_side.stroke();			
@@ -199,17 +199,17 @@ function addShape() {
 	//translate to zero and the 250 sets the limits of what the user can see.
 	//to change the 250 we should also change the value send to the back end 
 	//at a new analogy. (class CenterForShapesAndLight)
-	y = -y/250 * c.height/2 + c.height/2;
-	x = x/250 * c.width/2 + c.width/2;
-	z = z/250 * c.width/2 + c.width/2;
+	//y = -y/250 * c.height/2 + c.height/2;
+	//x = x/250 * c.width/2 + c.width/2;
+	//z = z/250 * c.width/2 + c.width/2;
 	
 		
 	//set values depending on z(depth)
 	size = size * 50;
-	var convertSize = (size * 15)/z;
+	//var convertSize = (size * 15)/z;
 	
-	var xCoord = ((x - c.width/2)  * 10 / z) + c.width/2 ;
-	var yCoord = ((y - c.height/2)  * 10 / z) + c.height/2 ;
+	//var xCoord = ((x - c.width/2)  * 10 / z) + c.width/2 ;
+	//var yCoord = ((y - c.height/2)  * 10 / z) + c.height/2 ;
 		
 	/*	
 	//paint the shape
