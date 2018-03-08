@@ -49,7 +49,7 @@ function draw()
 	
 	for(var i = 0; i < responsive_light_number; i++)
 	{
-		Add_Responsive_Light(responsive_ctx,responsive_ctx_top,responsive_ctx_side, tmp_responsive_light_x[i], tmp_responsive_light_y[i], tmp_responsive_light_z[i],  responsive_canvas.width, responsive_canvas.height);
+		Add_Responsive_Light(responsive_ctx,responsive_ctx_top,responsive_ctx_side, responsive_light_x[i], responsive_light_y[i], responsive_light_z[i],  responsive_canvas.width, responsive_canvas.height);
 	}
 }
 	
@@ -142,6 +142,34 @@ function Add_Responsive_Shape(responsive_ctx,responsive_ctx_top,responsive_ctx_s
 		responsive_ctx_side.fill();
 		responsive_ctx_side.stroke();			
 	}
+	else if(R_shpe_name == "Cone")
+	{
+		responsive_ctx.beginPath();
+		responsive_ctx.moveTo(width / 2 + R_shpe_x ,height / 2 - R_shpe_y);
+		responsive_ctx.lineTo(width / 2 + R_shpe_x - R_shpe_size  , height / 2 - R_shpe_y + R_shpe_size*2);
+		responsive_ctx.lineTo(width / 2 + R_shpe_x + R_shpe_size , height / 2 - R_shpe_y + R_shpe_size*2);
+		responsive_ctx.closePath();
+		responsive_ctx.fillStyle = R_shpe_color;
+		responsive_ctx.fill();
+		responsive_ctx.stroke();	
+		
+		responsive_ctx_top.beginPath();
+		responsive_ctx_top.arc(width / 2 + R_shpe_x + R_shpe_size   , height / 2 - R_shpe_z + R_shpe_size  ,R_shpe_size ,0,2*Math.PI);
+		responsive_ctx_top.fillStyle = R_shpe_color;
+		responsive_ctx_top.fill();
+		responsive_ctx_top.stroke();
+
+		responsive_ctx_side.beginPath();
+		responsive_ctx_side.moveTo(width / 2 + R_shpe_z  + R_shpe_size/2 , height/2 - R_shpe_y);
+		responsive_ctx_side.lineTo(width / 2 + R_shpe_z  - R_shpe_size + R_shpe_size/2  , height/2 - R_shpe_y + R_shpe_size*2);
+		responsive_ctx_side.lineTo(width / 2 + R_shpe_z + R_shpe_size + R_shpe_size/2  , height/2 - R_shpe_y + R_shpe_size*2);
+		responsive_ctx_side.closePath();
+		responsive_ctx_side.fillStyle = R_shpe_color;
+		responsive_ctx_side.fill();
+		responsive_ctx_side.stroke();
+		
+		
+	}
 	
 }	
 
@@ -154,9 +182,9 @@ function Add_Responsive_Light(responsive_ctx,responsive_ctx_top,responsive_ctx_s
 	responsive_image.onload = 
 	function()
 	{
-		responsive_ctx.drawImage(responsive_image, R_light_x, R_light_y, 15, 18);
-		responsive_ctx_top.drawImage(responsive_image, R_light_z + (width/4), R_light_x - (width/5.5), 15, 18);
-		responsive_ctx_side.drawImage(responsive_image,R_light_z+(width/4), R_light_y, 15, 18);
+		responsive_ctx.drawImage(responsive_image, width / 2 + R_light_x, height / 2 - R_light_y, 15, 18);
+		responsive_ctx_top.drawImage(responsive_image, width / 2 + R_light_x , height / 2 - R_light_z, 15, 18);
+		responsive_ctx_side.drawImage(responsive_image, width / 2 + R_light_z, height/2 - R_light_y, 15, 18);
 	}
 }		
 	
@@ -342,6 +370,7 @@ function addShape() {
 	//reset values
 	document.getElementById("resetShape").reset();
 	
+	// Drawing Everything
 	draw();
 };
 
@@ -526,26 +555,29 @@ function addLight() {
 	//translate to zero and the 250 sets the limits of what the user can see.
 	//to change the 250 we should also change the value send to the back end 
 	//at a new analogy. (class CenterForShapesAndLight)
-	y = -y/250 * canvas.height/2 + canvas.height/2;
-	x = x/250 * canvas.width/2 + canvas.width/2;
+	//y = -y/250 * canvas.height/2 + canvas.height/2;
+	//x = x/250 * canvas.width/2 + canvas.width/2;
 	
-	var xCoord = ((x - canvas.width/2)  * 10 / z) + canvas.width/2 ;
-	var yCoord = ((y - canvas.height/2)  * 10 / z) + canvas.height/2 ;
+	//var xCoord = ((x - canvas.width/2)  * 10 / z) + canvas.width/2 ;
+	//var yCoord = ((y - canvas.height/2)  * 10 / z) + canvas.height/2 ;
 	
 	
-	base_image = new Image();
-	base_image.src = './images/light.png';
+	//base_image = new Image();
+	//base_image.src = './images/light.png';
 	
-	base_image.onload = function(){
-		context.drawImage(base_image, xCoord, yCoord, 15, 18);
-	}
+	//base_image.onload = function(){
+	//context.drawImage(base_image, xCoord, yCoord, 15, 18);
+	//}
 	
 	
 	//  Gathering info for Responsive Light Redraw
-	responsive_light_x [responsive_light_number] = xCoord;
-	responsive_light_y [responsive_light_number] = yCoord;
+	responsive_light_x [responsive_light_number] = x;
+	responsive_light_y [responsive_light_number] = y;
 	responsive_light_z [responsive_light_number] = z;
 	responsive_light_number++;
+	
+	// Drawing Everything
+	draw();
 	
 	//for adding Light to JSON
 	var lightSourceCenter = new CenterForShapesAndLight(document.getElementById('light_x').value, document.getElementById('light_y').value, document.getElementById('light_z').value);
