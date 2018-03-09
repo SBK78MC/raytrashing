@@ -89,7 +89,7 @@ The page is divided into 3 parts:
 		
 		<input type="checkbox" name="floor" value="true" id="floor">
 
-		<h3 style=" float:left; display:inline ; width:20px%;  margin-top:0%; margin-left:5%;  ">Image Size</h3>
+		<h3 style=" float:left; display:inline ; width:20px%;  margin-top:0%; margin-left:15px;  ">Image Size</h3>
 
 		<select onchange="resizeCanvas()" id = "sizeOfScreen" >
 			<option value="500">500x500</option>
@@ -99,6 +99,11 @@ The page is divided into 3 parts:
 			<option value="900">900x900</option>
 			<option value="1000">1000x1000</option>
 		</select>
+		
+		<h3  style=" float:left; display:inline ;  margin-top:0%; margin-left: 15px; margin-right:10px;  ">Shapes</h3>
+		<select id="Shapes"  size="3" style=" float:left; display:inline ;width:80px; margin-left:-5px; ">			
+		</select>
+		<button onclick="DeleteShape()" style=" float:left; display:inline ; margin-left: 5px; ">Delete</button>
 		
 	</div>
 	

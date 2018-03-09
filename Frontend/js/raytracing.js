@@ -19,6 +19,30 @@ var responsive_light_x = [];
 var responsive_light_y = [];
 var responsive_light_z = [];
 
+
+function ShapeList(name, color, id) {
+    var shape = document.getElementById("Shapes");
+    var option = document.createElement("option");
+    option.text = name;
+	option.style.background = color;
+	option.value = id;
+    shape.add(option);
+}
+
+function DeleteShape()
+{
+	//Delete Shape
+	var shape = document.getElementById("Shapes");
+	var item_value = shape[shape.selectedIndex].value;
+	responsive_shpe_size [item_value] = 0;
+	
+	//Delete Select Item
+	var shape_select = document.getElementById("Shapes");
+    shape_select.remove(shape.selectedIndex);
+	
+	draw();
+}
+
 // Redrawing shapes 
 function draw() 
 {
@@ -342,6 +366,10 @@ function addShape() {
 	responsive_shpe_size [responsive_shpe_number] = size;
 	responsive_shpe_color [responsive_shpe_number] = color;
 	responsive_shpe_number++;
+	
+	//Add to Select (Shapes)
+	ShapeList( responsive_shpe_name[responsive_shpe_number-1], responsive_shpe_color[responsive_shpe_number-1], (responsive_shpe_number-1)) ;
+	
 	
 	//for Shape
 	var centerObject	     = new CenterForShapesAndLight(document.getElementById('shape_x').value, document.getElementById('shape_y').value, document.getElementById('shape_z').value);
