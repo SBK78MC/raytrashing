@@ -83,19 +83,19 @@ function Add_Responsive_Shape(responsive_ctx,responsive_ctx_top,responsive_ctx_s
 	if(R_shpe_name == "Circle")
 	{
 		responsive_ctx.beginPath();
-		responsive_ctx.arc(  width / 2 + R_shpe_x  , height / 2 - R_shpe_y + R_shpe_size/2  ,R_shpe_size,0,2*Math.PI);
+		responsive_ctx.arc(  width / 2 + R_shpe_x  , height / 2 - R_shpe_y ,R_shpe_size,0,2*Math.PI);
 		responsive_ctx.fillStyle = R_shpe_color;
 		responsive_ctx.fill();
 		responsive_ctx.stroke();
 		
 		responsive_ctx_top.beginPath();
-		responsive_ctx_top.arc( width / 2 + R_shpe_x + R_shpe_size , height / 2 - R_shpe_z + R_shpe_size  ,R_shpe_size,0,2*Math.PI);
+		responsive_ctx_top.arc( width / 2 + R_shpe_x , height / 2 - R_shpe_z ,R_shpe_size,0,2*Math.PI);
 		responsive_ctx_top.fillStyle = R_shpe_color;
 		responsive_ctx_top.fill();
 		responsive_ctx_top.stroke();
 
 		responsive_ctx_side.beginPath();
-		responsive_ctx_side.arc(width / 2 + R_shpe_z + R_shpe_size/2  ,  height/2 - R_shpe_y + R_shpe_size/2   ,R_shpe_size,0,2*Math.PI);
+		responsive_ctx_side.arc(width / 2 + R_shpe_z ,  height/2 - R_shpe_y ,R_shpe_size,0,2*Math.PI);
 		responsive_ctx_side.fillStyle = R_shpe_color;
 		responsive_ctx_side.fill();
 		responsive_ctx_side.stroke();		
@@ -103,19 +103,19 @@ function Add_Responsive_Shape(responsive_ctx,responsive_ctx_top,responsive_ctx_s
 	else if(R_shpe_name == "Cube") 
 	{
 		responsive_ctx.beginPath();
-		responsive_ctx.rect(width / 2 + R_shpe_x - R_shpe_size/2  ,height / 2 - R_shpe_y ,R_shpe_size,R_shpe_size);
+		responsive_ctx.rect(width / 2 + R_shpe_x - R_shpe_size/2  ,height / 2 - R_shpe_y - R_shpe_size/2,R_shpe_size,R_shpe_size);
 		responsive_ctx.fillStyle = R_shpe_color;
 		responsive_ctx.fill();
 		responsive_ctx.stroke();
 		
 		responsive_ctx_top.beginPath();
-		responsive_ctx_top.rect(  width / 2 + R_shpe_x + R_shpe_size/2, height / 2 - R_shpe_z  + R_shpe_size/2 , R_shpe_size,R_shpe_size);
+		responsive_ctx_top.rect(  width / 2 + R_shpe_x - R_shpe_size/2, height / 2 - R_shpe_z  - R_shpe_size/2 , R_shpe_size,R_shpe_size);
 		responsive_ctx_top.fillStyle = R_shpe_color;
 		responsive_ctx_top.fill();
 		responsive_ctx_top.stroke();
 		
 		responsive_ctx_side.beginPath();
-		responsive_ctx_side.rect(width / 2 + R_shpe_z , height/2 - R_shpe_y ,R_shpe_size,R_shpe_size);
+		responsive_ctx_side.rect(width / 2 + R_shpe_z - R_shpe_size/2  , height/2 - R_shpe_y - R_shpe_size/2  ,R_shpe_size,R_shpe_size);
 		responsive_ctx_side.fillStyle = R_shpe_color;
 		responsive_ctx_side.fill();
 		responsive_ctx_side.stroke();
@@ -123,24 +123,24 @@ function Add_Responsive_Shape(responsive_ctx,responsive_ctx_top,responsive_ctx_s
 	else if(R_shpe_name == "Pyramid")
 	{
 		responsive_ctx.beginPath();
-		responsive_ctx.moveTo(width / 2 + R_shpe_x ,height / 2 - R_shpe_y);
-		responsive_ctx.lineTo(width / 2 + R_shpe_x - R_shpe_size  , height / 2 - R_shpe_y + R_shpe_size);
-		responsive_ctx.lineTo(width / 2 + R_shpe_x + R_shpe_size , height / 2 - R_shpe_y + R_shpe_size);
+		responsive_ctx.moveTo(width / 2 + R_shpe_x ,height / 2 - R_shpe_y - R_shpe_size/2);
+		responsive_ctx.lineTo(width / 2 + R_shpe_x - R_shpe_size  , height / 2 - R_shpe_y + R_shpe_size - R_shpe_size/2);
+		responsive_ctx.lineTo(width / 2 + R_shpe_x + R_shpe_size , height / 2 - R_shpe_y + R_shpe_size - R_shpe_size/2);
 		responsive_ctx.closePath();
 		responsive_ctx.fillStyle = R_shpe_color;
 		responsive_ctx.fill();
 		responsive_ctx.stroke();
 		
 		responsive_ctx_top.beginPath();
-		responsive_ctx_top.rect( width / 2 + R_shpe_x  + R_shpe_size/4 , height / 2 - R_shpe_z  + R_shpe_size/4  , R_shpe_size*1.5,R_shpe_size*1.5);
+		responsive_ctx_top.rect( width / 2 + R_shpe_x  - R_shpe_size/1.35, height / 2 - R_shpe_z  - R_shpe_size/1.35  , R_shpe_size*1.5,R_shpe_size*1.5);
 		responsive_ctx_top.fillStyle = R_shpe_color;
 		responsive_ctx_top.fill();
 		responsive_ctx_top.stroke();
 
 		responsive_ctx_side.beginPath();
-		responsive_ctx_side.moveTo(width / 2 + R_shpe_z  + R_shpe_size/2 , height/2 - R_shpe_y);
-		responsive_ctx_side.lineTo(width / 2 + R_shpe_z  - R_shpe_size + R_shpe_size/2  , height/2 - R_shpe_y + R_shpe_size);
-		responsive_ctx_side.lineTo(width / 2 + R_shpe_z + R_shpe_size + R_shpe_size/2  , height/2 - R_shpe_y + R_shpe_size);
+		responsive_ctx_side.moveTo(width / 2 + R_shpe_z  , height/2 - R_shpe_y - R_shpe_size/2);
+		responsive_ctx_side.lineTo(width / 2 + R_shpe_z  - R_shpe_size  , height/2 - R_shpe_y + R_shpe_size - R_shpe_size/2);
+		responsive_ctx_side.lineTo(width / 2 + R_shpe_z + R_shpe_size  , height/2 - R_shpe_y + R_shpe_size - R_shpe_size/2);
 		responsive_ctx_side.closePath();
 		responsive_ctx_side.fillStyle = R_shpe_color;
 		responsive_ctx_side.fill();
@@ -149,19 +149,19 @@ function Add_Responsive_Shape(responsive_ctx,responsive_ctx_top,responsive_ctx_s
 	else if(R_shpe_name == "Cylinder")
 	{
 		responsive_ctx.beginPath();
-		responsive_ctx.rect(width / 2 + R_shpe_x - R_shpe_size/2   ,height / 2 - R_shpe_y - R_shpe_size/2,R_shpe_size,R_shpe_size*2);
+		responsive_ctx.rect(width / 2 + R_shpe_x - R_shpe_size/2   ,height / 2 - R_shpe_y - R_shpe_size,R_shpe_size,R_shpe_size*2);
 		responsive_ctx.fillStyle = R_shpe_color;
 		responsive_ctx.fill();
 		responsive_ctx.stroke();
 		
 		responsive_ctx_top.beginPath();
-		responsive_ctx_top.arc(width / 2 + R_shpe_x + R_shpe_size   , height / 2 - R_shpe_z + R_shpe_size  ,R_shpe_size/2 ,0,2*Math.PI);
+		responsive_ctx_top.arc(width / 2 + R_shpe_x  , height / 2 - R_shpe_z  ,R_shpe_size/2 ,0,2*Math.PI);
 		responsive_ctx_top.fillStyle = R_shpe_color;
 		responsive_ctx_top.fill();
 		responsive_ctx_top.stroke();
 		
 		responsive_ctx_side.beginPath();
-		responsive_ctx_side.rect(width / 2 + R_shpe_z , height/2 - R_shpe_y - R_shpe_size/2  ,R_shpe_size,R_shpe_size*2);
+		responsive_ctx_side.rect(width / 2 + R_shpe_z - R_shpe_size/2, height/2 - R_shpe_y - R_shpe_size ,R_shpe_size,R_shpe_size*2);
 		responsive_ctx_side.fillStyle = R_shpe_color;
 		responsive_ctx_side.fill();
 		responsive_ctx_side.stroke();			
@@ -169,30 +169,28 @@ function Add_Responsive_Shape(responsive_ctx,responsive_ctx_top,responsive_ctx_s
 	else if(R_shpe_name == "Cone")
 	{
 		responsive_ctx.beginPath();
-		responsive_ctx.moveTo(width / 2 + R_shpe_x ,height / 2 - R_shpe_y);
-		responsive_ctx.lineTo(width / 2 + R_shpe_x - R_shpe_size  , height / 2 - R_shpe_y + R_shpe_size*2);
-		responsive_ctx.lineTo(width / 2 + R_shpe_x + R_shpe_size , height / 2 - R_shpe_y + R_shpe_size*2);
+		responsive_ctx.moveTo(width / 2 + R_shpe_x ,height / 2 - R_shpe_y - R_shpe_size);
+		responsive_ctx.lineTo(width / 2 + R_shpe_x - R_shpe_size  , height / 2 - R_shpe_y + R_shpe_size*2 - R_shpe_size);
+		responsive_ctx.lineTo(width / 2 + R_shpe_x + R_shpe_size , height / 2 - R_shpe_y + R_shpe_size*2 - R_shpe_size);
 		responsive_ctx.closePath();
 		responsive_ctx.fillStyle = R_shpe_color;
 		responsive_ctx.fill();
 		responsive_ctx.stroke();	
 		
 		responsive_ctx_top.beginPath();
-		responsive_ctx_top.arc(width / 2 + R_shpe_x + R_shpe_size   , height / 2 - R_shpe_z + R_shpe_size  ,R_shpe_size ,0,2*Math.PI);
+		responsive_ctx_top.arc(width / 2 + R_shpe_x , height / 2 - R_shpe_z ,R_shpe_size ,0,2*Math.PI);
 		responsive_ctx_top.fillStyle = R_shpe_color;
 		responsive_ctx_top.fill();
 		responsive_ctx_top.stroke();
 
 		responsive_ctx_side.beginPath();
-		responsive_ctx_side.moveTo(width / 2 + R_shpe_z  + R_shpe_size/2 , height/2 - R_shpe_y);
-		responsive_ctx_side.lineTo(width / 2 + R_shpe_z  - R_shpe_size + R_shpe_size/2  , height/2 - R_shpe_y + R_shpe_size*2);
-		responsive_ctx_side.lineTo(width / 2 + R_shpe_z + R_shpe_size + R_shpe_size/2  , height/2 - R_shpe_y + R_shpe_size*2);
+		responsive_ctx_side.moveTo(width / 2 + R_shpe_z , height/2 - R_shpe_y - R_shpe_size);
+		responsive_ctx_side.lineTo(width / 2 + R_shpe_z  - R_shpe_size , height/2 - R_shpe_y + R_shpe_size*2 - R_shpe_size);
+		responsive_ctx_side.lineTo(width / 2 + R_shpe_z + R_shpe_size , height/2 - R_shpe_y + R_shpe_size*2 - R_shpe_size);
 		responsive_ctx_side.closePath();
 		responsive_ctx_side.fillStyle = R_shpe_color;
 		responsive_ctx_side.fill();
 		responsive_ctx_side.stroke();
-		
-		
 	}
 	
 }	
@@ -206,9 +204,9 @@ function Add_Responsive_Light(responsive_ctx,responsive_ctx_top,responsive_ctx_s
 	responsive_image.onload = 
 	function()
 	{
-		responsive_ctx.drawImage(responsive_image, width / 2 + R_light_x, height / 2 - R_light_y, 15, 18);
-		responsive_ctx_top.drawImage(responsive_image, width / 2 + R_light_x , height / 2 - R_light_z, 15, 18);
-		responsive_ctx_side.drawImage(responsive_image, width / 2 + R_light_z, height/2 - R_light_y, 15, 18);
+		responsive_ctx.drawImage(responsive_image, width / 2  + R_light_x -9 , height / 2 - R_light_y -9, 18, 18);
+		responsive_ctx_top.drawImage(responsive_image, width / 2 + R_light_x -9, height / 2 - R_light_z -9, 18, 18);
+		responsive_ctx_side.drawImage(responsive_image, width / 2 + R_light_z -9, height/2 - R_light_y -9, 18, 18);
 	}
 }		
 	
