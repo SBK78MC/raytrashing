@@ -123,22 +123,22 @@ function addShape() {
 	var height				 = document.getElementById('height').value;
 	var reflection   		 = document.getElementById('reflection').value;
 	var specular			 = document.getElementById('specular').value;
-	var translucency		 = document.getElementById('translucency').value;
+	var transparency		 = document.getElementById('transparency').value;
 
 	//converting Hex to RGB. 
 	var hexToRGB 	 		 = hexToRgb(color); 
 	var colorObject  		 = new colorObj((hexToRGB[0]/255), (hexToRGB[1]/255), (hexToRGB[2]/255));
 
 	//object creation for sphere
-	var sphere 		 		 = new Shape(centerObject, radius, 0, colorObject, specular, reflection, translucency, "Sphere");
+	var sphere 		 		 = new Shape(centerObject, radius, 0, colorObject, specular, reflection, transparency, "Sphere");
 	var sphereObject 		 = new SphereObj(sphere);
 
 	//object creation for cube
-	var cube 		 		 = new Shape(centerObject, radius, 0, colorObject, specular, reflection, translucency, "Cube");
+	var cube 		 		 = new Shape(centerObject, radius, 0, colorObject, specular, reflection, transparency, "Cube");
 	var cubeObject   		 = new CubeObj(cube);
 
 	//object creation for cylinder
-	var cylinder 			 = new Shape(centerObject, radius, height, colorObject, specular, reflection, translucency, "Cylinder");
+	var cylinder 			 = new Shape(centerObject, radius, height, colorObject, specular, reflection, transparency, "Cylinder");
 	var cylinderObject		 = new CylinderObj(cylinder);
 	
    	 if(shape == "Circle") {
@@ -240,9 +240,10 @@ function imagePlaneObjectCreation() {
 }
 
 function cameraPositionObject() {
-	var cameraPos 				= document.getElementById("cameraView");
-	var cameraValue				= cameraPos.options[cameraPos.selectedIndex].value;
-	var cameraObject 			= new Camera(cameraValue);
+	var cameraPos_x 				= document.getElementById("camera_x").value;
+	var cameraPos_y 				= document.getElementById("camera_y").value;
+	var cameraPos_z 				= document.getElementById("camera_z").value;
+	var cameraObject 			= new Camera(cameraPos_x, cameraPos_y, cameraPos_z);
 	globalCameraPositionObject	= cameraObject;
 }
 
@@ -285,16 +286,10 @@ class ImagePlane {
 
 class Camera {
 	//to populate the position of the camera 
-	constructor(pos) {
-		if(pos == "front") {
-			this.position = "0";
-		} else if(pos == "top") {
-			this.position = "1";
-		} else if(pos == "left") {
-			this.position = "2";
-		} else {
-			this.position = "3";
-		}
+	constructor(x, y, z) {
+		this.x	= x;
+		this.y	= y;
+		this.z	= z;
 	}
 }
 
@@ -359,7 +354,7 @@ class CylinderObj {
 
 class Shape {
 	//shape class for both sphere and cube.
-	constructor(center, radius, height, color, specular, reflection, translucency, shape) {
+	constructor(center, radius, height, color, specular, reflection, transparency, shape) {
 		this.center 	= center;
 		if (shape == "Sphere" || shape == "Cylinder") this.radius = radius;
 		else if(shape == "Cube") this.sideLength = radius;
@@ -368,7 +363,7 @@ class Shape {
 		this.color  		= color;
 		this.specular		= specular;
 		this.reflection 	= reflection;
-		this.translucency 	= translucency;
+		this.transparency 	= transparency;
 	}
 }
 
@@ -463,6 +458,7 @@ function clearGrid() {
 	globalAmbientLight			= "";
 	globalSceneObject			= "";
 	globalImagePlaneSizeObject  = "";
+	globalCameraPositionObject	= "";
 };
 
 function redraw(canvas, ctx){

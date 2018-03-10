@@ -59,8 +59,8 @@
 			</div>
 			<h4>Reflection</h4> 
 			<input id = "reflection" type="range" min="1" max="100" value="100" class="bar">
-			<h4>Translucency</h4> 
-			<input id = "translucency" type="range" min="1" max="100" value="100" class="bar">
+			<h4>Transparency</h4> 
+			<input id = "transparency" type="range" min="1" max="100" value="100" class="bar">
 			<h4>Specular</h4> 
 			<input id = "specular" type="range" min="0" max="1000" value="0" class="bar">
 		</div>
@@ -93,12 +93,9 @@
 		</select>
 		<br>
 		<h4>Camera</h4>
-		<select onchange="" style ="display:inline" id = "cameraView" >
-			<option value="front">Front Side View</option>
-			<option value="top">Top Side View</option>
-			<option value="left">Left Side View</option>
-			<option value="right">Right Side View</option>
-		</select>
+		<input id="camera_x" class="inputs" type="text" name="Coordinates x" placeholder="x">
+		<input id="camera_y" style="margin-left:3%;"  class="inputs" type="text" name="Coordinates y" placeholder="y">
+		<input id="camera_z" style="margin-left:3%;" class="inputs" type="text" name="Coordinates z" placeholder="z">
 
 	</div>
 </div>
