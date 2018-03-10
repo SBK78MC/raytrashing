@@ -19,7 +19,7 @@ var responsive_light_x = [];
 var responsive_light_y = [];
 var responsive_light_z = [];
 
-
+// Listing added shapes
 function ShapeList(name, color, id) {
     var shape = document.getElementById("Shapes");
     var option = document.createElement("option");
@@ -29,6 +29,7 @@ function ShapeList(name, color, id) {
     shape.add(option);
 }
 
+// Dleteling the shape from list and all scenes
 function DeleteShape()
 {
 	//Delete Shape
@@ -43,6 +44,7 @@ function DeleteShape()
 	draw();
 }
 
+// Selecting the shape
 function ShapeSelected()
 {
 	var shape = document.getElementById("Shapes");
@@ -54,6 +56,7 @@ function ShapeSelected()
 	document.getElementById('change_s').value	 = responsive_shpe_size [item_value];
 }
 
+// Changing the shape location and size
 function ChangeShape()
 {
 	var shape = document.getElementById("Shapes");
@@ -66,7 +69,6 @@ function ChangeShape()
 	
 	draw();
 }
-
 
 // Redrawing shapes 
 function draw() 
@@ -105,7 +107,7 @@ function draw()
 // Drawing based on relative values of  shapes
 function Add_Responsive_Shape(responsive_ctx,responsive_ctx_top,responsive_ctx_side, R_shpe_name,R_shpe_x,R_shpe_y,R_shpe_z,R_shpe_size,R_shpe_color, width, height) 
 {
-	if(R_shpe_name == "Circle")
+	if(R_shpe_name == "Sphere")
 	{
 		responsive_ctx.beginPath();
 		responsive_ctx.arc(  width / 2 + R_shpe_x  , height / 2 - R_shpe_y ,R_shpe_size,0,2*Math.PI);
@@ -217,7 +219,6 @@ function Add_Responsive_Shape(responsive_ctx,responsive_ctx_top,responsive_ctx_s
 		responsive_ctx_side.fill();
 		responsive_ctx_side.stroke();
 	}
-	
 }	
 
 // Drawing based on relative values of  Lights
@@ -241,18 +242,12 @@ $(function () {
  });	
 
 function addShape() {
-	//get the canvas Front
-	var c = document.getElementById("myCanvas");	
 	
-	//front canvas
-	var ctx = c.getContext("2d");	
-	
-		
 	//get shape
 	var e = document.getElementById("shape");
 	var shape = e.options[e.selectedIndex].value;
 		
-	//get coordinates(circle center, cube upper left corner
+	//get coordinates(Sphere center, cube upper left corner
 	var x = parseFloat(document.getElementById('shape_x').value);
 	var y = parseFloat(document.getElementById('shape_y').value);
 	var z = parseFloat(document.getElementById('shape_z').value);
@@ -270,117 +265,7 @@ function addShape() {
 		return;
 			
 	}
-	
-	//translate to zero and the 250 sets the limits of what the user can see.
-	//to change the 250 we should also change the value send to the back end 
-	//at a new analogy. (class CenterForShapesAndLight)
-	//y = -y/250 * c.height/2 + c.height/2;
-	//x = x/250 * c.width/2 + c.width/2;
-	//z = z/250 * c.width/2 + c.width/2;
-	
-		
-	//set values depending on z(depth)
-	//size = size * 50;
-	//var convertSize = (size * 15)/z;
-	
-	//var xCoord = ((x - c.width/2)  * 10 / z) + c.width/2 ;
-	//var yCoord = ((y - c.height/2)  * 10 / z) + c.height/2 ;
-		
-	/*	
-	//paint the shape
-	if(shape == "Circle"){
-		ctx.beginPath();
-		ctx.arc(xCoord,yCoord,size,0,2*Math.PI);
-		ctx.fillStyle = color;
-		ctx.fill();
-		ctx.stroke();
-				
-	} 
-	else if(shape == "Cube") {
-		//boring rect
-		x = x - size/2;
-		y = y - size/2;
-		ctx.beginPath();
-		ctx.rect(x,y,size,size);
-		ctx.fillStyle = color;
-		ctx.fill();
-		ctx.stroke();
-	}
-	else if (shape == "Pyramid")
-	{
-		y = y - size/2;
-		ctx.beginPath();
-		ctx.moveTo(x, y);
-		ctx.lineTo(x - size , y + size);
-		ctx.lineTo(x + size , y + size);
-		ctx.closePath();
-		ctx.fillStyle = color;
-		ctx.fill();
-		ctx.stroke();
-	}
-	else if(shape == "Cylinder") 
-	{
-		x = x - size/2;
-		y = y - size/2;
-		ctx.beginPath();
-		ctx.rect(x,y,size,size*2);
-		ctx.fillStyle = color;
-		ctx.fill();
-		ctx.stroke();
-	}
-	*/
 
-		/*	
-		//awesome cube code I made myself and the team doesnt need (legacy of chikans)
-		ctx.beginPath();
-		ctx.rect(x, y, size, size);
-		ctx.fillStyle = color;
-		ctx.fill();
-		ctx.stroke();
-		ctx.closePath();
-			
-		ctx.beginPath();
-		ctx.moveTo(x, y);
-		ctx.lineTo(x + (size / 2 ), y - (size / 2));			
-		x = x + (size / 2 );
-		y = y - (size / 2);
-		ctx.lineTo(x + size, y );			
-		x = x + size;
-		ctx.lineTo(x - (size / 2 ), y + (size / 2) );			
-		ctx.closePath();
-		ctx.fillStyle = color;
-		ctx.stroke();
-		ctx.fill();
-			
-			
-		ctx.beginPath();
-		ctx.moveTo(x, y);
-		ctx.lineTo(x , y + size);
-				
-		y = y + size;
-		ctx.lineTo(x - size/2 , y + size/2);
-			
-		x = x - size/2;
-		y = y + size/2;
-		ctx.lineTo(x, y - size);
-		ctx.closePath();
-		ctx.fillStyle = color;
-		ctx.stroke();
-		ctx.fill();	
-			
-		y = y + size;
-		ctx.lineTo(x - size/2 , y + size/2);
-		
-		x = x - size/2;
-		y = y + size/2;
-		ctx.lineTo(x, y - size);
-		ctx.closePath();
-		ctx.fillStyle = color;
-		ctx.stroke();
-		ctx.fill();
-		*/		
-		
-	
 	//  Gathering info for Responsive Shape Redraw
 	responsive_shpe_name[responsive_shpe_number] = shape ;
 	responsive_shpe_x [responsive_shpe_number] = x;
@@ -393,6 +278,8 @@ function addShape() {
 	//Add to Select (Shapes)
 	ShapeList( responsive_shpe_name[responsive_shpe_number-1], responsive_shpe_color[responsive_shpe_number-1], (responsive_shpe_number-1)) ;
 	
+	// Drawing Everything
+	draw();
 	
 	//for Shape
 	var centerObject	     = new CenterForShapesAndLight(document.getElementById('shape_x').value, document.getElementById('shape_y').value, document.getElementById('shape_z').value);
@@ -412,7 +299,7 @@ function addShape() {
 	var cubeObject   		 = new CubeObj(cube);
 
 
-   	 if(shape == "Circle") {
+   	 if(shape == "Sphere") {
 		arrayListForObject.push(sphereObject);
 		
 	} else {
@@ -420,9 +307,6 @@ function addShape() {
 	}
 	//reset values
 	document.getElementById("resetShape").reset();
-	
-	// Drawing Everything
-	draw();
 };
 
 function renderShapes() {
@@ -456,7 +340,6 @@ function renderShapes() {
 		
 		if (this.readyState == 4 && this.status == 200) {
 			
-			
 			var uInt8Array = new Uint8Array(this.response);
 			var i = uInt8Array.length;
 			var binaryString = new Array(i);
@@ -468,12 +351,7 @@ function renderShapes() {
 
 			var base64 = window.btoa(data);
 			
-			
-			
-			document.getElementById("loadingKati").src = "data:image/png;base64," + base64;
-			
-			
-			
+			document.getElementById("loadingKati").src = "data:image/png;base64," + base64;		
 		}
 	}
 }
@@ -598,29 +476,6 @@ function addLight() {
 		return;
 	}
 	
-	
-	var canvas = document.getElementById('myCanvas');
-	context = canvas.getContext('2d');
-	
-	
-	//translate to zero and the 250 sets the limits of what the user can see.
-	//to change the 250 we should also change the value send to the back end 
-	//at a new analogy. (class CenterForShapesAndLight)
-	//y = -y/250 * canvas.height/2 + canvas.height/2;
-	//x = x/250 * canvas.width/2 + canvas.width/2;
-	
-	//var xCoord = ((x - canvas.width/2)  * 10 / z) + canvas.width/2 ;
-	//var yCoord = ((y - canvas.height/2)  * 10 / z) + canvas.height/2 ;
-	
-	
-	//base_image = new Image();
-	//base_image.src = './images/light.png';
-	
-	//base_image.onload = function(){
-	//context.drawImage(base_image, xCoord, yCoord, 15, 18);
-	//}
-	
-	
 	//  Gathering info for Responsive Light Redraw
 	responsive_light_x [responsive_light_number] = x;
 	responsive_light_y [responsive_light_number] = y;
@@ -670,7 +525,6 @@ function clearGrid() {
 	var ctx_side = c_side.getContext("2d");
 	ctx_side.clearRect(0, 0, c_side.width, c_side.height);
 	
-	
 	// Resetting Shape Arrays
 	responsive_shpe_number = 0;
 	responsive_shpe_name = [];
@@ -700,34 +554,11 @@ function sliderDrag() {
 		}
 		
 	}
-	
 }
 
   $(document).ready(function() {
     
 	$('#picker').farbtastic('#color');
-	
-	//var canvas = document.getElementById("myCanvas");
-	//canvas.style.width ='100%';
-	//canvas.style.height='100%';
-	//canvas.width  = canvas.offsetWidth;
-	//canvas.height = canvas.offsetHeight;
-	
-	
-	//var canvas_top = document.getElementById("myCanvasTop");
-	//canvas_top.style.width ='100%';
-	//canvas_top.style.height='100%';
-	//canvas_top.width  = canvas_top.offsetWidth;
-	//canvas_top.height = canvas_top.offsetHeight;
-
-	//var canvas_side = document.getElementById("myCanvasSide");
-	//canvas_side.style.width ='100%';
-	//canvas_side.style.height='100%';
-	//canvas_side.width  = canvas_side.offsetWidth;
-	//canvas_side.height = canvas_side.offsetHeight;	
-	
-	
-	
 	
 	//close alert window if user clicks the window
 	window.onclick = function(event) {
