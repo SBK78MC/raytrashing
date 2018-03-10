@@ -43,6 +43,31 @@ function DeleteShape()
 	draw();
 }
 
+function ShapeSelected()
+{
+	var shape = document.getElementById("Shapes");
+	var item_value = shape[shape.selectedIndex].value;
+	
+	document.getElementById('change_x').value = responsive_shpe_x [item_value];
+	document.getElementById('change_y').value = responsive_shpe_y [item_value];
+	document.getElementById('change_z').value =  responsive_shpe_z [item_value];
+	document.getElementById('change_s').value	 = responsive_shpe_size [item_value];
+}
+
+function ChangeShape()
+{
+	var shape = document.getElementById("Shapes");
+	var item_value = shape[shape.selectedIndex].value;
+
+	responsive_shpe_x [item_value] = parseFloat(document.getElementById('change_x').value);
+	responsive_shpe_y [item_value] = parseFloat(document.getElementById('change_y').value);
+	responsive_shpe_z [item_value] = parseFloat(document.getElementById('change_z').value);
+	responsive_shpe_size [item_value] = parseFloat(document.getElementById('change_s').value);
+	
+	draw();
+}
+
+
 // Redrawing shapes 
 function draw() 
 {
@@ -255,7 +280,7 @@ function addShape() {
 	
 		
 	//set values depending on z(depth)
-	size = size * 50;
+	//size = size * 50;
 	//var convertSize = (size * 15)/z;
 	
 	//var xCoord = ((x - c.width/2)  * 10 / z) + c.width/2 ;

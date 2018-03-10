@@ -91,7 +91,7 @@ The page is divided into 3 parts:
 
 		<h3 style=" float:left; display:inline ; width:20px%;  margin-top:0%; margin-left:15px;  ">Image Size</h3>
 
-		<select onchange="resizeCanvas()" id = "sizeOfScreen" >
+		<select onchange="resizeCanvas()" id = "sizeOfScreen" style=" float:left ; margin-left: -93px; margin-top: 25px;">
 			<option value="500">500x500</option>
 			<option value="600">600x600</option>
 			<option value="700">700x700</option>
@@ -100,10 +100,26 @@ The page is divided into 3 parts:
 			<option value="1000">1000x1000</option>
 		</select>
 		
+		
+		
+		
 		<h3  style=" float:left; display:inline ;  margin-top:0%; margin-left: 15px; margin-right:10px;  ">Shapes</h3>
-		<select id="Shapes"  size="3" style=" float:left; display:inline ;width:80px; margin-left:-5px; ">			
+		
+		<button onclick="DeleteShape()" style=" float:left ; margin-left: -70px; margin-top: 25px;">Delete</button>
+		
+		<select id="Shapes" onchange="ShapeSelected()"  size="3" style=" float:left; display:inline ;width:80px; margin-left:-5px; ">			
 		</select>
-		<button onclick="DeleteShape()" style=" float:left; display:inline ; margin-left: 5px; ">Delete</button>
+		
+		<div style="float:left; display:inline ; margin-top:0%; margin-left: 10px; " >
+		
+			<input id="change_x"  type="text" placeholder="x" style="float:left; display:inline ;  width:30px; height:20px;">
+			<input id="change_y"  type="text" placeholder="y" style="float:left; display:inline ;  width:30px; height:20px;">
+			<input id="change_z"  type="text" placeholder="z" style="float:left; display:inline ;  width:30px; height:20px;">		
+			<input id="change_s"  type="text" placeholder="s" style="float:left; display:inline ;  width:30px; height:20px;">
+			
+			<button onclick="ChangeShape()" style=" float:left ; margin-left: -99px; margin-top: 30px;">Change</button>
+		
+		</div>
 		
 	</div>
 	
@@ -136,7 +152,7 @@ The page is divided into 3 parts:
 		<input id="shape_z" style="margin-left:3%;" class="inputs" type="text" name="Coordinates z" value="z">
 
 		<h4>Size</h4>
-		<input id="size" class="boxes" type="text" name="Size" value="1"> 
+		<input id="size" class="boxes" type="text" name="Size" value="50"> 
 	</div>
 
 	<div id="dragDrop" style="display: none; color: white;">
