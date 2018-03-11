@@ -54,6 +54,8 @@ function ShapeSelected()
 	document.getElementById('change_y').value = responsive_shpe_y [item_value];
 	document.getElementById('change_z').value =  responsive_shpe_z [item_value];
 	document.getElementById('change_s').value	 = responsive_shpe_size [item_value];
+	document.getElementById('change_c').value	 = responsive_shpe_color [item_value];
+	
 }
 
 // Changing the shape location and size
@@ -66,6 +68,7 @@ function ChangeShape()
 	responsive_shpe_y [item_value] = parseFloat(document.getElementById('change_y').value);
 	responsive_shpe_z [item_value] = parseFloat(document.getElementById('change_z').value);
 	responsive_shpe_size [item_value] = parseFloat(document.getElementById('change_s').value);
+	responsive_shpe_color [item_value] = document.getElementById('change_c').value;
 	
 	draw();
 }
