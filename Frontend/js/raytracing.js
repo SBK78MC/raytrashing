@@ -528,8 +528,7 @@ function redraw(canvas, ctx){
 			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
 		
 			//size of shape on windows resize
-			shapeR = resizeObject(shapeR);
-		
+			shapeR = (shapeR/250) * canvas.height/2;
 			
 			ctx.beginPath();
 			ctx.arc(shapeX/500 * canvas.width,	Math.abs(shapeY/500 * canvas.height - canvas.height) ,shapeR,0,2*Math.PI);
@@ -546,7 +545,8 @@ function redraw(canvas, ctx){
 			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
 			
 			//size of shape on windows resize
-			shapeR = resizeObject(shapeR);
+			//shapeR = resizeObject(shapeR);
+			shapeR = (shapeR/250) * canvas.height/2;
 			
 			//paint
 			ctx.beginPath();
@@ -557,16 +557,6 @@ function redraw(canvas, ctx){
 			
 		}
 		
-		
-		
-	}
-	
-	function resizeObject(shapeR){
-		if(canvas.offsetWidth/windowSize[0]>canvas.offsetHeight/windowSize[1]){
-				return shapeR = shapeR * (canvas.offsetWidth/windowSize[0]);
-		}else{
-				return shapeR = shapeR * (canvas.offsetHeight/windowSize[1]);
-		}
 	}
 	
 	for(i = 0; i < arrayListForLight.length; i++){
@@ -637,8 +627,7 @@ function sliderDrag() {
 	  canMouseX = ((canMouseX/ canvas.width) * 500 ) - 250 ;
 	  canMouseY = Math.abs(((canMouseY/ canvas.height) * 500 ) - 500) - 250 ;
 	  
-	  console.log("X einai: " + canMouseX);
-	  console.log("Y einai: " + canMouseY);
+	  
 	  
 	  for(j = 0; j < arrayListForObject.length; j++){
 		  var i = paintOrder[j][0];
@@ -655,7 +644,6 @@ function sliderDrag() {
 			  index = i;
 			  boolDraged[i][1] = true;
 			  
-			  
 		    }
 		  }else if(typeof arrayListForObject[i].Cube != 'undefined'){
 			var shapeR = (arrayListForObject[i].Cube.sideLength*50*15)/arrayListForObject[i].Cube.center.z;
@@ -669,9 +657,7 @@ function sliderDrag() {
 			  isDragging=true;
 			  index = i;
 			  boolDraged[i][1] = true;
-			  
-			  console.log(shapeR);
-		    }  
+			 }  
 			  
 			  
 		  }
