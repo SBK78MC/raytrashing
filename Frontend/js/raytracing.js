@@ -54,8 +54,7 @@ function ShapeSelected()
 	document.getElementById('change_y').value = responsive_shpe_y [item_value];
 	document.getElementById('change_z').value =  responsive_shpe_z [item_value];
 	document.getElementById('change_s').value	 = responsive_shpe_size [item_value];
-	document.getElementById('change_c').value	 = responsive_shpe_color [item_value];
-	
+	document.getElementById('change_c').value	 = responsive_shpe_color [item_value];	
 }
 
 // Changing the shape location and size
@@ -69,6 +68,9 @@ function ChangeShape()
 	responsive_shpe_z [item_value] = parseFloat(document.getElementById('change_z').value);
 	responsive_shpe_size [item_value] = parseFloat(document.getElementById('change_s').value);
 	responsive_shpe_color [item_value] = document.getElementById('change_c').value;
+	
+	shape.remove(shape.selectedIndex);
+	ShapeList(responsive_shpe_name[item_value], responsive_shpe_color [item_value], item_value)
 	
 	draw();
 }
@@ -573,6 +575,7 @@ function sliderDrag() {
 
 });
     
+	
 // Canvas Tabs	
 function OpenView(evt, viewName) {
     var i, tabcontent, tablinks;
