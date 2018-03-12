@@ -16,6 +16,7 @@
 		<a href = "#lightDiv" class = "lightNav" id = "lightNav"> <img align = "right" src = "./images/idea.png"></a>
 		<a href = "#shapesDiv" id = "shapesNav"><img align = "right" src = "./images/shapes.png"></a>
 		<a href = "#settingsDiv" id = "settingsNav"><img align = "right" src = "./images/settings.png"></a>
+		<a href = "#viewsDiv" id = "viewsNav"><img align = "right" src = "./images/views.jpg"></a>
 	</div>
 
 	<div id="lightDiv">
@@ -100,12 +101,22 @@
 		<input id="camera_z" style="margin-left:3%;" class="inputs" type="text" name="Coordinates z" placeholder="z">
 
 	</div>
+	<div id = "viewsDiv">
+		<h4>Select View</h4>
+		<button id="render" class="buttons" type="button" onclick="frontView()">Front View</button>
+		<button id="render" class="buttons" type="button" onclick="sideView()">Side View</button>
+		<button id="render" class="buttons" type="button" onclick="topView()">Top View</button>
+
+	</div>
 </div>
 
 
 <div id="center">
 	<canvas id="myCanvas" ></canvas>
+	
+	
 </div>
+
 
 <div id="screenSize" align = "center">
 	<button id="render" class="buttons" type="button" onclick="renderShapes()">Render</button>

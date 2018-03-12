@@ -225,6 +225,15 @@ body {
     position: fixed;
 }
 
+#viewsNav {
+    margin-top: 66%;
+    background-color: #D1A954;
+    background-attachment: fixed;
+    z-index: 10;
+    overflow: auto;
+    position: fixed;
+}
+
 #lightDiv {
     position: absolute;
     left: -400%;
@@ -256,6 +265,22 @@ body {
 }
 
 #settingsDiv {
+    position: absolute;
+    left: -400%;
+    transition:0.3s;
+    -webkit-transition:0.3s;
+    -moz-transition:0.3s;
+    text-decoration: none;
+    font-size: 20px;
+    overflow: auto;
+    overflow-y: auto;
+    background-color: rgba(8, 3, 3, 0.664);
+    border-radius: 0 5px 5px 0;
+    border:1px solid black;
+    height: 50%;
+}
+
+#viewsDiv {
     position: relative;
     left: -400%;
     transition:0.3s;

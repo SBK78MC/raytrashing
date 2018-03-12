@@ -8,6 +8,7 @@ var rendered                 = [];
 var windowSize               = [];
 var globalImagePlaneSizeObject, globalCameraPositionObject, globalSceneObject, globalRaytracerObject, globalAmbientLight, globalFloor;
 var convertSize;
+var currentView = "front";
 
 function addShape() {
 	
@@ -517,6 +518,16 @@ function clearGrid() {
 };
 
 function redraw(canvas, ctx){
+	
+	function convertToSize(x, z){
+		if(x == 500){
+			return size = 9999;
+		}else{
+			size = 250/(500 - x);
+			return size = size *50 * 15 / z; 
+		}
+	}
+	
 	for(j = 0; j < arrayListForObject.length; j++){
 		var i = paintOrder[j][0];
 		if(typeof arrayListForObject[i].Sphere != 'undefined'){
@@ -531,7 +542,28 @@ function redraw(canvas, ctx){
 			shapeR = (shapeR/250) * canvas.height/2;
 			
 			ctx.beginPath();
-			ctx.arc(shapeX/500 * canvas.width,	Math.abs(shapeY/500 * canvas.height - canvas.height) ,shapeR,0,2*Math.PI);
+			if(currentView == "front"){
+				ctx.arc(shapeX/500 * canvas.width,	Math.abs(shapeY/500 * canvas.height - canvas.height) ,shapeR,0,2*Math.PI);
+			}else if(currentView == "top"){
+				//convert z to y
+				var yTop = ((arrayListForObject[i].Sphere.center.z/20)*500) - 250;
+				yTop = Math.abs(yTop/500 * canvas.height - canvas.height/2)
+				
+				//convert y to size
+				size = convertToSize(shapeY, arrayListForObject[i].Sphere.center.z); 
+				
+				ctx.arc(shapeX/500 * canvas.width,	yTop ,size,0,2*Math.PI);
+			}else if(currentView == "side"){
+				//convert z to x
+				var xSide = ((arrayListForObject[i].Sphere.center.z/20)*500);
+				xSide = (xSide/500)*canvas.width;
+				
+				//convert x to size
+				size = convertToSize(shapeX, arrayListForObject[i].Sphere.center.z); 
+				
+				ctx.arc(xSide, Math.abs(shapeY/500 * canvas.height - canvas.height) ,size,0,2*Math.PI);
+			}
+			
 			ctx.fillStyle = color;
 			ctx.fill();
 			ctx.stroke(); 
@@ -545,12 +577,32 @@ function redraw(canvas, ctx){
 			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
 			
 			//size of shape on windows resize
-			//shapeR = resizeObject(shapeR);
 			shapeR = (shapeR/250) * canvas.height/2;
 			
 			//paint
 			ctx.beginPath();
-			ctx.rect(shapeX/500 * canvas.width - shapeR/2, Math.abs(shapeY/500 * canvas.height - canvas.height) - shapeR/2,shapeR,shapeR);
+			
+			if(currentView == "front"){
+				ctx.rect(shapeX/500 * canvas.width - shapeR/2, Math.abs(shapeY/500 * canvas.height - canvas.height) - shapeR/2,shapeR,shapeR);
+			}else if(currentView == "top"){
+				//convert z to y
+				var yTop = ((arrayListForObject[i].Cube.center.z/20)*500) - 250;
+				yTop = Math.abs(yTop/500 * canvas.height - canvas.height/2)
+				
+				//convert y to size
+				size = convertToSize(shapeY, arrayListForObject[i].Cube.center.z); 
+				
+				ctx.rect(shapeX/500 * canvas.width - size/2, yTop - size/2,size,size);
+			}else if(currentView == "side"){
+				//convert z to x
+				var xSide = ((arrayListForObject[i].Cube.center.z/20)*500);
+				xSide = (xSide/500)*canvas.width;
+				
+				//convert x to size
+				size = convertToSize(shapeX, arrayListForObject[i].Cube.center.z); 
+				
+				ctx.rect(xSide - size/2, Math.abs(shapeY/500 * canvas.height - canvas.height) - size/2,size,size);
+			}
 			ctx.fillStyle = color;
 			ctx.fill();
 			ctx.stroke();
@@ -559,6 +611,7 @@ function redraw(canvas, ctx){
 		
 	}
 	
+	//redraw lights
 	for(i = 0; i < arrayListForLight.length; i++){
 		
 		var c = document.getElementById("myCanvas");
@@ -588,6 +641,30 @@ function sliderDrag() {
 			$('#dragDrop').slideDown(1000);
 		}
 	}
+}
+
+function topView(){
+	currentView = "top";
+	var c = document.getElementById("myCanvas");
+	var ctx = c.getContext("2d");
+	ctx.clearRect(0,0,c.width,c.height);
+	redraw(c, ctx);
+}
+
+function frontView(){
+	currentView = "front";
+	var c = document.getElementById("myCanvas");
+	var ctx = c.getContext("2d");
+	ctx.clearRect(0,0,c.width,c.height);
+	redraw(c, ctx);
+}
+
+function sideView(){
+	currentView = "side";
+	var c = document.getElementById("myCanvas");
+	var ctx = c.getContext("2d");
+	ctx.clearRect(0,0,c.width,c.height);
+	redraw(c, ctx);
 }
 	
   $(document).ready(function() {
@@ -628,8 +705,9 @@ function sliderDrag() {
 	  canMouseY = Math.abs(((canMouseY/ canvas.height) * 500 ) - 500) - 250 ;
 	  
 	  
-	  
+	  if(currentView == "front"){
 	  for(j = 0; j < arrayListForObject.length; j++){
+		  
 		  var i = paintOrder[j][0];
 		  if(typeof arrayListForObject[i].Sphere != 'undefined'){
 			var shapeR = (arrayListForObject[i].Sphere.radius*50*15)/arrayListForObject[i].Sphere.center.z;
@@ -657,13 +735,11 @@ function sliderDrag() {
 			  isDragging=true;
 			  index = i;
 			  boolDraged[i][1] = true;
-			 }  
-			  
-			  
-		  }
-		  
+			 }  	  
+		  } 
 	   }
-    }
+	  }
+	}
 
     function handleMouseUp(e){
       canMouseX=parseInt(e.clientX-$("#myCanvas").offset().left);
@@ -778,6 +854,17 @@ $('#settingsNav').click(function(){
 	else {
 		$('#settingsDiv').animate({"left": '-400%'}, 250);
 		$('#settingsNav').animate({"left": '-6%'}, 250);
+	}
+});
+
+$('#viewsNav').click(function(){
+	if($(this).css("left") <= "10px") {
+		$('#viewsDiv').animate({'left':'0'}, 250);
+		$('#viewsNav').animate({'left':"100%"}, 250);
+	}
+	else {
+		$('#viewsDiv').animate({"left": '-400%'}, 250);
+		$('#viewsNav').animate({"left": '-6%'}, 250);
 	}
 });
 
