@@ -140,6 +140,14 @@ function addShape() {
 	//object creation for cylinder
 	var cylinder 			 = new Shape(centerObject, radius, height, colorObject, specular, reflection, transparency, "Cylinder");
 	var cylinderObject		 = new CylinderObj(cylinder);
+
+	//object creation for pyramid
+	var pyramid				 = new Shape(centerObject, radius, height, colorObject, specular, reflection, transparency, "Pyramid");
+	var pyramidObject 		 = new PyramidObj(pyramid);
+
+	//object creation for cone
+	var cone				 = new Shape(centerObject, radius, height, colorObject, specular, reflection, transparency, "Cone");
+	var coneObject 			 = new ConeObj(cone);
 	
    	 if(shape == "Circle") {
 		arrayListForObject.push(sphereObject);
@@ -352,14 +360,28 @@ class CylinderObj {
 	}
 }
 
+class PyramidObj {
+	//to encompass all values of Pyramid
+	constructor(pyramid) {
+		this.Pyramid = pyramid;
+	}
+}
+
+class ConeObj {
+	//to encompass all values of Cone
+	constructor(cone) {
+		this.Cone = cone;
+	}
+}
+
 class Shape {
 	//shape class for both sphere and cube.
 	constructor(center, radius, height, color, specular, reflection, transparency, shape) {
 		this.center 	= center;
-		if (shape == "Sphere" || shape == "Cylinder") this.radius = radius;
-		else if(shape == "Cube") this.sideLength = radius;
+		if (shape == "Sphere" || shape == "Cylinder" || shape == "Cone") this.radius = radius;
+		else if(shape == "Cube" || shape == "Pyramid") this.sideLength = radius;
 
-		if(shape == "Cylinder") this.height = height;
+		if(shape == "Cylinder" || shape == "Pyramid" || shape == "Cone") this.height = height;
 		this.color  		= color;
 		this.specular		= specular;
 		this.reflection 	= reflection;
@@ -416,10 +438,10 @@ function addLight() {
 function shapeSelect() {
 	var e = document.getElementById("shape");
 	var shape = e.options[e.selectedIndex].value;
-	if(shape == "Cylinder") {
-		document.getElementById("cylHeight").style.display='block';
+	if(shape == "Cylinder" || shape == "Pyramid" || shape == "Cone") {
+		document.getElementById("Height").style.display='block';
 	} else {
-		document.getElementById("cylHeight").style.display='none';
+		document.getElementById("Height").style.display='none';
 	}
 }
 	
