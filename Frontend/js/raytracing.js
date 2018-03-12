@@ -5,10 +5,12 @@ var arrayListForObject 		 = [];
 var paintOrder               = [];
 var boolDraged               = [];
 var rendered                 = [];
+var windowSize               = [];
 var globalImagePlaneSizeObject, globalCameraPositionObject, globalSceneObject, globalRaytracerObject, globalAmbientLight, globalFloor;
 var convertSize;
 
 function addShape() {
+	
 	//get the canvas
 	var c = document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");	
@@ -35,6 +37,7 @@ function addShape() {
 		return;
 			
 	}
+	/*
 	//translate to zero and the 250 sets the limits of what the user can see.
 	//to change the 250 we should also change the value send to the back end 
 	//at a new analogy. (class CenterForShapesAndLight)
@@ -47,7 +50,8 @@ function addShape() {
 	
 	var xCoord = ((x - c.width/2)  * 10 / z) + c.width/2 ;
 	var yCoord = ((y - c.height/2)  * 10 / z) + c.height/2 ;
-		
+	
+	
 	//paint the shape
 	if(shape == "Circle"){
 		ctx.beginPath();
@@ -56,17 +60,60 @@ function addShape() {
 		ctx.fill();
 		ctx.stroke();
 		
+		
+		
 	} else if(shape == "Cube") {
 		//boring rect
 		x = x - size/2;
 		y = y - size/2;
 		ctx.beginPath();
-		ctx.rect(x,y,size,size);
+		ctx.rect(x,y,convertSize,convertSize);
 		ctx.fillStyle = color;
 		ctx.fill();
 		ctx.stroke();
-	}
+	} else if(shape == "Cylinder"){
 		
+    ctx.translate(xCoord,yCoord);
+    ctx.fillStyle = color;
+    //ctx.lineWidth = lineWidth;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+    ctx.beginPath();
+    ctx.moveTo(97.0, 156.7);
+    ctx.lineTo(97.0, 17.7);
+    ctx.lineTo(1.0, 17.7);
+    ctx.lineTo(1.0, 156.7);
+    ctx.lineTo(97.0, 156.7);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    
+    // layer1/Group/Path
+    ctx.beginPath();
+    ctx.moveTo(96.7, 156.2);
+    ctx.bezierCurveTo(96.7, 165.3, 75.4, 172.7, 49.0, 172.7);
+    ctx.bezierCurveTo(22.7, 172.7, 1.4, 165.3, 1.4, 156.2);
+    ctx.bezierCurveTo(1.4, 147.2, 22.7, 139.8, 49.0, 139.8);
+    ctx.bezierCurveTo(75.4, 139.8, 96.7, 147.2, 96.7, 156.2);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // layer1/Group/Path
+    ctx.beginPath();
+    ctx.moveTo(96.7, 17.4);
+    ctx.bezierCurveTo(96.7, 26.5, 75.4, 33.8, 49.0, 33.8);
+    ctx.bezierCurveTo(22.7, 33.8, 1.4, 26.5, 1.4, 17.4);
+    ctx.bezierCurveTo(1.4, 8.4, 22.7, 1.0, 49.0, 1.0);
+    ctx.bezierCurveTo(75.4, 1.0, 96.7, 8.4, 96.7, 17.4);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+		
+		
+		
+	}
+		*/
 		/*	
 		//awesome cube code I made myself and the team doesnt need (legacy of chikans)
 		ctx.beginPath();
@@ -151,17 +198,25 @@ function addShape() {
 	
    	 if(shape == "Circle") {
 		arrayListForObject.push(sphereObject);
-	} else {
+		paintOrder.push([arrayListForObject.length - 1, arrayListForObject[arrayListForObject.length - 1].Sphere.center.z]);
+		paintOrder.sort(compare);
+		
+	} else if(shape == "Cube"){
 		arrayListForObject.push(cubeObject);
+		paintOrder.push([arrayListForObject.length - 1, arrayListForObject[arrayListForObject.length - 1].Cube.center.z]);
+		paintOrder.sort(compare);
+		
 	}
 	
 	function compare(a,b) {
 		return b[1] - a[1];
 	}
-	paintOrder.push([arrayListForObject.length - 1, arrayListForObject[arrayListForObject.length - 1].Sphere.center.z]);
-	paintOrder.sort(compare);
+	
 	boolDraged.push([arrayListForObject.length - 1, false]);
 	rendered.push([arrayListForObject.length - 1, false]);
+	
+	
+	redraw(c, ctx);
 	
 	//reset values
 	document.getElementById("resetShape").reset();
@@ -170,10 +225,13 @@ function addShape() {
 function renderShapes() {
 	
 	for(i = 0; i < arrayListForObject.length; i++) {
+		
 		if(boolDraged[i][1]){
-			arrayListForObject[boolDraged[i][0]].Sphere.center.x = (arrayListForObject[boolDraged[i][0]].Sphere.center.z/10)*arrayListForObject[boolDraged[i][0]].Sphere.center.x;
-			arrayListForObject[boolDraged[i][0]].Sphere.center.y = (arrayListForObject[boolDraged[i][0]].Sphere.center.z/10)*arrayListForObject[boolDraged[i][0]].Sphere.center.y;
-			rendered[i][1] = true;
+			if(typeof arrayListForObject[boolDraged[i][0]].Sphere != 'undefined'){
+				arrayListForObject[boolDraged[i][0]].Sphere.center.x = (arrayListForObject[boolDraged[i][0]].Sphere.center.z/10)*arrayListForObject[boolDraged[i][0]].Sphere.center.x;
+				arrayListForObject[boolDraged[i][0]].Sphere.center.y = (arrayListForObject[boolDraged[i][0]].Sphere.center.z/10)*arrayListForObject[boolDraged[i][0]].Sphere.center.y;
+				rendered[i][1] = true;
+			}
 		}
 	}
 	
@@ -198,11 +256,14 @@ function renderShapes() {
 	sceneObjectCreation();
 	raytracerObjectCreation();
 
+	
+	
 	var xhr = new XMLHttpRequest();
 	var url = "http://127.0.0.1:8000/raytrace"; 
 	xhr.open("POST", url, true);
 	var jsonData = JSON.stringify(globalRaytracerObject);
 	xhr.send(jsonData);
+	
 	//get binary and make it an image... {there is a problem with headers called CORS from backend.. we have to fix it} (fixed as of 13.02.2018!)
 	xhr.responseType = 'arraybuffer';
 	xhr.onreadystatechange = function() {
@@ -405,7 +466,7 @@ function addLight() {
 	
 	var canvas = document.getElementById('myCanvas');
 	context = canvas.getContext('2d');
-	
+	/*
 	//translate to zero and the 250 sets the limits of what the user can see.
 	//to change the 250 we should also change the value send to the back end 
 	//at a new analogy. (class CenterForShapesAndLight)
@@ -420,13 +481,18 @@ function addLight() {
 	base_image.onload = function(){
 		context.drawImage(base_image, xCoord, yCoord, 15, 18);
 	}
-
+*/
+	
 	//for adding Light to JSON
 	var lightSourceCenter = new CenterForShapesAndLight(document.getElementById('light_x').value, document.getElementById('light_y').value, document.getElementById('light_z').value);
 	var brightness 		  = document.getElementById('brightness').value;
 	
 	var lightSourceObject = new LightSource(lightSourceCenter, brightness);
 	arrayListForLight.push(lightSourceObject);
+	
+	//redraw canvas
+	//context.clearRect(0, 0, canvas.width, canvas.height);
+	redraw(canvas,context);
 
 	//reset values
 	document.getElementById("brightness").value = 40;
@@ -486,17 +552,59 @@ function clearGrid() {
 function redraw(canvas, ctx){
 	for(j = 0; j < arrayListForObject.length; j++){
 		var i = paintOrder[j][0];
-		var shapeX = arrayListForObject[i].Sphere.center.x*71.4285714286 + 250;
-		var shapeY = arrayListForObject[i].Sphere.center.y*71.4285714286 + 250;
-		var shapeR = arrayListForObject[i].Sphere.radius*50 * 15 / arrayListForObject[i].Sphere.center.z ;
-		var shapeC = arrayListForObject[i].Sphere.color;
-		var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
+		if(typeof arrayListForObject[i].Sphere != 'undefined'){
+			
+			var shapeX = arrayListForObject[i].Sphere.center.x*71.4285714286 + 250;
+			var shapeY = arrayListForObject[i].Sphere.center.y*71.4285714286 + 250;
+			var shapeR = arrayListForObject[i].Sphere.radius*50 * 15 / arrayListForObject[i].Sphere.center.z ;
+			var shapeC = arrayListForObject[i].Sphere.color;
+			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
 		
-		ctx.beginPath();
-		ctx.arc(shapeX/500 * canvas.width,	Math.abs(shapeY/500 * canvas.height - canvas.height) ,shapeR,0,2*Math.PI);
-		ctx.fillStyle = color;
-		ctx.fill();
-		ctx.stroke(); 
+			//size of shape on windows resize
+			//shapeR = (shapeR/250) * canvas.height/2;
+			
+			shapeR = shapeR/75* canvas.width* 0.0914;
+			
+			ctx.beginPath();
+			ctx.arc(shapeX/500 * canvas.width,	Math.abs(shapeY/500 * canvas.height - canvas.height) ,shapeR,0,2*Math.PI);
+			ctx.fillStyle = color;
+			ctx.fill();
+			ctx.stroke(); 
+		}
+		if(typeof arrayListForObject[i].Cube != 'undefined'){
+			
+			var shapeX = arrayListForObject[i].Cube.center.x*71.4285714286 + 250;
+			var shapeY = arrayListForObject[i].Cube.center.y*71.4285714286 + 250;
+			var shapeR = arrayListForObject[i].Cube.sideLength*50 * 15 / arrayListForObject[i].Cube.center.z ;
+			var shapeC = arrayListForObject[i].Cube.color;
+			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
+			
+			//size of shape on windows resize
+			//shapeR = resizeObject(shapeR);
+			shapeR = shapeR/75* canvas.width* 0.0914;
+			
+			//paint
+			ctx.beginPath();
+			ctx.rect(shapeX/500 * canvas.width - shapeR/2, Math.abs(shapeY/500 * canvas.height - canvas.height) - shapeR/2,shapeR,shapeR);
+			ctx.fillStyle = color;
+			ctx.fill();
+			ctx.stroke();
+			
+		}
+		
+	}
+	base_image = new Image();
+	base_image.src = './images/light.png';
+	base_image.onload = function(){
+		for(i = 0; i < arrayListForLight.length; i++){
+		
+			var c = document.getElementById("myCanvas");
+			var ctx = c.getContext("2d");
+		
+			var lightX = arrayListForLight[i].center.x*71.4285714286 + 250;
+			var lightY = arrayListForLight[i].center.y*71.4285714286 + 250;
+			ctx.drawImage(base_image, lightX/500 * canvas.width, Math.abs(lightY/500 * canvas.height - canvas.height), 15, 18);
+		}
 	}
 }
 
@@ -524,6 +632,8 @@ function sliderDrag() {
 	canvas.style.height='100%';
 	canvas.width  = canvas.offsetWidth;
 	canvas.height = canvas.offsetHeight;
+	windowSize[0] = canvas.offsetWidth;
+	windowSize[1] = canvas.offsetHeight;
 	
 	//close alert window if user clicks the window
 	window.onclick = function(event) {
@@ -550,19 +660,41 @@ function sliderDrag() {
 	  canMouseX = ((canMouseX/ canvas.width) * 500 ) - 250 ;
 	  canMouseY = Math.abs(((canMouseY/ canvas.height) * 500 ) - 500) - 250 ;
 	  
-	  for(i = 0; i < arrayListForObject.length; i++){
-		  var shapeR = (arrayListForObject[i].Sphere.radius*50*15)/arrayListForObject[i].Sphere.center.z;
-		  var shapeX = arrayListForObject[i].Sphere.center.x*71.4285714286 ;
-		  var shapeY = arrayListForObject[i].Sphere.center.y*71.4285714286 ;
-		  if(!boolDraged[i][1]){
-			shapeX = shapeX / (arrayListForObject[i].Sphere.center.z/10);
-			shapeY = shapeY / (arrayListForObject[i].Sphere.center.z/10);
+	  
+	  
+	  for(j = 0; j < arrayListForObject.length; j++){
+		  var i = paintOrder[j][0];
+		  if(typeof arrayListForObject[i].Sphere != 'undefined'){
+			var shapeR = (arrayListForObject[i].Sphere.radius*50*15)/arrayListForObject[i].Sphere.center.z;
+		    var shapeX = arrayListForObject[i].Sphere.center.x*71.4285714286 ;
+		    var shapeY = arrayListForObject[i].Sphere.center.y*71.4285714286 ;
+		    if(!boolDraged[i][1]){
+			  shapeX = shapeX / (arrayListForObject[i].Sphere.center.z/10);
+			  shapeY = shapeY / (arrayListForObject[i].Sphere.center.z/10);
+		    }
+		    if(canMouseX > shapeX - shapeR && canMouseX < shapeX + shapeR && canMouseY > shapeY - shapeR && canMouseY < shapeY + shapeR){
+			  isDragging=true;
+			  index = i;
+			  boolDraged[i][1] = true;
+			  
+		    }
+		  }else if(typeof arrayListForObject[i].Cube != 'undefined'){
+			var shapeR = (arrayListForObject[i].Cube.sideLength*50*15)/arrayListForObject[i].Cube.center.z;
+		    var shapeX = arrayListForObject[i].Cube.center.x*71.4285714286 ;
+		    var shapeY = arrayListForObject[i].Cube.center.y*71.4285714286 ;
+		    if(!boolDraged[i][1]){
+			  shapeX = shapeX / (arrayListForObject[i].Cube.center.z/10);
+			  shapeY = shapeY / (arrayListForObject[i].Cube.center.z/10);
+		    }
+		    if(canMouseX > shapeX - shapeR/2 && canMouseX < shapeX + shapeR/2 && canMouseY > shapeY - shapeR/2 && canMouseY < shapeY + shapeR/2){
+			  isDragging=true;
+			  index = i;
+			  boolDraged[i][1] = true;
+			 }  
+			  
+			  
 		  }
-		  if(canMouseX > shapeX - shapeR && canMouseX < shapeX + shapeR && canMouseY > shapeY - shapeR && canMouseY < shapeY + shapeR){
-			isDragging=true;
-			index = i;
-			boolDraged[i][1] = true;
-		  }
+		  
 	   }
     }
 
@@ -571,27 +703,27 @@ function sliderDrag() {
       canMouseY=parseInt(e.clientY-$("#myCanvas").offset().top);
 	  
 	  if(isDragging){
-		  
-		arrayListForObject[index].Sphere.center.x = (((canMouseX/canvas.width*2)*250) - 250)/71.4285714286;
-		arrayListForObject[index].Sphere.center.y = -(((canMouseY/canvas.height*2)*250) - 250)/71.4285714286;
-	    ctx.clearRect(0,0,canvas.width,canvas.height);
-	    redraw(canvas, ctx);
+		if(typeof arrayListForObject[index].Sphere != 'undefined'){
+			arrayListForObject[index].Sphere.center.x = (((canMouseX/canvas.width*2)*250) - 250)/71.4285714286;
+			arrayListForObject[index].Sphere.center.y = -(((canMouseY/canvas.height*2)*250) - 250)/71.4285714286;
+			ctx.clearRect(0,0,canvas.width,canvas.height);
+		}else if(typeof arrayListForObject[index].Cube != 'undefined'){
+			arrayListForObject[index].Cube.center.x = (((canMouseX/canvas.width*2)*250) - 250)/71.4285714286;
+			arrayListForObject[index].Cube.center.y = -(((canMouseY/canvas.height*2)*250) - 250)/71.4285714286;
+			ctx.clearRect(0,0,canvas.width,canvas.height);
+
+		}		
+		redraw(canvas, ctx);
+	    
 	  }
       // clear the drag flag
+	  
       isDragging=false;
     }
 
     function handleMouseOut(e){
-      canMouseX=parseInt(e.clientX-$("#myCanvas").offset().left);
-      canMouseY=parseInt(e.clientY-$("#myCanvas").offset().top);
-      // user has left the canvas, so clear the drag flag
-	  if(isDragging){
-			arrayListForObject[index].Sphere.center.x = (((canMouseX/canvas.width*2)*250) - 250)/71.4285714286;
-			arrayListForObject[index].Sphere.center.y = -(((canMouseY/canvas.height*2)*250) - 250)/71.4285714286;
-			ctx.clearRect(0,0,canvas.width,canvas.height);
-			redraw(canvas, ctx);
-	  	}
-      isDragging=false;
+		handleMouseUp(e);
+	
     }
 
     function handleMouseMove(e){
@@ -601,17 +733,38 @@ function sliderDrag() {
       // if the drag flag is set, clear the canvas and draw the image
       if(isDragging){
 		  ctx.clearRect(0,0,canvas.width,canvas.height);
-		  arrayListForObject[index].Sphere.center.x = 999999;
-		  arrayListForObject[index].Sphere.center.y = 999999;
-		  convertSize = (arrayListForObject[index].Sphere.radius * 50)*15/arrayListForObject[index].Sphere.center.z ;
 		  
-		  var shapeC = arrayListForObject[index].Sphere.color;
-		  var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
-		  ctx.beginPath();
-		  ctx.arc(canMouseX,canMouseY,convertSize,0,2*Math.PI);
-		  ctx.fillStyle = color;
-		  ctx.fill();
-		  ctx.stroke();
+		  if(typeof arrayListForObject[index].Sphere != 'undefined'){
+			arrayListForObject[index].Sphere.center.x = 999999;
+			arrayListForObject[index].Sphere.center.y = 999999;
+			convertSize = (arrayListForObject[index].Sphere.radius * 50)*15/arrayListForObject[index].Sphere.center.z ;
+			
+			convertSize = convertSize/75* canvas.width* 0.0914;
+		  
+			var shapeC = arrayListForObject[index].Sphere.color;
+			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
+			ctx.beginPath();
+			ctx.arc(canMouseX,canMouseY,convertSize,0,2*Math.PI);
+			ctx.fillStyle = color;
+			ctx.fill();
+			ctx.stroke();
+			
+			
+		  }else if(typeof arrayListForObject[index].Cube != 'undefined'){
+			arrayListForObject[index].Cube.center.x = 999999;
+			arrayListForObject[index].Cube.center.y = 999999;
+			convertSize = (arrayListForObject[index].Cube.sideLength * 50)*15/arrayListForObject[index].Cube.center.z ;
+			convertSize = convertSize/75* canvas.width* 0.0914;
+		  
+			var shapeC = arrayListForObject[index].Cube.color;
+			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
+			ctx.beginPath();
+			ctx.rect(canMouseX - convertSize/2,canMouseY - convertSize/2,convertSize,convertSize);
+			ctx.fillStyle = color;
+			ctx.fill();
+			ctx.stroke(); 
+			
+		  }
 		  redraw(canvas, ctx);
 	  }
     }
