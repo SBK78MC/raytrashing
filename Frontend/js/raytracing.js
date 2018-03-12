@@ -444,7 +444,7 @@ function addLight() {
 	
 	var canvas = document.getElementById('myCanvas');
 	context = canvas.getContext('2d');
-	
+	/*
 	//translate to zero and the 250 sets the limits of what the user can see.
 	//to change the 250 we should also change the value send to the back end 
 	//at a new analogy. (class CenterForShapesAndLight)
@@ -459,13 +459,18 @@ function addLight() {
 	base_image.onload = function(){
 		context.drawImage(base_image, xCoord, yCoord, 15, 18);
 	}
-
+*/
+	
 	//for adding Light to JSON
 	var lightSourceCenter = new CenterForShapesAndLight(document.getElementById('light_x').value, document.getElementById('light_y').value, document.getElementById('light_z').value);
 	var brightness 		  = document.getElementById('brightness').value;
 	
 	var lightSourceObject = new LightSource(lightSourceCenter, brightness);
 	arrayListForLight.push(lightSourceObject);
+	
+	//redraw canvas
+	//context.clearRect(0, 0, canvas.width, canvas.height);
+	redraw(canvas,context);
 
 	//reset values
 	document.getElementById("brightness").value = 40;
@@ -566,19 +571,17 @@ function redraw(canvas, ctx){
 		}
 		
 	}
-	
-	for(i = 0; i < arrayListForLight.length; i++){
+	base_image = new Image();
+	base_image.src = './images/light.png';
+	base_image.onload = function(){
+		for(i = 0; i < arrayListForLight.length; i++){
 		
-		var c = document.getElementById("myCanvas");
-		var ctx = c.getContext("2d");
+			var c = document.getElementById("myCanvas");
+			var ctx = c.getContext("2d");
 		
-		var lightX = arrayListForLight[i].center.x*71.4285714286 + 250;
-		var lightY = arrayListForLight[i].center.y*71.4285714286 + 250;
-		
-		base_image = new Image();
-		base_image.src = './images/light.png';
-		base_image.onload = function(){
-			context.drawImage(base_image, lightX/500 * canvas.width, Math.abs(lightY/500 * canvas.height - canvas.height), 15, 18);
+			var lightX = arrayListForLight[i].center.x*71.4285714286 + 250;
+			var lightY = arrayListForLight[i].center.y*71.4285714286 + 250;
+			ctx.drawImage(base_image, lightX/500 * canvas.width, Math.abs(lightY/500 * canvas.height - canvas.height), 15, 18);
 		}
 	}
 }
@@ -688,10 +691,11 @@ function sliderDrag() {
 			ctx.clearRect(0,0,canvas.width,canvas.height);
 
 		}		
-		
-	    redraw(canvas, ctx);
+		redraw(canvas, ctx);
+	    
 	  }
       // clear the drag flag
+	  
       isDragging=false;
     }
 
@@ -723,6 +727,7 @@ function sliderDrag() {
 			ctx.fill();
 			ctx.stroke();
 			
+			
 		  }else if(typeof arrayListForObject[index].Cube != 'undefined'){
 			arrayListForObject[index].Cube.center.x = 999999;
 			arrayListForObject[index].Cube.center.y = 999999;
@@ -736,6 +741,7 @@ function sliderDrag() {
 			ctx.fillStyle = color;
 			ctx.fill();
 			ctx.stroke(); 
+			
 		  }
 		  redraw(canvas, ctx);
 	  }
