@@ -19,6 +19,8 @@ var responsive_light_x = [];
 var responsive_light_y = [];
 var responsive_light_z = [];
 
+var selected_item = "";
+
 // Listing added shapes
 function ShapeList(name, color, id) {
     var shape = document.getElementById("Shapes");
@@ -29,19 +31,13 @@ function ShapeList(name, color, id) {
     shape.add(option);
 }
 
-// Dleteling the shape from list and all scenes
-function DeleteShape()
-{
-	//Delete Shape
-	var shape = document.getElementById("Shapes");
-	var item_value = shape[shape.selectedIndex].value;
-	responsive_shpe_size [item_value] = 0;
-	
-	//Delete Select Item
-	var shape_select = document.getElementById("Shapes");
-    shape_select.remove(shape.selectedIndex);
-	
-	draw();
+// Listing added Lights
+function LightList(id) {
+    var light = document.getElementById("Lights");
+    var option = document.createElement("option");
+    option.text = id;
+	option.value = id;
+    light.add(option);
 }
 
 // Selecting the shape
@@ -54,23 +50,84 @@ function ShapeSelected()
 	document.getElementById('change_y').value = responsive_shpe_y [item_value];
 	document.getElementById('change_z').value =  responsive_shpe_z [item_value];
 	document.getElementById('change_s').value	 = responsive_shpe_size [item_value];
-	document.getElementById('change_c').value	 = responsive_shpe_color [item_value];	
+	document.getElementById('change_c').value	 = responsive_shpe_color [item_value];
+
+	
+   var elements = document.getElementById("Lights").options;
+    for(var i = 0; i < elements.length; i++){
+      elements[i].selected = false;
+    }
+	
+	selected_item = "shape";
+}
+
+//Selecting the Light
+function LightSelected()
+{
+	var light = document.getElementById("Lights");
+	var item_value = light[light.selectedIndex].value;
+	
+	document.getElementById('change_x').value = responsive_light_x [item_value];
+	document.getElementById('change_y').value = responsive_light_y [item_value];
+	document.getElementById('change_z').value =  responsive_light_z [item_value];
+	document.getElementById('change_s').value	 = "--";
+	
+   var elements = document.getElementById("Shapes").options;
+    for(var i = 0; i < elements.length; i++){
+      elements[i].selected = false;
+    }
+	
+	selected_item = "light";
 }
 
 // Changing the shape location and size
-function ChangeShape()
+function ChangeItem()
 {
+	
+	//Change Shape
+	if(selected_item == "shape")
+	{	
+		var shape = document.getElementById("Shapes");
+		var item_value = shape[shape.selectedIndex].value;
+
+		responsive_shpe_x [item_value] = parseFloat(document.getElementById('change_x').value);
+		responsive_shpe_y [item_value] = parseFloat(document.getElementById('change_y').value);
+		responsive_shpe_z [item_value] = parseFloat(document.getElementById('change_z').value);
+		responsive_shpe_size [item_value] = parseFloat(document.getElementById('change_s').value);
+		responsive_shpe_color [item_value] = document.getElementById('change_c').value;
+		
+		shape.remove(shape.selectedIndex);
+		ShapeList(responsive_shpe_name[item_value], responsive_shpe_color [item_value], item_value);
+	}
+	//Change Light
+	else if(selected_item == "light")
+	{
+		var light = document.getElementById("Lights");
+		var item_value = light[light.selectedIndex].value;
+		
+		responsive_light_x [item_value] = parseFloat(document.getElementById('change_x').value);
+		responsive_light_y [item_value] = parseFloat(document.getElementById('change_y').value);
+		responsive_light_z [item_value] = parseFloat(document.getElementById('change_z').value);	
+	}
+	draw();
+}
+
+// Dleteling the shape from list and all scenes
+function DeleteItem()
+{
+	//Delete Shape
 	var shape = document.getElementById("Shapes");
 	var item_value = shape[shape.selectedIndex].value;
-
-	responsive_shpe_x [item_value] = parseFloat(document.getElementById('change_x').value);
-	responsive_shpe_y [item_value] = parseFloat(document.getElementById('change_y').value);
-	responsive_shpe_z [item_value] = parseFloat(document.getElementById('change_z').value);
-	responsive_shpe_size [item_value] = parseFloat(document.getElementById('change_s').value);
-	responsive_shpe_color [item_value] = document.getElementById('change_c').value;
+	responsive_shpe_size [item_value] = 0;
 	
-	shape.remove(shape.selectedIndex);
-	ShapeList(responsive_shpe_name[item_value], responsive_shpe_color [item_value], item_value)
+	//Delete Select Shape
+	var shape_select = document.getElementById("Shapes");
+    shape_select.remove(shape.selectedIndex);
+	
+	//Delete Light
+	
+	//Delete Select Light
+	
 	
 	draw();
 }
@@ -486,6 +543,9 @@ function addLight() {
 	responsive_light_y [responsive_light_number] = y;
 	responsive_light_z [responsive_light_number] = z;
 	responsive_light_number++;
+	
+	//Add to Select (Shapes)
+	LightList( responsive_light_number-1 ) ;
 	
 	// Drawing Everything
 	draw();
