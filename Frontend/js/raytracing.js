@@ -528,7 +528,9 @@ function redraw(canvas, ctx){
 			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
 		
 			//size of shape on windows resize
-			shapeR = (shapeR/250) * canvas.height/2;
+			//shapeR = (shapeR/250) * canvas.height/2;
+			
+			shapeR = shapeR/75* canvas.width* 0.0914;
 			
 			ctx.beginPath();
 			ctx.arc(shapeX/500 * canvas.width,	Math.abs(shapeY/500 * canvas.height - canvas.height) ,shapeR,0,2*Math.PI);
@@ -704,6 +706,8 @@ function sliderDrag() {
 			arrayListForObject[index].Sphere.center.x = 999999;
 			arrayListForObject[index].Sphere.center.y = 999999;
 			convertSize = (arrayListForObject[index].Sphere.radius * 50)*15/arrayListForObject[index].Sphere.center.z ;
+			
+			convertSize = convertSize/75* canvas.width* 0.0914;
 		  
 			var shapeC = arrayListForObject[index].Sphere.color;
 			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);

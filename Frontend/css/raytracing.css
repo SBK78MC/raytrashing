@@ -237,7 +237,7 @@ body {
     background-color: rgba(8, 3, 3, 0.664);
     border-radius: 0 5px 5px 0;
     border:1px solid black;
-    height: 70%;
+    height: 44%;
 }
 
 #shapesDiv {
@@ -252,7 +252,7 @@ body {
     border-radius: 0 5px 5px 0;
     border:1px solid black;
     background-color: rgba(8, 3, 3, 0.664);
-    height: 80%;
+    height: 75%;
 }
 
 #settingsDiv {
@@ -268,7 +268,7 @@ body {
     background-color: rgba(8, 3, 3, 0.664);
     border-radius: 0 5px 5px 0;
     border:1px solid black;
-    height: 50%;
+    height: 35%;
 }
 
 
