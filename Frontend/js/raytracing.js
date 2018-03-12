@@ -217,10 +217,13 @@ function addShape() {
 function renderShapes() {
 	
 	for(i = 0; i < arrayListForObject.length; i++) {
+		
 		if(boolDraged[i][1]){
-			arrayListForObject[boolDraged[i][0]].Sphere.center.x = (arrayListForObject[boolDraged[i][0]].Sphere.center.z/10)*arrayListForObject[boolDraged[i][0]].Sphere.center.x;
-			arrayListForObject[boolDraged[i][0]].Sphere.center.y = (arrayListForObject[boolDraged[i][0]].Sphere.center.z/10)*arrayListForObject[boolDraged[i][0]].Sphere.center.y;
-			rendered[i][1] = true;
+			if(typeof arrayListForObject[boolDraged[i][0]].Sphere != 'undefined'){
+				arrayListForObject[boolDraged[i][0]].Sphere.center.x = (arrayListForObject[boolDraged[i][0]].Sphere.center.z/10)*arrayListForObject[boolDraged[i][0]].Sphere.center.x;
+				arrayListForObject[boolDraged[i][0]].Sphere.center.y = (arrayListForObject[boolDraged[i][0]].Sphere.center.z/10)*arrayListForObject[boolDraged[i][0]].Sphere.center.y;
+				rendered[i][1] = true;
+			}
 		}
 	}
 	
@@ -245,11 +248,14 @@ function renderShapes() {
 	sceneObjectCreation();
 	raytracerObjectCreation();
 
+	
+	
 	var xhr = new XMLHttpRequest();
 	var url = "http://127.0.0.1:8000/raytrace"; 
 	xhr.open("POST", url, true);
 	var jsonData = JSON.stringify(globalRaytracerObject);
 	xhr.send(jsonData);
+	
 	//get binary and make it an image... {there is a problem with headers called CORS from backend.. we have to fix it} (fixed as of 13.02.2018!)
 	xhr.responseType = 'arraybuffer';
 	xhr.onreadystatechange = function() {
@@ -548,7 +554,7 @@ function redraw(canvas, ctx){
 			
 			//size of shape on windows resize
 			//shapeR = resizeObject(shapeR);
-			shapeR = (shapeR/250) * canvas.height/2;
+			shapeR = shapeR/75* canvas.width* 0.0914;
 			
 			//paint
 			ctx.beginPath();
@@ -721,6 +727,7 @@ function sliderDrag() {
 			arrayListForObject[index].Cube.center.x = 999999;
 			arrayListForObject[index].Cube.center.y = 999999;
 			convertSize = (arrayListForObject[index].Cube.sideLength * 50)*15/arrayListForObject[index].Cube.center.z ;
+			convertSize = convertSize/75* canvas.width* 0.0914;
 		  
 			var shapeC = arrayListForObject[index].Cube.color;
 			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
