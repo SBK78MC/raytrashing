@@ -125,7 +125,7 @@ class RayTracer:
         surfaceNormal = intersection.getObject().getSurfaceNormal(intersection.getPoint())
         viewDirection = intersection.getRay().getDirection()
 
-        fresnelEffect = self.getFresnel(viewDirection, surfaceNormal, 1.)
+        fresnelEffect = self.getFresnel(viewDirection, surfaceNormal, intersection.getObject().getRefractiveIndex())
 
         if refractionColor and reflectionColor:
 
@@ -181,7 +181,7 @@ class RayTracer:
             originalDirection = intersection.getRay().getDirection()
             surfaceNormal = intersection.getObject().getSurfaceNormal(intersection.getPoint())
 
-            ior = 1.
+            ior = intersection.getObject().getRefractiveIndex()
 
             cosi = originalDirection.dotProduct(surfaceNormal)
             etai = 1
