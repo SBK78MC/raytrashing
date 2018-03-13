@@ -4,6 +4,7 @@ from RayTracing.Classes.Models.Color import Color
 from RayTracing.Classes.Models.Intersection import Intersection
 from RayTracing.Classes.Models.MathUtil import MathUtil
 from RayTracing.Classes.Models.Object3D import Object3D
+from RayTracing.Classes.Models.Plane import Plane
 from RayTracing.Classes.Models.Vector import Vector
 
 
@@ -52,19 +53,50 @@ class Cylinder(Object3D):
                 return None
 
             point = ray.getPointOfRay(tSmallest)
-            if not self.inCylinder(point):
-                return None
-
             intersect = Intersection(point, self, ray, tSmallest)
+
+            if not self.inCylinder(point):
+                tmp = None
+                if self.isAbove(point):
+                    tmp = self.intersect_base(ray, self.top, Vector(0, 1, 0))
+                else:
+                    tmp = self.intersect_base(ray, self.bottom, Vector(0, -1, 0))
+
+                if tmp:
+                    intersect.point = tmp.point
+                else:
+                    intersect = None
 
         return intersect
 
+    def intersect_base(self, ray, center, normal):
+        bottom = Plane(center, normal)
+        intersection = bottom.intersection(ray, 0.001, 100000)
+        if intersection:
+            v = intersection.point.sub(bottom.center)
+            if v.calcLength() > self.radius:
+                intersection = None
+
+        return intersection
 
     def getSurfaceNormal(self,point):
+
         surfaceNormal = Vector()
-        surfaceNormal.x = point.x - self.center.x
-        surfaceNormal.y = point.y
-        surfaceNormal.z = point.z - self.center.z
+
+        if self.center.x - self.radius <= point.x <= self.center.x + self.radius and self.center.z - self.radius <= point.z <= self.center.z + self.radius:
+
+            epsilon = 0.00001
+
+            if point.y > self.top.y - epsilon:
+                surfaceNormal.y = 1
+                return Vector(0.0, 1.0, 0.0)
+            elif self.bottom.y - epsilon < point.y < self.bottom.y + epsilon :
+                surfaceNormal.y = -1
+                return Vector(0.0, -1.0, 0.0)
+
+            v = Vector(self.center.x, point.y, self.center.z)
+            surfaceNormal = point.sub(v)
+
         return surfaceNormal.normalize()
 
     def inCylinder(self, point):
@@ -73,3 +105,9 @@ class Cylinder(Object3D):
         else:
             return True
 
+
+    def isAbove(self, point):
+        if point.y > self.center.y:
+            return True
+        else:
+            return False

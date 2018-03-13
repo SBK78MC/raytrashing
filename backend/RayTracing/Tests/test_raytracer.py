@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from RayTracing.Classes.Models.AmbientLight import AmbientLight
 from RayTracing.Classes.Models.Camera import Camera
 from RayTracing.Classes.Models.Color import Color
+from RayTracing.Classes.Models.Cylinder import Cylinder
 from RayTracing.Classes.Models.Imageplane import Imageplane
 from RayTracing.Classes.Models.Light import Light
 from RayTracing.Classes.Models.Scene import Scene
@@ -33,24 +34,29 @@ if __name__ == '__main__':
     s3 = Sphere(sCenter3, 1, Color(0, 0.3, 0.8), 500, 0.6)
     s4 = Sphere(sCenter4, 3, Color(1, 0.5, 0), 500, 0.3)
 
-    light1 = Light(5, 0, 13, 0.7)
+    sphere = Sphere(Vector(0, 1, 26), 5, Color(0.0, 1, 0.0), 100, 0.3)
+
+    c = Cylinder(Vector(0, -2, 20), 0.5, 2, Color(1.0, 0, 1.0), 200, 0.3)
+
+    light1 = Light(5, 0, 9, 0.7)
     light0 = AmbientLight(0.3)
 
     scene = Scene()
 
     scene.addLight(light0)
     scene.addLight(light1)
-    scene.addObject3D(s1)
-    scene.addObject3D(s2)
-    scene.addObject3D(s3)
-    scene.addObject3D(s4)
+    #scene.addObject3D(s1)
+    #scene.addObject3D(s2)
+    #scene.addObject3D(s3)
+    #scene.addObject3D(s4)
 
     scene.addObject3D(p1)
-    scene.addObject3D(p2)
+    #scene.addObject3D(p2)
 
+    scene.addObject3D(c)
+    scene.addObject3D(sphere)
 
-
-    imagepl = Imageplane(750, 750)
+    imagepl = Imageplane(1000, 1000)
 
     camera = Camera(Vector(0, 0, 0), Vector(0, 0, 1), 30)
 

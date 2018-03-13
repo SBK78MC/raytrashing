@@ -37,6 +37,8 @@ class JSONParser:
                 scene.addObject3D(self.deserializeCube(object[type]))
             elif (type == "Cylinder"):
                 scene.addObject3D(self.deserializeCylinder(object[type]))
+            elif (type == "Cone"):
+                scene.addObject3D(self.deserializeCone(object[type]))
 
         for light in jsonScene["Light"]:
             scene.addLight(self.deserializeLight(light))
@@ -133,3 +135,6 @@ class JSONParser:
     def deserializeFloor(self, sceneJson):
         active = bool(sceneJson["active"])
         return active
+
+    def deserializeCone(self, coneJson):
+        pass
