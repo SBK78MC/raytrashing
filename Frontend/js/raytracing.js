@@ -9,6 +9,9 @@ var windowSize               = [];
 var globalImagePlaneSizeObject, globalCameraPositionObject, globalSceneObject, globalRaytracerObject, globalAmbientLight, globalFloor;
 var convertSize;
 var currentView = "front";
+var receivedImage            = [];
+
+
 
 function addShape() {
 
@@ -269,7 +272,7 @@ function renderShapes() {
 	xhr.responseType = 'arraybuffer';
 	xhr.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-
+			document.getElementById("download").style.display = 'inline-block';
 			var uInt8Array = new Uint8Array(this.response);
 			var i = uInt8Array.length;
 			var binaryString = new Array(i);
@@ -280,6 +283,10 @@ function renderShapes() {
 			var base64 = window.btoa(data);
             var modal = document.getElementById('myModal1');
 			document.getElementById("loadingKati").src = "data:image/png;base64," + base64;
+			
+			//store image
+			receivedImage = base64;
+			document.getElementById("download").href = "data:image/png;base64," + receivedImage;
 		}
 
 		for(i = 0; i < arrayListForObject.length; i++) {
@@ -295,6 +302,7 @@ function renderShapes() {
 		}
 	}
 }
+
 
 function imagePlaneObjectCreation() {
 	/*
@@ -606,7 +614,7 @@ function redraw(canvas, ctx){
 
 			ctx.fillStyle = color;
 			ctx.fill();
-ctx.stroke();
+			ctx.stroke();
 		}
 		if(typeof arrayListForObject[i].Cube != 'undefined'){
 
@@ -682,11 +690,7 @@ function sliderDrag() {
 
 //create different views
 function topView(){
-	//make active color
-	document.getElementById("top").style.background = '#ccc';
-	document.getElementById("side").style.background = '#ddd';
-	document.getElementById("front").style.background = '#ddd';
-
+	keepActiveButton(1);
 	currentView = "top";
 	var c = document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
@@ -695,11 +699,7 @@ function topView(){
 }
 
 function frontView(){
-	//make active color
-	document.getElementById("front").style.background = '#ccc';
-	document.getElementById("side").style.background = '#ddd';
-	document.getElementById("top").style.background = '#ddd';
-
+	keepActiveButton(0);
 	currentView = "front";
 	var c = document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
@@ -709,10 +709,7 @@ function frontView(){
 
 function sideView(){
 	//make active color
-	document.getElementById("side").style.background = '#ccc';
-	document.getElementById("top").style.background = '#ddd';
-	document.getElementById("front").style.background = '#ddd';
-
+	keepActiveButton(2);
 	currentView = "side";
 	var c = document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
@@ -720,13 +717,28 @@ function sideView(){
 	redraw(c, ctx);
 }
 
+function keepActiveButton(active){
+	var sides = ["front", "top", "side"];
+	for(i = 0; i < 3; i++){
+		if(i == active){
+			document.getElementById(sides[active]).style.background = '#ccc';
+		}else{
+			document.getElementById(sides[i]).style.background = '#ddd';
+		}
+	}
+}
+
+
+
   $(document).ready(function() {
 
+	
+  
 	$('#picker').farbtastic('#color');
 	var canvas = document.getElementById("myCanvas");
 	var ctx=canvas.getContext("2d");
 	canvas.style.width ='100%';
-	canvas.style.height='94.7%';
+	canvas.style.height='85%';
 	canvas.width  = canvas.offsetWidth;
 	canvas.height = canvas.offsetHeight;
 	windowSize[0] = canvas.offsetWidth;
@@ -871,7 +883,7 @@ if(currentView == "front"){
 		canvas = document.getElementById("myCanvas");
 		ctx=canvas.getContext("2d");
 		canvas.style.width ='100%';
-		canvas.style.height='94.7%';
+		canvas.style.height='85%';
 		canvas.width  = canvas.offsetWidth;
 		canvas.height = canvas.offsetHeight;
 		redraw(canvas, ctx);

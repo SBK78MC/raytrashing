@@ -125,11 +125,14 @@
 
 <div id="center">
 	<div class="tab">
-		<button class="tablinks" onclick="frontView()" id="front">Front View</button>
+		
 		<button class="tablinks" onclick="topView()" id="top">Top View</button>
 		<button class="tablinks" onclick="sideView()" id="side">Side View</button>
 	</div>
 	<canvas id="myCanvas" ></canvas>
+	<div class="tab">
+		<button class="tablinks" onclick="frontView()" id="front" style="width:100%; background-color:#ccc;">Front View</button>	
+	</div>
 </div>
 
 <div id="screenSize" align = "center">
@@ -150,8 +153,10 @@
 <!-- Loading Image -->
 <div align="center" id="myModal1" >
   <div align="center" id="loadingModal" >
-    	<span style=" position: absolute; margin-left: 1%; margin-top: 1%;" onclick="this.parentElement.parentElement.style.display='none';" class="close">&times;</span>
-    	<img id="loadingKati"  src="" alt="Red dot"></img>
+    	<span style=" position: absolute; margin-left: 1%; margin-top: 1%;" onclick="this.parentElement.parentElement.style.display='none'; document.getElementById('download').style.display = 'none';" class="close">&times;</span>
+    	<img id="loadingKati"  src="" alt="Red dot"></img><br>
+		<a id="download" href="" class="buttons" style="display:none;" download="raytrashing.png">Download</a>
+		
   </div>
 </div>
 
