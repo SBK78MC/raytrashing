@@ -1,31 +1,33 @@
 var arrayListForLight 		 = [];
 var arrayListForObject 		 = [];
 var paintOrder               = [];
-var boolDraged               = [];
-var rendered                 = [];
 var windowSize               = [];
 var globalImagePlaneSizeObject, globalCameraPositionObject, globalSceneObject, globalRaytracerObject, globalAmbientLight, globalFloor, globalItem;
 var convertSize;
+var currentView = "front";
+var receivedImage            = [];
+
+
 
 function addShape() {
-	
+
 	//get the canvas
 	var c = document.getElementById("myCanvas");
-	var ctx = c.getContext("2d");	
-		
+	var ctx = c.getContext("2d");
+
 	//get shape
 	var e = document.getElementById("shape");
 	var shape = e.options[e.selectedIndex].value;
-		
+
 	//get coordinates(circle center, cube upper left corner
 	var x = parseFloat(document.getElementById('shape_x').value);
 	var y = parseFloat(document.getElementById('shape_y').value);
 	var z = parseFloat(document.getElementById('shape_z').value);
-			
+
 	//get size and color
 	var size = parseFloat(document.getElementById('size').value);
 	var color = document.getElementById('color').value;
-		
+
 	//alert message if not all values are correct
 	var modal = document.getElementById('myModal');
 	if( (x || x == 0) && (y || y == 0) && (z || z == 0) && (size || size == 0) ) {
@@ -33,44 +35,27 @@ function addShape() {
 		document.getElementById("alertMessage").innerHTML = "Please fill all necessary Shape values(x, y, z, size).";
 		modal.style.display = "block";
 		return;
-			
+
 	}
+	
+	
+	
 	/*
 	//translate to zero and the 250 sets the limits of what the user can see.
-	//to change the 250 we should also change the value send to the back end 
+	//to change the 250 we should also change the value send to the back end
 	//at a new analogy. (class CenterForShapesAndLight)
 	y = -y/250 * c.height/2 + c.height/2;
 	x = x/250 * c.width/2 + c.width/2;
-	
+
 	//set values depending on z(depth)
 	size = size * 50;
 	convertSize = (size * 15)/z;
-	
+
 	var xCoord = ((x - c.width/2)  * 10 / z) + c.width/2 ;
 	var yCoord = ((y - c.height/2)  * 10 / z) + c.height/2 ;
-	
-	
-	//paint the shape
-	if(shape == "Circle"){
-		ctx.beginPath();
-		ctx.arc(xCoord,yCoord,convertSize,0,2*Math.PI);
-		ctx.fillStyle = color;
-		ctx.fill();
-		ctx.stroke();
-		
-		
-		
-	} else if(shape == "Cube") {
-		//boring rect
-		x = x - size/2;
-		y = y - size/2;
-		ctx.beginPath();
-		ctx.rect(x,y,convertSize,convertSize);
-		ctx.fillStyle = color;
-		ctx.fill();
-		ctx.stroke();
-	} else if(shape == "Cylinder"){
-		
+
+if(shape == "Cylinder"){
+
     ctx.translate(xCoord,yCoord);
     ctx.fillStyle = color;
     //ctx.lineWidth = lineWidth;
@@ -85,7 +70,7 @@ function addShape() {
     ctx.closePath();
     ctx.fill();
     ctx.stroke();
-    
+
     // layer1/Group/Path
     ctx.beginPath();
     ctx.moveTo(96.7, 156.2);
@@ -107,12 +92,12 @@ function addShape() {
     ctx.closePath();
     ctx.fill();
     ctx.stroke();
-		
-		
-		
+
+
+
 	}
 		*/
-		/*	
+		/*
 		//awesome cube code I made myself and the team doesnt need (legacy of chikans)
 		ctx.beginPath();
 		ctx.rect(x, y, size, size);
@@ -120,39 +105,28 @@ function addShape() {
 		ctx.fill();
 		ctx.stroke();
 		ctx.closePath();
-			
+
 		ctx.beginPath();
 		ctx.moveTo(x, y);
-		ctx.lineTo(x + (size / 2 ), y - (size / 2));			
+		ctx.lineTo(x + (size / 2 ), y - (size / 2));
 		x = x + (size / 2 );
 		y = y - (size / 2);
-		ctx.lineTo(x + size, y );			
+		ctx.lineTo(x + size, y );
 		x = x + size;
-		ctx.lineTo(x - (size / 2 ), y + (size / 2) );			
+		ctx.lineTo(x - (size / 2 ), y + (size / 2) );
 		ctx.closePath();
 		ctx.fillStyle = color;
 		ctx.stroke();
 		ctx.fill();
-			
-			
+
+
 		ctx.beginPath();
 		ctx.moveTo(x, y);
 		ctx.lineTo(x , y + size);
-				
+
 		y = y + size;
 		ctx.lineTo(x - size/2 , y + size/2);
-			
-		x = x - size/2;
-		y = y + size/2;
-		ctx.lineTo(x, y - size);
-		ctx.closePath();
-		ctx.fillStyle = color;
-		ctx.stroke();
-		ctx.fill();	
-			
-		y = y + size;
-		ctx.lineTo(x - size/2 , y + size/2);
-		
+
 		x = x - size/2;
 		y = y + size/2;
 		ctx.lineTo(x, y - size);
@@ -160,8 +134,19 @@ function addShape() {
 		ctx.fillStyle = color;
 		ctx.stroke();
 		ctx.fill();
-		*/		
-	
+
+		y = y + size;
+		ctx.lineTo(x - size/2 , y + size/2);
+
+		x = x - size/2;
+		y = y + size/2;
+		ctx.lineTo(x, y - size);
+		ctx.closePath();
+		ctx.fillStyle = color;
+		ctx.stroke();
+		ctx.fill();
+		*/
+
 	//for Shape
 	var centerObject	     = new CenterForShapesAndLight(document.getElementById('shape_x').value, document.getElementById('shape_y').value, document.getElementById('shape_z').value);
 	var radius		 		 = document.getElementById('size').value;
@@ -170,8 +155,8 @@ function addShape() {
 	var specular			 = document.getElementById('specular').value;
 	var transparency		 = document.getElementById('transparency').value;
 
-	//converting Hex to RGB. 
-	var hexToRGB 	 		 = hexToRgb(color); 
+	//converting Hex to RGB.
+	var hexToRGB 	 		 = hexToRgb(color);
 	var colorObject  		 = new colorObj((hexToRGB[0]/255), (hexToRGB[1]/255), (hexToRGB[2]/255));
 
 	//object creation for sphere
@@ -193,47 +178,38 @@ function addShape() {
 	//object creation for cone
 	var cone				 = new Shape(centerObject, radius, height, colorObject, specular, reflection, transparency, "Cone");
 	var coneObject 			 = new ConeObj(cone);
-	
+
    	 if(shape == "Circle") {
 		arrayListForObject.push(sphereObject);
 		paintOrder.push([arrayListForObject.length - 1, arrayListForObject[arrayListForObject.length - 1].Sphere.center.z]);
 		paintOrder.sort(compare);
+
 		shapeList("Sphere", sphereObject.Sphere.color);
 		
+
 	} else if(shape == "Cube"){
 		arrayListForObject.push(cubeObject);
 		paintOrder.push([arrayListForObject.length - 1, arrayListForObject[arrayListForObject.length - 1].Cube.center.z]);
 		paintOrder.sort(compare);
+
+
+
 		shapeList("Cube", cubeObject.Cube.color);
+
 	}
-	
+
 	function compare(a,b) {
 		return b[1] - a[1];
 	}
-	
-	boolDraged.push([arrayListForObject.length - 1, false]);
-	rendered.push([arrayListForObject.length - 1, false]);
-	
+
 	redraw(c, ctx);
-	
+
 	//reset values
 	document.getElementById("resetShape").reset();
 	document.getElementById("Height").style.display='none';
 };
 
 function renderShapes() {
-	
-	for(i = 0; i < arrayListForObject.length; i++) {
-		
-		if(boolDraged[i][1]){
-			if(typeof arrayListForObject[boolDraged[i][0]].Sphere != 'undefined'){
-				arrayListForObject[boolDraged[i][0]].Sphere.center.x = (arrayListForObject[boolDraged[i][0]].Sphere.center.z/10)*arrayListForObject[boolDraged[i][0]].Sphere.center.x;
-				arrayListForObject[boolDraged[i][0]].Sphere.center.y = (arrayListForObject[boolDraged[i][0]].Sphere.center.z/10)*arrayListForObject[boolDraged[i][0]].Sphere.center.y;
-				rendered[i][1] = true;
-			}
-		}
-	}
-	
 	//for Ambient Light
 	var active  = "true";
 	var checked = document.getElementById('floor').checked;
@@ -247,7 +223,7 @@ function renderShapes() {
 	var modal				 = document.getElementById('myModal1');
 	document.getElementById("loadingKati").src = "./images/spinner.gif";
 	modal.style.display = "block";
-	
+
 	//generate the JSON file for the form data and send it as HTTP request
 
 	imagePlaneObjectCreation();
@@ -255,19 +231,19 @@ function renderShapes() {
 	sceneObjectCreation();
 	raytracerObjectCreation();
 
-	
-	
+
+
 	var xhr = new XMLHttpRequest();
-	var url = "http://127.0.0.1:8000/raytrace"; 
+	var url = "http://127.0.0.1:8000/raytrace";
 	xhr.open("POST", url, true);
 	var jsonData = JSON.stringify(globalRaytracerObject);
 	xhr.send(jsonData);
-	
+
 	//get binary and make it an image... {there is a problem with headers called CORS from backend.. we have to fix it} (fixed as of 13.02.2018!)
 	xhr.responseType = 'arraybuffer';
 	xhr.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			
+			document.getElementById("download").style.display = 'inline-block';
 			var uInt8Array = new Uint8Array(this.response);
 			var i = uInt8Array.length;
 			var binaryString = new Array(i);
@@ -278,27 +254,21 @@ function renderShapes() {
 			var base64 = window.btoa(data);
             var modal = document.getElementById('myModal1');
 			document.getElementById("loadingKati").src = "data:image/png;base64," + base64;
+			
+			//store image
+			receivedImage = base64;
+			document.getElementById("download").href = "data:image/png;base64," + receivedImage;
 		}
-		
-		for(i = 0; i < arrayListForObject.length; i++) {
-			if(rendered[i][1]){
-				arrayListForObject[boolDraged[i][0]].Sphere.center.x = (10/arrayListForObject[boolDraged[i][0]].Sphere.center.z)*arrayListForObject[boolDraged[i][0]].Sphere.center.x;
-				arrayListForObject[boolDraged[i][0]].Sphere.center.y = (10/arrayListForObject[boolDraged[i][0]].Sphere.center.z)*arrayListForObject[boolDraged[i][0]].Sphere.center.y;
-				
-				var canvas = document.getElementById("myCanvas");
-				var ctx = canvas.getContext("2d");	
-				ctx.clearRect(0,0,canvas.width,canvas.height);
-				redraw(canvas, ctx);
-			}
-		}
+
 	}
 }
+
 
 function imagePlaneObjectCreation() {
 	/*
 	* ImagePlane class.
-	* The reason to put the Image Plane object creation in the imagePlaneObjectCreation() function and calling 
-	* it in the renderShapes() function is because whenever the Image plane size changes, there should be a  
+	* The reason to put the Image Plane object creation in the imagePlaneObjectCreation() function and calling
+	* it in the renderShapes() function is because whenever the Image plane size changes, there should be a
 	* different rendering for the same set of already added shapes.
 	*/
 	var screenSize			   = document.getElementById("sizeOfScreen");
@@ -365,12 +335,12 @@ class ImagePlane {
 	//to populate the size of the screen which is also the size of the Image Plane
 	constructor(width, height) {
 		this.width  = width;
-		this.height = height; 
+		this.height = height;
 	}
 }
 
 class Camera {
-	//to populate the position of the camera 
+	//to populate the position of the camera
 	constructor(x, y, z) {
 		this.x	= x;
 		this.y	= y;
@@ -470,42 +440,38 @@ function addLight() {
 	var x = parseFloat(document.getElementById("light_x").value);
 	var y = parseFloat(document.getElementById("light_y").value);
 	var z = parseFloat(document.getElementById("light_z").value);
-	
+
 	//alert message if not all values are correct
-	var modal = document.getElementById('myModal');	
+	var modal = document.getElementById('myModal');
 	if ( (x || x == 0) && (y || y == 0) && (z || z == 0) ) {
-	} else {		
+	} else {
 		document.getElementById("alertMessage").innerHTML = "Please fill all necessary Light Source values(x, y, z).";
 		modal.style.display = "block";
 		return;
 	}
-	
+
 	var canvas = document.getElementById('myCanvas');
 	context = canvas.getContext('2d');
 	/*
 	//translate to zero and the 250 sets the limits of what the user can see.
-	//to change the 250 we should also change the value send to the back end 
+	//to change the 250 we should also change the value send to the back end
 	//at a new analogy. (class CenterForShapesAndLight)
 	y = -y/250 * canvas.height/2 + canvas.height/2;
 	x = x/250 * canvas.width/2 + canvas.width/2;
-	
+
 	var xCoord = ((x - canvas.width/2)  * 10 / z) + canvas.width/2 ;
 	var yCoord = ((y - canvas.height/2)  * 10 / z) + canvas.height/2 ;
-	
-	base_image = new Image();
-	base_image.src = './images/light.png';
-	base_image.onload = function(){
-		context.drawImage(base_image, xCoord, yCoord, 15, 18);
+
 	}
 */
-	
+
 	//for adding Light to JSON
 	var lightSourceCenter = new CenterForShapesAndLight(document.getElementById('light_x').value, document.getElementById('light_y').value, document.getElementById('light_z').value);
 	var brightness 		  = document.getElementById('brightness').value;
-	
+
 	var lightSourceObject = new LightSource(lightSourceCenter, brightness);
 	arrayListForLight.push(lightSourceObject);
-	
+
 	//redraw canvas
 	//context.clearRect(0, 0, canvas.width, canvas.height);
 	lightList();
@@ -635,7 +601,7 @@ function shapeSelect() {
 		document.getElementById("Height").style.display='none';
 	}
 }
-	
+
 function hexToRgb(hex) {
     var c;
     if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
@@ -672,61 +638,122 @@ function clearGrid() {
 	globalCameraPositionObject	= "";
 };
 
-function redraw(canvas, ctx) {
+
+function redraw(canvas, ctx){
+
+	function convertToSize(x, z){
+			if(x == 500){
+				return size = 999;
+			}else{
+				size = 250/(500 - x);
+				size = size *50 * 15 / z;
+				return size = size/75* canvas.width* 0.0914;
+
+			}
+	}
+
+
 	for(j = 0; j < arrayListForObject.length; j++){
 		var i = paintOrder[j][0];
 		if(typeof arrayListForObject[i].Sphere != 'undefined'){
-			
+
 			var shapeX = arrayListForObject[i].Sphere.center.x*71.4285714286 + 250;
 			var shapeY = arrayListForObject[i].Sphere.center.y*71.4285714286 + 250;
 			var shapeR = arrayListForObject[i].Sphere.radius*50 * 15 / arrayListForObject[i].Sphere.center.z ;
 			var shapeC = arrayListForObject[i].Sphere.color;
 			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
-		
+
 			//size of shape on windows resize
 			//shapeR = (shapeR/250) * canvas.height/2;
+
 			shapeR = shapeR/75* canvas.width* 0.0914;
-			
+
 			ctx.beginPath();
-			ctx.arc(shapeX/500 * canvas.width,	Math.abs(shapeY/500 * canvas.height - canvas.height) ,shapeR,0,2*Math.PI);
+			if(currentView == "front"){
+				ctx.arc(shapeX/500 * canvas.width,	Math.abs(shapeY/500 * canvas.height - canvas.height) ,shapeR,0,2*Math.PI);
+			}else if(currentView == "top"){
+				//convert z to y
+				var yTop = ((arrayListForObject[i].Sphere.center.z/20)*500) - 250;
+				yTop = Math.abs(yTop/500 * canvas.height - canvas.height/2)
+
+				//convert y to size
+				size = convertToSize(shapeY, arrayListForObject[i].Sphere.center.z);
+
+				ctx.arc(shapeX/500 * canvas.width,	yTop ,size,0,2*Math.PI);
+			}else if(currentView == "side"){
+				//convert z to x
+				var xSide = ((arrayListForObject[i].Sphere.center.z/20)*500);
+				xSide = (xSide/500)*canvas.width;
+
+				//convert x to size
+				size = convertToSize(shapeX, arrayListForObject[i].Sphere.center.z);
+
+				if(size > 0){
+					ctx.arc(xSide, Math.abs(shapeY/500 * canvas.height - canvas.height) ,size,0,2*Math.PI);
+				}
+
+			}
+
 			ctx.fillStyle = color;
 			ctx.fill();
-			ctx.stroke(); 
+			ctx.stroke();
 		}
 		if(typeof arrayListForObject[i].Cube != 'undefined'){
-			
+
 			var shapeX = arrayListForObject[i].Cube.center.x*71.4285714286 + 250;
 			var shapeY = arrayListForObject[i].Cube.center.y*71.4285714286 + 250;
 			var shapeR = arrayListForObject[i].Cube.sideLength*50 * 15 / arrayListForObject[i].Cube.center.z ;
 			var shapeC = arrayListForObject[i].Cube.color;
 			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
-			
+
 			//size of shape on windows resize
 			//shapeR = resizeObject(shapeR);
 			shapeR = shapeR/75* canvas.width* 0.0914;
-			
+
 			//paint
 			ctx.beginPath();
-			ctx.rect(shapeX/500 * canvas.width - shapeR/2, Math.abs(shapeY/500 * canvas.height - canvas.height) - shapeR/2,shapeR,shapeR);
+			if(currentView == "front"){
+				ctx.rect(shapeX/500 * canvas.width - shapeR/2, Math.abs(shapeY/500 * canvas.height - canvas.height) - shapeR/2,shapeR,shapeR);
+			}else if(currentView == "top"){
+				//convert z to y
+				var yTop = ((arrayListForObject[i].Cube.center.z/20)*500) - 250;
+				yTop = Math.abs(yTop/500 * canvas.height - canvas.height/2)
+
+				//convert y to size
+				size = convertToSize(shapeY, arrayListForObject[i].Cube.center.z);
+
+				ctx.rect(shapeX/500 * canvas.width - size/2, yTop - size/2,size,size);
+			}else if(currentView == "side"){
+				//convert z to x
+				var xSide = ((arrayListForObject[i].Cube.center.z/20)*500);
+				xSide = (xSide/500)*canvas.width;
+
+				//convert x to size
+				size = convertToSize(shapeX, arrayListForObject[i].Cube.center.z);
+
+				ctx.rect(xSide - size/2, Math.abs(shapeY/500 * canvas.height - canvas.height) - size/2,size,size);
+			}
 			ctx.fillStyle = color;
 			ctx.fill();
-			ctx.stroke();
-			
+ctx.stroke();
+
 		}
-		
+
 	}
 	base_image = new Image();
 	base_image.src = './images/light.png';
 	base_image.onload = function(){
 		for(i = 0; i < arrayListForLight.length; i++){
-		
+
 			var c = document.getElementById("myCanvas");
 			var ctx = c.getContext("2d");
+
 			if(typeof arrayListForLight[i].center != 'undefined') {
 				var lightX = arrayListForLight[i].center.x*71.4285714286 + 250;
 				var lightY = arrayListForLight[i].center.y*71.4285714286 + 250;
 				ctx.drawImage(base_image, lightX/500 * canvas.width, Math.abs(lightY/500 * canvas.height - canvas.height), 15, 18);
 			}
+
 		}
 	}
 }
@@ -745,19 +772,69 @@ function sliderDrag() {
 		}
 	}
 }
+
+//create different views
+function topView(){
+	keepActiveButton(1);
+	currentView = "top";
+	var c = document.getElementById("myCanvas");
+	var ctx = c.getContext("2d");
+	ctx.clearRect(0,0,c.width,c.height);
+	redraw(c, ctx);
+}
+
+function frontView(){
+	keepActiveButton(0);
+	currentView = "front";
+	var c = document.getElementById("myCanvas");
+	var ctx = c.getContext("2d");
+	ctx.clearRect(0,0,c.width,c.height);
+	redraw(c, ctx);
+}
+
+function sideView(){
+	//make active color
+	keepActiveButton(2);
+	currentView = "side";
+	var c = document.getElementById("myCanvas");
+	var ctx = c.getContext("2d");
+	ctx.clearRect(0,0,c.width,c.height);
+	redraw(c, ctx);
+}
+
+function keepActiveButton(active){
+	var sides = ["front", "top", "side"];
+	for(i = 0; i < 3; i++){
+		if(i == active){
+			document.getElementById(sides[active]).style.background = '#ccc';
+		}else{
+			document.getElementById(sides[i]).style.background = '#ddd';
+		}
+	}
+}
+
+function autoPaint(shape){
+		document.getElementById("shape").selectedIndex = shape + 1;
+		document.getElementById("shape_x").value = '0';
+		document.getElementById("shape_y").value = '0';
+		addShape();
 	
+}
+
   $(document).ready(function() {
-    
+
+	
+  
 	$('#picker').farbtastic('#color');
 	var canvas = document.getElementById("myCanvas");
 	var ctx=canvas.getContext("2d");
 	canvas.style.width ='100%';
-	canvas.style.height='100%';
+	canvas.style.height='85%';
 	canvas.width  = canvas.offsetWidth;
 	canvas.height = canvas.offsetHeight;
 	windowSize[0] = canvas.offsetWidth;
 	windowSize[1] = canvas.offsetHeight;
-	
+
 	//close alert window if user clicks the window
 	window.onclick = function(event) {
 	var modal = document.getElementById('myModal');
@@ -767,7 +844,7 @@ function sliderDrag() {
 	}
 
 	//dragging is until the end of the file
-	
+
 	var canvasOffset=$("#myCanvas").offset();
     var offsetX=canvasOffset.left;
     var offsetY=canvasOffset.top;
@@ -775,51 +852,55 @@ function sliderDrag() {
     var canvasHeight=canvas.height;
     var isDragging=false;
 	var index;
-	
+
 	function handleMouseDown(e){
-		
+
       canMouseX=parseInt(e.clientX-$("#myCanvas").offset().left);
       canMouseY=parseInt(e.clientY-$("#myCanvas").offset().top);
 	  canMouseX = ((canMouseX/ canvas.width) * 500 ) - 250 ;
 	  canMouseY = Math.abs(((canMouseY/ canvas.height) * 500 ) - 500) - 250 ;
-	  
+
+
+
+if(currentView == "front"){
+
 	  for(j = 0; j < arrayListForObject.length; j++){
 		  var i = paintOrder[j][0];
 		  if(typeof arrayListForObject[i].Sphere != 'undefined'){
 			var shapeR = (arrayListForObject[i].Sphere.radius*50*15)/arrayListForObject[i].Sphere.center.z;
 		    var shapeX = arrayListForObject[i].Sphere.center.x*71.4285714286 ;
 		    var shapeY = arrayListForObject[i].Sphere.center.y*71.4285714286 ;
-		    if(!boolDraged[i][1]){
-			  shapeX = shapeX / (arrayListForObject[i].Sphere.center.z/10);
-			  shapeY = shapeY / (arrayListForObject[i].Sphere.center.z/10);
-		    }
+		    
 		    if(canMouseX > shapeX - shapeR && canMouseX < shapeX + shapeR && canMouseY > shapeY - shapeR && canMouseY < shapeY + shapeR){
 			  isDragging=true;
 			  index = i;
-			  boolDraged[i][1] = true;
 			  
+
 		    }
 		  } else if(typeof arrayListForObject[i].Cube != 'undefined'){
 			var shapeR = (arrayListForObject[i].Cube.sideLength*50*15)/arrayListForObject[i].Cube.center.z;
 		    var shapeX = arrayListForObject[i].Cube.center.x*71.4285714286 ;
 		    var shapeY = arrayListForObject[i].Cube.center.y*71.4285714286 ;
-		    if(!boolDraged[i][1]){
-			  shapeX = shapeX / (arrayListForObject[i].Cube.center.z/10);
-			  shapeY = shapeY / (arrayListForObject[i].Cube.center.z/10);
-		    }
+		    
 		    if(canMouseX > shapeX - shapeR/2 && canMouseX < shapeX + shapeR/2 && canMouseY > shapeY - shapeR/2 && canMouseY < shapeY + shapeR/2){
 			  isDragging=true;
 			  index = i;
-			  boolDraged[i][1] = true;
-			 }  
+
+			  
+			 }
+
+
 		  }
+
+
 	   }
-    }
+	 }
+  }
 
     function handleMouseUp(e){
       canMouseX=parseInt(e.clientX-$("#myCanvas").offset().left);
       canMouseY=parseInt(e.clientY-$("#myCanvas").offset().top);
-	  
+
 	  if(isDragging){
 		if(typeof arrayListForObject[index].Sphere != 'undefined'){
 			arrayListForObject[index].Sphere.center.x = (((canMouseX/canvas.width*2)*250) - 250)/71.4285714286;
@@ -830,34 +911,36 @@ function sliderDrag() {
 			arrayListForObject[index].Cube.center.y = -(((canMouseY/canvas.height*2)*250) - 250)/71.4285714286;
 			ctx.clearRect(0,0,canvas.width,canvas.height);
 
-		}		
+		}
 		redraw(canvas, ctx);
+
 		shapeOption();
 	  }
       // clear the drag flag
+
       isDragging=false;
     }
 
     function handleMouseOut(e){
 		handleMouseUp(e);
-	
+
     }
 
     function handleMouseMove(e){
-		
+
       canMouseX=parseInt(e.clientX-$("#myCanvas").offset().left);
       canMouseY=parseInt(e.clientY-$("#myCanvas").offset().top);
       // if the drag flag is set, clear the canvas and draw the image
       if(isDragging){
 		  ctx.clearRect(0,0,canvas.width,canvas.height);
-		  
+
 		  if(typeof arrayListForObject[index].Sphere != 'undefined'){
 			arrayListForObject[index].Sphere.center.x = 999999;
 			arrayListForObject[index].Sphere.center.y = 999999;
 			convertSize = (arrayListForObject[index].Sphere.radius * 50)*15/arrayListForObject[index].Sphere.center.z ;
-			
+
 			convertSize = convertSize/75* canvas.width* 0.0914;
-		  
+
 			var shapeC = arrayListForObject[index].Sphere.color;
 			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
 			ctx.beginPath();
@@ -865,22 +948,22 @@ function sliderDrag() {
 			ctx.fillStyle = color;
 			ctx.fill();
 			ctx.stroke();
-			
-			
+
+
 		  }else if(typeof arrayListForObject[index].Cube != 'undefined'){
 			arrayListForObject[index].Cube.center.x = 999999;
 			arrayListForObject[index].Cube.center.y = 999999;
 			convertSize = (arrayListForObject[index].Cube.sideLength * 50)*15/arrayListForObject[index].Cube.center.z ;
 			convertSize = convertSize/75* canvas.width* 0.0914;
-		  
+
 			var shapeC = arrayListForObject[index].Cube.color;
 			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
 			ctx.beginPath();
 			ctx.rect(canMouseX - convertSize/2,canMouseY - convertSize/2,convertSize,convertSize);
 			ctx.fillStyle = color;
 			ctx.fill();
-			ctx.stroke(); 
-			
+			ctx.stroke();
+
 		  }
 		  redraw(canvas, ctx);
 	  }
@@ -890,11 +973,13 @@ function sliderDrag() {
 		canvas = document.getElementById("myCanvas");
 		ctx=canvas.getContext("2d");
 		canvas.style.width ='100%';
-		canvas.style.height='100%';
+		canvas.style.height='85%';
 		canvas.width  = canvas.offsetWidth;
 		canvas.height = canvas.offsetHeight;
 		redraw(canvas, ctx);
 		
+		document.getElementById("loadingKati").style.width = document.getElementById("loadingKati").style.height;
+
 	};
 
     $("#myCanvas").mousedown(function(e){handleMouseDown(e);});
@@ -936,6 +1021,3 @@ $('#settingsNav').click(function(){
 		$('#settingsNav').animate({"left": '-6%'}, 250);
 	}
 });
-
-
-    
