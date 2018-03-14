@@ -3,8 +3,6 @@ var arrayListForCube 		 = [];
 var arrayListForLight 		 = [];
 var arrayListForObject 		 = [];
 var paintOrder               = [];
-var boolDraged               = [];
-var rendered                 = [];
 var windowSize               = [];
 var globalImagePlaneSizeObject, globalCameraPositionObject, globalSceneObject, globalRaytracerObject, globalAmbientLight, globalFloor;
 var convertSize;
@@ -58,29 +56,7 @@ function addShape() {
 	var xCoord = ((x - c.width/2)  * 10 / z) + c.width/2 ;
 	var yCoord = ((y - c.height/2)  * 10 / z) + c.height/2 ;
 
-
-	//paint the shape
-	if(shape == "Circle"){
-		ctx.beginPath();
-		ctx.arc(xCoord,yCoord,convertSize,0,2*Math.PI);
-		ctx.fillStyle = color;
-		ctx.fill();
-		ctx.stroke();
-		
-		
-
-
-
-	} else if(shape == "Cube") {
-		//boring rect
-		x = x - size/2;
-		y = y - size/2;
-		ctx.beginPath();
-		ctx.rect(x,y,convertSize,convertSize);
-		ctx.fillStyle = color;
-		ctx.fill();
-		ctx.stroke();
-	} else if(shape == "Cylinder"){
+if(shape == "Cylinder"){
 
     ctx.translate(xCoord,yCoord);
     ctx.fillStyle = color;
@@ -221,10 +197,6 @@ function addShape() {
 		return b[1] - a[1];
 	}
 
-	boolDraged.push([arrayListForObject.length - 1, false]);
-	rendered.push([arrayListForObject.length - 1, false]);
-
-
 	redraw(c, ctx);
 
 	//reset values
@@ -232,18 +204,6 @@ function addShape() {
 };
 
 function renderShapes() {
-
-	for(i = 0; i < arrayListForObject.length; i++) {
-
-		if(boolDraged[i][1]){
-			if(typeof arrayListForObject[boolDraged[i][0]].Sphere != 'undefined'){
-				arrayListForObject[boolDraged[i][0]].Sphere.center.x = (arrayListForObject[boolDraged[i][0]].Sphere.center.z/10)*arrayListForObject[boolDraged[i][0]].Sphere.center.x;
-				arrayListForObject[boolDraged[i][0]].Sphere.center.y = (arrayListForObject[boolDraged[i][0]].Sphere.center.z/10)*arrayListForObject[boolDraged[i][0]].Sphere.center.y;
-				rendered[i][1] = true;
-			}
-		}
-	}
-
 	//for Ambient Light
 	var active  = "true";
 	var checked = document.getElementById('floor').checked;
@@ -294,17 +254,6 @@ function renderShapes() {
 			document.getElementById("download").href = "data:image/png;base64," + receivedImage;
 		}
 
-		for(i = 0; i < arrayListForObject.length; i++) {
-			if(rendered[i][1]){
-				arrayListForObject[boolDraged[i][0]].Sphere.center.x = (10/arrayListForObject[boolDraged[i][0]].Sphere.center.z)*arrayListForObject[boolDraged[i][0]].Sphere.center.x;
-				arrayListForObject[boolDraged[i][0]].Sphere.center.y = (10/arrayListForObject[boolDraged[i][0]].Sphere.center.z)*arrayListForObject[boolDraged[i][0]].Sphere.center.y;
-
-				var canvas = document.getElementById("myCanvas");
-				var ctx = canvas.getContext("2d");
-				ctx.clearRect(0,0,canvas.width,canvas.height);
-				redraw(canvas, ctx);
-			}
-		}
 	}
 }
 
@@ -490,10 +439,6 @@ function addLight() {
 	var xCoord = ((x - canvas.width/2)  * 10 / z) + canvas.width/2 ;
 	var yCoord = ((y - canvas.height/2)  * 10 / z) + canvas.height/2 ;
 
-	base_image = new Image();
-	base_image.src = './images/light.png';
-	base_image.onload = function(){
-		context.drawImage(base_image, xCoord, yCoord, 15, 18);
 	}
 */
 
@@ -788,28 +733,22 @@ if(currentView == "front"){
 			var shapeR = (arrayListForObject[i].Sphere.radius*50*15)/arrayListForObject[i].Sphere.center.z;
 		    var shapeX = arrayListForObject[i].Sphere.center.x*71.4285714286 ;
 		    var shapeY = arrayListForObject[i].Sphere.center.y*71.4285714286 ;
-		    if(!boolDraged[i][1]){
-			  shapeX = shapeX / (arrayListForObject[i].Sphere.center.z/10);
-			  shapeY = shapeY / (arrayListForObject[i].Sphere.center.z/10);
-		    }
+		    
 		    if(canMouseX > shapeX - shapeR && canMouseX < shapeX + shapeR && canMouseY > shapeY - shapeR && canMouseY < shapeY + shapeR){
 			  isDragging=true;
 			  index = i;
-			  boolDraged[i][1] = true;
+			  
 
 		    }
 		  }else if(typeof arrayListForObject[i].Cube != 'undefined'){
 			var shapeR = (arrayListForObject[i].Cube.sideLength*50*15)/arrayListForObject[i].Cube.center.z;
 		    var shapeX = arrayListForObject[i].Cube.center.x*71.4285714286 ;
 		    var shapeY = arrayListForObject[i].Cube.center.y*71.4285714286 ;
-		    if(!boolDraged[i][1]){
-			  shapeX = shapeX / (arrayListForObject[i].Cube.center.z/10);
-			  shapeY = shapeY / (arrayListForObject[i].Cube.center.z/10);
-		    }
+		    
 		    if(canMouseX > shapeX - shapeR/2 && canMouseX < shapeX + shapeR/2 && canMouseY > shapeY - shapeR/2 && canMouseY < shapeY + shapeR/2){
 			  isDragging=true;
 			  index = i;
-			  boolDraged[i][1] = true;
+			  
 			 }
 
 
