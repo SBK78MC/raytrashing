@@ -41,6 +41,9 @@ function addShape() {
 		return;
 
 	}
+	
+	
+	
 	/*
 	//translate to zero and the 250 sets the limits of what the user can see.
 	//to change the 250 we should also change the value send to the back end
@@ -63,6 +66,8 @@ function addShape() {
 		ctx.fillStyle = color;
 		ctx.fill();
 		ctx.stroke();
+		
+		
 
 
 
@@ -728,7 +733,13 @@ function keepActiveButton(active){
 	}
 }
 
-
+function autoPaint(shape){
+		document.getElementById("shape").selectedIndex = shape + 1;
+		document.getElementById("shape_x").value = '0';
+		document.getElementById("shape_y").value = '0';
+		addShape();
+	
+}
 
   $(document).ready(function() {
 
