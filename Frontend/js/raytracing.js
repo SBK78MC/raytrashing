@@ -898,6 +898,8 @@ if(currentView == "front"){
 		canvas.width  = canvas.offsetWidth;
 		canvas.height = canvas.offsetHeight;
 		redraw(canvas, ctx);
+		
+		document.getElementById("loadingKati").style.width = document.getElementById("loadingKati").style.height;
 
 	};
 
