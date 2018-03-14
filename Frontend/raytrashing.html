@@ -100,13 +100,32 @@
 		<input id="camera_x" class="inputs" type="text" name="Coordinates x" placeholder="x">
 		<input id="camera_y" style="margin-left:3%;"  class="inputs" type="text" name="Coordinates y" placeholder="y">
 		<input id="camera_z" style="margin-left:3%;" class="inputs" type="text" name="Coordinates z" placeholder="z">
-
 	</div>
 </div>
 
 
 <div id="center">
 	<canvas id="myCanvas" ></canvas>
+</div>
+
+<div id = "right">
+	<div>
+		<h4 style = "color: black; margin-left:20%; margin-right: 15%; float:left">Lights</h4>
+		<h4 style = "color: black; margin-left:20%; display:inline; float:left">Shapes</h4>
+		<select id="Lights" onclick="lightOption()" style = "display:inline; margin-top: 20%; margin-left:-70%; float:left; width:25%" size ="3"></select>
+		<select id="Shapes" onclick="shapeOption()" style = "display:inline; margin-top: 20%; margin-left:-20%; float:left; width:25%" size ="3"></select>
+	</div>
+
+	<div style="color: black; margin-top: 60%; margin-left:2%;">
+		<h4 style="color: black;">Coordinates</h4>
+		<input id="change_x" style = "width: 15%;" type="text" placeholder="x">
+		<input id="change_y" style = "width: 15%; margin-left:1%;" type="text" placeholder="y">
+		<input id="change_z" style = "width: 15%; margin-left:1%;" type="text" placeholder="z">
+		<input id="change_s" style = "width: 15%; margin-left:1%;" type="text" placeholder="s">
+		<br><br>
+		<button style = "text-align: center; width: 35%" class ="buttons" onclick="changeItem()">Change</button>
+		<button style = "text-align: center; width: 35%" class ="buttons" onclick="deleteItem()">Delete</button>
+	</div>
 </div>
 
 <div id="screenSize" align = "center">
