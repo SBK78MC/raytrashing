@@ -46,16 +46,12 @@ function addShape() {
 	//at a new analogy. (class CenterForShapesAndLight)
 	y = -y/250 * c.height/2 + c.height/2;
 	x = x/250 * c.width/2 + c.width/2;
-
 	//set values depending on z(depth)
 	size = size * 50;
 	convertSize = (size * 15)/z;
-
 	var xCoord = ((x - c.width/2)  * 10 / z) + c.width/2 ;
 	var yCoord = ((y - c.height/2)  * 10 / z) + c.height/2 ;
-
 if(shape == "Cylinder"){
-
     ctx.translate(xCoord,yCoord);
     ctx.fillStyle = color;
     //ctx.lineWidth = lineWidth;
@@ -70,7 +66,6 @@ if(shape == "Cylinder"){
     ctx.closePath();
     ctx.fill();
     ctx.stroke();
-
     // layer1/Group/Path
     ctx.beginPath();
     ctx.moveTo(96.7, 156.2);
@@ -81,7 +76,6 @@ if(shape == "Cylinder"){
     ctx.closePath();
     ctx.fill();
     ctx.stroke();
-
     // layer1/Group/Path
     ctx.beginPath();
     ctx.moveTo(96.7, 17.4);
@@ -92,9 +86,6 @@ if(shape == "Cylinder"){
     ctx.closePath();
     ctx.fill();
     ctx.stroke();
-
-
-
 	}
 		*/
 		/*
@@ -105,7 +96,6 @@ if(shape == "Cylinder"){
 		ctx.fill();
 		ctx.stroke();
 		ctx.closePath();
-
 		ctx.beginPath();
 		ctx.moveTo(x, y);
 		ctx.lineTo(x + (size / 2 ), y - (size / 2));
@@ -118,15 +108,11 @@ if(shape == "Cylinder"){
 		ctx.fillStyle = color;
 		ctx.stroke();
 		ctx.fill();
-
-
 		ctx.beginPath();
 		ctx.moveTo(x, y);
 		ctx.lineTo(x , y + size);
-
 		y = y + size;
 		ctx.lineTo(x - size/2 , y + size/2);
-
 		x = x - size/2;
 		y = y + size/2;
 		ctx.lineTo(x, y - size);
@@ -134,10 +120,8 @@ if(shape == "Cylinder"){
 		ctx.fillStyle = color;
 		ctx.stroke();
 		ctx.fill();
-
 		y = y + size;
 		ctx.lineTo(x - size/2 , y + size/2);
-
 		x = x - size/2;
 		y = y + size/2;
 		ctx.lineTo(x, y - size);
@@ -458,10 +442,8 @@ function addLight() {
 	//at a new analogy. (class CenterForShapesAndLight)
 	y = -y/250 * canvas.height/2 + canvas.height/2;
 	x = x/250 * canvas.width/2 + canvas.width/2;
-
 	var xCoord = ((x - canvas.width/2)  * 10 / z) + canvas.width/2 ;
 	var yCoord = ((y - canvas.height/2)  * 10 / z) + canvas.height/2 ;
-
 	}
 */
 
