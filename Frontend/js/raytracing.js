@@ -636,7 +636,10 @@ function redraw(canvas, ctx){
 				return size = 999;
 			}else{
 				size = 250/(500 - x);
+				//size = size *50 * 15 / z;
+				z = (1 - (x/500)) * 20;
 				size = size *50 * 15 / z;
+				
 				return size = size/75* canvas.width* 0.0914;
 
 			}
@@ -655,6 +658,8 @@ function redraw(canvas, ctx){
 
 			//size of shape on windows resize
 			//shapeR = (shapeR/250) * canvas.height/2;
+			
+
 
 			shapeR = shapeR/75* canvas.width* 0.0914;
 
@@ -663,8 +668,9 @@ function redraw(canvas, ctx){
 				ctx.arc(shapeX/500 * canvas.width,	Math.abs(shapeY/500 * canvas.height - canvas.height) ,shapeR,0,2*Math.PI);
 			}else if(currentView == "top"){
 				//convert z to y
-				var yTop = ((arrayListForObject[i].Sphere.center.z/20)*500) - 250;
-				yTop = Math.abs(yTop/500 * canvas.height - canvas.height/2)
+				
+				var yTop = ((1 - (arrayListForObject[i].Sphere.center.z/20))*500) - 50;
+				//yTop = Math.abs(yTop/500 * canvas.height - canvas.height/2)
 
 				//convert y to size
 				size = convertToSize(shapeY, arrayListForObject[i].Sphere.center.z);
