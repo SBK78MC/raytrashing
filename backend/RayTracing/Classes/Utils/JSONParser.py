@@ -1,8 +1,11 @@
 from RayTracing.Classes.Models.AmbientLight import AmbientLight
 from RayTracing.Classes.Models.Camera import Camera
 from RayTracing.Classes.Models.Color import Color
+from RayTracing.Classes.Models.Cube import Cube
+from RayTracing.Classes.Models.Cylinder import Cylinder
 from RayTracing.Classes.Models.Imageplane import Imageplane
 from RayTracing.Classes.Models.Light import Light
+from RayTracing.Classes.Models.Plane import Plane
 from RayTracing.Classes.Models.Scene import Scene
 from RayTracing.Classes.Models.Sphere import Sphere
 from RayTracing.Classes.Models.Vector import Vector
@@ -15,7 +18,7 @@ class JSONParser:
 
     def deserializeRayTracingTask(self, json):
         imageplane = self.createImageplane(json)
-        camera = Camera()
+        camera = self.deserializeCamera(json)
         scene = self.deserializeScene(json)
 
         return RayTracer(imageplane, scene, camera)
@@ -31,12 +34,17 @@ class JSONParser:
             if(type == "Sphere"):
                 scene.addObject3D(self.deserializeSphere(object[type]))
             elif(type == "Cube"):
-                print("CUBE")
+                scene.addObject3D(self.deserializeCube(object[type]))
+            elif (type == "Cylinder"):
+                scene.addObject3D(self.deserializeCylinder(object[type]))
 
         for light in jsonScene["Light"]:
             scene.addLight(self.deserializeLight(light))
 
         scene.addLight(self.deserializeAmbientLight(jsonScene["AmbientLight"]))
+
+        if self.deserializeFloor(jsonScene["Floor"]):
+            scene.addObject3D(Plane(Vector(0, -3, 0), Vector(0, 1, 0), Color(1.0, 1.0, 1.0), 200, 0.3))
 
         return scene
 
@@ -66,23 +74,50 @@ class JSONParser:
         center = self.deserializeVector(sphereJson["center"])
         reflection = float(sphereJson["reflection"])
         radius = float(sphereJson["radius"])
+        specular = float(sphereJson["specular"])
+        transparency = float(sphereJson["transparency"])
         color = self.deserializeColor(sphereJson["color"])
 
-        return Sphere(center, radius, color, reflection)
+        return Sphere(center, radius, color, specular, reflection, transparency)
 
 
-    '''def deserializeCube(self, cubeJson):
+    def deserializeCube(self, cubeJson):
         center = self.deserializeVector(cubeJson["center"])
-        reflection = cubeJson["reflection"]
-        sideLength = cubeJson["sideLength"]
+        reflection = float(cubeJson["reflection"])
+        sideLength = float(cubeJson["sideLength"])
+        specular = float(cubeJson["specular"])
+        transparency = float(cubeJson["transparency"])
+        color = self.deserializeColor(cubeJson["color"])
 
-        return Cube(center, sideLength, reflection)'''
+        return Cube(center, sideLength, color, specular, reflection, transparency)
 
+    def deserializeCylinder(self, cylinderJson):
+        center = self.deserializeVector(cylinderJson["center"])
+        reflection = float(cylinderJson["reflection"])
+        height = float(cylinderJson["height"])
+        radius = float(cylinderJson["radius"])
+        specular = float(cylinderJson["specular"])
+        transparency = float(cylinderJson["transparency"])
+        color = self.deserializeColor(cylinderJson["color"])
+
+        return Cylinder(center, height, radius, color, specular, reflection, transparency)
+
+    def deserializeCamera(self, json):
+        cameraJSON = json["Camera"]
+        position = int(cameraJSON["position"])
+
+        if position == 0:
+            return Camera()
+        elif position == 1:
+            return Camera(Vector(0, 10, 10), Vector(0, -1, 10))
+        else:
+            return Camera()
 
     def deserializeAmbientLight(self, ambientLightJson):
         active = bool(ambientLightJson["active"])
         brightness = 0
-        if(active == True):
+
+        if(bool(active) == True):
             brightness = float(ambientLightJson["brightness"])
 
         return AmbientLight(brightness)
@@ -94,3 +129,7 @@ class JSONParser:
         b = float(colorJson["b"])
 
         return Color(r, g, b)
+
+    def deserializeFloor(self, sceneJson):
+        active = bool(sceneJson["active"])
+        return active
