@@ -340,9 +340,7 @@ class ConeTest(unittest.TestCase):
         ray = Ray(Vector(0, 0, 0), Vector(0.0, 1.0, 1))
         intersection = cone.intersection(ray, 0.00001, 1000)
 
-        self.assertAlmostEqual(intersection.point.x, 0.0)
-        self.assertAlmostEqual(intersection.point.y, 4.125)
-        self.assertAlmostEqual(intersection.point.z, 4.125)
+        self.assertIsNone(intersection)
 
     def test_intersection4(self):
         cone = Cone(Vector(0, 0, 5), 3, 1, Color(1, 0, 0))

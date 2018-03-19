@@ -129,9 +129,7 @@ class Cone(Cylinder):
 
             if not self.inCylinder(point):
                 tmp = None
-                if self.isAbove(point):
-                    tmp = self.intersect_base(ray, self.top, Vector(0, 1, 0))
-                else:
+                if not self.isAbove(point):
                     tmp = self.intersect_base(ray, self.bottom, Vector(0, -1, 0))
 
                 if tmp:

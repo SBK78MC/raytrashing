@@ -29,7 +29,7 @@ if __name__ == '__main__':
 
     cube = Cube(Vector(-1, 1, 10), 1, Color(0,1,0), 1000, 0.5, 0.8)
 
-    cone = Cone(Vector(1.5, 1, 10), 3, 1, Color(1, 0, 0), 1000, 0.2, 1.0)
+    cone = Cone(Vector(1.5, 3, 10), 3, 1, Color(1, 0, 0), 1000, 0.2, 1.0)
 
     light1 = Light(3, 3, 5, 0.7)
     light0 = AmbientLight(0.5)

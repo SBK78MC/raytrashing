@@ -13,7 +13,7 @@ class Ray:
         self.inv.append(int(self.inverseDirection.y < 0))
         self.inv.append(int(self.inverseDirection.z < 0))
 
-        self.inverseDirection = direction.getInverse()
+        self.inverseDirection = self.direction.getInverse()
         self.inv = list()
         self.inv.append(int(self.inverseDirection.x < 0))
         self.inv.append(int(self.inverseDirection.y < 0))
