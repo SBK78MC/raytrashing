@@ -27,9 +27,9 @@ if __name__ == '__main__':
     s2 = Sphere(sCenter1, 2, Color(0, 1.0, 0), 500, 0.7)
     s3 = Plane(pCenter3, pDir, Color(0.1, 1.0, 1.0), 200, 0.3)
 
-    cube = Cube(Vector(-1, 1, 10), 1, Color(0,1,0), 1000, 0.5, 0)
+    cube = Cube(Vector(-1, 1, 10), 1, Color(0,1,0), 1000, 0.5, 0.8)
 
-    #cone = Cone(Vector(0, 0, 15), 3, 1, Color(1, 0, 0), 1000, 0.2)
+    cone = Cone(Vector(1.5, 1, 10), 3, 1, Color(1, 0, 0), 1000, 0.2, 1.0)
 
     light1 = Light(3, 3, 5, 0.7)
     light0 = AmbientLight(0.5)
@@ -38,10 +38,11 @@ if __name__ == '__main__':
 
     scene.addLight(light0)
     scene.addLight(light1)
-    scene.addObject3D(s1)
-    scene.addObject3D(s2)
+    #scene.addObject3D(s1)
+    #scene.addObject3D(s2)
     #scene.addObject3D(s3)
 
+    scene.addObject3D(cone)
     scene.addObject3D(cube)
 
     imagepl = Imageplane(500, 500)

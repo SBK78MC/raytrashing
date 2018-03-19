@@ -329,7 +329,7 @@ class ConeTest(unittest.TestCase):
 
         self.assertAlmostEqual(intersection.point.x, 0.25, 3)
         self.assertAlmostEqual(intersection.point.y, 1.0, 3)
-        self.assertAlmostEqual(intersection.point.z, 4.999, 3)
+        self.assertAlmostEqual(intersection.point.z, 5, 3)
 
 
 if __name__ == '__main__':
