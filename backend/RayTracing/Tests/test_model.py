@@ -2,12 +2,15 @@ import unittest
 
 import math
 
+import sys
+
 from RayTracing.Classes.Models.Color import Color
 from RayTracing.Classes.Models.Camera import Camera
 from RayTracing.Classes.Models.Color import Color
 
 from RayTracing.Classes.Models.Cube import Cube
 from RayTracing.Classes.Models.Cylinder import Cylinder
+
 from RayTracing.Classes.Models.Cube import Cube
 from RayTracing.Classes.Models.Light import Light
 from RayTracing.Classes.Models.MathUtil import MathUtil
@@ -15,7 +18,7 @@ from RayTracing.Classes.Models.Ray import Ray
 from RayTracing.Classes.Models.Sphere import Sphere
 from RayTracing.Classes.Models.Tuple import Tuple
 from RayTracing.Classes.Models.Vector import Vector
-
+from RayTracing.Classes.Models.Cone import Cone
 
 class VectorTest(unittest.TestCase):
 
@@ -100,9 +103,10 @@ class VectorTest(unittest.TestCase):
     def test_getInverse(self):
         v = Vector(0, 0, 0.5)
         invV = v.getInverse()
-#        self.assertEqual(invV.x, 0)
-#        self.assertEqual(invV.y, 0)
-#        self.assertEqual(invV.z, 2)
+
+        self.assertEqual(invV.x, sys.float_info.max)
+        self.assertEqual(invV.y, sys.float_info.max)
+        self.assertEqual(invV.z, 2)
 
 
 class SphereTest(unittest.TestCase):
@@ -230,6 +234,31 @@ class CubeTest(unittest.TestCase):
         self.assertFalse(test1)
         self.assertTrue(test2)
 
+class RayTest(unittest.TestCase):
+
+    def test_constructor(self):
+        ray = Ray(Vector(0, 0, 0), Vector(0, 0, 1))
+        self.assertEqual(ray.direction.x, 0)
+
+class CubeTest(unittest.TestCase):
+
+    def test_constructor(self):
+        cube = Cube(Vector(1, 1, 1), 2, Color().red(), 10)
+        self.assertEqual(cube.minPoint.x, 0)
+        self.assertEqual(cube.minPoint.y, 0)
+        self.assertEqual(cube.minPoint.z, 0)
+        self.assertEqual(cube.maxPoint.x, 2)
+        self.assertEqual(cube.maxPoint.y, 2)
+        self.assertEqual(cube.maxPoint.z, 2)
+
+    def test_intersection(self):
+        cube = Cube(Vector(0, 0, 5), 2, 10, 10)
+        ray = Ray(Vector(0, 0, 0), Vector(0, 0.25, 1))
+        intersection = cube.intersection(ray, 1, 10000)
+        self.assertEqual(intersection.point.x, 0)
+        self.assertEqual(intersection.point.y, 1)
+        self.assertEqual(intersection.point.z, 4)
+
 class CylinderTest(unittest.TestCase):
 
     def test_constructor(self):
@@ -269,6 +298,69 @@ class CylinderTest(unittest.TestCase):
         self.assertAlmostEqual(intersection.point.x, 0.4087346744)
         self.assertAlmostEqual(intersection.point.y, -0.8174693488)
         self.assertAlmostEqual(intersection.point.z, 4.0873467439)
+
+class ConeTest(unittest.TestCase):
+
+    def test_constructor(self):
+        cone = Cone(Vector(0, 0, 5), 3, 1, Color(1, 0, 0))
+        self.assertEqual(cone.bottom.x, 0)
+        self.assertEqual(cone.bottom.y, -1.5)
+        self.assertEqual(cone.bottom.z, 5)
+
+        self.assertEqual(cone.top.x, 0)
+        self.assertEqual(cone.top.y, 4.5)
+        self.assertEqual(cone.top.z, 5)
+
+        self.assertEqual(cone.radius, 1)
+        self.assertEqual(cone.height, 3)
+
+        self.assertAlmostEqual(cone.alpha, 18.43494882)
+
+    def test_intersection(self):
+        cone = Cone(Vector(0, 0, 5), 3, 1, Color(1, 0, 0))
+
+        ray = Ray(Vector(0, 0, 0), Vector(0, 0, 1))
+        intersection = cone.intersection(ray, 0.00001, 1000)
+
+        self.assertAlmostEqual(intersection.point.x, 0.0)
+        self.assertAlmostEqual(intersection.point.y, 0.0)
+        self.assertAlmostEqual(intersection.point.z, 4.5)
+
+    def test_intersection2(self):
+        cone = Cone(Vector(0, 0, 5), 3, 1, Color(1, 0, 0))
+        ray = Ray(Vector(0, 0, 0), Vector(0.0, 0.05, 1))
+        intersection = cone.intersection(ray, 0.00001, 1000)
+
+        self.assertAlmostEqual(intersection.point.x, 0.0)
+        self.assertAlmostEqual(intersection.point.y, 0.2288135593)
+        self.assertAlmostEqual(intersection.point.z, 4.5762711864)
+
+    def test_intersection3(self):
+        cone = Cone(Vector(0, 0, 5), 3, 1, Color(1, 0, 0))
+        ray = Ray(Vector(0, 0, 0), Vector(0.0, 1.0, 1))
+        intersection = cone.intersection(ray, 0.00001, 1000)
+
+        self.assertAlmostEqual(intersection.point.x, 0.0)
+        self.assertAlmostEqual(intersection.point.y, 4.125)
+        self.assertAlmostEqual(intersection.point.z, 4.125)
+
+    def test_intersection4(self):
+        cone = Cone(Vector(0, 0, 5), 3, 1, Color(1, 0, 0))
+        ray = Ray(Vector(0, 0, 0), Vector(0.05, -0.3, 1))
+        intersection = cone.intersection(ray, 0.00001, 1000)
+
+        self.assertAlmostEqual(intersection.point.x, 0.205613676)
+        self.assertAlmostEqual(intersection.point.y, -1.233682056)
+        self.assertAlmostEqual(intersection.point.z, 4.11227352)
+
+    def test_intersection5(self):
+        cone = Cone(Vector(0, 2.5, 5), 3, 1, Color(1, 0, 0))
+        ray = Ray(Vector(0, 0, 0), Vector(0.05, 0.2, 1))
+        intersection = cone.intersection(ray, 0.00001, 1000)
+
+        self.assertAlmostEqual(intersection.point.x, 0.25, 3)
+        self.assertAlmostEqual(intersection.point.y, 1.0, 3)
+        self.assertAlmostEqual(intersection.point.z, 5, 3)
 
 if __name__ == '__main__':
     unittest.main()

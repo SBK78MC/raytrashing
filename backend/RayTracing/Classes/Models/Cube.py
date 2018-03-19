@@ -42,8 +42,10 @@ class Cube(Cuboid):
         if (tzmax < tmax):
             tmax = tzmax
 
+        if not tMin < tmin < tMax:
+            return None
+
         point = ray.getPointOfRay(tmin)
         intersection = Intersection(point, self, ray, tmin)
 
         return intersection
-

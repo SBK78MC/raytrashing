@@ -6,7 +6,7 @@ from RayTracing.Classes.Utils.JSONParser import JSONParser
 class JSONParserTest(unittest.TestCase):
 
     def test_deserializeRayTracingTask(self):
-        jsonstring = '{"ImagePlane":{"width":500, "height":500}, "Scene":{"Object3D":[{"Sphere":{"center":{"x":3.0,"y":1.0,"z":2.0},"radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0}}],"Light":[{"center":{"x":2, "y":1, "z":1}, "brightness":1.0}], "AmbientLight":{"active":"true", "brightness":"1.0"}}}'
+        jsonstring = '{"ImagePlane":{"width":500, "height":500}, "Camera":{"position":0}, "Scene":{"Object3D":[{"Sphere":{"center":{"x":3.0,"y":1.0,"z":2.0},"radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0, "specular":1.0, "transparency":1.0}},{"Cylinder":{"center":{"x":3.0,"y":1.0,"z":2.0},"height": 1.0, "radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0, "specular":1.0, "transparency":1.0}}],"Light":[{"center":{"x":2, "y":1, "z":1}, "brightness":1.0}], "AmbientLight":{"active":"true", "brightness":"1.0"},"Floor":{"active":true}}}'
         j = json.loads(jsonstring)
 
         raytracer = JSONParser().deserializeRayTracingTask(j)
@@ -29,7 +29,7 @@ class JSONParserTest(unittest.TestCase):
 
         # Check another JSON
 
-        jsonstring = '{"ImagePlane":{"width":500, "height":500}, "Scene":{"Object3D":[{"Sphere":{"center":{"x":4.0,"y":1.0,"z":2.0},"radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0}}],"Light":[{"center":{"x":2, "y":1, "z":1}, "brightness":1.0}], "AmbientLight":{"active":"false", "brightness":"1.0"}}}'
+        jsonstring = '{"ImagePlane":{"width":500, "height":500}, "Camera":{"position":0}, "Scene":{"Object3D":[{"Sphere":{"center":{"x":4.0,"y":1.0,"z":2.0},"radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0, "specular":1.0, "transparency":1.0}},{"Cylinder":{"center":{"x":3.0,"y":1.0,"z":2.0},"height": 1.0, "radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0, "specular":1.0, "transparency":1.0}}],"Light":[{"center":{"x":2, "y":1, "z":1}, "brightness":1.0}], "AmbientLight":{"active":"true", "brightness":"1.0"},"Floor":{"active":true}}}'
         j = json.loads(jsonstring)
         raytracer = JSONParser().deserializeRayTracingTask(j)
 
@@ -45,21 +45,28 @@ class JSONParserTest(unittest.TestCase):
         self.assertEqual(raytracer.scene.getObjects()[0].center.y, 1)
         self.assertEqual(raytracer.scene.getObjects()[0].center.z, 2)
         self.assertEqual(raytracer.scene.getObjects()[0].radius, 2)
+        # Check second Object (Cylinder)
+        self.assertEqual(raytracer.scene.getObjects()[1].center.x, 3)
+        self.assertEqual(raytracer.scene.getObjects()[1].center.y, 1)
+        self.assertEqual(raytracer.scene.getObjects()[1].center.z, 2)
+        self.assertEqual(raytracer.scene.getObjects()[1].radius, 2)
+        self.assertEqual(raytracer.scene.getObjects()[1].height, 1)
         # Check Ambient Light
         self.assertRaises(Exception, raytracer.scene.getLights()[1])
         self.assertEqual(raytracer.scene.getLights()[1].brightness, 1)
 
-        self.assertEqual(raytracer.scene.getLights()[1].brightness, 1)
-        self.assertEqual(1, len(raytracer.scene.getObjects()))
+
+        self.assertEqual(3, len(raytracer.scene.getObjects()))
+
 
 
     def test_deserializeScene(self):
-        jsonstring = '{"ImagePlane":{"width":"500", "height":"500"}, "Scene":{"Object3D":[{"Sphere":{"center":{"x":3.0,"y":1.0,"z":2.0},"radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0}}],"Light":[{"center":{"x":2, "y":1, "z":1}, "brightness":1.0}], "AmbientLight":{"active":"true", "brightness":"1.0"}}}'
+        jsonstring = '{"ImagePlane":{"width":500, "height":500}, "Camera":{"position":0}, "Scene":{"Object3D":[{"Sphere":{"center":{"x":4.0,"y":1.0,"z":2.0},"radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0, "specular":1.0, "transparency":1.0}},{"Cylinder":{"center":{"x":3.0,"y":1.0,"z":2.0},"height": 1.0, "radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0, "specular":1.0, "transparency":1.0}}],"Light":[{"center":{"x":2, "y":1, "z":1}, "brightness":1.0}], "AmbientLight":{"active":"true", "brightness":"1.0"},"Floor":{"active":true}}}'
         j = json.loads(jsonstring)
 
         jsonParser = JSONParser()
         scene = jsonParser.deserializeScene(j)
-        print()
+
 
 
     def test_deserializeLight(self):
@@ -71,14 +78,6 @@ class JSONParserTest(unittest.TestCase):
         self.assertEqual(2, light.position.x)
         self.assertEqual(1, light.position.y)
         self.assertEqual(1, light.position.z)
-        self.assertEqual(1.0, light.brightness)
-
-    def test_deserializeAmbientLight(self):
-        ambientLightString = '{"active":"true", "brightness":"1.0"}'
-        ambientLightJSON = json.loads(ambientLightString)
-
-        jsonParser = JSONParser()
-        light = jsonParser.deserializeAmbientLight(ambientLightJSON)
         self.assertEqual(1.0, light.brightness)
 
     def test_deserializeAmbientLight(self):
@@ -147,6 +146,13 @@ class JSONParserTest(unittest.TestCase):
         self.assertEqual(cylinder.specular, 1)
         self.assertEqual(cylinder.reflection, 1)
         self.assertEqual(cylinder.transparency, 0)
+
+    def test_deserializeFloor(self):
+        floorString = '{"active":true}'
+        floorJSON = json.loads(floorString)
+
+        active = JSONParser().deserializeFloor(floorJSON)
+        self.assertTrue(active)
 
 if __name__ == '__main__':
     unittest.main()

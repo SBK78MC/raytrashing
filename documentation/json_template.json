@@ -23,7 +23,11 @@
                },
                "specular":"DOUBLE VALUE", // 0 < specular < 1000
                "reflection":"DOUBLE VALUE", // 0.0 < reflection < 1.0
+<<<<<<< HEAD
                "translucency":"DOUBLE VALUE" // 0.0 < translucency < 1.0
+=======
+               "transparency":"DOUBLE VALUE" // 0.0 < transparency < 1.0
+>>>>>>> 8da830ad90d74c7c47f24be4ba8f0787336f77a2
             }
          },
          {
@@ -41,7 +45,11 @@
                },
                "specular":"DOUBLE VALUE",
                "reflection":"DOUBLE VALUE",
+<<<<<<< HEAD
                "translucency":"DOUBLE VALUE"
+=======
+               "transparency":"DOUBLE VALUE"
+>>>>>>> 8da830ad90d74c7c47f24be4ba8f0787336f77a2
             }
          }, 
          {
@@ -60,7 +68,11 @@
                  },
                  "specular":"DOUBLE VALUE",
                  "reflection":"DOUBLE VALUE",
+<<<<<<< HEAD
                  "translucency":"DOUBLE VALUE"
+=======
+                 "transparency":"DOUBLE VALUE"
+>>>>>>> 8da830ad90d74c7c47f24be4ba8f0787336f77a2
             }
         }
       ],
