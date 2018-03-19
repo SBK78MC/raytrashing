@@ -1,12 +1,4 @@
 
-#title{
-	text-align: center;
-	position: fixed;
-	margin-left: 21%;
-	width:10%;
-	height: 10%;
-}
-
 h4{
 	color: #d9d9d9;
 }
@@ -19,9 +11,23 @@ h4, input{
     text-align: center;
     width: 20.5%;
     z-index: 1;
-    padding-top: 5%;
+	padding-top: 1%;
     margin-top: -1%;
     left: 0;
+    height: 100%;
+    min-width: 200px;
+    position: fixed;
+    overflow: visible;
+
+}
+
+#right{
+    text-align: center;
+    width: 20.5%;
+    z-index: 1;
+	padding-top: 1%;
+    margin-top: -1%;
+    right: 0;
     height: 100%;
     min-width: 200px;
     position: fixed;
@@ -29,11 +35,11 @@ h4, input{
 }
 
 #center{
-    margin-top: 5%;
-    margin-left: 2.7%;
+
+    margin-left: 20%;
     text-align: center;
     height: 75%;
-    width: 93%;
+    width: 60%;
     border: solid;
     background-color: #cccccc;
     position: fixed;
@@ -53,17 +59,15 @@ h4, input{
     -webkit-appearance: none;
     width: 75%;
     height: 10px;
-    border-radius: 5px;   
+    border-radius: 5px;
     background: #d3d3d3;
     outline: none;
 }
 
-
-
 .bar::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-	border-radius: 50%;   
+	border-radius: 50%;
     width: 15px;
     height: 15px;
     background: #808080;
@@ -80,7 +84,7 @@ h4, input{
 	margin: 0 auto;
 }
 
-body { 
+body {
     position: relative;
     min-width: 500px;
     background-color: #e6e6e6;
@@ -88,9 +92,8 @@ body {
     font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
-
 .buttons {
-    background-color: #808080; 
+    background-color: #808080;
     border: none;
     color: black;
     text-align: center;
@@ -107,7 +110,7 @@ body {
 
 #render {
 	margin-top: 8%;
-	background-color: #808080; 
+	background-color: #808080;
     border: none;
     color: black;
     text-align: center;
@@ -118,11 +121,9 @@ body {
     margin: 4px 2px;
     cursor: pointer;
 	padding: 10px 24px;
-
 }
 
 #render:hover {background-color: #206d40c7; color: #d9d9d9;}
-
 
 #screenSize {
 	position: fixed;
@@ -130,26 +131,23 @@ body {
 	left: 0;
 	right: 0;
 	margin-left: 25%;
-	
 	width: 50%;
 	padding-bottom: 20px;
-	
-	
 }
 
 /* Modal Content */
 .modal {
-    display: none; 
-    position: fixed; 
-    z-index: 1; 
-    padding-top: 100px; 
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
     left: 0;
     top: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgb(0,0,0); 
-    background-color: rgba(0,0,0,0.4); 
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
 }
 
 
@@ -162,8 +160,8 @@ body {
 }
 
 #loadingModal {
-	text-align: center; 
-	padding:0; 
+	text-align: center;
+	padding:0;
     margin-top: 11%;
     margin-right: 3.7%;
     height: 100%;
@@ -171,16 +169,16 @@ body {
 }
 
 #myModal1{
-	display: none; 
+	display: none;
     position: fixed;
-    z-index: 1; 
+    z-index: 1;
 	left: 0;
     top: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgb(0,0,0); 
-    background-color: rgba(0,0,0,0.4); 
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
 }
 
 .close {
@@ -188,8 +186,6 @@ body {
     float: right;
     font-size: 28px;
     font-weight: bold;
-	
-	
 }
 
 .close:hover,
@@ -213,10 +209,10 @@ body {
 
 #sideNav a:hover {
     left: 0;
-} 
+}
 
 #lightNav {
-    top: 9%;
+
     background-color:#c1e90f;
     background-attachment: fixed;
     z-index: 10;
@@ -225,7 +221,7 @@ body {
 }
 
 #shapesNav {
-    top: 16%;
+    margin-top: 22%;
     background-color: #28cccff3;
     background-attachment: fixed;
     z-index: 10;
@@ -234,7 +230,7 @@ body {
 }
 
 #settingsNav {
-    top: 23%;
+    margin-top: 44%;
     background-color: #cf7928e0;
     background-attachment: fixed;
     z-index: 10;
@@ -251,10 +247,10 @@ body {
     text-decoration: none;
     font-size: 20px;
     overflow: auto;
-    background-color: black;
+    background-color: rgba(8, 3, 3, 0.664);
     border-radius: 0 5px 5px 0;
     border:1px solid black;
-    height: 72%;
+    height: 44%;
 }
 
 #shapesDiv {
@@ -268,8 +264,8 @@ body {
     overflow: auto;
     border-radius: 0 5px 5px 0;
     border:1px solid black;
-    background-color: black;
-    height: 67%;
+    background-color: rgba(8, 3, 3, 0.664);
+    height: 75%;
 }
 
 #settingsDiv {
@@ -282,13 +278,57 @@ body {
     font-size: 20px;
     overflow: auto;
     overflow-y: auto;
-    background-color: black;
+    background-color: rgba(8, 3, 3, 0.664);
     border-radius: 0 5px 5px 0;
     border:1px solid black;
     height: 35%;
 }
 
 
+/* Style the buttons inside the tab */
+.tab button {
+  
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 17px;
+	width:50%;
+	height:100%;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+    background-color: #ccc;
+}
 
 
+/* Style the tab */
+.tab {
+	position: relative;
+  overflow: hidden;
 
+  background-color: #f1f1f1;
+	width:100%;
+	height:7%;
+
+}
+
+.drop {
+	width: 20%;
+	height: 33%;
+	
+}
+
+#loadingKati{
+	width:35%;
+	
+	
+	
+}

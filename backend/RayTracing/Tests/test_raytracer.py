@@ -14,14 +14,21 @@ from RayTracing.Classes.Models.Vector import Vector
 from RayTracing.Classes.Models.Plane import Plane
 from RayTracing.Classes.RayTracer import RayTracer
 
-
 if __name__ == '__main__':
-    sCenter1 = Vector(-1, 0, 20)
-    sCenter = Vector(3, 0, 18)
 
-    pCenter3 = Vector(0, -3, 0)
-    pDir = Vector(0, 1, 0)
+    sCenter1 = Vector(-1, 1, 24)
+    sCenter2 = Vector(0.5, 0, 17)
+    sCenter3 = Vector(3.5, 1.5, 20)
+    sCenter4 = Vector(-8, 0, 17)
 
+    pCenter1 = Vector(0, -3, 0)
+    pDir1 = Vector(0, 1, 0)
+
+    pCenter2 = Vector(0, 0, 22)
+    pDir2 = Vector(0, 0, -1)
+
+    p1 = Plane(pCenter1, pDir1, Color(0.1, 1.0, 1.0), 200, 0.3)
+    p2 = Plane(pCenter2, pDir2, Color(0.7, 0.7, 1.0), 200, 0.1, 0.6)
 
     s1 = Sphere(sCenter, 1, Color(1.0, 0, 0), 1000, 0.7)
     s2 = Sphere(sCenter1, 2, Color(0, 1.0, 0), 500, 0.7)
@@ -33,7 +40,6 @@ if __name__ == '__main__':
 
     light1 = Light(3, 3, 5, 0.7)
     light0 = AmbientLight(0.5)
-
 
     scene = Scene()
 
