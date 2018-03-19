@@ -125,17 +125,44 @@ class Cone(Cylinder):
                 return None
 
             point = ray.getPointOfRay(tSmallest)
-            if not self.inCylinder(point):
-                return None
-
             intersect = Intersection(point, self, ray, tSmallest)
 
+            if not self.inCylinder(point):
+                tmp = None
+                if self.isAbove(point):
+                    tmp = self.intersect_base(ray, self.top, Vector(0, 1, 0))
+                else:
+                    tmp = self.intersect_base(ray, self.bottom, Vector(0, -1, 0))
+
+                if tmp:
+                    intersect.point = tmp.point
+                else:
+                    intersect = None
+
         return intersect
+
+    def inCylinder(self, point):
+        if point.y < self.bottom.y or point.y > self.center.y:
+            return False
+        else:
+            return True
 
     def calculateAlpha(self):
         return math.degrees(math.atan(self.radius / self.height))
 
     def getSurfaceNormal(self,point):
+
+        surfaceNormal = Vector()
+
+        epsilon = 0.00001
+
+        if point.y > self.center.y - epsilon:
+            surfaceNormal.y = 1
+            return Vector(0.0, 1.0, 0.0)
+        elif self.bottom.y - epsilon < point.y < self.bottom.y + epsilon:
+            surfaceNormal.y = -1
+            return Vector(0.0, -1.0, 0.0)
+
         x = point.x - self.center.x
         z = point.z - self.center.z
 
