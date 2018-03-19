@@ -24,10 +24,25 @@ class Cuboid(Object3D):
         self.maxPoint = self.center.add(shiftVector)
 
     def getSurfaceNormal(self, point):
-        surfaceNormal = Vector()
-        surfaceNormal.x = point.x - self.center.x
-        surfaceNormal.y = point.y
-        surfaceNormal.z = point.y - self.center.z
-        return surfaceNormal.normalize()
+
+        epsilon = 0.0001
+
+        if point.x < self.center.x - self.w / 2 + epsilon:
+            return Vector(-1, 0, 0)
+        elif point.x > self.center.x + self.w / 2 - epsilon:
+            return Vector(1, 0, 0)
+        elif point.z > self.center.z + self.d / 2 - epsilon:
+            return Vector(0, 0, 1)
+        elif point.z < self.center.z - self.d / 2 + epsilon:
+            return Vector(0, 0, -1)
+        elif point.y > self.center.y + self.h / 2 - epsilon:
+            return Vector(0, 1, 0)
+        elif point.y < self.center.y - self.h / 2 + epsilon:
+            return Vector(0, -1, 0)
+        else:
+            print("else")
+            return Vector()
+
+        #return surfaceNormal.normalize()
 
 
