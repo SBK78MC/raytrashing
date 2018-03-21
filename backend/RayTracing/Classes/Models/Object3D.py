@@ -8,7 +8,7 @@ class Object3D:
         self.center = Vector(x, y, z)
         self.color = color
         self.specular = specular
-        self.reflection = self.reflectionCheck(reflection)
+        self.reflection = reflection
         self.transparency = transparency
 
     def __init__(self, center=Vector(0, 0, 0), color=Color(), specular=100, reflection=0.1, transparency=0):

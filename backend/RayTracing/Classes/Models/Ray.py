@@ -5,7 +5,8 @@ class Ray:
 
     def __init__(self, startp=Vector(0, 0, 0), directionPoint=Vector(0, 0, 0)):
         self.startPoint = startp
-        self.direction = directionPoint.sub(startp)
+        self.direction = directionPoint
+        #self.direction = directionPoint.sub(startp)
 
         self.inverseDirection = self.direction.getInverse()
         self.inv = list()
