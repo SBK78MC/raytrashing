@@ -35,3 +35,6 @@ class Object3D:
 
     def getReflection(self):
         return self.reflection
+
+    def getTransparency(self):
+        return self.transparency
