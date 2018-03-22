@@ -2,7 +2,7 @@ var arrayListForLight 		 = [];
 var arrayListForObject 		 = [];
 var paintOrder               = [];
 var windowSize               = [];
-var globalImagePlaneSizeObject, globalCameraPositionObject, globalSceneObject, globalRaytracerObject, globalAmbientLight, globalFloor, globalItem;
+var globalImagePlaneSizeObject, globalCameraPositionObject, globalSceneObject, globalRaytracerObject, globalAmbientLight, globalFloor, globalItem, globalFileName;
 var convertSize;
 var currentView = "front";
 var receivedImage            = [];
@@ -216,7 +216,7 @@ function renderShapes() {
 	raytracerObjectCreation();
 
 
-
+	fileName(); //gets the name of the image from the user
 	var xhr = new XMLHttpRequest();
 	var url = "http://127.0.0.1:8000/raytrace";
 	xhr.open("POST", url, true);
@@ -228,6 +228,7 @@ function renderShapes() {
 	xhr.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			document.getElementById("download").style.display = 'inline-block';
+			document.getElementById("downloadName").style.display = 'inline-block';
 			var uInt8Array = new Uint8Array(this.response);
 			var i = uInt8Array.length;
 			var binaryString = new Array(i);
@@ -242,9 +243,14 @@ function renderShapes() {
 			//store image
 			receivedImage = base64;
 			document.getElementById("download").href = "data:image/png;base64," + receivedImage;
+			document.getElementById("download").setAttribute("download", globalFileName);
 		}
-
 	}
+}
+
+function fileName() {
+	var file       = document.getElementById("downloadName").value;
+	globalFileName = file;
 }
 
 
@@ -618,6 +624,7 @@ function clearGrid() {
 	globalSceneObject			= "";
 	globalImagePlaneSizeObject  = "";
 	globalCameraPositionObject	= "";
+	globalFileName				= "";
 };
 
 
@@ -821,7 +828,8 @@ function autoPaint(shape){
 	window.onclick = function(event) {
 	var modal = document.getElementById('myModal');
     	if (event.target == modal) {
-       	 	modal.style.display = "none";
+				modal.style.display = "none";
+				globalFileName      = "";
    	  	}
 	}
 
