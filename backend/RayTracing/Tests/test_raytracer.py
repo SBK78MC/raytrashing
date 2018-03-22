@@ -59,6 +59,7 @@ if __name__ == '__main__':
     imagepl = Imageplane(750, 750)
 
     camera = Camera(Vector(0, 0, 0), Vector(0, 0, 1), 30)
+    #camera = Camera(Vector(10, 0, 9), Vector(-1, 0.1, 1), 30)
 
     raytrace = RayTracer(imagepl, scene, camera)
 
