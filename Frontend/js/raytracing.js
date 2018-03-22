@@ -663,6 +663,7 @@ function redraw(canvas, ctx){
 
 			shapeR = shapeR/75* canvas.width* 0.0914;
 
+			
 			ctx.beginPath();
 			if(currentView == "front"){
 				ctx.arc(shapeX/500 * canvas.width,	Math.abs(shapeY/500 * canvas.height - canvas.height) ,shapeR,0,2*Math.PI);
@@ -853,9 +854,11 @@ function autoPaint(shape) {
       canMouseX=parseInt(e.clientX-$("#myCanvas").offset().left);
       canMouseY=parseInt(e.clientY-$("#myCanvas").offset().top);
 	  canMouseX = ((canMouseX/ canvas.width) * 500 ) - 250 ;
-	  canMouseY = Math.abs(((canMouseY/ canvas.height) * 500 ) - 500) - 250 ;
+	  canMouseY = ((1 - (canMouseY/ canvas.height)) * 500 ) - 250;
+	  //canMouseY = Math.abs(((canMouseY/ canvas.height) * 500 ) - 500) - 250 ;
 
-
+	//console.log("X: " + canMouseX + "  Y: " + canMouseY);
+	
 
 if(currentView == "front"){
 
@@ -865,7 +868,10 @@ if(currentView == "front"){
 			var shapeR = (arrayListForObject[i].Sphere.radius*50*15)/arrayListForObject[i].Sphere.center.z;
 		    var shapeX = arrayListForObject[i].Sphere.center.x*71.4285714286 ;
 		    var shapeY = arrayListForObject[i].Sphere.center.y*71.4285714286 ;
-		    
+			shapeR = shapeR/75* canvas.width* 0.0914;
+			
+		    //console.log("Y axis: " + shapeY + "  R :" + shapeR);
+			
 		    if(canMouseX > shapeX - shapeR && canMouseX < shapeX + shapeR && canMouseY > shapeY - shapeR && canMouseY < shapeY + shapeR){
 			  isDragging=true;
 			  index = i;
@@ -874,6 +880,7 @@ if(currentView == "front"){
 			var shapeR = (arrayListForObject[i].Cube.sideLength*50*15)/arrayListForObject[i].Cube.center.z;
 		    var shapeX = arrayListForObject[i].Cube.center.x*71.4285714286 ;
 		    var shapeY = arrayListForObject[i].Cube.center.y*71.4285714286 ;
+			shapeR = shapeR/75* canvas.width* 0.0914;
 		    
 		    if(canMouseX > shapeX - shapeR/2 && canMouseX < shapeX + shapeR/2 && canMouseY > shapeY - shapeR/2 && canMouseY < shapeY + shapeR/2){
 			  isDragging=true;
