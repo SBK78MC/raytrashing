@@ -228,7 +228,6 @@ function renderShapes() {
 	xhr.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			document.getElementById("download").style.display = 'inline-block';
-			document.getElementById("downloadName").style.display = 'inline-block';
 			var uInt8Array = new Uint8Array(this.response);
 			var i = uInt8Array.length;
 			var binaryString = new Array(i);
