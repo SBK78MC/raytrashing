@@ -215,7 +215,6 @@ function renderShapes() {
 	sceneObjectCreation();
 	raytracerObjectCreation();
 
-
 	fileName(); //gets the name of the image from the user
 	var xhr = new XMLHttpRequest();
 	var url = "http://127.0.0.1:8000/raytrace";
@@ -242,6 +241,9 @@ function renderShapes() {
 			//store image
 			receivedImage = base64;
 			document.getElementById("download").href = "data:image/png;base64," + receivedImage;
+			if(globalFileName == "") {
+				globalFileName = "raytrashing.png"
+			}
 			document.getElementById("download").setAttribute("download", globalFileName);
 		}
 	}
@@ -686,6 +688,7 @@ function redraw(canvas, ctx){
 			ctx.fill();
 			ctx.stroke();
 		}
+
 		if(typeof arrayListForObject[i].Cube != 'undefined'){
 
 			var shapeX = arrayListForObject[i].Cube.center.x*71.4285714286 + 250;
@@ -723,7 +726,7 @@ function redraw(canvas, ctx){
 			}
 			ctx.fillStyle = color;
 			ctx.fill();
-ctx.stroke();
+			ctx.stroke();
 
 		}
 
@@ -762,7 +765,7 @@ function sliderDrag() {
 }
 
 //create different views
-function topView(){
+function topView() {
 	keepActiveButton(1);
 	currentView = "top";
 	var c = document.getElementById("myCanvas");
@@ -771,7 +774,7 @@ function topView(){
 	redraw(c, ctx);
 }
 
-function frontView(){
+function frontView() {
 	keepActiveButton(0);
 	currentView = "front";
 	var c = document.getElementById("myCanvas");
@@ -790,29 +793,26 @@ function sideView(){
 	redraw(c, ctx);
 }
 
-function keepActiveButton(active){
+function keepActiveButton(active) {
 	var sides = ["front", "top", "side"];
 	for(i = 0; i < 3; i++){
-		if(i == active){
+		if(i == active) {
 			document.getElementById(sides[active]).style.background = '#ccc';
-		}else{
+		}else {
 			document.getElementById(sides[i]).style.background = '#ddd';
 		}
 	}
 }
 
-function autoPaint(shape){
-		document.getElementById("shape").selectedIndex = shape + 1;
-		document.getElementById("shape_x").value = '0';
-		document.getElementById("shape_y").value = '0';
-		addShape();
-	
+function autoPaint(shape) {
+	document.getElementById("shape").selectedIndex = shape + 1;
+	document.getElementById("shape_x").value = '0';
+	document.getElementById("shape_y").value = '0';
+	addShape();
 }
 
   $(document).ready(function() {
 
-	
-  
 	$('#picker').farbtastic('#color');
 	var canvas = document.getElementById("myCanvas");
 	var ctx=canvas.getContext("2d");
@@ -863,8 +863,6 @@ if(currentView == "front"){
 		    if(canMouseX > shapeX - shapeR && canMouseX < shapeX + shapeR && canMouseY > shapeY - shapeR && canMouseY < shapeY + shapeR){
 			  isDragging=true;
 			  index = i;
-			  
-
 		    }
 		  } else if(typeof arrayListForObject[i].Cube != 'undefined'){
 			var shapeR = (arrayListForObject[i].Cube.sideLength*50*15)/arrayListForObject[i].Cube.center.z;
@@ -874,56 +872,47 @@ if(currentView == "front"){
 		    if(canMouseX > shapeX - shapeR/2 && canMouseX < shapeX + shapeR/2 && canMouseY > shapeY - shapeR/2 && canMouseY < shapeY + shapeR/2){
 			  isDragging=true;
 			  index = i;
-
-			  
 			 }
-
-
 		  }
-
-
 	   }
 	 }
   }
 
-    function handleMouseUp(e){
-      canMouseX=parseInt(e.clientX-$("#myCanvas").offset().left);
-      canMouseY=parseInt(e.clientY-$("#myCanvas").offset().top);
+function handleMouseUp(e) {
+	canMouseX=parseInt(e.clientX-$("#myCanvas").offset().left);
+	canMouseY=parseInt(e.clientY-$("#myCanvas").offset().top);
 
-	  if(isDragging){
-		if(typeof arrayListForObject[index].Sphere != 'undefined'){
+	if(isDragging){
+		if(typeof arrayListForObject[index].Sphere != 'undefined') {
 			arrayListForObject[index].Sphere.center.x = (((canMouseX/canvas.width*2)*250) - 250)/71.4285714286;
 			arrayListForObject[index].Sphere.center.y = -(((canMouseY/canvas.height*2)*250) - 250)/71.4285714286;
 			ctx.clearRect(0,0,canvas.width,canvas.height);
-		}else if(typeof arrayListForObject[index].Cube != 'undefined'){
+		} else if(typeof arrayListForObject[index].Cube != 'undefined') {
 			arrayListForObject[index].Cube.center.x = (((canMouseX/canvas.width*2)*250) - 250)/71.4285714286;
 			arrayListForObject[index].Cube.center.y = -(((canMouseY/canvas.height*2)*250) - 250)/71.4285714286;
 			ctx.clearRect(0,0,canvas.width,canvas.height);
 
-		}
+	}
 		redraw(canvas, ctx);
-
 		shapeOption();
-	  }
-      // clear the drag flag
-
-      isDragging=false;
-    }
+	}
+		// clear the drag flag
+		isDragging=false;
+}
 
     function handleMouseOut(e){
 		handleMouseUp(e);
-
     }
 
-    function handleMouseMove(e){
+function handleMouseMove(e){
 
-      canMouseX=parseInt(e.clientX-$("#myCanvas").offset().left);
-      canMouseY=parseInt(e.clientY-$("#myCanvas").offset().top);
+    canMouseX=parseInt(e.clientX-$("#myCanvas").offset().left);
+    canMouseY=parseInt(e.clientY-$("#myCanvas").offset().top);
       // if the drag flag is set, clear the canvas and draw the image
-      if(isDragging){
-		  ctx.clearRect(0,0,canvas.width,canvas.height);
+    if(isDragging){
+	    ctx.clearRect(0,0,canvas.width,canvas.height);
 
-		  if(typeof arrayListForObject[index].Sphere != 'undefined'){
+		if(typeof arrayListForObject[index].Sphere != 'undefined'){
 			arrayListForObject[index].Sphere.center.x = 999999;
 			arrayListForObject[index].Sphere.center.y = 999999;
 			convertSize = (arrayListForObject[index].Sphere.radius * 50)*15/arrayListForObject[index].Sphere.center.z ;
@@ -937,9 +926,7 @@ if(currentView == "front"){
 			ctx.fillStyle = color;
 			ctx.fill();
 			ctx.stroke();
-
-
-		  }else if(typeof arrayListForObject[index].Cube != 'undefined'){
+		} else if(typeof arrayListForObject[index].Cube != 'undefined') {
 			arrayListForObject[index].Cube.center.x = 999999;
 			arrayListForObject[index].Cube.center.y = 999999;
 			convertSize = (arrayListForObject[index].Cube.sideLength * 50)*15/arrayListForObject[index].Cube.center.z ;
@@ -953,7 +940,7 @@ if(currentView == "front"){
 			ctx.fill();
 			ctx.stroke();
 
-		  }
+	    }
 		  redraw(canvas, ctx);
 	  }
     }
