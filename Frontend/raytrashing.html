@@ -121,6 +121,9 @@
 		<input id="camera_x" class="inputs" type="text" name="Coordinates x" placeholder="x">
 		<input id="camera_y" style="margin-left:3%;"  class="inputs" type="text" name="Coordinates y" placeholder="y">
 		<input id="camera_z" style="margin-left:3%;" class="inputs" type="text" name="Coordinates z" placeholder="z">
+		<br>
+		<h4>Save As...</h4>
+		<input id="downloadName" type="text" placeholder="Name of the image">
 	</div>
 </div>
 
@@ -185,8 +188,8 @@
 <div align="center" id="myModal1" >
   <div align="center" id="loadingModal" >
     	<span style=" position: absolute; margin-left: 1%; margin-top: 1%;" onclick="this.parentElement.parentElement.style.display='none'; document.getElementById('download').style.display = 'none';" class="close">&times;</span>
-    	<img id="loadingKati"  src="" alt="Red dot"></img><br>
-		<a id="download" href="" class="buttons" style="display:none;" download="raytrashing.png">Download</a>
+		<img id="loadingKati"  src="" alt="Red dot"></img><br>
+		<a id="download" href="" class="buttons" style="background-color:rgba(38, 159, 211, 0.767); display:none;" download="raytrashing.png">Download</a>
 		
   </div>
 </div>
