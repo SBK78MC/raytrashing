@@ -3,9 +3,22 @@ from RayTracing.Classes.Models.Vector import Vector
 
 class Ray:
 
-    def __init__(self, startp=Vector(0, 0, 0), direction=Vector(0, 0, 0)):
+    def __init__(self, startp=Vector(0, 0, 0), directionPoint=Vector(0, 0, 0)):
         self.startPoint = startp
-        self.direction = direction
+        self.direction = directionPoint
+        #self.direction = directionPoint.sub(startp)
+
+        self.inverseDirection = self.direction.getInverse()
+        self.inv = list()
+        self.inv.append(int(self.inverseDirection.x < 0))
+        self.inv.append(int(self.inverseDirection.y < 0))
+        self.inv.append(int(self.inverseDirection.z < 0))
+
+        self.inverseDirection = self.direction.getInverse()
+        self.inv = list()
+        self.inv.append(int(self.inverseDirection.x < 0))
+        self.inv.append(int(self.inverseDirection.y < 0))
+        self.inv.append(int(self.inverseDirection.z < 0))
 
     def getPointOfRay(self, t):
         result = Vector()

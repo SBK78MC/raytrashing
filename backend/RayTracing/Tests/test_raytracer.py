@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 from RayTracing.Classes.Models.AmbientLight import AmbientLight
 from RayTracing.Classes.Models.Camera import Camera
 from RayTracing.Classes.Models.Color import Color
+from RayTracing.Classes.Models.Cone import Cone
+from RayTracing.Classes.Models.Cube import Cube
 from RayTracing.Classes.Models.Imageplane import Imageplane
 from RayTracing.Classes.Models.Light import Light
 from RayTracing.Classes.Models.Scene import Scene
@@ -28,28 +30,33 @@ if __name__ == '__main__':
     p1 = Plane(pCenter1, pDir1, Color(0.1, 1.0, 1.0), 200, 0.3)
     p2 = Plane(pCenter2, pDir2, Color(0.7, 0.7, 1.0), 200, 0.1, 0.6)
 
-    s1 = Sphere(sCenter1, 2, Color(1.0, 0, 0), 700, 0.6)
-    s2 = Sphere(sCenter2, 2, Color(1, 1, 0.1), 500, 0., 0.7)
-    s3 = Sphere(sCenter3, 1, Color(0, 0.3, 0.8), 500, 0.6)
-    s4 = Sphere(sCenter4, 3, Color(1, 0.5, 0), 500, 0.3)
+    s1 = Sphere(sCenter, 1, Color(1.0, 0, 0), 1000, 0.7)
+    s2 = Sphere(sCenter1, 2, Color(0, 1.0, 0), 500, 0.7)
+    s3 = Plane(pCenter3, pDir, Color(0.1, 1.0, 1.0), 200, 0.3)
 
-    light1 = Light(5, 0, 13, 0.7)
-    light0 = AmbientLight(0.3)
+    cube = Cube(Vector(1, 0, 20), 3, Color(0,1,0), 1000, 0.5, 0.8)
+
+    cone = Cone(Vector(0, 0, 10), 1, 1, Color(1, 0, 0), 1000, 0.2, 1.0)
+
+    light1 = Light(3, 3, 5, 0.7)
+    light0 = AmbientLight(0.5)
 
     scene = Scene()
 
     scene.addLight(light0)
     scene.addLight(light1)
-    scene.addObject3D(s1)
-    scene.addObject3D(s2)
-    scene.addObject3D(s3)
-    scene.addObject3D(s4)
+    #scene.addObject3D(s1)
+    #scene.addObject3D(s2)
+    #scene.addObject3D(s3)
 
-    scene.addObject3D(p1)
-    scene.addObject3D(p2)
+    scene.addObject3D(cone)
+    scene.addObject3D(cube)
 
+    imagepl = Imageplane(500, 500)
 
-    imagepl = Imageplane(400, 400)
+    #scene.addObject3D(s4)
+
+    imagepl = Imageplane(750, 750)
 
     camera = Camera(Vector(0, 0, 0), Vector(0, 0, 1), 30)
 
