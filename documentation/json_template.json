@@ -4,7 +4,16 @@
         "height": "INTEGER VALUE"
     },
     "Camera":{
-        "position":"INTEGER VALUE" // 0 == Front, 1 == Top, 2 == Left, 3 == Right
+        "position": {
+            "x":"DOUBLE VALUE",
+            "y":"DOUBLE VALUE",
+            "z":"DOUBLE VALUE"
+        },
+        "pointOfView": {
+            "x":"DOUBLE VALUE",
+            "y":"DOUBLE VALUE",
+            "z":"DOUBLE VALUE"
+        }
     },
     "Scene":{
       "Object3D":[
@@ -23,7 +32,8 @@
                },
                "specular":"DOUBLE VALUE", // 0 < specular < 1000
                "reflection":"DOUBLE VALUE", // 0.0 < reflection < 1.0
-               "transparency":"DOUBLE VALUE" // 0.0 < transparency < 1.0
+               "transparency":"DOUBLE VALUE", // 0.0 < transparency < 1.0
+               "refractiveIndex":"DOUBLE VALUE" // 1.0 < transparency < 3.0
             }
          },
          {
@@ -41,7 +51,8 @@
                },
                "specular":"DOUBLE VALUE",
                "reflection":"DOUBLE VALUE",
-               "transparency":"DOUBLE VALUE"
+               "transparency":"DOUBLE VALUE",
+               "refractiveIndex":"DOUBLE VALUE"
             }
          }, 
          {
@@ -60,7 +71,28 @@
                  },
                  "specular":"DOUBLE VALUE",
                  "reflection":"DOUBLE VALUE",
-                 "transparency":"DOUBLE VALUE"
+                 "transparency":"DOUBLE VALUE",
+                 "refractiveIndex":"DOUBLE VALUE"
+            }
+        },
+        {
+            "Cone":{
+                "center":{
+                    "x":"DOUBLE VALUE",
+                    "y":"DOUBLE VALUE",
+                    "z":"DOUBLE VALUE"
+                 },
+                 "radius":"DOUBLE VALUE",
+                 "height":"DOUBLE VALUE",
+                 "color":{
+                    "r":"INTEGER VALUE",
+                    "g":"INTEGER VALUE",
+                    "b":"INTEGER VALUE"
+                 },
+                 "specular":"DOUBLE VALUE",
+                 "reflection":"DOUBLE VALUE",
+                 "transparency":"DOUBLE VALUE",
+                 "refractiveIndex":"DOUBLE VALUE"
             }
         }
       ],

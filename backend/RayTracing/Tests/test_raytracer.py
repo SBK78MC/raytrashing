@@ -1,4 +1,6 @@
 import unittest
+
+import math
 import matplotlib.pyplot as plt
 
 from RayTracing.Classes.Models.AmbientLight import AmbientLight
@@ -30,15 +32,16 @@ if __name__ == '__main__':
     p1 = Plane(pCenter1, pDir1, Color(0.1, 1.0, 1.0), 200, 0.3)
     p2 = Plane(pCenter2, pDir2, Color(0.7, 0.7, 1.0), 200, 0.1, 0.6)
 
-    s1 = Sphere(sCenter, 1, Color(1.0, 0, 0), 1000, 0.7)
-    s2 = Sphere(sCenter1, 2, Color(0, 1.0, 0), 500, 0.7)
-    s3 = Plane(pCenter3, pDir, Color(0.1, 1.0, 1.0), 200, 0.3)
+    #s1 = Sphere(sCenter, 1, Color(1.0, 0, 0), 1000, 0.7)
+    #s2 = Sphere(sCenter1, 2, Color(0, 1.0, 0), 500, 0.7)
+    #s3 = Plane(pCenter3, pDir, Color(0.1, 1.0, 1.0), 200, 0.3)
 
-    cube = Cube(Vector(1, 0, 20), 3, Color(0,1,0), 1000, 0.5, 0.8)
+    cube = Cube(Vector(0, 0, 4), 1, Color(1,0,0), 1000, 0.1, 0.0)
+    sphere = Sphere(Vector(0, 0, 7), 2, Color(0, 1, 0), 1000, 0.1, 0.0)
 
-    cone = Cone(Vector(0, 0, 10), 1, 1, Color(1, 0, 0), 1000, 0.2, 1.0)
+    #cone = Cone(Vector(0, 0, 10), 1, 1, Color(1, 0, 0), 1000, 0.2, 1.0)
 
-    light1 = Light(3, 3, 5, 0.7)
+    light1 = Light(0, 3, 7, 0.7)
     light0 = AmbientLight(0.5)
 
     scene = Scene()
@@ -49,18 +52,27 @@ if __name__ == '__main__':
     #scene.addObject3D(s2)
     #scene.addObject3D(s3)
 
-    scene.addObject3D(cone)
+    #scene.addObject3D(cone)
     scene.addObject3D(cube)
-
-    imagepl = Imageplane(500, 500)
+    scene.addObject3D(sphere)
 
     #scene.addObject3D(s4)
 
-    imagepl = Imageplane(750, 750)
+    imagepl = Imageplane(500, 500)
 
-    camera = Camera(Vector(0, 0, 0), Vector(0, 0, 1), 30)
+    #camera = Camera(Vector(0, 0, 0), Vector(0, 0, 1), Vector(0, 1, 0), math.pi / 4)
+    #camera = Camera(Vector(0, 8, 5), Vector(0, -1, 5), Vector(-1, 0, 0), math.pi/4)
+    #camera = Camera(Vector(10, 0, 5), Vector(-1, 0, 5), Vector(0, 0, 1), math.pi / 4)
+    camera = Camera(Vector(-10, 0, 5), Vector(1, 0, 5), Vector(0, 1, 0), math.pi / 4)
+    #camera = Camera(Vector(-10, 0, 10), Vector(1, 0, 10), Vector(0, 0, -1), math.pi / 4)
+    #camera = Camera(Vector(-7, 3, 8), Vector(1, 0, 5), Vector(0, 1, 0), math.pi / 4)
+    #camera = Camera(Vector(3, 5, 10), Vector(0, 0, 7), Vector(0, 1, 0), math.pi / 4)
 
     raytrace = RayTracer(imagepl, scene, camera)
 
     plt.imsave('FirstImages.png', raytrace.startRayTracing())
+
+    #raytrace = RayTracer(imagepl, scene, camera)
+
+    #plt.imsave('FirstImages2.png', raytrace.startRayTracing2())
     #unittest.main()

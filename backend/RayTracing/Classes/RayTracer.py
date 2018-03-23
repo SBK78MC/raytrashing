@@ -68,12 +68,10 @@ class RayTracer:
     def trace(self, worker):
         for y in worker.getYRange():
             for x in worker.getXRange():
-                px = (2 * ((x + 0.5) / self.imageplane.getWidth()) - 1) * self.camera.angle * self.imageAspectRatio
-                py = (1 - 2 * ((y + 0.5) / self.imageplane.getHeight())) * self.camera.angle
+                pixelX = 2 * x / self.imageplane.getWidth() - 1
+                pixelY = 2 * y / self.imageplane.getHeight() - 1
 
-                pixelDirection = Vector(px, py, self.camera.pointOfView.getZ())
-
-                pixelRay = Ray(self.camera.position, pixelDirection)
+                pixelRay = self.camera.getRay(pixelX, pixelY)
 
                 worker.setColor(y, x, self.traceRay(pixelRay, 0).getArray())
 
