@@ -581,16 +581,6 @@ function deleteItem()
 	}
 }
 
-function shapeSelect() {
-	var e = document.getElementById("shape");
-	var shape = e.options[e.selectedIndex].value;
-	if(shape == "Cylinder" || shape == "Pyramid" || shape == "Cone") {
-		document.getElementById("Height").style.display='block';
-	} else {
-		document.getElementById("Height").style.display='none';
-	}
-}
-
 function hexToRgb(hex) {
     var c;
     if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
@@ -805,6 +795,16 @@ if(choice == 0){
 		$('#advancedCam').slideUp(1000, up);
 		
 	}
+}else if(choice == 2){
+	var e = document.getElementById("shape");
+	var shape = e.options[e.selectedIndex].value;
+	if(shape == "Cylinder" || shape == "Pyramid" || shape == "Cone") {
+	
+		$('#Height').slideDown(1000);
+	} else {
+		$('#Height').slideUp(1000, up);
+	}
+	
 }
 }
 
