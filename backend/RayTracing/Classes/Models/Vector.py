@@ -89,4 +89,3 @@ class Vector:
             v.z = 1 / self.z
 
         return v
-

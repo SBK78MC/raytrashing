@@ -1,5 +1,6 @@
 from RayTracing.Classes.Models.Color import Color
 from RayTracing.Classes.Models.Cuboid import Cuboid
+
 from RayTracing.Classes.Models.Intersection import Intersection
 from RayTracing.Classes.Models.Vector import Vector
 
@@ -40,6 +41,9 @@ class Cube(Cuboid):
             tmin = tzmin
         if (tzmax < tmax):
             tmax = tzmax
+
+        if not tMin < tmin < tMax:
+            return None
 
         point = ray.getPointOfRay(tmin)
         intersection = Intersection(point, self, ray, tmin)

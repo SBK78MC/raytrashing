@@ -4,6 +4,7 @@ from RayTracing.Classes.Models.Color import Color
 from RayTracing.Classes.Models.Intersection import Intersection
 from RayTracing.Classes.Models.MathUtil import MathUtil
 from RayTracing.Classes.Models.Object3D import Object3D
+
 from RayTracing.Classes.Models.Plane import Plane
 from RayTracing.Classes.Models.Vector import Vector
 
@@ -17,7 +18,6 @@ class Cylinder(Object3D):
         self.top = Vector(x, y + height / 2, z)
         self.bottom = Vector(x, y - height / 2, z)
         self.va = self.top.sub(self.center).normalize()
-
 
     def __init__(self, v=Vector(0, 0, 0), height=0, radius=0, color=Color(), specular=50, reflection=0.1, transparency=0):
         super().__init__(v, color, specular, reflection, transparency)
@@ -104,7 +104,6 @@ class Cylinder(Object3D):
             return False
         else:
             return True
-
 
     def isAbove(self, point):
         if point.y > self.center.y:
