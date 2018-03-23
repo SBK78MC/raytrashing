@@ -1,3 +1,5 @@
+import math
+
 from RayTracing.Classes.Models.AmbientLight import AmbientLight
 from RayTracing.Classes.Models.Camera import Camera
 from RayTracing.Classes.Models.Color import Color
@@ -106,14 +108,10 @@ class JSONParser:
 
     def deserializeCamera(self, json):
         cameraJSON = json["Camera"]
-        position = int(cameraJSON["position"])
+        position = self.deserializeVector(cameraJSON["position"])
+        pointOfView = self.deserializeVector(cameraJSON["pointOfView"])
 
-        if position == 0:
-            return Camera()
-        elif position == 1:
-            return Camera(Vector(0, 10, 10), Vector(0, -1, 10))
-        else:
-            return Camera()
+        return Camera(position, pointOfView, Vector(0, 1, 0), math.pi / 4)
 
     def deserializeAmbientLight(self, ambientLightJson):
         active = bool(ambientLightJson["active"])
