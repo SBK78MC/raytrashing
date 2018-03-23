@@ -158,6 +158,24 @@ class JSONParserTest(unittest.TestCase):
         self.assertEqual(cylinder.reflection, 1)
         self.assertEqual(cylinder.transparency, 0)
 
+    def test_deserializeCone(self):
+        coneString = '{"center":{"x":3.0,"y":1.0,"z":2.0},"radius":1.0, "height":2.0, "color":{"r":1,"g":0,"b":0},"specular":1.0, "reflection":1.0, "transparency":0.0}'
+
+        coneJSON = json.loads(coneString)
+
+        cone = JSONParser().deserializeCone(coneJSON)
+
+        self.assertEqual(cone.center.x, 3)
+        self.assertEqual(cone.center.y, 2)
+        self.assertEqual(cone.center.z, 2)
+
+        self.assertEqual(cone.radius, 1)
+        self.assertEqual(cone.height, 2)
+
+        self.assertEqual(cone.specular, 1)
+        self.assertEqual(cone.reflection, 1)
+        self.assertEqual(cone.transparency, 0)
+
     def test_deserializeFloor(self):
         floorString = '{"active":true}'
         floorJSON = json.loads(floorString)

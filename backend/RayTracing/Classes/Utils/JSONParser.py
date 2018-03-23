@@ -3,6 +3,7 @@ import math
 from RayTracing.Classes.Models.AmbientLight import AmbientLight
 from RayTracing.Classes.Models.Camera import Camera
 from RayTracing.Classes.Models.Color import Color
+from RayTracing.Classes.Models.Cone import Cone
 from RayTracing.Classes.Models.Cube import Cube
 
 from RayTracing.Classes.Models.Cylinder import Cylinder
@@ -136,4 +137,12 @@ class JSONParser:
         return active
 
     def deserializeCone(self, coneJson):
-        pass
+        center = self.deserializeVector(coneJson["center"])
+        reflection = float(coneJson["reflection"])
+        radius = float(coneJson["radius"])
+        height = float(coneJson["height"])
+        specular = float(coneJson["specular"])
+        transparency = float(coneJson["transparency"])
+        color = self.deserializeColor(coneJson["color"])
+
+        return Cone(center, height, radius, color, specular, reflection, transparency)
