@@ -628,7 +628,35 @@ function clearGrid() {
 	globalFileName				= "";
 };
 
-
+function cameraAngle(){
+	var view = document.getElementById("camAngle").value;
+	if(view == "front"){
+		$('#camera_pos_x').val(0);
+		$('#camera_pos_y').val(0);
+		$('#camera_pos_z').val(0);
+		
+		$('#camera_dir_x').val(0);
+		$('#camera_dir_y').val(0);
+		$('#camera_dir_z').val(1);
+	}else if(view == "top"){
+		$('#camera_pos_x').val(0);
+		$('#camera_pos_y').val(10);
+		$('#camera_pos_z').val(10);
+		
+		$('#camera_dir_x').val(0);
+		$('#camera_dir_y').val(0);
+		$('#camera_dir_z').val(10);
+	}else if(view == "side"){
+		$('#camera_pos_x').val(10);
+		$('#camera_pos_y').val(0);
+		$('#camera_pos_z').val(10);
+		
+		$('#camera_dir_x').val(0);
+		$('#camera_dir_y').val(0);
+		$('#camera_dir_z').val(10);
+	}
+	
+}
 function redraw(canvas, ctx){
 
 	function convertToSize(x, z){
@@ -756,9 +784,9 @@ function redraw(canvas, ctx){
 	}
 }
 
-function sliderDrag() {
-
-	if(document.getElementById("inputText").style.display == "none") {
+function sliderDrag(choice) {
+if(choice == 0){
+	if(document.getElementById("#inputText").style.display == "none") {
 		$('#dragDrop').slideUp(1000, up);
 		function up() {
 			$('#inputText').slideDown(1000);
@@ -769,6 +797,15 @@ function sliderDrag() {
 			$('#dragDrop').slideDown(1000);
 		}
 	}
+}else if(choice == 1){
+	if(document.getElementById("advancedCam").style.display == "none") {
+		$('#advancedCam').slideDown(1000);
+		
+	} else {
+		$('#advancedCam').slideUp(1000, up);
+		
+	}
+}
 }
 
 //create different views
@@ -821,6 +858,7 @@ function autoPaint(shape) {
   $(document).ready(function() {
 
 	$('#picker').farbtastic('#color');
+	cameraAngle();
 	var canvas = document.getElementById("myCanvas");
 	var ctx=canvas.getContext("2d");
 	canvas.style.width ='100%';
