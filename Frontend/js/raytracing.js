@@ -792,13 +792,22 @@ if(choice == 0){
 		function up() {
 			$('#inputText').slideDown(1000);
 		}
-	} else if(choice == 1) {
+		
+	}else{
+		$('#dragDrop').slideDown(1000);
+		function up() {
+			$('#inputText').slideUp(1000, up);
+		}
+		
+	}
+}else if(choice == 1) {
 		if(document.getElementById("advancedCam").style.display == "none") {
 			$('#advancedCam').slideDown(1000);	
 		} else {
 			$('#advancedCam').slideUp(1000, up);
 		}
-	} else if(choice == 2) {
+		
+}else if(choice == 2) {
 		var e = document.getElementById("shape");
 		var shape = e.options[e.selectedIndex].value;
 		if(shape == "Cylinder" || shape == "Pyramid" || shape == "Cone") {
@@ -806,8 +815,9 @@ if(choice == 0){
 		} else {
 			$('#Height').slideUp(1000, up);
 		}
-	}
 }
+}
+
 
 //create different views
 function topView() {
