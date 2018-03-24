@@ -628,6 +628,10 @@ function cameraAngle(){
 		$('#camera_dir_x').val(0);
 		$('#camera_dir_y').val(0);
 		$('#camera_dir_z').val(1);
+		
+		$('#camera_rig_x').val(1);
+		$('#camera_rig_y').val(0);
+		$('#camera_rig_z').val(0);
 	}else if(view == "top"){
 		$('#camera_pos_x').val(0);
 		$('#camera_pos_y').val(10);
@@ -636,6 +640,10 @@ function cameraAngle(){
 		$('#camera_dir_x').val(0);
 		$('#camera_dir_y').val(0);
 		$('#camera_dir_z').val(10);
+		
+		$('#camera_rig_x').val(1);
+		$('#camera_rig_y').val(0);
+		$('#camera_rig_z').val(0);
 	}else if(view == "side"){
 		$('#camera_pos_x').val(10);
 		$('#camera_pos_y').val(0);
@@ -644,6 +652,10 @@ function cameraAngle(){
 		$('#camera_dir_x').val(0);
 		$('#camera_dir_y').val(0);
 		$('#camera_dir_z').val(10);
+		
+		$('#camera_rig_x').val(0);
+		$('#camera_rig_y').val(0);
+		$('#camera_rig_z').val(1);
 	}
 	
 }
