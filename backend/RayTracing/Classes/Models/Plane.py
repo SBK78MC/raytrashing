@@ -6,7 +6,7 @@ from RayTracing.Classes.Models.Intersection import Intersection
 
 class Plane(Object3D):
 
-    def __init__(self, point, normal, color=Color(), specular=100, reflection=0.1, transparency=0.0):
+    def __init__(self, point, normal, color=Color(), specular=100, reflection=0.1, transparency=0.0, refractiveIndex=1.0):
         super().__init__(point, color, specular, reflection, transparency)
         self.direction = normal
 
