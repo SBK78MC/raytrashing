@@ -14,6 +14,7 @@ from RayTracing.Classes.Models.Cylinder import Cylinder
 from RayTracing.Classes.Models.Cube import Cube
 from RayTracing.Classes.Models.Light import Light
 from RayTracing.Classes.Models.MathUtil import MathUtil
+from RayTracing.Classes.Models.Object3D import Object3D
 from RayTracing.Classes.Models.Ray import Ray
 from RayTracing.Classes.Models.Sphere import Sphere
 from RayTracing.Classes.Models.Tuple import Tuple
@@ -359,6 +360,18 @@ class ConeTest(unittest.TestCase):
         self.assertAlmostEqual(intersection.point.x, 0.25, 3)
         self.assertAlmostEqual(intersection.point.y, 1.0, 3)
         self.assertAlmostEqual(intersection.point.z, 5, 3)
+
+class Object3DTest(unittest.TestCase):
+
+    def test_checkReflectionAndTransparency(self):
+        object = Object3D(Vector(0, 0, 5), Color(1, 0, 0), 0, 0.4, 0.3)
+        objectMore = Object3D(Vector(0, 0, 5), Color(1, 0, 0), 0, 1.0, 1.0)
+
+        self.assertEqual(object.getReflection(), 0.4)
+        self.assertEqual(object.getTransparency(), 0.3)
+
+        self.assertEqual(objectMore.getReflection(), 0.5)
+        self.assertEqual(objectMore.getTransparency(), 0.5)
 
 if __name__ == '__main__':
     unittest.main()
