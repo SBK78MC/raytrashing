@@ -30,9 +30,9 @@ if __name__ == '__main__':
     p1 = Plane(pCenter1, pDir1, Color(0.1, 1.0, 1.0), 200, 0.3)
     p2 = Plane(pCenter2, pDir2, Color(0.7, 0.7, 1.0), 200, 0.1, 0.6)
 
-    s1 = Sphere(sCenter, 1, Color(1.0, 0, 0), 1000, 0.7)
+    s1 = Sphere(sCenter1, 1, Color(1.0, 0, 0), 1000, 0.7)
     s2 = Sphere(sCenter1, 2, Color(0, 1.0, 0), 500, 0.7)
-    s3 = Plane(pCenter3, pDir, Color(0.1, 1.0, 1.0), 200, 0.3)
+    s3 = Plane(pCenter1, pDir1, Color(0.1, 1.0, 1.0), 200, 0.3)
 
     cube = Cube(Vector(1, 0, 20), 3, Color(0,1,0), 1000, 0.5, 0.8)
 
