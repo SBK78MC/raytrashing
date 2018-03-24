@@ -82,9 +82,10 @@ class JSONParser:
         radius = float(sphereJson["radius"])
         specular = float(sphereJson["specular"])
         transparency = float(sphereJson["transparency"])
+        refractiveIndex = float(sphereJson["refractiveIndex"])
         color = self.deserializeColor(sphereJson["color"])
 
-        return Sphere(center, radius, color, specular, reflection, transparency)
+        return Sphere(center, radius, color, specular, reflection, transparency, refractiveIndex)
 
 
     def deserializeCube(self, cubeJson):
@@ -93,9 +94,10 @@ class JSONParser:
         sideLength = float(cubeJson["sideLength"])
         specular = float(cubeJson["specular"])
         transparency = float(cubeJson["transparency"])
+        refractiveIndex = float(cubeJson["refractiveIndex"])
         color = self.deserializeColor(cubeJson["color"])
 
-        return Cube(center, sideLength, color, specular, reflection, transparency)
+        return Cube(center, sideLength, color, specular, reflection, transparency, refractiveIndex)
 
     def deserializeCylinder(self, cylinderJson):
         center = self.deserializeVector(cylinderJson["center"])
@@ -104,16 +106,18 @@ class JSONParser:
         radius = float(cylinderJson["radius"])
         specular = float(cylinderJson["specular"])
         transparency = float(cylinderJson["transparency"])
+        refractiveIndex = float(cylinderJson["refractiveIndex"])
         color = self.deserializeColor(cylinderJson["color"])
 
-        return Cylinder(center, height, radius, color, specular, reflection, transparency)
+        return Cylinder(center, height, radius, color, specular, reflection, transparency, refractiveIndex)
 
     def deserializeCamera(self, json):
         cameraJSON = json["Camera"]
         position = self.deserializeVector(cameraJSON["position"])
         pointOfView = self.deserializeVector(cameraJSON["pointOfView"])
+        cameraRightAngle = self.deserializeVector(cameraJSON["cameraRightAngle"])
 
-        return Camera(position, pointOfView, Vector(0, 1, 0), math.pi / 4)
+        return Camera(position, pointOfView, cameraRightAngle, math.pi / 4)
 
     def deserializeAmbientLight(self, ambientLightJson):
         active = bool(ambientLightJson["active"])
@@ -143,6 +147,7 @@ class JSONParser:
         height = float(coneJson["height"])
         specular = float(coneJson["specular"])
         transparency = float(coneJson["transparency"])
+        refractiveIndex = float(coneJson["refractiveIndex"])
         color = self.deserializeColor(coneJson["color"])
 
-        return Cone(center, height, radius, color, specular, reflection, transparency)
+        return Cone(center, height, radius, color, specular, reflection, transparency, refractiveIndex)
