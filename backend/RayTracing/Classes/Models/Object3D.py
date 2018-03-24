@@ -10,6 +10,7 @@ class Object3D:
         self.specular = specular
         self.reflection = reflection
         self.transparency = transparency
+
         self.refractiveIndex = refractiveIndex
 
     def __init__(self, center=Vector(0, 0, 0), color=Color(), specular=100, reflection=0.1, transparency=0, refractiveIndex=1.0):
