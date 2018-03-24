@@ -9,7 +9,7 @@ h4, input{
 
 #left{
     text-align: center;
-    width: 20.5%;
+    width: 24%;
     z-index: 1;
 	padding-top: 1%;
     margin-top: -1%;
@@ -246,10 +246,12 @@ body {
     text-decoration: none;
     font-size: 20px;
     overflow: auto;
+	padding-left: 30px;
+	padding-right: 10px;
     background-color: rgba(8, 3, 3, 0.664);
     border-radius: 0 5px 5px 0;
     border:1px solid black;
-    height: 44%;
+    height: 70%;
 }
 
 #shapesDiv {
@@ -261,6 +263,8 @@ body {
     text-decoration: none;
     font-size: 20px;
     overflow: auto;
+	padding-left: 30px;
+	padding-right: 10px;
     border-radius: 0 5px 5px 0;
     border:1px solid black;
     background-color: rgba(8, 3, 3, 0.664);
@@ -277,11 +281,32 @@ body {
     font-size: 20px;
     overflow: auto;
     overflow-y: auto;
+	padding-left: 30px;
+	padding-right: 10px;
     background-color: rgba(8, 3, 3, 0.664);
     border-radius: 0 5px 5px 0;
     border:1px solid black;
-    height: 35%;
+    height: 70%;
 }
+
+/*image for drag and drop */
+#dragImage{
+	border-radius: 5px 5px 5px 5px;
+	background-color:#ffaa80;
+	padding:3px;
+	padding-top: 13px;
+	margin-left: 10px;
+	
+	
+	
+}
+#dragImage:hover {
+	background-color:#ff9966;
+	
+	
+	
+}
+
 
 
 /* Style the buttons inside the tab */
