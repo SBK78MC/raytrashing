@@ -123,24 +123,28 @@ class RayTracer:
         surfaceNormal = intersection.getObject().getSurfaceNormal(intersection.getPoint())
         viewDirection = intersection.getRay().getDirection()
 
-        fresnelEffect = self.getFresnel(viewDirection, surfaceNormal, 1.)
+        #fresnelEffect = self.getFresnel(viewDirection, surfaceNormal, intersection.getObject().getRefractiveIndex())
 
         if refractionColor and reflectionColor:
 
-            reflectionColorWithFresnel = reflectionColor.multiply(fresnelEffect).multiply(intersection.getObject().getReflection()).multiply(colorBrightness)
-            refractionColorWithFresnel = refractionColor.multiply((1 - fresnelEffect)).multiply(intersection.getObject().getTransparency()).multiply(colorBrightness)
-            brightColorWithInverseRate = brightColor.multiply(1 - intersection.getObject().getTransparency() - intersection.getObject().getReflection())
-            finalColor = reflectionColorWithFresnel.add(refractionColorWithFresnel).add(brightColorWithInverseRate)
+            reflectionColorWithFresnel = reflectionColor.multiply(intersection.getObject().getReflection())
+            refractionColorWithFresnel = refractionColor.multiply(intersection.getObject().getTransparency())
+            if 1 - intersection.getObject().getTransparency() - intersection.getObject().getReflection() > 0:
+                brightColorWithInverseRate = initialColor.multiply(1 - intersection.getObject().getTransparency() - intersection.getObject().getReflection())
+                finalColor = (reflectionColorWithFresnel.add(refractionColorWithFresnel).add(brightColorWithInverseRate)).multiply(colorBrightness)
+
+            else:
+                finalColor = (reflectionColorWithFresnel.add(refractionColorWithFresnel))
 
         elif reflectionColor:
-            reflectionColorWithRate = reflectionColor.multiply(intersection.getObject().getReflection()).multiply(colorBrightness)
-            brightColorWithInverseRate = brightColor.multiply(1 - intersection.getObject().getReflection())
-            finalColor = reflectionColorWithRate.add(brightColorWithInverseRate)
+            reflectionColorWithRate = reflectionColor.multiply(intersection.getObject().getReflection())
+            brightColorWithInverseRate = initialColor.multiply(1 - intersection.getObject().getReflection())
+            finalColor = reflectionColorWithRate.add(brightColorWithInverseRate).multiply(colorBrightness)
 
         elif refractionColor:
             refractionColorWithRate = refractionColor.multiply(intersection.getObject().getTransparency())
-            brightColorWithInverseRate = brightColor.multiply(1 - intersection.getObject().getTransparency())
-            finalColor = refractionColorWithRate.add(brightColorWithInverseRate)
+            brightColorWithInverseRate = initialColor.multiply(1 - intersection.getObject().getTransparency())
+            finalColor = refractionColorWithRate.add(brightColorWithInverseRate).multiply(colorBrightness)
 
         else:
             finalColor = brightColor
@@ -179,7 +183,7 @@ class RayTracer:
             originalDirection = intersection.getRay().getDirection()
             surfaceNormal = intersection.getObject().getSurfaceNormal(intersection.getPoint())
 
-            ior = 1.
+            ior = intersection.getObject().getRefractiveIndex()
 
             cosi = originalDirection.dotProduct(surfaceNormal)
             etai = 1
