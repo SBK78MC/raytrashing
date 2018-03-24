@@ -69,12 +69,8 @@ class JSONParser:
         light.setBrightness(float(json["brightness"]))
         return light
 
-
-
     def deserializeVector(self, vector):
         return Vector(float(vector["x"]), float(vector["y"]), float(vector["z"]))
-
-
 
     def deserializeSphere(self, sphereJson):
         center = self.deserializeVector(sphereJson["center"])
@@ -83,8 +79,9 @@ class JSONParser:
         specular = float(sphereJson["specular"])
         transparency = float(sphereJson["transparency"])
         color = self.deserializeColor(sphereJson["color"])
+        refractiveIndex = float(sphereJson["refractiveIndex"])
 
-        return Sphere(center, radius, color, specular, reflection, transparency)
+        return Sphere(center, radius, color, specular, reflection, transparency, refractiveIndex)
 
 
     def deserializeCube(self, cubeJson):
@@ -94,8 +91,9 @@ class JSONParser:
         specular = float(cubeJson["specular"])
         transparency = float(cubeJson["transparency"])
         color = self.deserializeColor(cubeJson["color"])
+        refractiveIndex = float(cubeJson["refractiveIndex"])
 
-        return Cube(center, sideLength, color, specular, reflection, transparency)
+        return Cube(center, sideLength, color, specular, reflection, transparency, refractiveIndex)
 
     def deserializeCylinder(self, cylinderJson):
         center = self.deserializeVector(cylinderJson["center"])
@@ -105,8 +103,9 @@ class JSONParser:
         specular = float(cylinderJson["specular"])
         transparency = float(cylinderJson["transparency"])
         color = self.deserializeColor(cylinderJson["color"])
+        refractiveIndex = float(cylinderJson["refractiveIndex"])
 
-        return Cylinder(center, height, radius, color, specular, reflection, transparency)
+        return Cylinder(center, height, radius, color, specular, reflection, transparency, refractiveIndex)
 
     def deserializeCamera(self, json):
         cameraJSON = json["Camera"]
@@ -144,5 +143,6 @@ class JSONParser:
         specular = float(coneJson["specular"])
         transparency = float(coneJson["transparency"])
         color = self.deserializeColor(coneJson["color"])
+        refractiveIndex = float(coneJson["refractiveIndex"])
 
-        return Cone(center, height, radius, color, specular, reflection, transparency)
+        return Cone(center, height, radius, color, specular, reflection, transparency, refractiveIndex)
