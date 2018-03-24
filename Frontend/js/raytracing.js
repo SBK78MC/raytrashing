@@ -27,10 +27,10 @@ function addShape() {
 	//get size and color
 	var size = parseFloat(document.getElementById('size').value);
 	var color = document.getElementById('color').value;
-
+	
 	//alert message if not all values are correct
 	var modal = document.getElementById('myModal');
-	if( (x || x == 0) && (y || y == 0) && (z || z == 0) && (size || size == 0) ) {
+	if( (x || x == 0) && (y || y == 0) && (z || z == 0) && (size || size == 0) && shape != 'Shape') {
 	} else {
 		document.getElementById("alertMessage").innerHTML = "Please fill all necessary Shape values(x, y, z, size).";
 		modal.style.display = "block";
@@ -135,8 +135,8 @@ if(shape == "Cylinder"){
 	var centerObject	     = new CenterForShapesAndLight(document.getElementById('shape_x').value, document.getElementById('shape_y').value, document.getElementById('shape_z').value);
 	var radius		 		 = document.getElementById('size').value;
 	var height				 = document.getElementById('height').value;
-	var reflection   		 = document.getElementById('reflection').value;
-	var specular			 = document.getElementById('specular').value;
+	var reflection   		 = document.getElementById('reflection').value / 100;
+	var specular			 = document.getElementById('specular').value / 100;
 	var transparency		 = document.getElementById('transparency').value;
 
 	//converting Hex to RGB.
@@ -776,7 +776,7 @@ function redraw(canvas, ctx){
 
 function sliderDrag(choice) {
 if(choice == 0){
-	if(document.getElementById("#inputText").style.display == "none") {
+	if(document.getElementById("inputText").style.display == "none") {
 		$('#dragDrop').slideUp(1000, up);
 		function up() {
 			$('#inputText').slideDown(1000);
@@ -853,6 +853,29 @@ function autoPaint(shape) {
 	document.getElementById("shape_x").value = '0';
 	document.getElementById("shape_y").value = '0';
 	addShape();
+}
+
+function materialValues(){
+	var value = document.getElementById("material").value;
+	
+	if(value == 'solid'){
+		$("#reflection").val(0);
+		$("#transparency").val(0);
+		$("#specular").val(0);
+	}else if(value == 'mirror'){
+		$("#reflection").val(100);
+		$("#transparency").val(0);
+		$("#specular").val(800);
+	}else if(value == 'shiny'){
+		$("#reflection").val(20);
+		$("#transparency").val(0);
+		$("#specular").val(600);
+	}else if(value == 'matte'){
+		$("#reflection").val(10);
+		$("#transparency").val(90);
+		$("#specular").val(600);
+	}
+	
 }
 
   $(document).ready(function() {

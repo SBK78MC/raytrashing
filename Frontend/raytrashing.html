@@ -50,22 +50,21 @@
 				<option value="Pyramid">Pyramid</option>
 				<option value="Cone">Cone</option>
 			</select>
-			<select id="material" class="boxes" onchange="">
+			<select id="material" class="boxes" onchange="materialValues()">
 				<option value"title" selected disabled>Material</option>
-				<option value="wood">Wood</option>
-				<option value="diamond">Diamond</option>
-				<option value="glass">Glass</option>
-				<option value="plastic">Plastic</option>
-				<option value="steel">Steel</option>
+				<option value="solid">Solid</option>
+				<option value="mirror">Mirror</option>
+				<option value="shiny">Shiny</option>
+				<option value="matte">Matte</option>
 			</select>
 			<select id="refractive" class="boxes" onchange="">
 				<option value"title" selected disabled>Refractive Index</option>
-				<option value="1">1</option>
-				<option value="1.5">1.5</option>
-				<option value="2">2</option>
-				<option value="2.5">2.5</option>
-				<option value="3">3</option>
-				<option value="3.4">3.5</option>
+				<option value="1">Air (1)</option>
+				<option value="1.3">Water (1.3)</option>
+				<option value="1.5">Glass (1.5)</option>
+				<option value="1.8">Sapphire (1.8)</option>
+				<option value="2.4">Diamond (2.4)</option>
+				<option value="3.4">Silicone(3.4)</option>
 			</select>
 
 			<h4 id="coor">Coordinates(-250,250)</h4>
@@ -80,9 +79,9 @@
 				<input id ="height" class = "boxes" align = "right" value="1" type="text" name="Height">
 			</div>
 			<h4>Reflection</h4>
-			<input id = "reflection" type="range" min="1" max="100" value="100" class="bar">
+			<input id = "reflection" type="range" min="0" max="100" value="0" class="bar">
 			<h4>Transparency</h4>
-			<input id = "transparency" type="range" min="1" max="100" value="100" class="bar">
+			<input id = "transparency" type="range" min="0" max="100" value="0" class="bar">
 			<h4>Specular</h4>
 			<input id = "specular" type="range" min="0" max="1000" value="0" class="bar">
 		</div>
