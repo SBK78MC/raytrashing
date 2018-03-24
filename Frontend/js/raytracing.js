@@ -794,9 +794,9 @@ if(choice == 0){
 		}
 		
 	}else{
-		$('#dragDrop').slideDown(1000);
+		$('#inputText').slideUp(1000, up);
 		function up() {
-			$('#inputText').slideUp(1000, up);
+			$('#dragDrop').slideDown(1000);
 		}
 		
 	}
