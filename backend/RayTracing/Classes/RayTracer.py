@@ -69,7 +69,7 @@ class RayTracer:
         for y in worker.getYRange():
             for x in worker.getXRange():
                 pixelX = 2 * x / self.imageplane.getWidth() - 1
-                pixelY = 2 * y / self.imageplane.getHeight() - 1
+                pixelY = 1 - 2 * y / self.imageplane.getHeight()
 
                 pixelRay = self.camera.getRay(pixelX, pixelY)
 
