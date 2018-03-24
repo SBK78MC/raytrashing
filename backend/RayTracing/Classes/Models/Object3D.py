@@ -10,7 +10,7 @@ class Object3D:
         self.specular = specular
         self.reflection = reflection
         self.transparency = transparency
-
+        self.checkReflectionAndTransparencyLimit()
         self.refractiveIndex = refractiveIndex
 
     def __init__(self, center=Vector(0, 0, 0), color=Color(), specular=100, reflection=0.1, transparency=0, refractiveIndex=1.0):
@@ -19,6 +19,7 @@ class Object3D:
         self.specular = specular
         self.reflection = reflection
         self.transparency = transparency
+        self.checkReflectionAndTransparencyLimit()
         self.refractiveIndex = refractiveIndex
 
     def intersection(self, ray, tMin, tMax):
@@ -47,3 +48,9 @@ class Object3D:
 
     def getTransparency(self):
         return self.transparency
+
+    def checkReflectionAndTransparencyLimit(self):
+        totalReflAndTrans = self.reflection + self.transparency
+        if totalReflAndTrans > 1.0:
+            self.reflection = self.reflection / totalReflAndTrans
+            self.transparency = self.transparency / totalReflAndTrans
