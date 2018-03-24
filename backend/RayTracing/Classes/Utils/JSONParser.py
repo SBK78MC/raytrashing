@@ -1,6 +1,9 @@
+import math
+
 from RayTracing.Classes.Models.AmbientLight import AmbientLight
 from RayTracing.Classes.Models.Camera import Camera
 from RayTracing.Classes.Models.Color import Color
+from RayTracing.Classes.Models.Cone import Cone
 from RayTracing.Classes.Models.Cube import Cube
 
 from RayTracing.Classes.Models.Cylinder import Cylinder
@@ -38,6 +41,8 @@ class JSONParser:
                 scene.addObject3D(self.deserializeCube(object[type]))
             elif (type == "Cylinder"):
                 scene.addObject3D(self.deserializeCylinder(object[type]))
+            elif (type == "Cone"):
+                scene.addObject3D(self.deserializeCone(object[type]))
 
         for light in jsonScene["Light"]:
             scene.addLight(self.deserializeLight(light))
@@ -105,14 +110,10 @@ class JSONParser:
 
     def deserializeCamera(self, json):
         cameraJSON = json["Camera"]
-        position = int(cameraJSON["position"])
+        position = self.deserializeVector(cameraJSON["position"])
+        pointOfView = self.deserializeVector(cameraJSON["pointOfView"])
 
-        if position == 0:
-            return Camera()
-        elif position == 1:
-            return Camera(Vector(0, 10, 10), Vector(0, -1, 10))
-        else:
-            return Camera()
+        return Camera(position, pointOfView, Vector(0, 1, 0), math.pi / 4)
 
     def deserializeAmbientLight(self, ambientLightJson):
         active = bool(ambientLightJson["active"])
@@ -134,3 +135,14 @@ class JSONParser:
     def deserializeFloor(self, sceneJson):
         active = bool(sceneJson["active"])
         return active
+
+    def deserializeCone(self, coneJson):
+        center = self.deserializeVector(coneJson["center"])
+        reflection = float(coneJson["reflection"])
+        radius = float(coneJson["radius"])
+        height = float(coneJson["height"])
+        specular = float(coneJson["specular"])
+        transparency = float(coneJson["transparency"])
+        color = self.deserializeColor(coneJson["color"])
+
+        return Cone(center, height, radius, color, specular, reflection, transparency)

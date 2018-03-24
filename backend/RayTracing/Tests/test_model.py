@@ -293,12 +293,50 @@ class CylinderTest(unittest.TestCase):
         self.assertIsNone(intersection)
 
     def test_intersection4(self):
+        cylinder = Cylinder(Vector(0, 8, 14), 10, 1.5, Color().red(), 10, 0.1)
+        ray = Ray(Vector(0, 0, 0), Vector(0.0, 1.8, 1))
+        intersection = cylinder.intersection(ray, 0, 1000)
+        self.assertIsNone(intersection)
+
+    def test_intersection5(self):
         cylinder = Cylinder(Vector(0, 0, 5), 2, 1, Color().red(), 10, 0.1)
         ray = Ray(Vector(0, 0, 0), Vector(0.1, -0.2, 1))
         intersection = cylinder.intersection(ray, 0, 1000)
         self.assertAlmostEqual(intersection.point.x, 0.4087346744)
         self.assertAlmostEqual(intersection.point.y, -0.8174693488)
         self.assertAlmostEqual(intersection.point.z, 4.0873467439)
+
+    def test_intersection6(self):
+        cylinder = Cylinder(Vector(0, 8, 14), 10, 1.5, Color().red(), 10, 0.1)
+        ray = Ray(Vector(0, 0, 0), Vector(0.0, 0.2, 1))
+        intersection = cylinder.intersection(ray, 0, 1000)
+        self.assertAlmostEqual(intersection.point.x, 0.0)
+        self.assertAlmostEqual(intersection.point.y, 3)
+        self.assertAlmostEqual(intersection.point.z, 15)
+
+    def test_getSurfaceNormal(self):
+        cylinder = Cylinder(Vector(0, 8, 14), 10, 1.5, Color().red(), 10, 0.1)
+        point = Vector(0, 3, 15)
+        surfaceNormal = cylinder.getSurfaceNormal(point)
+        self.assertEqual(surfaceNormal.x, 0)
+        self.assertEqual(surfaceNormal.y, -1)
+        self.assertEqual(surfaceNormal.z, 0)
+
+    def test_getSurfaceNormal1(self):
+        cylinder = Cylinder(Vector(0, 0, 5), 10, 1.5, Color().red(), 10, 0.1)
+        point = Vector(0, 0, 3.5)
+        surfaceNormal = cylinder.getSurfaceNormal(point)
+        self.assertEqual(surfaceNormal.x, 0)
+        self.assertEqual(surfaceNormal.y, 0)
+        self.assertEqual(surfaceNormal.z, -1)
+
+    def test_getSurfaceNormal2(self):
+        cylinder = Cylinder(Vector(0, 0, 5), 10, 1.5, Color().red(), 10, 0.1)
+        point = Vector(-1.5, 2.5, 5)
+        surfaceNormal = cylinder.getSurfaceNormal(point)
+        self.assertEqual(surfaceNormal.x, -1)
+        self.assertEqual(surfaceNormal.y, 0)
+        self.assertEqual(surfaceNormal.z, 0)
 
 class ConeTest(unittest.TestCase):
 

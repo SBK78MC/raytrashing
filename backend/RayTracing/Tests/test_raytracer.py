@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 from RayTracing.Classes.Models.AmbientLight import AmbientLight
 from RayTracing.Classes.Models.Camera import Camera
 from RayTracing.Classes.Models.Color import Color
+
+from RayTracing.Classes.Models.Cylinder import Cylinder
 from RayTracing.Classes.Models.Cone import Cone
 from RayTracing.Classes.Models.Cube import Cube
 from RayTracing.Classes.Models.Imageplane import Imageplane
@@ -33,6 +35,7 @@ if __name__ == '__main__':
     s1 = Sphere(sCenter1, 1, Color(1.0, 0, 0), 600, 0.4, 0, 1)
     s2 = Sphere(sCenter2, 1.3, Color(0, 1.0, 0), 500, 0.3)
 
+
     cube = Cube(Vector(1, 0, 30), 2, Color(0, 1, 0), 1000, 0, 0.1)
 
     cone = Cone(Vector(-1, -1, 16), 1, 1, Color(1, 0, 0), 1000, 0, 0)
@@ -44,6 +47,7 @@ if __name__ == '__main__':
 
     scene.addLight(light0)
     scene.addLight(light1)
+
     scene.addObject3D(s1)
     scene.addObject3D(s2)
 

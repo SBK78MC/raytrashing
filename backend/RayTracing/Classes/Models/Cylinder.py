@@ -53,10 +53,19 @@ class Cylinder(Object3D):
                 return None
 
             point = ray.getPointOfRay(tSmallest)
-            if not self.inCylinder(point):
-                return None
-
             intersect = Intersection(point, self, ray, tSmallest)
+
+            if not self.inCylinder(point):
+                tmp = None
+                if self.isAbove(point):
+                    tmp = self.intersect_base(ray, self.top, Vector(0, 1, 0))
+                else:
+                    tmp = self.intersect_base(ray, self.bottom, Vector(0, -1, 0))
+
+                if tmp:
+                    intersect.point = tmp.point
+                else:
+                    intersect = None
 
         return intersect
 
