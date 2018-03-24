@@ -35,7 +35,8 @@ h4, input{
 }
 
 #center{
-
+	
+	margin-top:70px;
     margin-left: 20%;
     text-align: center;
     height: 75%;
