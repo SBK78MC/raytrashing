@@ -35,7 +35,6 @@ if __name__ == '__main__':
     s1 = Sphere(sCenter1, 1, Color(1.0, 0, 0), 600, 0.4, 0, 1)
     s2 = Sphere(sCenter2, 1.3, Color(0, 1.0, 0), 500, 0.3)
 
-
     cube = Cube(Vector(1, 0, 30), 2, Color(0, 1, 0), 1000, 0, 0.1)
 
     cone = Cone(Vector(-1, -1, 16), 1, 1, Color(1, 0, 0), 1000, 0, 0)
