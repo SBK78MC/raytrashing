@@ -32,7 +32,7 @@ function addShape() {
 	var modal = document.getElementById('myModal');
 	if( (x || x == 0) && (y || y == 0) && (z || z == 0) && (size || size == 0) && shape != 'Shape') {
 	} else {
-		document.getElementById("alertMessage").innerHTML = "Please fill all necessary Shape values(x, y, z, size).";
+		document.getElementById("alertMessage").innerHTML = "Please fill all necessary Shape values(Shape, x, y, z, size).";
 		modal.style.display = "block";
 		return;
 

@@ -293,6 +293,23 @@ body {
     height: 70%;
 }
 
+/*image for drag and drop */
+#dragImage{
+	border-radius: 5px 5px 5px 5px;
+	background-color:#ffaa80;
+	padding-top: 11px;
+	margin-left: 10px;
+	
+	
+}
+#dragImage:hover {
+	background-color:#ff9966;
+	padding:2px;
+	padding-top: 13px;
+	
+}
+
+
 
 /* Style the buttons inside the tab */
 .tab button {
