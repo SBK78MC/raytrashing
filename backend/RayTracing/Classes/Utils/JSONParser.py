@@ -69,12 +69,8 @@ class JSONParser:
         light.setBrightness(float(json["brightness"]))
         return light
 
-
-
     def deserializeVector(self, vector):
         return Vector(float(vector["x"]), float(vector["y"]), float(vector["z"]))
-
-
 
     def deserializeSphere(self, sphereJson):
         center = self.deserializeVector(sphereJson["center"])
@@ -84,6 +80,7 @@ class JSONParser:
         transparency = float(sphereJson["transparency"])
         refractiveIndex = float(sphereJson["refractiveIndex"])
         color = self.deserializeColor(sphereJson["color"])
+        refractiveIndex = float(sphereJson["refractiveIndex"])
 
         return Sphere(center, radius, color, specular, reflection, transparency, refractiveIndex)
 
@@ -96,6 +93,7 @@ class JSONParser:
         transparency = float(cubeJson["transparency"])
         refractiveIndex = float(cubeJson["refractiveIndex"])
         color = self.deserializeColor(cubeJson["color"])
+        refractiveIndex = float(cubeJson["refractiveIndex"])
 
         return Cube(center, sideLength, color, specular, reflection, transparency, refractiveIndex)
 
@@ -108,6 +106,7 @@ class JSONParser:
         transparency = float(cylinderJson["transparency"])
         refractiveIndex = float(cylinderJson["refractiveIndex"])
         color = self.deserializeColor(cylinderJson["color"])
+        refractiveIndex = float(cylinderJson["refractiveIndex"])
 
         return Cylinder(center, height, radius, color, specular, reflection, transparency, refractiveIndex)
 
@@ -149,5 +148,6 @@ class JSONParser:
         transparency = float(coneJson["transparency"])
         refractiveIndex = float(coneJson["refractiveIndex"])
         color = self.deserializeColor(coneJson["color"])
+        refractiveIndex = float(coneJson["refractiveIndex"])
 
         return Cone(center, height, radius, color, specular, reflection, transparency, refractiveIndex)
