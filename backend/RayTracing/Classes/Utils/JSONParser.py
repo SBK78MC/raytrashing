@@ -120,7 +120,7 @@ class JSONParser:
         return Camera(position, pointOfView, cameraRightAngle, math.pi / 4)
 
     def deserializeAmbientLight(self, ambientLightJson):
-        active = bool(ambientLightJson["active"])
+        active = ambientLightJson["active"] != "false"
         brightness = 0
 
         if(bool(active) == True):
@@ -137,7 +137,7 @@ class JSONParser:
         return Color(r, g, b)
 
     def deserializeFloor(self, sceneJson):
-        active = bool(sceneJson["active"])
+        active = sceneJson["active"] != "false"
         return active
 
     def deserializeCone(self, coneJson):

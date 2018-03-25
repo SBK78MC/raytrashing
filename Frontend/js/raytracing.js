@@ -295,9 +295,9 @@ function cameraDirectionObject() {
 }
 
 function cameraAngleObject() {
-	var camera_rig_x				= document.getElementById("camera_dir_x").value;
-	var camera_rig_y				= document.getElementById("camera_dir_y").value;
-	var camera_rig_z				= document.getElementById("camera_dir_z").value;
+	var camera_rig_x				= document.getElementById("camera_rig_x").value;
+	var camera_rig_y				= document.getElementById("camera_rig_y").value;
+	var camera_rig_z				= document.getElementById("camera_rig_z").value;
 	var cameraAngObj				= new CameraCoord(camera_rig_x, camera_rig_y, camera_rig_z);
 	globalCameraAngleObject			= cameraAngObj;
 }
