@@ -21,7 +21,7 @@ from RayTracing.Classes.RayTracer import RayTracer
 if __name__ == '__main__':
 
     sCenter1 = Vector(0, 0, 10)
-    sCenter2 = Vector(-1, 1, 18)
+    sCenter2 = Vector(-1, 1, 13)
 
     pCenter1 = Vector(0, -3, 0)
     pDir1 = Vector(0, 1, 0)
@@ -32,12 +32,12 @@ if __name__ == '__main__':
     p1 = Plane(pCenter1, pDir1, Color(0.1, 1.0, 1.0), 200, 0.3)
     p2 = Plane(pCenter2, pDir2, Color(0.7, 0.7, 1.0), 200, 0.1, 0.6)
 
-    s1 = Sphere(sCenter1, 1, Color(1.0, 0, 0), 600, 0.4, 0, 1)
-    s2 = Sphere(sCenter2, 1.3, Color(0, 1.0, 0), 500, 0.3)
+    s1 = Sphere(sCenter1, 2, Color(1.0, 0, 0), 600, 0.4, 0, 1)
+    s2 = Sphere(sCenter2, 2.3, Color(0, 1.0, 0), 500, 0.3)
 
-    cube = Cube(Vector(1, 0, 30), 2, Color(0, 1, 0), 1000, 0, 0.1)
+    cube = Cube(Vector(1, 0, 15), 2, Color(0, 1, 0), 1000, 0, 0.1)
 
-    cone = Cone(Vector(-1, -1, 16), 1, 1, Color(1, 0, 0), 1000, 0, 0)
+    cone = Cone(Vector(-1, -1, 8), 1, 1, Color(1, 0, 0), 1000, 0, 0)
 
     light1 = Light(0, 8, 10, 0.7)
     light0 = AmbientLight(0.5)
