@@ -197,7 +197,7 @@ body {
 /* For Slider menu */
 #sideNav a {
     position: absolute;
-    left: -6%;
+    left: -4%;
     transition: 0.3s;
     padding: 15px;
     width: 40px;

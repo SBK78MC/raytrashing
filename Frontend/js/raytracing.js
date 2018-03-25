@@ -177,14 +177,30 @@ if(shape == "Cylinder"){
 		paintOrder.sort(compare);
 
 		shapeList("Sphere", sphereObject.Sphere.color);
-		
-
 	} else if(shape == "Cube") {
 		arrayListForObject.push(cubeObject);
 		paintOrder.push([arrayListForObject.length - 1, arrayListForObject[arrayListForObject.length - 1].Cube.center.z]);
 		paintOrder.sort(compare);
 
 		shapeList("Cube", cubeObject.Cube.color);
+	} else if(shape == "Cylinder") {
+		arrayListForObject.push(cylinderObject);
+		paintOrder.push([arrayListForObject.length - 1, arrayListForObject[arrayListForObject.length - 1].Cylinder.center.z]);
+		paintOrder.sort(compare);
+
+		shapeList("Cylinder", cylinderObject.Cylinder.color);
+	} else if(shape == "Pyramid") {
+		arrayListForObject.push(pyramidObject);
+		paintOrder.push([arrayListForObject.length - 1, arrayListForObject[arrayListForObject.length - 1].Pyramid.center.z]);
+		paintOrder.sort(compare);
+
+		shapeList("Pyramid", pyramidObject.Pyramid.color);
+	} else if(shape == "Cone") {
+		arrayListForObject.push(coneObject);
+		paintOrder.push([arrayListForObject.length - 1, arrayListForObject[arrayListForObject.length - 1].Cone.center.z]);
+		paintOrder.sort(compare);
+
+		shapeList("Cone", coneObject.Cone.color);
 	}
 
 	function compare(a,b) {
@@ -518,6 +534,21 @@ function shapeOption()
 		document.getElementById('change_y').value = parseInt(arrayListForObject[item_value].Cube.center.y*71.4285714286);
 		document.getElementById('change_z').value = parseInt(arrayListForObject[item_value].Cube.center.z);
 		document.getElementById('change_s').value = parseInt(arrayListForObject[item_value].Cube.sideLength);
+	} else if(typeof arrayListForObject[item_value].Cylinder != 'undefined' && item_value > -1) {
+		document.getElementById('change_x').value = parseInt(arrayListForObject[item_value].Cylinder.center.x*71.4285714286);
+		document.getElementById('change_y').value = parseInt(arrayListForObject[item_value].Cylinder.center.y*71.4285714286);
+		document.getElementById('change_z').value = parseInt(arrayListForObject[item_value].Cylinder.center.z);
+		document.getElementById('change_s').value = parseInt(arrayListForObject[item_value].Cylinder.radius);
+	} else if(typeof arrayListForObject[item_value].Pyramid != 'undefined' && item_value > -1) {
+		document.getElementById('change_x').value = parseInt(arrayListForObject[item_value].Pyramid.center.x*71.4285714286);
+		document.getElementById('change_y').value = parseInt(arrayListForObject[item_value].Pyramid.center.y*71.4285714286);
+		document.getElementById('change_z').value = parseInt(arrayListForObject[item_value].Pyramid.center.z);
+		document.getElementById('change_s').value = parseInt(arrayListForObject[item_value].Pyramid.sideLength);
+	} else if(typeof arrayListForObject[item_value].Cone != 'undefined' && item_value > -1) {
+		document.getElementById('change_x').value = parseInt(arrayListForObject[item_value].Cone.center.x*71.4285714286);
+		document.getElementById('change_y').value = parseInt(arrayListForObject[item_value].Cone.center.y*71.4285714286);
+		document.getElementById('change_z').value = parseInt(arrayListForObject[item_value].Cone.center.z);
+		document.getElementById('change_s').value = parseInt(arrayListForObject[item_value].Cone.radius);
 	}
 }
     var elements = document.getElementById("Lights").options;
@@ -553,15 +584,30 @@ function changeItem()
 		var item_value = shape[shape.selectedIndex].value;
 
 		if(typeof arrayListForObject[item_value].Sphere != 'undefined') {
-			arrayListForObject[item_value].Sphere.center.x = (document.getElementById('change_x').value)/71.4285714286;
-			arrayListForObject[item_value].Sphere.center.y = (document.getElementById('change_y').value)/71.4285714286;
-			arrayListForObject[item_value].Sphere.center.z = (document.getElementById('change_z').value);
-			arrayListForObject[item_value].Sphere.radius   = (document.getElementById('change_s').value);
+			arrayListForObject[item_value].Sphere.center.x 	   = (document.getElementById('change_x').value)/71.4285714286;
+			arrayListForObject[item_value].Sphere.center.y	   = (document.getElementById('change_y').value)/71.4285714286;
+			arrayListForObject[item_value].Sphere.center.z 	   = (document.getElementById('change_z').value);
+			arrayListForObject[item_value].Sphere.radius   	   = (document.getElementById('change_s').value);
 		} else if(typeof arrayListForObject[item_value].Cube != 'undefined') {
-			arrayListForObject[item_value].Cube.center.x   = (document.getElementById('change_x').value)/71.4285714286;
-			arrayListForObject[item_value].Cube.center.y   = (document.getElementById('change_y').value)/71.4285714286;
-			arrayListForObject[item_value].Cube.center.z   = (document.getElementById('change_z').value);
-			arrayListForObject[item_value].Cube.sideLength = (document.getElementById('change_s').value);
+			arrayListForObject[item_value].Cube.center.x   	   = (document.getElementById('change_x').value)/71.4285714286;
+			arrayListForObject[item_value].Cube.center.y   	   = (document.getElementById('change_y').value)/71.4285714286;
+			arrayListForObject[item_value].Cube.center.z   	   = (document.getElementById('change_z').value);
+			arrayListForObject[item_value].Cube.sideLength 	   = (document.getElementById('change_s').value);
+		} else if(typeof arrayListForObject[item_value].Cylinder != 'undefined') {
+			arrayListForObject[item_value].Cylinder.center.x   = (document.getElementById('change_x').value)/71.4285714286;
+			arrayListForObject[item_value].Cylinder.center.y   = (document.getElementById('change_y').value)/71.4285714286;
+			arrayListForObject[item_value].Cylinder.center.z   = (document.getElementById('change_z').value);
+			arrayListForObject[item_value].Cylinder.radius	   = (document.getElementById('change_s').value);
+		} else if(typeof arrayListForObject[item_value].Pyramid != 'undefined') {
+			arrayListForObject[item_value].Pyramid.center.x    = (document.getElementById('change_x').value)/71.4285714286;
+			arrayListForObject[item_value].Pyramid.center.y    = (document.getElementById('change_y').value)/71.4285714286;
+			arrayListForObject[item_value].Pyramid.center.z    = (document.getElementById('change_z').value);
+			arrayListForObject[item_value].Pyramid.sideLength  = (document.getElementById('change_s').value);
+		} else if(typeof arrayListForObject[item_value].Cone != 'undefined') {
+			arrayListForObject[item_value].Cone.center.x   	   = (document.getElementById('change_x').value)/71.4285714286;
+			arrayListForObject[item_value].Cone.center.y   	   = (document.getElementById('change_y').value)/71.4285714286;
+			arrayListForObject[item_value].Cone.center.z  	   = (document.getElementById('change_z').value);
+			arrayListForObject[item_value].Cone.radius 		   = (document.getElementById('change_s').value);
 		}
 	}
 	//Change Light
@@ -1056,17 +1102,17 @@ $('#lightNav').click(function() {
 	}
 	else {
 		$('#lightDiv').animate({"left": '-400%'}, 250);
-		$('#lightNav').animate({"left": '-6%'}, 250);
+		$('#lightNav').animate({"left": '-4%'}, 250);
 		lightClicked = false;
 	}
 	if(lightClicked) {
 		if(shapeClicked) {
 			$('#shapesDiv').animate({"left": '-400%'}, 250);
-			$('#shapesNav').animate({"left": '-6%'}, 250);
+			$('#shapesNav').animate({"left": '-4%'}, 250);
 			shapeClicked    = false;
 		} else {
 			$('#settingsDiv').animate({"left": '-400%'}, 250);
-			$('#settingsNav').animate({"left": '-6%'}, 250);
+			$('#settingsNav').animate({"left": '-4%'}, 250);
 			settingsClicked = false;
 		}
 	}
@@ -1080,17 +1126,17 @@ $('#shapesNav').click(function() {
 	}
 	else {
 		$('#shapesDiv').animate({"left": '-400%'}, 250);
-		$('#shapesNav').animate({"left": '-6%'}, 250);
+		$('#shapesNav').animate({"left": '-4%'}, 250);
 		shapeClicked = false;
 	}
 	if(shapeClicked) {
 		if(lightClicked) {
 			$('#lightDiv').animate({"left": '-400%'}, 250);
-			$('#lightNav').animate({"left": '-6%'}, 250);
+			$('#lightNav').animate({"left": '-4%'}, 250);
 			lightClicked  	= false;
 		} else {
 			$('#settingsDiv').animate({"left": '-400%'}, 250);
-			$('#settingsNav').animate({"left": '-6%'}, 250);
+			$('#settingsNav').animate({"left": '-4%'}, 250);
 			settingsClicked = false;
 		}
 	}
@@ -1104,17 +1150,17 @@ $('#settingsNav').click(function() {
 	}
 	else {
 		$('#settingsDiv').animate({"left": '-400%'}, 250);
-		$('#settingsNav').animate({"left": '-6%'}, 250);
+		$('#settingsNav').animate({"left": '-4%'}, 250);
 		settingsClicked = false;
 	}
 	if(settingsClicked) {
 		if(lightClicked) {
 			$('#lightDiv').animate({"left": '-400%'}, 250);
-			$('#lightNav').animate({"left": '-6%'}, 250);
+			$('#lightNav').animate({"left": '-4%'}, 250);
 			lightClicked = false;
 		} else {
 			$('#shapesDiv').animate({"left": '-400%'}, 250);
-			$('#shapesNav').animate({"left": '-6%'}, 250);
+			$('#shapesNav').animate({"left": '-4%'}, 250);
 			shapeClicked = false;
 		}	
 	}
