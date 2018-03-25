@@ -140,6 +140,10 @@ class JSONParser:
         active = sceneJson["active"] != "false"
         return active
 
+    def deserializeRoom(self, sceneJson):
+        active = sceneJson["active"] != "false"
+        return active
+
     def deserializeCone(self, coneJson):
         center = self.deserializeVector(coneJson["center"])
         reflection = float(coneJson["reflection"])
