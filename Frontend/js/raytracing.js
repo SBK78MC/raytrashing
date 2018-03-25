@@ -384,8 +384,8 @@ class Camera {
 class CenterForShapesAndLight {
 	//to populate coordinates for the centers of shapes and also the light source
 	constructor(x, y, z) {
-    	this.x = x / 71.4285714286;
-    	this.y = y / 71.4285714286;
+    	this.x = x;
+    	this.y = y;
 		this.z = z;
 	}
 }
@@ -528,30 +528,30 @@ function shapeOption()
 	if(typeof shape[shape.selectedIndex] != 'undefined') {
 		var item_value = shape[shape.selectedIndex].value;
 	if(typeof arrayListForObject[item_value].Sphere != 'undefined' && item_value > -1) {
-		document.getElementById('change_x').value = parseInt(arrayListForObject[item_value].Sphere.center.x*71.4285714286);
-		document.getElementById('change_y').value = parseInt(arrayListForObject[item_value].Sphere.center.y*71.4285714286);
-		document.getElementById('change_z').value = parseInt(arrayListForObject[item_value].Sphere.center.z);
-		document.getElementById('change_s').value = parseInt(arrayListForObject[item_value].Sphere.radius);
+		document.getElementById('change_x').value = parseFloat(arrayListForObject[item_value].Sphere.center.x);
+		document.getElementById('change_y').value = parseFloat(arrayListForObject[item_value].Sphere.center.y);
+		document.getElementById('change_z').value = parseFloat(arrayListForObject[item_value].Sphere.center.z);
+		document.getElementById('change_s').value = parseFloat(arrayListForObject[item_value].Sphere.radius);
 	} else if(typeof arrayListForObject[item_value].Cube != 'undefined' && item_value > -1) {
-		document.getElementById('change_x').value = parseInt(arrayListForObject[item_value].Cube.center.x*71.4285714286);
-		document.getElementById('change_y').value = parseInt(arrayListForObject[item_value].Cube.center.y*71.4285714286);
-		document.getElementById('change_z').value = parseInt(arrayListForObject[item_value].Cube.center.z);
-		document.getElementById('change_s').value = parseInt(arrayListForObject[item_value].Cube.sideLength);
+		document.getElementById('change_x').value = parseFloat(arrayListForObject[item_value].Cube.center.x);
+		document.getElementById('change_y').value = parseFloat(arrayListForObject[item_value].Cube.center.y);
+		document.getElementById('change_z').value = parseFloat(arrayListForObject[item_value].Cube.center.z);
+		document.getElementById('change_s').value = parseFloat(arrayListForObject[item_value].Cube.sideLength);
 	} else if(typeof arrayListForObject[item_value].Cylinder != 'undefined' && item_value > -1) {
-		document.getElementById('change_x').value = parseInt(arrayListForObject[item_value].Cylinder.center.x*71.4285714286);
-		document.getElementById('change_y').value = parseInt(arrayListForObject[item_value].Cylinder.center.y*71.4285714286);
-		document.getElementById('change_z').value = parseInt(arrayListForObject[item_value].Cylinder.center.z);
-		document.getElementById('change_s').value = parseInt(arrayListForObject[item_value].Cylinder.radius);
+		document.getElementById('change_x').value = parseFloat(arrayListForObject[item_value].Cylinder.center.x);
+		document.getElementById('change_y').value = parseFloat(arrayListForObject[item_value].Cylinder.center.y);
+		document.getElementById('change_z').value = parseFloat(arrayListForObject[item_value].Cylinder.center.z);
+		document.getElementById('change_s').value = parseFloat(arrayListForObject[item_value].Cylinder.radius);
 	} else if(typeof arrayListForObject[item_value].Pyramid != 'undefined' && item_value > -1) {
-		document.getElementById('change_x').value = parseInt(arrayListForObject[item_value].Pyramid.center.x*71.4285714286);
-		document.getElementById('change_y').value = parseInt(arrayListForObject[item_value].Pyramid.center.y*71.4285714286);
-		document.getElementById('change_z').value = parseInt(arrayListForObject[item_value].Pyramid.center.z);
-		document.getElementById('change_s').value = parseInt(arrayListForObject[item_value].Pyramid.sideLength);
+		document.getElementById('change_x').value = parseFloat(arrayListForObject[item_value].Pyramid.center.x);
+		document.getElementById('change_y').value = parseFloat(arrayListForObject[item_value].Pyramid.center.y);
+		document.getElementById('change_z').value = parseFloat(arrayListForObject[item_value].Pyramid.center.z);
+		document.getElementById('change_s').value = parseFloat(arrayListForObject[item_value].Pyramid.sideLength);
 	} else if(typeof arrayListForObject[item_value].Cone != 'undefined' && item_value > -1) {
-		document.getElementById('change_x').value = parseInt(arrayListForObject[item_value].Cone.center.x*71.4285714286);
-		document.getElementById('change_y').value = parseInt(arrayListForObject[item_value].Cone.center.y*71.4285714286);
-		document.getElementById('change_z').value = parseInt(arrayListForObject[item_value].Cone.center.z);
-		document.getElementById('change_s').value = parseInt(arrayListForObject[item_value].Cone.radius);
+		document.getElementById('change_x').value = parseFloat(arrayListForObject[item_value].Cone.center.x);
+		document.getElementById('change_y').value = parseFloat(arrayListForObject[item_value].Cone.center.y);
+		document.getElementById('change_z').value = parseFloat(arrayListForObject[item_value].Cone.center.z);
+		document.getElementById('change_s').value = parseFloat(arrayListForObject[item_value].Cone.radius);
 	}
 }
     var elements = document.getElementById("Lights").options;
@@ -565,8 +565,8 @@ function lightOption() {
 	var light = document.getElementById("Lights");
 	var item_value = light[light.selectedIndex].value;
 	
-	document.getElementById('change_x').value = arrayListForLight[item_value].center.x*71.4285714286;
-	document.getElementById('change_y').value = arrayListForLight[item_value].center.y*71.4285714286;
+	document.getElementById('change_x').value = arrayListForLight[item_value].center.x;
+	document.getElementById('change_y').value = arrayListForLight[item_value].center.y;
 	document.getElementById('change_z').value = arrayListForLight[item_value].center.z;
 	document.getElementById('change_s').value = "--";
 	
@@ -587,28 +587,28 @@ function changeItem()
 		var item_value = shape[shape.selectedIndex].value;
 
 		if(typeof arrayListForObject[item_value].Sphere != 'undefined') {
-			arrayListForObject[item_value].Sphere.center.x 	   = (document.getElementById('change_x').value)/71.4285714286;
-			arrayListForObject[item_value].Sphere.center.y	   = (document.getElementById('change_y').value)/71.4285714286;
+			arrayListForObject[item_value].Sphere.center.x 	   = (document.getElementById('change_x').value);
+			arrayListForObject[item_value].Sphere.center.y	   = (document.getElementById('change_y').value);
 			arrayListForObject[item_value].Sphere.center.z 	   = (document.getElementById('change_z').value);
 			arrayListForObject[item_value].Sphere.radius   	   = (document.getElementById('change_s').value);
 		} else if(typeof arrayListForObject[item_value].Cube != 'undefined') {
-			arrayListForObject[item_value].Cube.center.x   	   = (document.getElementById('change_x').value)/71.4285714286;
-			arrayListForObject[item_value].Cube.center.y   	   = (document.getElementById('change_y').value)/71.4285714286;
+			arrayListForObject[item_value].Cube.center.x   	   = (document.getElementById('change_x').value);
+			arrayListForObject[item_value].Cube.center.y   	   = (document.getElementById('change_y').value);
 			arrayListForObject[item_value].Cube.center.z   	   = (document.getElementById('change_z').value);
 			arrayListForObject[item_value].Cube.sideLength 	   = (document.getElementById('change_s').value);
 		} else if(typeof arrayListForObject[item_value].Cylinder != 'undefined') {
-			arrayListForObject[item_value].Cylinder.center.x   = (document.getElementById('change_x').value)/71.4285714286;
-			arrayListForObject[item_value].Cylinder.center.y   = (document.getElementById('change_y').value)/71.4285714286;
+			arrayListForObject[item_value].Cylinder.center.x   = (document.getElementById('change_x').value);
+			arrayListForObject[item_value].Cylinder.center.y   = (document.getElementById('change_y').value);
 			arrayListForObject[item_value].Cylinder.center.z   = (document.getElementById('change_z').value);
 			arrayListForObject[item_value].Cylinder.radius	   = (document.getElementById('change_s').value);
 		} else if(typeof arrayListForObject[item_value].Pyramid != 'undefined') {
-			arrayListForObject[item_value].Pyramid.center.x    = (document.getElementById('change_x').value)/71.4285714286;
-			arrayListForObject[item_value].Pyramid.center.y    = (document.getElementById('change_y').value)/71.4285714286;
+			arrayListForObject[item_value].Pyramid.center.x    = (document.getElementById('change_x').value);
+			arrayListForObject[item_value].Pyramid.center.y    = (document.getElementById('change_y').value);
 			arrayListForObject[item_value].Pyramid.center.z    = (document.getElementById('change_z').value);
 			arrayListForObject[item_value].Pyramid.sideLength  = (document.getElementById('change_s').value);
 		} else if(typeof arrayListForObject[item_value].Cone != 'undefined') {
-			arrayListForObject[item_value].Cone.center.x   	   = (document.getElementById('change_x').value)/71.4285714286;
-			arrayListForObject[item_value].Cone.center.y   	   = (document.getElementById('change_y').value)/71.4285714286;
+			arrayListForObject[item_value].Cone.center.x   	   = (document.getElementById('change_x').value);
+			arrayListForObject[item_value].Cone.center.y   	   = (document.getElementById('change_y').value);
 			arrayListForObject[item_value].Cone.center.z  	   = (document.getElementById('change_z').value);
 			arrayListForObject[item_value].Cone.radius 		   = (document.getElementById('change_s').value);
 		}
@@ -618,8 +618,8 @@ function changeItem()
 		var light = document.getElementById("Lights");
 		var item_value = light[light.selectedIndex].value;
 		
-		arrayListForLight[item_value].center.x = (document.getElementById('change_x').value)/71.4285714286;
-		arrayListForLight[item_value].center.y = (document.getElementById('change_y').value)/71.4285714286;
+		arrayListForLight[item_value].center.x = (document.getElementById('change_x').value);
+		arrayListForLight[item_value].center.y = (document.getElementById('change_y').value);
 		arrayListForLight[item_value].center.z = (document.getElementById('change_z').value);	
 	}
 	canvas  = document.getElementById("myCanvas");
@@ -656,6 +656,12 @@ function deleteItem()
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		redraw(canvas, ctx);
 	}
+	//clear values
+	document.getElementById("change_x").value = "";
+	document.getElementById("change_y").value = "";
+	document.getElementById("change_z").value = "";
+	document.getElementById("change_s").value = "";
+	
 }
 
 function hexToRgb(hex) {
@@ -756,8 +762,8 @@ function redraw(canvas, ctx) {
 		var i = paintOrder[j][0];
 		if(typeof arrayListForObject[i].Sphere != 'undefined') {
 
-			var shapeX = arrayListForObject[i].Sphere.center.x*71.4285714286 + 250;
-			var shapeY = arrayListForObject[i].Sphere.center.y*71.4285714286 + 250;
+			var shapeX = (arrayListForObject[i].Sphere.center.x/3.3)*250 + 250;
+			var shapeY = (arrayListForObject[i].Sphere.center.y/3.3)*250 + 250;
 			var shapeR = arrayListForObject[i].Sphere.radius*50 * 15 / arrayListForObject[i].Sphere.center.z ;
 			var shapeC = arrayListForObject[i].Sphere.color;
 			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
@@ -792,8 +798,8 @@ function redraw(canvas, ctx) {
 
 		if(typeof arrayListForObject[i].Cube != 'undefined') {
 
-			var shapeX = arrayListForObject[i].Cube.center.x*71.4285714286 + 250;
-			var shapeY = arrayListForObject[i].Cube.center.y*71.4285714286 + 250;
+			var shapeX = (arrayListForObject[i].Cube.center.x/3.3)*250 + 250;
+			var shapeY = (arrayListForObject[i].Cube.center.y/3.3)*250 + 250;
 			var shapeR = arrayListForObject[i].Cube.sideLength*50 * 15 / arrayListForObject[i].Cube.center.z ;
 			var shapeC = arrayListForObject[i].Cube.color;
 			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
@@ -838,8 +844,8 @@ function redraw(canvas, ctx) {
 			var ctx = c.getContext("2d");
 
 			if(typeof arrayListForLight[i].center != 'undefined') {
-				var lightX = arrayListForLight[i].center.x*71.4285714286 + 250;
-				var lightY = arrayListForLight[i].center.y*71.4285714286 + 250;
+				var lightX = (arrayListForLight[i].center.x/3.3)*250 + 250;
+				var lightY = (arrayListForLight[i].center.y/3.3)*250 + 250;
 				ctx.drawImage(base_image, lightX/500 * canvas.width, Math.abs(lightY/500 * canvas.height - canvas.height), 15, 18);
 			}
 		}
@@ -991,8 +997,8 @@ function handleMouseDown(e) {
 			var i = paintOrder[j][0];
 			if(typeof arrayListForObject[i].Sphere != 'undefined') {
 				var shapeR = (arrayListForObject[i].Sphere.radius*50*15)/arrayListForObject[i].Sphere.center.z;
-				var shapeX = arrayListForObject[i].Sphere.center.x*71.4285714286 ;
-				var shapeY = arrayListForObject[i].Sphere.center.y*71.4285714286 ;
+				var shapeX = (arrayListForObject[i].Sphere.center.x/3.3)*250 ;
+				var shapeY = (arrayListForObject[i].Sphere.center.y/3.3)*250 ;
 				shapeR = shapeR/75* canvas.width* 0.0914;
 				
 				if(canMouseX > shapeX - shapeR && canMouseX < shapeX + shapeR && canMouseY > shapeY - shapeR && canMouseY < shapeY + shapeR) {
@@ -1001,8 +1007,8 @@ function handleMouseDown(e) {
 				}
 		  	} else if(typeof arrayListForObject[i].Cube != 'undefined') {
 					var shapeR = (arrayListForObject[i].Cube.sideLength*50*15)/arrayListForObject[i].Cube.center.z;
-					var shapeX = arrayListForObject[i].Cube.center.x*71.4285714286 ;
-					var shapeY = arrayListForObject[i].Cube.center.y*71.4285714286 ;
+					var shapeX = (arrayListForObject[i].Cube.center.x/3.3)*250 ;
+					var shapeY = (arrayListForObject[i].Cube.center.y/3.3)*250 ;
 					shapeR = shapeR/75* canvas.width* 0.0914;
 					
 					if(canMouseX > shapeX - shapeR/2 && canMouseX < shapeX + shapeR/2 && canMouseY > shapeY - shapeR/2 && canMouseY < shapeY + shapeR/2){
