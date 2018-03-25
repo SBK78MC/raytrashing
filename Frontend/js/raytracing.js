@@ -246,9 +246,10 @@ function renderShapes() {
 	fileName(); //gets the name of the image from the user
 	var xhr = new XMLHttpRequest();
 	var url = "http://127.0.0.1:8000/raytrace";
+	//var url = "http://52.20.143.165:8000/raytrace";
 	xhr.open("POST", url, true);
 	var jsonData = JSON.stringify(globalRaytracerObject);
-	console.log(jsonData);
+	//console.log(jsonData);
 	xhr.send(jsonData);
 
 	//get binary and make it an image... {there is a problem with headers called CORS from backend.. we have to fix it} (fixed as of 13.02.2018!)
@@ -746,7 +747,15 @@ function cameraAngle() {
 }
 
 function redraw(canvas, ctx) {
-	function convertToSize(x, z) {
+	function convertToSize(x, s) {
+		
+		
+		return ((x + 250)/500)*(93-32.62);
+		
+		
+		
+		
+		/*
 		if(x == 500) {
 			return size = 999;
 		} else {
@@ -755,6 +764,7 @@ function redraw(canvas, ctx) {
 			size = size *50 * 15 / z;
 			return size = size/75* canvas.width* 0.0914;
 		}
+		*/
 	}
 
 
@@ -769,14 +779,16 @@ function redraw(canvas, ctx) {
 			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
 			shapeR = shapeR/75* canvas.width* 0.0914;			
 			ctx.beginPath();
+			
+			
 			if(currentView == "front") {
-				ctx.arc(shapeX/500 * canvas.width,	Math.abs(shapeY/500 * canvas.height - canvas.height) ,shapeR,0,2*Math.PI);
+				ctx.arc(shapeX/500 * canvas.width,	(1 - (shapeY/500)) * canvas.height ,shapeR,0,2*Math.PI);
 			} else if(currentView == "top") {
 				//convert z to y
 				var yTop = ((1 - (arrayListForObject[i].Sphere.center.z/20))*500) - 50;
 
 				//convert y to size
-				size = convertToSize(shapeY, arrayListForObject[i].Sphere.center.z);
+				size = convertToSize(shapeY, shapeR);
 
 				ctx.arc(shapeX/500 * canvas.width,	yTop ,size,0,2*Math.PI);
 			} else if(currentView == "side") {
@@ -788,7 +800,7 @@ function redraw(canvas, ctx) {
 				size = convertToSize(shapeX, arrayListForObject[i].Sphere.center.z);
 
 				if(size > 0){
-					ctx.arc(xSide, Math.abs(shapeY/500 * canvas.height - canvas.height) ,size,0,2*Math.PI);
+					ctx.arc(xSide, (1 - (shapeY/500)) * canvas.height ,size,0,2*Math.PI);
 				}
 			}
 			ctx.fillStyle = color;
@@ -810,7 +822,7 @@ function redraw(canvas, ctx) {
 			//paint
 			ctx.beginPath();
 			if(currentView == "front") {
-				ctx.rect(shapeX/500 * canvas.width - shapeR/2, Math.abs(shapeY/500 * canvas.height - canvas.height) - shapeR/2,shapeR,shapeR);
+				ctx.rect(shapeX/500 * canvas.width - shapeR/2, ((1 - (shapeY/500)) * canvas.height) - shapeR/2,shapeR,shapeR);
 			} else if(currentView == "top") {
 				//convert z to y
 				var yTop = ((arrayListForObject[i].Cube.center.z/20)*500) - 250;
@@ -828,7 +840,7 @@ function redraw(canvas, ctx) {
 				//convert x to size
 				size = convertToSize(shapeX, arrayListForObject[i].Cube.center.z);
 
-				ctx.rect(xSide - size/2, Math.abs(shapeY/500 * canvas.height - canvas.height) - size/2,size,size);
+				ctx.rect(xSide - size/2, ((1 - (shapeY/500)) * canvas.height) - size/2,size,size);
 			}
 			ctx.fillStyle = color;
 			ctx.fill();
@@ -846,7 +858,7 @@ function redraw(canvas, ctx) {
 			if(typeof arrayListForLight[i].center != 'undefined') {
 				var lightX = (arrayListForLight[i].center.x/3.3)*250 + 250;
 				var lightY = (arrayListForLight[i].center.y/3.3)*250 + 250;
-				ctx.drawImage(base_image, lightX/500 * canvas.width, Math.abs(lightY/500 * canvas.height - canvas.height), 15, 18);
+				ctx.drawImage(base_image, lightX/500 * canvas.width, (1 - (shapeY/500)) * canvas.height, 15, 18);
 			}
 		}
 	}
