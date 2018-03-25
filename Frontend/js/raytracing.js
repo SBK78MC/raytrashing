@@ -215,6 +215,8 @@ if(shape == "Cylinder"){
 };
 
 function renderShapes() {
+	$("#loadingKati").addClass("loadingKati");
+	
 	//for Camera
 	cameraPositionObject();
 	cameraDirectionObject();
@@ -254,6 +256,7 @@ function renderShapes() {
 	xhr.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			document.getElementById("download").style.display = 'inline-block';
+			$("#loadingKati").removeClass("loadingKati");
 			var uInt8Array = new Uint8Array(this.response);
 			var i = uInt8Array.length;
 			var binaryString = new Array(i);
@@ -1083,7 +1086,7 @@ function handleMouseMove(e){
 		canvas.width  = canvas.offsetWidth;
 		canvas.height = canvas.offsetHeight;
 		redraw(canvas, ctx);
-		document.getElementById("loadingKati").style.width = document.getElementById("loadingKati").style.height;
+		
 	};
    
 	$("#myCanvas").mousedown(function(e){handleMouseDown(e);});
