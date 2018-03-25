@@ -171,7 +171,7 @@ class LightTest(unittest.TestCase):
 class CameraTest(unittest.TestCase):
 
     def test_calculateAngle(self):
-        c = Camera(Vector(0,0,0), Vector(1,2,3), 30)
+        c = Camera(Vector(0, 0, 0), Vector(1, 2, 3), Vector(1, 0, 0), 30)
         self.assertEqual(0.2679491924311227, c.getAngle())
 
 class ColorTest(unittest.TestCase):

@@ -8,7 +8,7 @@ class Camera():
 
     angle = 0
 
-    def __init__(self, position=Vector(0, 0, 0), pointOfView=Vector(0, 0, 1), upGuide=Vector(0, 1, 0), fov=40):
+    def __init__(self, position=Vector(0, 0, 0), pointOfView=Vector(0, 0, 1), upGuide=Vector(1, 0, 0), fov=40):
         self.position = position
         self.pointOfView = pointOfView
         self.forward = self.pointOfView.sub(self.position).normalize()
