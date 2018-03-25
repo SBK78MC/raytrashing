@@ -13,6 +13,11 @@
             "x":"DOUBLE VALUE",
             "y":"DOUBLE VALUE",
             "z":"DOUBLE VALUE"
+        },
+		"cameraRightAngle": {
+            "x":"DOUBLE VALUE",
+            "y":"DOUBLE VALUE",
+            "z":"DOUBLE VALUE"
         }
     },
     "Scene":{
@@ -111,6 +116,9 @@
           "brightness":"DOUBLE VALUE"
       },
       "Floor":{
+          "active":"BOOLEAN VALUE"
+      },
+	  "Room":{
           "active":"BOOLEAN VALUE"
       }
    }
