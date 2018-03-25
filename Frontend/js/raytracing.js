@@ -11,6 +11,7 @@ var convertSize;
 var globalImagePlaneSizeObject;
 var globalCameraPositionObject;
 var globalCameraDirectionObject;
+var globalCameraAngleObject;
 var globalCameraObject;
 var globalSceneObject;
 var globalRaytracerObject;
@@ -176,14 +177,30 @@ if(shape == "Cylinder"){
 		paintOrder.sort(compare);
 
 		shapeList("Sphere", sphereObject.Sphere.color);
-		
-
 	} else if(shape == "Cube") {
 		arrayListForObject.push(cubeObject);
 		paintOrder.push([arrayListForObject.length - 1, arrayListForObject[arrayListForObject.length - 1].Cube.center.z]);
 		paintOrder.sort(compare);
 
 		shapeList("Cube", cubeObject.Cube.color);
+	} else if(shape == "Cylinder") {
+		arrayListForObject.push(cylinderObject);
+		paintOrder.push([arrayListForObject.length - 1, arrayListForObject[arrayListForObject.length - 1].Cylinder.center.z]);
+		paintOrder.sort(compare);
+
+		shapeList("Cylinder", cylinderObject.Cylinder.color);
+	} else if(shape == "Pyramid") {
+		arrayListForObject.push(pyramidObject);
+		paintOrder.push([arrayListForObject.length - 1, arrayListForObject[arrayListForObject.length - 1].Pyramid.center.z]);
+		paintOrder.sort(compare);
+
+		shapeList("Pyramid", pyramidObject.Pyramid.color);
+	} else if(shape == "Cone") {
+		arrayListForObject.push(coneObject);
+		paintOrder.push([arrayListForObject.length - 1, arrayListForObject[arrayListForObject.length - 1].Cone.center.z]);
+		paintOrder.sort(compare);
+
+		shapeList("Cone", coneObject.Cone.color);
 	}
 
 	function compare(a,b) {
@@ -201,6 +218,7 @@ function renderShapes() {
 	//for Camera
 	cameraPositionObject();
 	cameraDirectionObject();
+	cameraAngleObject();
 
 	//for Ambient Light
 	var active  = "true";
@@ -228,6 +246,7 @@ function renderShapes() {
 	var url = "http://127.0.0.1:8000/raytrace";
 	xhr.open("POST", url, true);
 	var jsonData = JSON.stringify(globalRaytracerObject);
+	console.log(jsonData);
 	xhr.send(jsonData);
 
 	//get binary and make it an image... {there is a problem with headers called CORS from backend.. we have to fix it} (fixed as of 13.02.2018!)
@@ -291,8 +310,16 @@ function cameraDirectionObject() {
 	globalCameraDirectionObject		= cameraDirObj;
 }
 
+function cameraAngleObject() {
+	var camera_rig_x				= document.getElementById("camera_rig_x").value;
+	var camera_rig_y				= document.getElementById("camera_rig_y").value;
+	var camera_rig_z				= document.getElementById("camera_rig_z").value;
+	var cameraAngObj				= new CameraCoord(camera_rig_x, camera_rig_y, camera_rig_z);
+	globalCameraAngleObject			= cameraAngObj;
+}
+
 function cameraObjectCreation() {
-	var cameraObject 	   = new Camera(globalCameraPositionObject, globalCameraDirectionObject);
+	var cameraObject 	   = new Camera(globalCameraPositionObject, globalCameraDirectionObject, globalCameraAngleObject);
 	globalCameraObject 	   = cameraObject;
 }
 
@@ -344,9 +371,10 @@ class CameraCoord {
 
 class Camera {
 	//to populate the collective values of pos and dir of camera
-	constructor(pos, dir) {
-		this.position 	 = pos;
-		this.pointOfView = dir; 
+	constructor(pos, dir, ang) {
+		this.position 	 	  = pos;
+		this.pointOfView 	  = dir; 
+		this.cameraRightAngle = ang;
 	}
 }
 
@@ -506,6 +534,21 @@ function shapeOption()
 		document.getElementById('change_y').value = parseInt(arrayListForObject[item_value].Cube.center.y*71.4285714286);
 		document.getElementById('change_z').value = parseInt(arrayListForObject[item_value].Cube.center.z);
 		document.getElementById('change_s').value = parseInt(arrayListForObject[item_value].Cube.sideLength);
+	} else if(typeof arrayListForObject[item_value].Cylinder != 'undefined' && item_value > -1) {
+		document.getElementById('change_x').value = parseInt(arrayListForObject[item_value].Cylinder.center.x*71.4285714286);
+		document.getElementById('change_y').value = parseInt(arrayListForObject[item_value].Cylinder.center.y*71.4285714286);
+		document.getElementById('change_z').value = parseInt(arrayListForObject[item_value].Cylinder.center.z);
+		document.getElementById('change_s').value = parseInt(arrayListForObject[item_value].Cylinder.radius);
+	} else if(typeof arrayListForObject[item_value].Pyramid != 'undefined' && item_value > -1) {
+		document.getElementById('change_x').value = parseInt(arrayListForObject[item_value].Pyramid.center.x*71.4285714286);
+		document.getElementById('change_y').value = parseInt(arrayListForObject[item_value].Pyramid.center.y*71.4285714286);
+		document.getElementById('change_z').value = parseInt(arrayListForObject[item_value].Pyramid.center.z);
+		document.getElementById('change_s').value = parseInt(arrayListForObject[item_value].Pyramid.sideLength);
+	} else if(typeof arrayListForObject[item_value].Cone != 'undefined' && item_value > -1) {
+		document.getElementById('change_x').value = parseInt(arrayListForObject[item_value].Cone.center.x*71.4285714286);
+		document.getElementById('change_y').value = parseInt(arrayListForObject[item_value].Cone.center.y*71.4285714286);
+		document.getElementById('change_z').value = parseInt(arrayListForObject[item_value].Cone.center.z);
+		document.getElementById('change_s').value = parseInt(arrayListForObject[item_value].Cone.radius);
 	}
 }
     var elements = document.getElementById("Lights").options;
@@ -541,15 +584,30 @@ function changeItem()
 		var item_value = shape[shape.selectedIndex].value;
 
 		if(typeof arrayListForObject[item_value].Sphere != 'undefined') {
-			arrayListForObject[item_value].Sphere.center.x = (document.getElementById('change_x').value)/71.4285714286;
-			arrayListForObject[item_value].Sphere.center.y = (document.getElementById('change_y').value)/71.4285714286;
-			arrayListForObject[item_value].Sphere.center.z = (document.getElementById('change_z').value);
-			arrayListForObject[item_value].Sphere.radius   = (document.getElementById('change_s').value);
+			arrayListForObject[item_value].Sphere.center.x 	   = (document.getElementById('change_x').value)/71.4285714286;
+			arrayListForObject[item_value].Sphere.center.y	   = (document.getElementById('change_y').value)/71.4285714286;
+			arrayListForObject[item_value].Sphere.center.z 	   = (document.getElementById('change_z').value);
+			arrayListForObject[item_value].Sphere.radius   	   = (document.getElementById('change_s').value);
 		} else if(typeof arrayListForObject[item_value].Cube != 'undefined') {
-			arrayListForObject[item_value].Cube.center.x   = (document.getElementById('change_x').value)/71.4285714286;
-			arrayListForObject[item_value].Cube.center.y   = (document.getElementById('change_y').value)/71.4285714286;
-			arrayListForObject[item_value].Cube.center.z   = (document.getElementById('change_z').value);
-			arrayListForObject[item_value].Cube.sideLength = (document.getElementById('change_s').value);
+			arrayListForObject[item_value].Cube.center.x   	   = (document.getElementById('change_x').value)/71.4285714286;
+			arrayListForObject[item_value].Cube.center.y   	   = (document.getElementById('change_y').value)/71.4285714286;
+			arrayListForObject[item_value].Cube.center.z   	   = (document.getElementById('change_z').value);
+			arrayListForObject[item_value].Cube.sideLength 	   = (document.getElementById('change_s').value);
+		} else if(typeof arrayListForObject[item_value].Cylinder != 'undefined') {
+			arrayListForObject[item_value].Cylinder.center.x   = (document.getElementById('change_x').value)/71.4285714286;
+			arrayListForObject[item_value].Cylinder.center.y   = (document.getElementById('change_y').value)/71.4285714286;
+			arrayListForObject[item_value].Cylinder.center.z   = (document.getElementById('change_z').value);
+			arrayListForObject[item_value].Cylinder.radius	   = (document.getElementById('change_s').value);
+		} else if(typeof arrayListForObject[item_value].Pyramid != 'undefined') {
+			arrayListForObject[item_value].Pyramid.center.x    = (document.getElementById('change_x').value)/71.4285714286;
+			arrayListForObject[item_value].Pyramid.center.y    = (document.getElementById('change_y').value)/71.4285714286;
+			arrayListForObject[item_value].Pyramid.center.z    = (document.getElementById('change_z').value);
+			arrayListForObject[item_value].Pyramid.sideLength  = (document.getElementById('change_s').value);
+		} else if(typeof arrayListForObject[item_value].Cone != 'undefined') {
+			arrayListForObject[item_value].Cone.center.x   	   = (document.getElementById('change_x').value)/71.4285714286;
+			arrayListForObject[item_value].Cone.center.y   	   = (document.getElementById('change_y').value)/71.4285714286;
+			arrayListForObject[item_value].Cone.center.z  	   = (document.getElementById('change_z').value);
+			arrayListForObject[item_value].Cone.radius 		   = (document.getElementById('change_s').value);
 		}
 	}
 	//Change Light
@@ -651,8 +709,7 @@ function cameraAngle() {
 		$('#camera_rig_x').val(1);
 		$('#camera_rig_y').val(0);
 		$('#camera_rig_z').val(0);
-	}else if(view == "top"){
-
+	} else if(view == "top") {
 		$('#camera_pos_x').val(0);
 		$('#camera_pos_y').val(10);
 		$('#camera_pos_z').val(10);
@@ -664,7 +721,7 @@ function cameraAngle() {
 		$('#camera_rig_x').val(1);
 		$('#camera_rig_y').val(0);
 		$('#camera_rig_z').val(0);
-	}else if(view == "side"){
+	} else if(view == "side") {
 		$('#camera_pos_x').val(10);
 		$('#camera_pos_y').val(0);
 		$('#camera_pos_z').val(10);
@@ -678,6 +735,7 @@ function cameraAngle() {
 		$('#camera_rig_z').val(1);
 	}
 }
+
 function redraw(canvas, ctx) {
 	function convertToSize(x, z) {
 		if(x == 500) {
@@ -792,13 +850,20 @@ if(choice == 0){
 		function up() {
 			$('#inputText').slideDown(1000);
 		}
-	} else if(choice == 1) {
+	} else {
+		$('#inputText').slideUp(1000, up);
+		function up() {
+			$('#dragDrop').slideDown(1000);
+		}
+	}
+} else if(choice == 1) {
 		if(document.getElementById("advancedCam").style.display == "none") {
 			$('#advancedCam').slideDown(1000);	
 		} else {
 			$('#advancedCam').slideUp(1000, up);
-		}
-	} else if(choice == 2) {
+	}
+		
+} else if(choice == 2) {
 		var e = document.getElementById("shape");
 		var shape = e.options[e.selectedIndex].value;
 		if(shape == "Cylinder" || shape == "Pyramid" || shape == "Cone") {
@@ -808,6 +873,7 @@ if(choice == 0){
 		}
 	}
 }
+
 
 //create different views
 function topView() {
@@ -843,7 +909,7 @@ function keepActiveButton(active) {
 	for(i = 0; i < 3; i++){
 		if(i == active) {
 			document.getElementById(sides[active]).style.background = '#ccc';
-		}else {
+		} else {
 			document.getElementById(sides[i]).style.background = '#ddd';
 		}
 	}
@@ -856,27 +922,25 @@ function autoPaint(shape) {
 	addShape();
 }
 
-function materialValues(){
+function materialValues() {
 	var value = document.getElementById("material").value;
-	
-	if(value == 'solid'){
+	if(value == 'solid') {
 		$("#reflection").val(0);
 		$("#transparency").val(0);
 		$("#specular").val(0);
-	}else if(value == 'mirror'){
+	} else if(value == 'mirror') {
 		$("#reflection").val(100);
 		$("#transparency").val(0);
 		$("#specular").val(800);
-	}else if(value == 'shiny'){
+	} else if(value == 'shiny') {
 		$("#reflection").val(20);
 		$("#transparency").val(0);
 		$("#specular").val(600);
-	}else if(value == 'matte'){
+	} else if(value == 'matte') {
 		$("#reflection").val(10);
 		$("#transparency").val(90);
 		$("#specular").val(600);
 	}
-	
 }
 
   $(document).ready(function() {
@@ -968,9 +1032,9 @@ function handleMouseUp(e) {
 		isDragging=false;
 }
 
-    function handleMouseOut(e){
-		handleMouseUp(e);
-    }
+function handleMouseOut(e){
+	handleMouseUp(e);
+}
 
 function handleMouseMove(e){
 
@@ -980,7 +1044,7 @@ function handleMouseMove(e){
     if(isDragging){
 	    ctx.clearRect(0,0,canvas.width,canvas.height);
 
-		if(typeof arrayListForObject[index].Sphere != 'undefined'){
+		if(typeof arrayListForObject[index].Sphere != 'undefined') {
 			arrayListForObject[index].Sphere.center.x = 999999;
 			arrayListForObject[index].Sphere.center.y = 999999;
 			convertSize = (arrayListForObject[index].Sphere.radius * 50)*15/arrayListForObject[index].Sphere.center.z ;
@@ -1006,7 +1070,6 @@ function handleMouseMove(e){
 			ctx.fillStyle = color;
 			ctx.fill();
 			ctx.stroke();
-
 	    }
 		  redraw(canvas, ctx);
 	  }
@@ -1039,17 +1102,17 @@ $('#lightNav').click(function() {
 	}
 	else {
 		$('#lightDiv').animate({"left": '-400%'}, 250);
-		$('#lightNav').animate({"left": '-6%'}, 250);
+		$('#lightNav').animate({"left": '-4%'}, 250);
 		lightClicked = false;
 	}
 	if(lightClicked) {
 		if(shapeClicked) {
 			$('#shapesDiv').animate({"left": '-400%'}, 250);
-			$('#shapesNav').animate({"left": '-6%'}, 250);
+			$('#shapesNav').animate({"left": '-4%'}, 250);
 			shapeClicked    = false;
 		} else {
 			$('#settingsDiv').animate({"left": '-400%'}, 250);
-			$('#settingsNav').animate({"left": '-6%'}, 250);
+			$('#settingsNav').animate({"left": '-4%'}, 250);
 			settingsClicked = false;
 		}
 	}
@@ -1063,17 +1126,17 @@ $('#shapesNav').click(function() {
 	}
 	else {
 		$('#shapesDiv').animate({"left": '-400%'}, 250);
-		$('#shapesNav').animate({"left": '-6%'}, 250);
+		$('#shapesNav').animate({"left": '-4%'}, 250);
 		shapeClicked = false;
 	}
 	if(shapeClicked) {
 		if(lightClicked) {
 			$('#lightDiv').animate({"left": '-400%'}, 250);
-			$('#lightNav').animate({"left": '-6%'}, 250);
+			$('#lightNav').animate({"left": '-4%'}, 250);
 			lightClicked  	= false;
 		} else {
 			$('#settingsDiv').animate({"left": '-400%'}, 250);
-			$('#settingsNav').animate({"left": '-6%'}, 250);
+			$('#settingsNav').animate({"left": '-4%'}, 250);
 			settingsClicked = false;
 		}
 	}
@@ -1087,17 +1150,17 @@ $('#settingsNav').click(function() {
 	}
 	else {
 		$('#settingsDiv').animate({"left": '-400%'}, 250);
-		$('#settingsNav').animate({"left": '-6%'}, 250);
+		$('#settingsNav').animate({"left": '-4%'}, 250);
 		settingsClicked = false;
 	}
 	if(settingsClicked) {
 		if(lightClicked) {
 			$('#lightDiv').animate({"left": '-400%'}, 250);
-			$('#lightNav').animate({"left": '-6%'}, 250);
+			$('#lightNav').animate({"left": '-4%'}, 250);
 			lightClicked = false;
 		} else {
 			$('#shapesDiv').animate({"left": '-400%'}, 250);
-			$('#shapesNav').animate({"left": '-6%'}, 250);
+			$('#shapesNav').animate({"left": '-4%'}, 250);
 			shapeClicked = false;
 		}	
 	}

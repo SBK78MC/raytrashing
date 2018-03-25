@@ -1,6 +1,8 @@
 import unittest
 import time
 
+import math
+
 from RayTracing.Classes.Models.AmbientLight import AmbientLight
 from RayTracing.Classes.Models.Camera import Camera
 from RayTracing.Classes.Models.Color import Color
@@ -25,7 +27,7 @@ class PerformanceTest(unittest.TestCase):
         scene.addObject3D(sphere)
         scene.addLight(light)
 
-        camera = Camera(Vector(0, 0, 0), Vector(0, 0, 1), 30)
+        camera = Camera(Vector(0, 0, 0), Vector(0, 0, 1),  Vector(1,0,0),  math.pi / 4)
 
         imagepl = Imageplane(500, 500)
 
@@ -62,7 +64,7 @@ class PerformanceTest(unittest.TestCase):
         scene.addLight(light)
         scene.addLight(ambientLight)
 
-        camera = Camera(Vector(0, 0, 0), Vector(0, 0, 1), 30)
+        camera = Camera(Vector(0, 0, 0), Vector(0, 0, 1), Vector(1,0,0),  math.pi / 4)
 
         imagepl = Imageplane(500, 500)
 
