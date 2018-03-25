@@ -106,7 +106,7 @@ class RayTracer:
             else:
                 isShadow = self.getShadows(intersection, light)
 
-                if isShadow:
+                if isShadow is not None:
                     colorBrightnessFromDiffuse = self.diffuseAndSpecularReflection(light, intersection)
                     colorBrightness += colorBrightnessFromDiffuse * isShadow
                 else:
@@ -120,8 +120,8 @@ class RayTracer:
         reflectionColor = self.getReflection(intersection, recursionDepth)
         refractionColor = self.getRefraction(intersection, recursionDepth)
 
-        surfaceNormal = intersection.getObject().getSurfaceNormal(intersection.getPoint())
-        viewDirection = intersection.getRay().getDirection()
+        #surfaceNormal = intersection.getObject().getSurfaceNormal(intersection.getPoint())
+        #viewDirection = intersection.getRay().getDirection()
 
         #fresnelEffect = self.getFresnel(viewDirection, surfaceNormal, intersection.getObject().getRefractiveIndex())
 
@@ -242,7 +242,6 @@ class RayTracer:
     def getShadows(self, intersection, light):
         isShadow = None
         for objectIter in self.scene.getObjects():
-
             lightToPoint = light.getLightRay(intersection.getPoint().sub(light.getPosition()))
 
             shadowIntersection = objectIter.intersection(lightToPoint, 0.001, 0.9999)
