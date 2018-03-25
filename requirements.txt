@@ -1,5 +1,4 @@
 cycler==0.10.0
-Distutils==1.0
 Django==2.0.1
 django-cors-headers==2.1.0
 matplotlib==2.1.2
