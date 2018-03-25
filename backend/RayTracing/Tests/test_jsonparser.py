@@ -6,7 +6,7 @@ from RayTracing.Classes.Utils.JSONParser import JSONParser
 class JSONParserTest(unittest.TestCase):
 
     def test_deserializeRayTracingTask(self):
-        jsonstring = '{"ImagePlane":{"width":500, "height":500}, "Camera":{"position":{"x":0.0,"y":0.0,"z":0.0}, "pointOfView":{"x":0.0,"y":0.0,"z":1.0}}, "Scene":{"Object3D":[{"Sphere":{"center":{"x":3.0,"y":1.0,"z":2.0},"radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0, "specular":1.0, "transparency":1.0}},{"Cylinder":{"center":{"x":3.0,"y":1.0,"z":2.0},"height": 1.0, "radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0, "specular":1.0, "transparency":1.0}}],"Light":[{"center":{"x":2, "y":1, "z":1}, "brightness":1.0}], "AmbientLight":{"active":"true", "brightness":"1.0"},"Floor":{"active":true}}}'
+        jsonstring = '{"ImagePlane":{"width":500, "height":500}, "Camera":{"position":{"x":0.0,"y":0.0,"z":0.0}, "pointOfView":{"x":0.0,"y":0.0,"z":1.0}, "cameraRightAngle":{"x":1.0,"y":0.0,"z":0.0}}, "Scene":{"Object3D":[{"Sphere":{"center":{"x":3.0,"y":1.0,"z":2.0},"radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0, "specular":1.0, "transparency":1.0, "refractiveIndex":1.0}},{"Cylinder":{"center":{"x":3.0,"y":1.0,"z":2.0},"height": 1.0, "radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0, "specular":1.0, "transparency":1.0, "refractiveIndex":1.0}}],"Light":[{"center":{"x":2, "y":1, "z":1}, "brightness":1.0}], "AmbientLight":{"active":"true", "brightness":"1.0"},"Floor":{"active":true}}}'
         j = json.loads(jsonstring)
 
         raytracer = JSONParser().deserializeRayTracingTask(j)
@@ -29,7 +29,8 @@ class JSONParserTest(unittest.TestCase):
 
         # Check another JSON
 
-        jsonstring = '{"ImagePlane":{"width":500, "height":500}, "Camera":{"position":{"x":0.0,"y":0.0,"z":0.0}, "pointOfView":{"x":0.0,"y":0.0,"z":1.0}}, "Scene":{"Object3D":[{"Sphere":{"center":{"x":4.0,"y":1.0,"z":2.0},"radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0, "specular":1.0, "transparency":1.0}},{"Cylinder":{"center":{"x":3.0,"y":1.0,"z":2.0},"height": 1.0, "radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0, "specular":1.0, "transparency":1.0}}],"Light":[{"center":{"x":2, "y":1, "z":1}, "brightness":1.0}], "AmbientLight":{"active":"true", "brightness":"1.0"},"Floor":{"active":true}}}'
+        jsonstring = '{"ImagePlane":{"width":500, "height":500}, "Camera":{"position":{"x":0.0,"y":0.0,"z":0.0}, "pointOfView":{"x":0.0,"y":0.0,"z":1.0}, "cameraRightAngle":{"x":1.0,"y":0.0,"z":0.0}}, "Scene":{"Object3D":[{"Sphere":{"center":{"x":4.0,"y":1.0,"z":2.0},"radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0, "specular":1.0, "transparency":1.0, "refractiveIndex":1.0}},{"Cylinder":{"center":{"x":3.0,"y":1.0,"z":2.0},"height": 1.0, "radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0, "specular":1.0, "transparency":1.0, "refractiveIndex":1.0}}],"Light":[{"center":{"x":2, "y":1, "z":1}, "brightness":1.0}], "AmbientLight":{"active":"true", "brightness":"1.0"},"Floor":{"active":true}}}'
+
         j = json.loads(jsonstring)
         raytracer = JSONParser().deserializeRayTracingTask(j)
 
@@ -61,14 +62,14 @@ class JSONParserTest(unittest.TestCase):
 
 
     def test_deserializeScene(self):
-        jsonstring = '{"ImagePlane":{"width":500, "height":500}, "Camera":{"position":{"x":0.0,"y":0.0,"z":0.0}, "pointOfView":{"x":0.0,"y":0.0,"z":1.0}}, "Scene":{"Object3D":[{"Sphere":{"center":{"x":4.0,"y":1.0,"z":2.0},"radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0, "specular":1.0, "transparency":1.0}},{"Cylinder":{"center":{"x":3.0,"y":1.0,"z":2.0},"height": 1.0, "radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0, "specular":1.0, "transparency":1.0}}],"Light":[{"center":{"x":2, "y":1, "z":1}, "brightness":1.0}], "AmbientLight":{"active":"true", "brightness":"1.0"},"Floor":{"active":true}}}'
+        jsonstring = '{"ImagePlane":{"width":500, "height":500}, "Camera":{"position":{"x":0.0,"y":0.0,"z":0.0}, "pointOfView":{"x":0.0,"y":0.0,"z":1.0}, "cameraRightAngle":{"x":0.0,"y":0.0,"z":1.0}}, "Scene":{"Object3D":[{"Sphere":{"center":{"x":4.0,"y":1.0,"z":2.0},"radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0, "specular":1.0, "transparency":1.0, "refractiveIndex":1.0}},{"Cylinder":{"center":{"x":3.0,"y":1.0,"z":2.0},"height": 1.0, "radius":2.0,"color":{"r":1,"g":0,"b":0},"reflection":1.0, "specular":1.0, "transparency":1.0, "refractiveIndex":1.0}}],"Light":[{"center":{"x":2, "y":1, "z":1}, "brightness":1.0}], "AmbientLight":{"active":"true", "brightness":"1.0"},"Floor":{"active":true}}}'
         j = json.loads(jsonstring)
 
         jsonParser = JSONParser()
         scene = jsonParser.deserializeScene(j)
 
     def test_deserializeCamera(self):
-        jsonString = '{"Camera":{"position":{"x":0.0,"y":0.0,"z":0.0}, "pointOfView":{"x":0.0,"y":0.0,"z":1.0}}}'
+        jsonString = '{"Camera":{"position":{"x":"0","y":"0","z":"0"},"pointOfView":{"x":"0","y":"0","z":"1"},"cameraRightAngle":{"x":"1","y":"0","z":"0"}}}'
         j = json.loads(jsonString)
 
         camera = JSONParser().deserializeCamera(j)
@@ -100,7 +101,7 @@ class JSONParserTest(unittest.TestCase):
         self.assertEqual(1.0, light.brightness)
 
     def test_deserializeSphere(self):
-        sphereString = '{"center":{"x":3.0,"y":1.0,"z":2.0},"radius":2.0,"color":{"r":1,"g":0,"b":0},"specular":1.0, "reflection":1.0, "transparency":0.0}'
+        sphereString = '{"center":{"x":3.0,"y":1.0,"z":2.0},"radius":2.0,"color":{"r":1,"g":0,"b":0},"specular":1.0, "reflection":1.0, "transparency":0.0, "refractiveIndex":1.0}'
         sphereJson = json.loads(sphereString)
 
         jsonParser = JSONParser()
@@ -123,7 +124,7 @@ class JSONParserTest(unittest.TestCase):
         self.assertEqual(color.getB(), 0)
 
     def test_deserializeCube(self):
-        cubeString = '{"center":{"x":3.0,"y":1.0,"z":2.0},"sideLength":1.0,"color":{"r":1,"g":0,"b":0},"specular":1.0, "reflection":1.0, "transparency":0.0}'
+        cubeString = '{"center":{"x":3.0,"y":1.0,"z":2.0},"sideLength":1.0,"color":{"r":1,"g":0,"b":0},"specular":1.0, "reflection":1.0, "transparency":0.0, "refractiveIndex":1.0}'
         cubeJSON = json.loads(cubeString)
 
         cube = JSONParser().deserializeCube(cubeJSON)
@@ -141,7 +142,7 @@ class JSONParserTest(unittest.TestCase):
         self.assertEqual(cube.transparency, 0)
 
     def test_deserializeCylinder(self):
-        cylinderString = '{"center":{"x":3.0,"y":1.0,"z":2.0},"radius":1.0, "height":2.0, "color":{"r":1,"g":0,"b":0},"specular":1.0, "reflection":1.0, "transparency":0.0}'
+        cylinderString = '{"center":{"x":3.0,"y":1.0,"z":2.0},"radius":1.0, "height":2.0, "color":{"r":1,"g":0,"b":0},"specular":1.0, "reflection":1.0, "transparency":0.0, "refractiveIndex":1.0}'
 
         cylinderJSON = json.loads(cylinderString)
 
@@ -159,7 +160,7 @@ class JSONParserTest(unittest.TestCase):
         self.assertEqual(cylinder.transparency, 0)
 
     def test_deserializeCone(self):
-        coneString = '{"center":{"x":3.0,"y":1.0,"z":2.0},"radius":1.0, "height":2.0, "color":{"r":1,"g":0,"b":0},"specular":1.0, "reflection":1.0, "transparency":0.0}'
+        coneString = '{"center":{"x":3.0,"y":1.0,"z":2.0},"radius":1.0, "height":2.0, "color":{"r":1,"g":0,"b":0},"specular":1.0, "reflection":1.0, "transparency":0.0, "refractiveIndex":1.0}'
 
         coneJSON = json.loads(coneString)
 
