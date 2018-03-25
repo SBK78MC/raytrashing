@@ -52,6 +52,16 @@ class JSONParser:
         if self.deserializeFloor(jsonScene["Floor"]):
             scene.addObject3D(Plane(Vector(0, -3, 0), Vector(0, 1, 0), Color(1.0, 1.0, 1.0), 200, 0.3))
 
+        if self.deserializeRoom(jsonScene["Room"]):
+            scene.addObject3D(Plane(Vector(0, -3, 0), Vector(0, 1, 0), Color(0.8, 0.7, 0.8), 500, 0.3))
+            scene.addObject3D(Plane(Vector(0, 10, 0), Vector(0, 1, 0), Color(0.5, 0.7, 0.5), 0, 0))
+
+            scene.addObject3D(Plane(Vector(0, 0, 30), Vector(0, 0, -1), Color(0.5, 0.3, 0.4), 0, 0))
+            scene.addObject3D(Plane(Vector(0, 0, -1), Vector(0, 0, 1), Color(0.1, 0.4, 0.8), 0, 0))
+
+            scene.addObject3D(Plane(Vector(-10, 0, 0), Vector(1, 0, 0), Color(0.2, 0.1, 0.6), 0, 0))
+            scene.addObject3D(Plane(Vector(10, 0, 0), Vector(-1, 0, 0), Color(0.1, 0.7, 0.2), 0, 0))
+
         return scene
 
 
