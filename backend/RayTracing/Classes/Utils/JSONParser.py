@@ -117,7 +117,7 @@ class JSONParser:
         pointOfView = self.deserializeVector(cameraJSON["pointOfView"])
         cameraRightAngle = self.deserializeVector(cameraJSON["cameraRightAngle"])
 
-        return Camera(position, pointOfView, cameraRightAngle, math.pi / 4)
+        return Camera(position, pointOfView, cameraRightAngle, math.pi / 8)
 
     def deserializeAmbientLight(self, ambientLightJson):
         active = ambientLightJson["active"] != "false"
