@@ -1,6 +1,9 @@
+import math
+
 from RayTracing.Classes.Models.AmbientLight import AmbientLight
 from RayTracing.Classes.Models.Camera import Camera
 from RayTracing.Classes.Models.Color import Color
+from RayTracing.Classes.Models.Cone import Cone
 from RayTracing.Classes.Models.Cube import Cube
 
 from RayTracing.Classes.Models.Cylinder import Cylinder
@@ -38,6 +41,8 @@ class JSONParser:
                 scene.addObject3D(self.deserializeCube(object[type]))
             elif (type == "Cylinder"):
                 scene.addObject3D(self.deserializeCylinder(object[type]))
+            elif (type == "Cone"):
+                scene.addObject3D(self.deserializeCone(object[type]))
 
         for light in jsonScene["Light"]:
             scene.addLight(self.deserializeLight(light))
@@ -77,9 +82,10 @@ class JSONParser:
         radius = float(sphereJson["radius"])
         specular = float(sphereJson["specular"])
         transparency = float(sphereJson["transparency"])
+        refractiveIndex = float(sphereJson["refractiveIndex"])
         color = self.deserializeColor(sphereJson["color"])
 
-        return Sphere(center, radius, color, specular, reflection, transparency)
+        return Sphere(center, radius, color, specular, reflection, transparency, refractiveIndex)
 
 
     def deserializeCube(self, cubeJson):
@@ -88,9 +94,10 @@ class JSONParser:
         sideLength = float(cubeJson["sideLength"])
         specular = float(cubeJson["specular"])
         transparency = float(cubeJson["transparency"])
+        refractiveIndex = float(cubeJson["refractiveIndex"])
         color = self.deserializeColor(cubeJson["color"])
 
-        return Cube(center, sideLength, color, specular, reflection, transparency)
+        return Cube(center, sideLength, color, specular, reflection, transparency, refractiveIndex)
 
     def deserializeCylinder(self, cylinderJson):
         center = self.deserializeVector(cylinderJson["center"])
@@ -99,23 +106,21 @@ class JSONParser:
         radius = float(cylinderJson["radius"])
         specular = float(cylinderJson["specular"])
         transparency = float(cylinderJson["transparency"])
+        refractiveIndex = float(cylinderJson["refractiveIndex"])
         color = self.deserializeColor(cylinderJson["color"])
 
-        return Cylinder(center, height, radius, color, specular, reflection, transparency)
+        return Cylinder(center, height, radius, color, specular, reflection, transparency, refractiveIndex)
 
     def deserializeCamera(self, json):
         cameraJSON = json["Camera"]
-        position = int(cameraJSON["position"])
+        position = self.deserializeVector(cameraJSON["position"])
+        pointOfView = self.deserializeVector(cameraJSON["pointOfView"])
+        cameraRightAngle = self.deserializeVector(cameraJSON["cameraRightAngle"])
 
-        if position == 0:
-            return Camera()
-        elif position == 1:
-            return Camera(Vector(0, 10, 10), Vector(0, -1, 10))
-        else:
-            return Camera()
+        return Camera(position, pointOfView, cameraRightAngle, math.pi / 8)
 
     def deserializeAmbientLight(self, ambientLightJson):
-        active = bool(ambientLightJson["active"])
+        active = ambientLightJson["active"] != "false"
         brightness = 0
 
         if(bool(active) == True):
@@ -132,5 +137,17 @@ class JSONParser:
         return Color(r, g, b)
 
     def deserializeFloor(self, sceneJson):
-        active = bool(sceneJson["active"])
+        active = sceneJson["active"] != "false"
         return active
+
+    def deserializeCone(self, coneJson):
+        center = self.deserializeVector(coneJson["center"])
+        reflection = float(coneJson["reflection"])
+        radius = float(coneJson["radius"])
+        height = float(coneJson["height"])
+        specular = float(coneJson["specular"])
+        transparency = float(coneJson["transparency"])
+        refractiveIndex = float(coneJson["refractiveIndex"])
+        color = self.deserializeColor(coneJson["color"])
+
+        return Cone(center, height, radius, color, specular, reflection, transparency, refractiveIndex)

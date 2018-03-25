@@ -38,11 +38,13 @@
 
 	<div id = "shapesDiv">
 		<form id = "resetShape" action="">
-			<h4 style="display: inline; margin-left: 10%;">Object</h4>
-			<img src="./images/drag.png" style="width: 25px; height: 25px;" onclick="sliderDrag()">
+			<h4 style="display: inline; margin-left: 13%;">Object</h4>
+			<!--<img src="./images/drag.png" style="width: 40px; height: 40px; padding-top: 10px; padding-left:18px;" onclick="sliderDrag(0)">-->
+			<a href = "#shapesDiv" id = "dragImage"> <img src="./images/drag.png" style="width: 30px; height: 30px; margin-top:3%; " onclick="sliderDrag(0)"></a>
+			
 			<br><br>
 		<div id="inputText">
-			<select id="shape" class="boxes" onchange="shapeSelect()">
+			<select id="shape" class="boxes" onchange="sliderDrag(2)">
 				<option value"title" selected disabled>Shape</option>
 				<option value="Circle">Circle</option>
 				<option value="Cube">Cube</option>
@@ -50,22 +52,21 @@
 				<option value="Pyramid">Pyramid</option>
 				<option value="Cone">Cone</option>
 			</select>
-			<select id="material" class="boxes" onchange="">
+			<select id="material" class="boxes" onchange="materialValues()">
 				<option value"title" selected disabled>Material</option>
-				<option value="wood">Wood</option>
-				<option value="diamond">Diamond</option>
-				<option value="glass">Glass</option>
-				<option value="plastic">Plastic</option>
-				<option value="steel">Steel</option>
+				<option value="solid">Solid</option>
+				<option value="mirror">Mirror</option>
+				<option value="shiny">Shiny</option>
+				<option value="matte">Matte</option>
 			</select>
 			<select id="refractive" class="boxes" onchange="">
-				<option value"title" selected disabled>Refractive Index</option>
-				<option value="1">1</option>
-				<option value="1.5">1.5</option>
-				<option value="2">2</option>
-				<option value="2.5">2.5</option>
-				<option value="3">3</option>
-				<option value="3.4">3.5</option>
+				<option value = "1" selected disabled>Refractive Index</option>
+				<option value="1">Air (1)</option>
+				<option value="1.3">Water (1.3)</option>
+				<option value="1.5">Glass (1.5)</option>
+				<option value="1.8">Sapphire (1.8)</option>
+				<option value="2.4">Diamond (2.4)</option>
+				<option value="3.4">Silicone(3.4)</option>
 			</select>
 
 			<h4 id="coor">Coordinates(-250,250)</h4>
@@ -80,9 +81,9 @@
 				<input id ="height" class = "boxes" align = "right" value="1" type="text" name="Height">
 			</div>
 			<h4>Reflection</h4>
-			<input id = "reflection" type="range" min="1" max="100" value="100" class="bar">
+			<input id = "reflection" type="range" min="0" max="100" value="0" class="bar">
 			<h4>Transparency</h4>
-			<input id = "transparency" type="range" min="1" max="100" value="100" class="bar">
+			<input id = "transparency" type="range" min="0" max="100" value="0" class="bar">
 			<h4>Specular</h4>
 			<input id = "specular" type="range" min="0" max="1000" value="0" class="bar">
 		</div>
@@ -118,9 +119,31 @@
 		</select>
 		<br>
 		<h4>Camera</h4>
-		<input id="camera_x" class="inputs" type="text" name="Coordinates x" placeholder="x">
-		<input id="camera_y" style="margin-left:3%;"  class="inputs" type="text" name="Coordinates y" placeholder="y">
-		<input id="camera_z" style="margin-left:3%;" class="inputs" type="text" name="Coordinates z" placeholder="z">
+		<select id="camAngle" class="boxes" onchange="cameraAngle()">
+			<option value="front">Front View</option>
+		    <option value="top">Top View</option>
+			<option value="side">Right Side View</option>	
+		</select>
+		<br><br>
+		
+		<button id="render" class="buttons" type="button" onclick="sliderDrag(1)">Advanced Camera</button>
+		<div id="advancedCam" style="display: none;">
+			<h4>Camera Position</h4>
+			<input id="camera_pos_x" class="inputs" type="text" name="Coordinates Pos x" placeholder="x">
+			<input id="camera_pos_y" style="margin-left:3%;"  class="inputs" type="text" name="Coordinates Pos y" placeholder="y">
+			<input id="camera_pos_z" style="margin-left:3%;" class="inputs" type="text" name="Coordinates Pos z" placeholder="z">
+			
+			<h4>Camera Direction</h4>
+			<input id="camera_dir_x" class="inputs" type="text" name="Coordinates x" placeholder="x">
+			<input id="camera_dir_y" style="margin-left:3%;"  class="inputs" type="text" name="Coordinates y" placeholder="y">
+			<input id="camera_dir_z" style="margin-left:3%;" class="inputs" type="text" name="Coordinates z" placeholder="z">
+			
+			<h4>Camera Right Angle</h4>
+			<input id="camera_rig_x" class="inputs" type="text" name="Coordinates x" placeholder="x">
+			<input id="camera_rig_y" style="margin-left:3%;"  class="inputs" type="text" name="Coordinates y" placeholder="y">
+			<input id="camera_rig_z" style="margin-left:3%;" class="inputs" type="text" name="Coordinates z" placeholder="z">
+		</div>
+		
 		<br>
 		<h4>Save As...</h4>
 		<input id="downloadName" type="text" placeholder="Name of the image">

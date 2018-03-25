@@ -11,16 +11,16 @@ from RayTracing.Classes.Models.Vector import Vector
 
 class Cylinder(Object3D):
 
-    def __init__(self, x=0, y=0, z=0, height=0, radius=0, color=Color(), specular=50, reflection=0.1, transparency=0):
-        super().__init__(x, y, z, color, specular, reflection, transparency)
+    def __init__(self, x=0, y=0, z=0, height=0, radius=0, color=Color(), specular=50, reflection=0.1, transparency=0, refractiveIndex=1.0):
+        super().__init__(x, y, z, color, specular, reflection, transparency, refractiveIndex)
         self.radius = radius
         self.height = height
         self.top = Vector(x, y + height / 2, z)
         self.bottom = Vector(x, y - height / 2, z)
         self.va = self.top.sub(self.center).normalize()
 
-    def __init__(self, v=Vector(0, 0, 0), height=0, radius=0, color=Color(), specular=50, reflection=0.1, transparency=0):
-        super().__init__(v, color, specular, reflection, transparency)
+    def __init__(self, v=Vector(0, 0, 0), height=0, radius=0, color=Color(), specular=50, reflection=0.1, transparency=0, refractiveIndex=1.0):
+        super().__init__(v, color, specular, reflection, transparency, refractiveIndex)
         self.radius = radius
         self.height = height
         self.top = Vector(v.x, v.y + height / 2, v.z)
@@ -53,10 +53,19 @@ class Cylinder(Object3D):
                 return None
 
             point = ray.getPointOfRay(tSmallest)
-            if not self.inCylinder(point):
-                return None
-
             intersect = Intersection(point, self, ray, tSmallest)
+
+            if not self.inCylinder(point):
+                tmp = None
+                if self.isAbove(point):
+                    tmp = self.intersect_base(ray, self.top, Vector(0, 1, 0))
+                else:
+                    tmp = self.intersect_base(ray, self.bottom, Vector(0, -1, 0))
+
+                if tmp:
+                    intersect.point = tmp.point
+                else:
+                    intersect = None
 
         return intersect
 
