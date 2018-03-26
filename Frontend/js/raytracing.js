@@ -47,54 +47,6 @@ function addShape() {
 		modal.style.display = "block";
 		return;
 	}	
-	/*
-	//translate to zero and the 250 sets the limits of what the user can see.
-	//to change the 250 we should also change the value send to the back end
-	//at a new analogy. (class CenterForShapesAndLight)
-	y = -y/250 * c.height/2 + c.height/2;
-	x = x/250 * c.width/2 + c.width/2;
-	//set values depending on z(depth)
-	size = size * 50;
-	convertSize = (size * 15)/z;
-	var xCoord = ((x - c.width/2)  * 10 / z) + c.width/2 ;
-	var yCoord = ((y - c.height/2)  * 10 / z) + c.height/2 ;
-if(shape == "Cylinder"){
-    ctx.translate(xCoord,yCoord);
-    ctx.fillStyle = color;
-    //ctx.lineWidth = lineWidth;
-    ctx.lineCap = "round";
-    ctx.lineJoin = "round";
-    ctx.beginPath();
-    ctx.moveTo(97.0, 156.7);
-    ctx.lineTo(97.0, 17.7);
-    ctx.lineTo(1.0, 17.7);
-    ctx.lineTo(1.0, 156.7);
-    ctx.lineTo(97.0, 156.7);
-    ctx.closePath();
-    ctx.fill();
-    ctx.stroke();
-    // layer1/Group/Path
-    ctx.beginPath();
-    ctx.moveTo(96.7, 156.2);
-    ctx.bezierCurveTo(96.7, 165.3, 75.4, 172.7, 49.0, 172.7);
-    ctx.bezierCurveTo(22.7, 172.7, 1.4, 165.3, 1.4, 156.2);
-    ctx.bezierCurveTo(1.4, 147.2, 22.7, 139.8, 49.0, 139.8);
-    ctx.bezierCurveTo(75.4, 139.8, 96.7, 147.2, 96.7, 156.2);
-    ctx.closePath();
-    ctx.fill();
-    ctx.stroke();
-    // layer1/Group/Path
-    ctx.beginPath();
-    ctx.moveTo(96.7, 17.4);
-    ctx.bezierCurveTo(96.7, 26.5, 75.4, 33.8, 49.0, 33.8);
-    ctx.bezierCurveTo(22.7, 33.8, 1.4, 26.5, 1.4, 17.4);
-    ctx.bezierCurveTo(1.4, 8.4, 22.7, 1.0, 49.0, 1.0);
-    ctx.bezierCurveTo(75.4, 1.0, 96.7, 8.4, 96.7, 17.4);
-    ctx.closePath();
-    ctx.fill();
-    ctx.stroke();
-	}
-		*/
 		/*
 		//awesome cube code I made myself and the team doesnt need (legacy of chikans)
 		ctx.beginPath();
@@ -215,6 +167,8 @@ if(shape == "Cylinder"){
 };
 
 function renderShapes() {
+	$("#loadingKati").addClass("loadingKati");
+	
 	//for Camera
 	cameraPositionObject();
 	cameraDirectionObject();
@@ -244,9 +198,10 @@ function renderShapes() {
 	fileName(); //gets the name of the image from the user
 	var xhr = new XMLHttpRequest();
 	var url = "http://127.0.0.1:8000/raytrace";
+	//var url = "http://52.20.143.165:8000/raytrace";
 	xhr.open("POST", url, true);
 	var jsonData = JSON.stringify(globalRaytracerObject);
-	console.log(jsonData);
+	//console.log(jsonData);
 	xhr.send(jsonData);
 
 	//get binary and make it an image... {there is a problem with headers called CORS from backend.. we have to fix it} (fixed as of 13.02.2018!)
@@ -254,6 +209,7 @@ function renderShapes() {
 	xhr.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
 			document.getElementById("download").style.display = 'inline-block';
+			$("#loadingKati").removeClass("loadingKati");
 			var uInt8Array = new Uint8Array(this.response);
 			var i = uInt8Array.length;
 			var binaryString = new Array(i);
@@ -381,8 +337,8 @@ class Camera {
 class CenterForShapesAndLight {
 	//to populate coordinates for the centers of shapes and also the light source
 	constructor(x, y, z) {
-    	this.x = x / 71.4285714286;
-    	this.y = y / 71.4285714286;
+    	this.x = x;
+    	this.y = y;
 		this.z = z;
 	}
 }
@@ -521,49 +477,60 @@ function addLight() {
 
 function shapeOption()
 {
+	var clickedItem = 0;
 	var shape = document.getElementById("Shapes");
+	globalItem = "shape";
 	if(typeof shape[shape.selectedIndex] != 'undefined') {
 		var item_value = shape[shape.selectedIndex].value;
 	if(typeof arrayListForObject[item_value].Sphere != 'undefined' && item_value > -1) {
-		document.getElementById('change_x').value = parseInt(arrayListForObject[item_value].Sphere.center.x*71.4285714286);
-		document.getElementById('change_y').value = parseInt(arrayListForObject[item_value].Sphere.center.y*71.4285714286);
-		document.getElementById('change_z').value = parseInt(arrayListForObject[item_value].Sphere.center.z);
-		document.getElementById('change_s').value = parseInt(arrayListForObject[item_value].Sphere.radius);
+		document.getElementById('change_x').value = parseFloat(arrayListForObject[item_value].Sphere.center.x);
+		document.getElementById('change_y').value = parseFloat(arrayListForObject[item_value].Sphere.center.y);
+		document.getElementById('change_z').value = parseFloat(arrayListForObject[item_value].Sphere.center.z);
+		document.getElementById('change_s').value = parseFloat(arrayListForObject[item_value].Sphere.radius);
+		clickedItem = 0;
+		sliderDrag(4);
 	} else if(typeof arrayListForObject[item_value].Cube != 'undefined' && item_value > -1) {
-		document.getElementById('change_x').value = parseInt(arrayListForObject[item_value].Cube.center.x*71.4285714286);
-		document.getElementById('change_y').value = parseInt(arrayListForObject[item_value].Cube.center.y*71.4285714286);
-		document.getElementById('change_z').value = parseInt(arrayListForObject[item_value].Cube.center.z);
-		document.getElementById('change_s').value = parseInt(arrayListForObject[item_value].Cube.sideLength);
+		document.getElementById('change_x').value = parseFloat(arrayListForObject[item_value].Cube.center.x);
+		document.getElementById('change_y').value = parseFloat(arrayListForObject[item_value].Cube.center.y);
+		document.getElementById('change_z').value = parseFloat(arrayListForObject[item_value].Cube.center.z);
+		document.getElementById('change_s').value = parseFloat(arrayListForObject[item_value].Cube.sideLength);
+		clickedItem = 0;
+		sliderDrag(4);
 	} else if(typeof arrayListForObject[item_value].Cylinder != 'undefined' && item_value > -1) {
-		document.getElementById('change_x').value = parseInt(arrayListForObject[item_value].Cylinder.center.x*71.4285714286);
-		document.getElementById('change_y').value = parseInt(arrayListForObject[item_value].Cylinder.center.y*71.4285714286);
-		document.getElementById('change_z').value = parseInt(arrayListForObject[item_value].Cylinder.center.z);
-		document.getElementById('change_s').value = parseInt(arrayListForObject[item_value].Cylinder.radius);
-	} else if(typeof arrayListForObject[item_value].Pyramid != 'undefined' && item_value > -1) {
-		document.getElementById('change_x').value = parseInt(arrayListForObject[item_value].Pyramid.center.x*71.4285714286);
-		document.getElementById('change_y').value = parseInt(arrayListForObject[item_value].Pyramid.center.y*71.4285714286);
-		document.getElementById('change_z').value = parseInt(arrayListForObject[item_value].Pyramid.center.z);
-		document.getElementById('change_s').value = parseInt(arrayListForObject[item_value].Pyramid.sideLength);
+		document.getElementById('change_x').value = parseFloat(arrayListForObject[item_value].Cylinder.center.x);
+		document.getElementById('change_y').value = parseFloat(arrayListForObject[item_value].Cylinder.center.y);
+		document.getElementById('change_z').value = parseFloat(arrayListForObject[item_value].Cylinder.center.z);
+		document.getElementById('change_s').value = parseFloat(arrayListForObject[item_value].Cylinder.radius);
+		document.getElementById('change_h').value = parseFloat(arrayListForObject[item_value].Cylinder.height);
+		clickedItem = 1;
 	} else if(typeof arrayListForObject[item_value].Cone != 'undefined' && item_value > -1) {
-		document.getElementById('change_x').value = parseInt(arrayListForObject[item_value].Cone.center.x*71.4285714286);
-		document.getElementById('change_y').value = parseInt(arrayListForObject[item_value].Cone.center.y*71.4285714286);
-		document.getElementById('change_z').value = parseInt(arrayListForObject[item_value].Cone.center.z);
-		document.getElementById('change_s').value = parseInt(arrayListForObject[item_value].Cone.radius);
+		document.getElementById('change_x').value = parseFloat(arrayListForObject[item_value].Cone.center.x);
+		document.getElementById('change_y').value = parseFloat(arrayListForObject[item_value].Cone.center.y);
+		document.getElementById('change_z').value = parseFloat(arrayListForObject[item_value].Cone.center.z);
+		document.getElementById('change_s').value = parseFloat(arrayListForObject[item_value].Cone.radius);
+		document.getElementById('change_h').value = parseFloat(arrayListForObject[item_value].Cone.height);
+		clickedItem = 1;
+	}
+	if(clickedItem == 1 && document.getElementById("change_h").style.display == 'none'){
+		sliderDrag(3);
+	}else if(clickedItem == 0 && document.getElementById("change_h").style.display != 'none'){
+		sliderDrag(3);
 	}
 }
     var elements = document.getElementById("Lights").options;
     for(var i = 0; i < elements.length; i++) {
     	elements[i].selected = false;
     }
-	globalItem = "shape";
+	
+	
 }
 
 function lightOption() {
 	var light = document.getElementById("Lights");
 	var item_value = light[light.selectedIndex].value;
 	
-	document.getElementById('change_x').value = arrayListForLight[item_value].center.x*71.4285714286;
-	document.getElementById('change_y').value = arrayListForLight[item_value].center.y*71.4285714286;
+	document.getElementById('change_x').value = arrayListForLight[item_value].center.x;
+	document.getElementById('change_y').value = arrayListForLight[item_value].center.y;
 	document.getElementById('change_z').value = arrayListForLight[item_value].center.z;
 	document.getElementById('change_s').value = "--";
 	
@@ -573,6 +540,7 @@ function lightOption() {
     }
 	
 	globalItem = "light";
+	sliderDrag(3);
 }
 
 // Changing the shape location and size
@@ -584,30 +552,27 @@ function changeItem()
 		var item_value = shape[shape.selectedIndex].value;
 
 		if(typeof arrayListForObject[item_value].Sphere != 'undefined') {
-			arrayListForObject[item_value].Sphere.center.x 	   = (document.getElementById('change_x').value)/71.4285714286;
-			arrayListForObject[item_value].Sphere.center.y	   = (document.getElementById('change_y').value)/71.4285714286;
+			arrayListForObject[item_value].Sphere.center.x 	   = (document.getElementById('change_x').value);
+			arrayListForObject[item_value].Sphere.center.y	   = (document.getElementById('change_y').value);
 			arrayListForObject[item_value].Sphere.center.z 	   = (document.getElementById('change_z').value);
 			arrayListForObject[item_value].Sphere.radius   	   = (document.getElementById('change_s').value);
 		} else if(typeof arrayListForObject[item_value].Cube != 'undefined') {
-			arrayListForObject[item_value].Cube.center.x   	   = (document.getElementById('change_x').value)/71.4285714286;
-			arrayListForObject[item_value].Cube.center.y   	   = (document.getElementById('change_y').value)/71.4285714286;
+			arrayListForObject[item_value].Cube.center.x   	   = (document.getElementById('change_x').value);
+			arrayListForObject[item_value].Cube.center.y   	   = (document.getElementById('change_y').value);
 			arrayListForObject[item_value].Cube.center.z   	   = (document.getElementById('change_z').value);
 			arrayListForObject[item_value].Cube.sideLength 	   = (document.getElementById('change_s').value);
 		} else if(typeof arrayListForObject[item_value].Cylinder != 'undefined') {
-			arrayListForObject[item_value].Cylinder.center.x   = (document.getElementById('change_x').value)/71.4285714286;
-			arrayListForObject[item_value].Cylinder.center.y   = (document.getElementById('change_y').value)/71.4285714286;
+			arrayListForObject[item_value].Cylinder.center.x   = (document.getElementById('change_x').value);
+			arrayListForObject[item_value].Cylinder.center.y   = (document.getElementById('change_y').value);
 			arrayListForObject[item_value].Cylinder.center.z   = (document.getElementById('change_z').value);
 			arrayListForObject[item_value].Cylinder.radius	   = (document.getElementById('change_s').value);
-		} else if(typeof arrayListForObject[item_value].Pyramid != 'undefined') {
-			arrayListForObject[item_value].Pyramid.center.x    = (document.getElementById('change_x').value)/71.4285714286;
-			arrayListForObject[item_value].Pyramid.center.y    = (document.getElementById('change_y').value)/71.4285714286;
-			arrayListForObject[item_value].Pyramid.center.z    = (document.getElementById('change_z').value);
-			arrayListForObject[item_value].Pyramid.sideLength  = (document.getElementById('change_s').value);
+			arrayListForObject[item_value].Cylinder.height	   = (document.getElementById('change_h').value);
 		} else if(typeof arrayListForObject[item_value].Cone != 'undefined') {
-			arrayListForObject[item_value].Cone.center.x   	   = (document.getElementById('change_x').value)/71.4285714286;
-			arrayListForObject[item_value].Cone.center.y   	   = (document.getElementById('change_y').value)/71.4285714286;
+			arrayListForObject[item_value].Cone.center.x   	   = (document.getElementById('change_x').value);
+			arrayListForObject[item_value].Cone.center.y   	   = (document.getElementById('change_y').value);
 			arrayListForObject[item_value].Cone.center.z  	   = (document.getElementById('change_z').value);
 			arrayListForObject[item_value].Cone.radius 		   = (document.getElementById('change_s').value);
+			arrayListForObject[item_value].Cone.height 		   = (document.getElementById('change_h').value);
 		}
 	}
 	//Change Light
@@ -615,8 +580,8 @@ function changeItem()
 		var light = document.getElementById("Lights");
 		var item_value = light[light.selectedIndex].value;
 		
-		arrayListForLight[item_value].center.x = (document.getElementById('change_x').value)/71.4285714286;
-		arrayListForLight[item_value].center.y = (document.getElementById('change_y').value)/71.4285714286;
+		arrayListForLight[item_value].center.x = (document.getElementById('change_x').value);
+		arrayListForLight[item_value].center.y = (document.getElementById('change_y').value);
 		arrayListForLight[item_value].center.z = (document.getElementById('change_z').value);	
 	}
 	canvas  = document.getElementById("myCanvas");
@@ -638,7 +603,7 @@ function deleteItem()
 
 		//Delete Select Shape
 		var shape_select = document.getElementById("Shapes");
-		shape_select.remove(shape.selectedIndex);	
+		shape_select.remove(shape.selectedIndex);
 		
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		redraw(canvas, ctx);
@@ -653,6 +618,13 @@ function deleteItem()
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		redraw(canvas, ctx);
 	}
+	//clear values
+	document.getElementById("change_x").value = "";
+	document.getElementById("change_y").value = "";
+	document.getElementById("change_z").value = "";
+	document.getElementById("change_s").value = "";
+	document.getElementById("change_h").value = "";
+	
 }
 
 function hexToRgb(hex) {
@@ -737,37 +709,37 @@ function cameraAngle() {
 }
 
 function redraw(canvas, ctx) {
-	function convertToSize(x, z) {
-		if(x == 500) {
-			return size = 999;
-		} else {
-			size = 250/(500 - x);
-			z = (1 - (x/500)) * 20;
-			size = size *50 * 15 / z;
-			return size = size/75* canvas.width* 0.0914;
-		}
+	function convertToSize(x) {
+		return ((x + 250)/500)*(93-32.62);
 	}
+	
 
-
+	ctx.lineWidth = '10';
+	
 	for(j = 0; j < arrayListForObject.length; j++) {
 		var i = paintOrder[j][0];
+		//--------------------------------------------PAINT SPHERE---------------------------------------------------
 		if(typeof arrayListForObject[i].Sphere != 'undefined') {
 
-			var shapeX = arrayListForObject[i].Sphere.center.x*71.4285714286 + 250;
-			var shapeY = arrayListForObject[i].Sphere.center.y*71.4285714286 + 250;
+			var shapeX = (arrayListForObject[i].Sphere.center.x/3.3)*250 + 250;
+			var shapeY = (arrayListForObject[i].Sphere.center.y/3.3)*250 + 250;
 			var shapeR = arrayListForObject[i].Sphere.radius*50 * 15 / arrayListForObject[i].Sphere.center.z ;
 			var shapeC = arrayListForObject[i].Sphere.color;
 			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
 			shapeR = shapeR/75* canvas.width* 0.0914;			
 			ctx.beginPath();
+			ctx.strokeStyle = color;
+			ctx.lineJoin = "round";
+			
+			
 			if(currentView == "front") {
-				ctx.arc(shapeX/500 * canvas.width,	Math.abs(shapeY/500 * canvas.height - canvas.height) ,shapeR,0,2*Math.PI);
+				ctx.arc(shapeX/500 * canvas.width,	(1 - (shapeY/500)) * canvas.height ,shapeR,0,2*Math.PI);
 			} else if(currentView == "top") {
 				//convert z to y
 				var yTop = ((1 - (arrayListForObject[i].Sphere.center.z/20))*500) - 50;
 
 				//convert y to size
-				size = convertToSize(shapeY, arrayListForObject[i].Sphere.center.z);
+				size = convertToSize(shapeY, shapeR);
 
 				ctx.arc(shapeX/500 * canvas.width,	yTop ,size,0,2*Math.PI);
 			} else if(currentView == "side") {
@@ -779,18 +751,18 @@ function redraw(canvas, ctx) {
 				size = convertToSize(shapeX, arrayListForObject[i].Sphere.center.z);
 
 				if(size > 0){
-					ctx.arc(xSide, Math.abs(shapeY/500 * canvas.height - canvas.height) ,size,0,2*Math.PI);
+					ctx.arc(xSide, (1 - (shapeY/500)) * canvas.height ,size,0,2*Math.PI);
 				}
 			}
 			ctx.fillStyle = color;
 			ctx.fill();
 			ctx.stroke();
 		}
-
+		//-----------------------------------------------PAINT CUBE------------------------------------------
 		if(typeof arrayListForObject[i].Cube != 'undefined') {
 
-			var shapeX = arrayListForObject[i].Cube.center.x*71.4285714286 + 250;
-			var shapeY = arrayListForObject[i].Cube.center.y*71.4285714286 + 250;
+			var shapeX = (arrayListForObject[i].Cube.center.x/3.3)*250 + 250;
+			var shapeY = (arrayListForObject[i].Cube.center.y/3.3)*250 + 250;
 			var shapeR = arrayListForObject[i].Cube.sideLength*50 * 15 / arrayListForObject[i].Cube.center.z ;
 			var shapeC = arrayListForObject[i].Cube.color;
 			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
@@ -800,8 +772,11 @@ function redraw(canvas, ctx) {
 
 			//paint
 			ctx.beginPath();
+			ctx.strokeStyle = color;
+			ctx.lineJoin = "miter";
+			
 			if(currentView == "front") {
-				ctx.rect(shapeX/500 * canvas.width - shapeR/2, Math.abs(shapeY/500 * canvas.height - canvas.height) - shapeR/2,shapeR,shapeR);
+				ctx.rect(shapeX/500 * canvas.width - shapeR/2, ((1 - (shapeY/500)) * canvas.height) - shapeR/2,shapeR,shapeR);
 			} else if(currentView == "top") {
 				//convert z to y
 				var yTop = ((arrayListForObject[i].Cube.center.z/20)*500) - 250;
@@ -819,7 +794,126 @@ function redraw(canvas, ctx) {
 				//convert x to size
 				size = convertToSize(shapeX, arrayListForObject[i].Cube.center.z);
 
-				ctx.rect(xSide - size/2, Math.abs(shapeY/500 * canvas.height - canvas.height) - size/2,size,size);
+				ctx.rect(xSide - size/2, ((1 - (shapeY/500)) * canvas.height) - size/2,size,size);
+			}
+			ctx.fillStyle = color;
+			ctx.fill();
+			ctx.stroke();
+		}
+		//------------------------------------------PAINT CYLINDER-----------------------------------------------
+		if(typeof arrayListForObject[i].Cylinder != 'undefined') {
+
+			var shapeX = (arrayListForObject[i].Cylinder.center.x/3.3)*250 + 250;
+			var shapeY = (arrayListForObject[i].Cylinder.center.y/3.3)*250 + 250;
+			var shapeR = arrayListForObject[i].Cylinder.radius*50 * 15 / arrayListForObject[i].Cylinder.center.z ;
+			var shapeH = arrayListForObject[i].Cylinder.height*50 * 15/ arrayListForObject[i].Cylinder.center.z;
+			var shapeC = arrayListForObject[i].Cylinder.color;
+			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
+			shapeR = shapeR/75* canvas.width* 0.0914;			
+			shapeH = shapeH/75* canvas.width* 0.0914;			
+			ctx.beginPath();
+			ctx.strokeStyle = color;
+			ctx.lineJoin = "round";
+			
+			if(currentView == "front") {
+				ctx.fillStyle = color;
+				ctx.strokeRect(shapeX/500 * canvas.width - shapeR, ((1 - (shapeY/500)) * canvas.height) - shapeH/2,shapeR * 2,shapeH);
+				ctx.fillRect(shapeX/500 * canvas.width - shapeR, ((1 - (shapeY/500)) * canvas.height) - shapeH/2,shapeR * 2,shapeH);
+			} else if(currentView == "top") {
+				//convert z to y
+				var yTop = ((1 - (arrayListForObject[i].Cylinder.center.z/20))*500) - 50;
+
+				//convert y to size
+				size = convertToSize(shapeY, shapeR);
+
+				ctx.arc(shapeX/500 * canvas.width,	yTop ,size,0,2*Math.PI);
+			} else if(currentView == "side") {
+				//convert z to x
+				var xSide = ((arrayListForObject[i].Cylinder.center.z/20)*500);
+				xSide = (xSide/500)*canvas.width;
+
+				//convert x to size
+				sizeR = convertToSize(shapeX);
+				var sizeH = (sizeR/shapeR)*shapeH;
+				xSide = xSide - sizeR;
+				
+				if(sizeR > 0){
+					ctx.lineJoin = "round";
+					ctx.lineWidth = '10';
+					ctx.strokeStyle = color;
+					ctx.fillStyle = color;
+					ctx.strokeRect(xSide, ((1 - (shapeY/500)) * canvas.height) - shapeH/2,sizeR * 2,sizeH);
+					ctx.fillRect(xSide, ((1 - (shapeY/500)) * canvas.height) - shapeH/2,sizeR * 2,sizeH);
+				}
+			}
+			ctx.fillStyle = color;
+			ctx.fill();
+			ctx.stroke();
+			
+			
+		}
+		//--------------------------------------PAINT CONE---------------------------------------------------
+		if(typeof arrayListForObject[i].Cone != 'undefined') {
+
+			var shapeX = (arrayListForObject[i].Cone.center.x/3.3)*250 + 250;
+			var shapeY = (arrayListForObject[i].Cone.center.y/3.3)*250 + 250;
+			var shapeR = arrayListForObject[i].Cone.radius*50 * 15 / arrayListForObject[i].Cone.center.z ;
+			var shapeH = arrayListForObject[i].Cone.height*50 * 15 / arrayListForObject[i].Cone.center.z ;
+			var shapeC = arrayListForObject[i].Cone.color;
+			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
+
+			//size of shape on windows resize
+			shapeR = (shapeR/75* canvas.width* 0.0914)*2;
+			shapeH = shapeH/75* canvas.width* 0.0914;
+			
+			//paint
+			ctx.beginPath();
+			ctx.strokeStyle = color;
+			ctx.lineJoin = "miter";
+			
+			if(currentView == "front") {
+				positionX = shapeX - shapeR/2;
+				positionY = ((1 - (shapeY/500)) * canvas.height);
+				ctx.moveTo(positionX, positionY);
+				
+				positionX += shapeR;
+				ctx.lineTo(positionX , positionY);
+				
+				positionX -= shapeR/2;
+				positionY -= shapeH;
+				ctx.lineTo(positionX, positionY);
+				ctx.closePath();
+				
+				
+			} else if(currentView == "top") {
+				//convert z to y
+				var yTop = ((arrayListForObject[i].Cone.center.z/20)*500) - 250;
+				yTop = Math.abs(yTop/500 * canvas.height - canvas.height/2)
+
+				//convert y to size
+				size = convertToSize(shapeY, arrayListForObject[i].Cone.center.z);
+
+				ctx.arc(shapeX/500 * canvas.width,	yTop ,size,0,2*Math.PI);
+			} else if(currentView == "side") {
+				//convert z to x
+				var xSide = ((arrayListForObject[i].Cone.center.z/20)*500);
+				xSide = (xSide/500)*canvas.width;
+
+				//convert x to size
+				sizeR = (convertToSize(shapeX))*2;
+				var sizeH = (sizeR/shapeR)*shapeH;
+
+				positionX = xSide - sizeR/2;
+				positionY = ((1 - (shapeY/500)) * canvas.height);
+				ctx.moveTo(positionX, positionY);
+				
+				positionX += sizeR;
+				ctx.lineTo(positionX , positionY);
+				
+				positionX -= sizeR/2;
+				positionY -= sizeH;
+				ctx.lineTo(positionX, positionY);
+				ctx.closePath();
 			}
 			ctx.fillStyle = color;
 			ctx.fill();
@@ -835,15 +929,19 @@ function redraw(canvas, ctx) {
 			var ctx = c.getContext("2d");
 
 			if(typeof arrayListForLight[i].center != 'undefined') {
-				var lightX = arrayListForLight[i].center.x*71.4285714286 + 250;
-				var lightY = arrayListForLight[i].center.y*71.4285714286 + 250;
-				ctx.drawImage(base_image, lightX/500 * canvas.width, Math.abs(lightY/500 * canvas.height - canvas.height), 15, 18);
+				var lightX = (arrayListForLight[i].center.x/3.3)*250 + 250;
+				var lightY = (arrayListForLight[i].center.y/3.3)*250 + 250;
+				ctx.drawImage(base_image, lightX/500 * canvas.width, (1 - (shapeY/500)) * canvas.height, 15, 18);
 			}
 		}
 	}
 }
 
+
 function sliderDrag(choice) {
+	var height = document.getElementById("change_h");
+	var size = document.getElementById("change_s");
+	
 if(choice == 0){
 	if(document.getElementById("inputText").style.display == "none") {
 		$('#dragDrop').slideUp(1000, up);
@@ -871,7 +969,27 @@ if(choice == 0){
 		} else {
 			$('#Height').slideUp(1000, up);
 		}
+}else if(choice == 3 && globalItem == 'shape'){
+		if(height.style.display == 'none') {
+			$('#change_h').slideDown(1000);
+		} else {
+			$('#change_h').slideUp(1000, up);
+		}
+		sliderDrag(4);
+		
+}else if(choice == 3 && globalItem != 'shape'){
+	if(height.style.display != 'none') {
+			$('#change_h').slideUp(1000, up);
+	} 
+	if(size.style.display != 'none') {
+			$('#change_s').slideUp(1000, up);
 	}
+	
+}else if(choice == 4){
+	if(size.style.display == 'none') {
+			$('#change_s').slideDown(1000);
+	}
+}
 }
 
 
@@ -916,7 +1034,7 @@ function keepActiveButton(active) {
 }
 
 function autoPaint(shape) {
-	document.getElementById("shape").selectedIndex = shape + 1;
+	document.getElementById("shape").selectedIndex = shape;
 	document.getElementById("shape_x").value = '0';
 	document.getElementById("shape_y").value = '0';
 	addShape();
@@ -975,6 +1093,7 @@ function materialValues() {
     var isDragging=false;
 	var index;
 
+	//when the user clicks inside the canvas find if he clicked any of our shapes
 function handleMouseDown(e) {
 
 	canMouseX=parseInt(e.clientX-$("#myCanvas").offset().left);
@@ -988,8 +1107,8 @@ function handleMouseDown(e) {
 			var i = paintOrder[j][0];
 			if(typeof arrayListForObject[i].Sphere != 'undefined') {
 				var shapeR = (arrayListForObject[i].Sphere.radius*50*15)/arrayListForObject[i].Sphere.center.z;
-				var shapeX = arrayListForObject[i].Sphere.center.x*71.4285714286 ;
-				var shapeY = arrayListForObject[i].Sphere.center.y*71.4285714286 ;
+				var shapeX = (arrayListForObject[i].Sphere.center.x/3.3)*250 ;
+				var shapeY = (arrayListForObject[i].Sphere.center.y/3.3)*250 ;
 				shapeR = shapeR/75* canvas.width* 0.0914;
 				
 				if(canMouseX > shapeX - shapeR && canMouseX < shapeX + shapeR && canMouseY > shapeY - shapeR && canMouseY < shapeY + shapeR) {
@@ -998,14 +1117,47 @@ function handleMouseDown(e) {
 				}
 		  	} else if(typeof arrayListForObject[i].Cube != 'undefined') {
 					var shapeR = (arrayListForObject[i].Cube.sideLength*50*15)/arrayListForObject[i].Cube.center.z;
-					var shapeX = arrayListForObject[i].Cube.center.x*71.4285714286 ;
-					var shapeY = arrayListForObject[i].Cube.center.y*71.4285714286 ;
+					var shapeX = (arrayListForObject[i].Cube.center.x/3.3)*250 ;
+					var shapeY = (arrayListForObject[i].Cube.center.y/3.3)*250 ;
 					shapeR = shapeR/75* canvas.width* 0.0914;
 					
 					if(canMouseX > shapeX - shapeR/2 && canMouseX < shapeX + shapeR/2 && canMouseY > shapeY - shapeR/2 && canMouseY < shapeY + shapeR/2){
 						isDragging=true;
 						index = i;
 				}
+		 	}else if(typeof arrayListForObject[i].Cylinder != 'undefined') {
+					var shapeR = (arrayListForObject[i].Cylinder.radius*50*15)/arrayListForObject[i].Cylinder.center.z;
+					var shapeH = (arrayListForObject[i].Cylinder.height*50*15)/arrayListForObject[i].Cylinder.center.z;
+					var shapeX = (arrayListForObject[i].Cylinder.center.x/3.3)*250 ;
+					var shapeY = (arrayListForObject[i].Cylinder.center.y/3.3)*250 ;
+					shapeR = shapeR/75* canvas.width* 0.0914;
+					shapeH = shapeH/75* canvas.width* 0.0914;
+					
+					if(canMouseX > shapeX - shapeR && canMouseX < shapeX + shapeR && canMouseY > shapeY - shapeH/2 && canMouseY < shapeY + shapeH/2){
+						isDragging=true;
+						index = i;
+				}
+		 	}else if(typeof arrayListForObject[i].Cone != 'undefined') {
+					var shapeR = (arrayListForObject[i].Cone.radius*50*15)/arrayListForObject[i].Cone.center.z;
+					var shapeH = (arrayListForObject[i].Cone.height*50*15)/arrayListForObject[i].Cone.center.z;
+					var shapeX = (arrayListForObject[i].Cone.center.x/3.3)*250 ;
+					var shapeY = (arrayListForObject[i].Cone.center.y/3.3)*250 ;
+					shapeR = shapeR/75* canvas.width* 0.0914;
+					shapeH = shapeH/75* canvas.width* 0.0914;
+					
+					if(canMouseX > shapeX - shapeR && canMouseX < shapeX  && canMouseY > shapeY && canMouseY < shapeY + shapeH  ){
+						if(Math.abs(canMouseX - shapeX - shapeR) < Math.abs(canMouseY - shapeH)){
+							isDragging=true;
+							index = i;
+						}
+					}else if(canMouseX < shapeX + shapeR && canMouseX > shapeX  && canMouseY > shapeY && canMouseY < shapeY + shapeH  ){
+						if(Math.abs(canMouseX - shapeX) < Math.abs(canMouseY- shapeH)){
+							isDragging=true;
+							index = i;
+						}
+						
+					}
+					
 		 	}
 	  	}
 	}
@@ -1023,6 +1175,14 @@ function handleMouseUp(e) {
 		} else if(typeof arrayListForObject[index].Cube != 'undefined') {
 			arrayListForObject[index].Cube.center.x = (((canMouseX/canvas.width*2)*250) - 250)/71.4285714286;
 			arrayListForObject[index].Cube.center.y = -(((canMouseY/canvas.height*2)*250) - 250)/71.4285714286;
+			ctx.clearRect(0,0,canvas.width,canvas.height);
+		}else if(typeof arrayListForObject[index].Cylinder != 'undefined') {
+			arrayListForObject[index].Cylinder.center.x = (((canMouseX/canvas.width*2)*250) - 250)/71.4285714286;
+			arrayListForObject[index].Cylinder.center.y = -(((canMouseY/canvas.height*2)*250) - 250)/71.4285714286;
+			ctx.clearRect(0,0,canvas.width,canvas.height);
+		}else if(typeof arrayListForObject[index].Cone != 'undefined') {
+			arrayListForObject[index].Cone.center.x = (((canMouseX/canvas.width*2)*250) - 250)/71.4285714286;
+			arrayListForObject[index].Cone.center.y = -(((canMouseY/canvas.height*2)*250) - 250)/71.4285714286;
 			ctx.clearRect(0,0,canvas.width,canvas.height);
 		}
 		redraw(canvas, ctx);
@@ -1043,6 +1203,7 @@ function handleMouseMove(e){
       // if the drag flag is set, clear the canvas and draw the image
     if(isDragging){
 	    ctx.clearRect(0,0,canvas.width,canvas.height);
+		ctx.lineWidth = '10';
 
 		if(typeof arrayListForObject[index].Sphere != 'undefined') {
 			arrayListForObject[index].Sphere.center.x = 999999;
@@ -1053,6 +1214,8 @@ function handleMouseMove(e){
 			var shapeC = arrayListForObject[index].Sphere.color;
 			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
 			ctx.beginPath();
+			ctx.strokeStyle = color;
+			ctx.lineJoin = "round";
 			ctx.arc(canMouseX,canMouseY,convertSize,0,2*Math.PI);
 			ctx.fillStyle = color;
 			ctx.fill();
@@ -1066,7 +1229,52 @@ function handleMouseMove(e){
 			var shapeC = arrayListForObject[index].Cube.color;
 			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
 			ctx.beginPath();
+			ctx.strokeStyle = color;
+			ctx.lineJoin = "miter";
 			ctx.rect(canMouseX - convertSize/2,canMouseY - convertSize/2,convertSize,convertSize);
+			ctx.fillStyle = color;
+			ctx.fill();
+			ctx.stroke();
+	    }else if(typeof arrayListForObject[index].Cylinder != 'undefined') {
+			arrayListForObject[index].Cylinder.center.x = 999999;
+			arrayListForObject[index].Cylinder.center.y = 999999;
+			convertSizeR = (arrayListForObject[index].Cylinder.radius * 50)*15/arrayListForObject[index].Cylinder.center.z ;
+			convertSizeH = (arrayListForObject[index].Cylinder.height * 50)*15/arrayListForObject[index].Cylinder.center.z ;
+			convertSizeR = convertSizeR/75* canvas.width* 0.0914;
+			convertSizeH = convertSizeH/75* canvas.width* 0.0914;
+
+			var shapeC = arrayListForObject[index].Cylinder.color;
+			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
+			
+			ctx.lineJoin = "round";
+			ctx.lineWidth = '10';
+			ctx.strokeStyle = color;
+			ctx.fillStyle = color;
+			ctx.strokeRect(canMouseX - convertSizeR, canMouseY - convertSizeH/2,convertSizeR * 2,convertSizeH);
+			ctx.fillRect(canMouseX - convertSizeR, canMouseY - convertSizeH/2,convertSizeR * 2,convertSizeH);
+	    }else if(typeof arrayListForObject[index].Cone != 'undefined') {
+			arrayListForObject[index].Cone.center.x = 999999;
+			arrayListForObject[index].Cone.center.y = 999999;
+			convertSizeR = (arrayListForObject[index].Cone.radius * 50)*15/arrayListForObject[index].Cone.center.z ;
+			convertSizeH = (arrayListForObject[index].Cone.height * 50)*15/arrayListForObject[index].Cone.center.z ;
+			convertSizeR = (convertSizeR/75* canvas.width* 0.0914)*2;
+			convertSizeH = convertSizeH/75* canvas.width* 0.0914;
+
+			var shapeC = arrayListForObject[index].Cone.color;
+			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
+			
+			positionX = canMouseX - convertSizeR/2;
+			positionY = canMouseY;
+			ctx.lineJoin = "miter";
+			ctx.moveTo(positionX, positionY);
+				
+			positionX += convertSizeR;
+			ctx.lineTo(positionX , positionY);
+				
+			positionX -= convertSizeR/2;
+			positionY -= convertSizeH;
+			ctx.lineTo(positionX, positionY);
+			ctx.closePath();
 			ctx.fillStyle = color;
 			ctx.fill();
 			ctx.stroke();
@@ -1083,7 +1291,7 @@ function handleMouseMove(e){
 		canvas.width  = canvas.offsetWidth;
 		canvas.height = canvas.offsetHeight;
 		redraw(canvas, ctx);
-		document.getElementById("loadingKati").style.width = document.getElementById("loadingKati").style.height;
+		
 	};
    
 	$("#myCanvas").mousedown(function(e){handleMouseDown(e);});

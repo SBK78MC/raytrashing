@@ -307,6 +307,12 @@ body {
 	
 }
 
+/*style floor and room ticks */
+.tik{
+	color: red;
+	
+}
+
 
 
 /* Style the buttons inside the tab */
@@ -345,6 +351,6 @@ body {
 	height: 33%;
 }
 
-#loadingKati{
+.loadingKati{
 	width:35%;
 }
