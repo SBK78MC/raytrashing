@@ -121,5 +121,8 @@
 	  "Room":{
           "active":"BOOLEAN VALUE"
       }
+	  "Antialiasing":{
+          "active":"BOOLEAN VALUE"
+      }
    }
 }
