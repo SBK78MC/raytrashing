@@ -184,21 +184,26 @@ $('#lightNav').click(function() {
 		$('#lightDiv').animate({'left':'0'},250);
 		$('#lightNav').animate({'left':"100%"}, 250);
 		lightClicked = true;
+		$('#lightNav').removeClass("hover");
 	}
 	else {
 		$('#lightDiv').animate({"left": '-400%'}, 250);
 		$('#lightNav').animate({"left": '-4%'}, 250);
 		lightClicked = false;
+		$('#lightNav').addClass("hover");
 	}
 	if(lightClicked) {
 		if(shapeClicked) {
 			$('#shapesDiv').animate({"left": '-400%'}, 250);
 			$('#shapesNav').animate({"left": '-4%'}, 250);
 			shapeClicked    = false;
+			$('#shapesNav').addClass("hover");
 		} else {
 			$('#settingsDiv').animate({"left": '-400%'}, 250);
 			$('#settingsNav').animate({"left": '-4%'}, 250);
 			settingsClicked = false;
+			$('#settingsNav').addClass("hover");
+			
 		}
 	}
 });
@@ -208,21 +213,25 @@ $('#shapesNav').click(function() {
 		$('#shapesDiv').animate({'left':'0'}, 250);
 		$('#shapesNav').animate({'left':"100%"}, 250);
 		shapeClicked = true;
+		$('#shapesNav').removeClass("hover");
 	}
 	else {
 		$('#shapesDiv').animate({"left": '-400%'}, 250);
 		$('#shapesNav').animate({"left": '-4%'}, 250);
 		shapeClicked = false;
+		$('#shapesNav').addClass("hover");
 	}
 	if(shapeClicked) {
 		if(lightClicked) {
 			$('#lightDiv').animate({"left": '-400%'}, 250);
 			$('#lightNav').animate({"left": '-4%'}, 250);
 			lightClicked  	= false;
+			$('#lightNav').addClass("hover");
 		} else {
 			$('#settingsDiv').animate({"left": '-400%'}, 250);
 			$('#settingsNav').animate({"left": '-4%'}, 250);
 			settingsClicked = false;
+			$('#settingsNav').addClass("hover");
 		}
 	}
 });
@@ -232,21 +241,25 @@ $('#settingsNav').click(function() {
 		$('#settingsDiv').animate({'left':'0'}, 250);
 		$('#settingsNav').animate({'left':"100%"}, 250);
 		settingsClicked = true;
+		$('#settingsNav').removeClass("hover");
 	}
 	else {
 		$('#settingsDiv').animate({"left": '-400%'}, 250);
 		$('#settingsNav').animate({"left": '-4%'}, 250);
 		settingsClicked = false;
+		$('#settingsNav').addClass("hover");
 	}
 	if(settingsClicked) {
 		if(lightClicked) {
 			$('#lightDiv').animate({"left": '-400%'}, 250);
 			$('#lightNav').animate({"left": '-4%'}, 250);
 			lightClicked = false;
+			$('#lightNav').addClass("hover");
 		} else {
 			$('#shapesDiv').animate({"left": '-400%'}, 250);
 			$('#shapesNav').animate({"left": '-4%'}, 250);
 			shapeClicked = false;
+			$('#shapesNav').addClass("hover");
 		}	
 	}
 });
