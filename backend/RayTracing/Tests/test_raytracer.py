@@ -59,7 +59,7 @@ if __name__ == '__main__':
     scene.addObject3D(p5)
     scene.addObject3D(p6)
 
-    imagepl = Imageplane(500, 500)
+    imagepl = Imageplane(400, 400)
 
     camera = Camera(Vector(0, 0, 0), Vector(0, 0, 1), Vector(1, 0, 0), math.pi / 8)
     #camera = Camera(Vector(0, 10, 10), Vector(0, 0, 10), Vector(1, 0, 0), math.pi/4)

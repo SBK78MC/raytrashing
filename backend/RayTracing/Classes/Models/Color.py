@@ -68,6 +68,21 @@ class Color(object):
         newColor = Color(redV, greenV, blueV)
         return newColor
 
+    def averageColors(self, colors):
+        totalR = self.getR()
+        totalG = self.getG()
+        totalB = self.getB()
+        for rgb in colors:
+            totalR += rgb.getR()
+            totalG += rgb.getG()
+            totalB += rgb.getB()
+
+        rValue = totalR/ (len(colors)+1)
+        gValue = totalG / (len(colors)+1)
+        bValue = totalB / (len(colors)+1)
+        return Color(rValue, gValue, bValue)
+
+
     def checkNotOutbound(self, value):
         if value > 1:
             value = 1
