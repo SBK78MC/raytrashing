@@ -85,6 +85,9 @@ function cameraAngle() {
 }
 
 function sliderDrag(choice) {
+	var height = document.getElementById("change_h");
+	var size = document.getElementById("change_s");
+	
 if(choice == 0){
 	if(document.getElementById("inputText").style.display == "none") {
 		$('#dragDrop').slideUp(1000, up);
@@ -112,13 +115,26 @@ if(choice == 0){
 		} else {
 			$('#Height').slideUp(1000, up);
 		}
-}else if(choice == 3){
-		var height = document.getElementById("change_h");
+}else if(choice == 3 && globalItem == 'shape'){
 		if(height.style.display == 'none') {
 			$('#change_h').slideDown(1000);
 		} else {
 			$('#change_h').slideUp(1000, up);
 		}
+		sliderDrag(4);
+		
+}else if(choice == 3 && globalItem != 'shape'){
+	if(height.style.display != 'none') {
+			$('#change_h').slideUp(1000, up);
+	} 
+	if(size.style.display != 'none') {
+			$('#change_s').slideUp(1000, up);
+	}
+	
+}else if(choice == 4){
+	if(size.style.display == 'none') {
+			$('#change_s').slideDown(1000);
+	}
 }
 }
 
@@ -134,7 +150,7 @@ function keepActiveButton(active) {
 }
 
 function autoPaint(shape) {
-	document.getElementById("shape").selectedIndex = shape + 1;
+	document.getElementById("shape").selectedIndex = shape;
 	document.getElementById("shape_x").value = '0';
 	document.getElementById("shape_y").value = '0';
 	addShape();
