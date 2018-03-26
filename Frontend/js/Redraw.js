@@ -220,7 +220,7 @@ function redraw(canvas, ctx) {
 			if(typeof arrayListForLight[i].center != 'undefined') {
 				var lightX = (arrayListForLight[i].center.x/3.3)*250 + 250;
 				var lightY = (arrayListForLight[i].center.y/3.3)*250 + 250;
-				ctx.drawImage(base_image, lightX/500 * canvas.width, (1 - (shapeY/500)) * canvas.height, 15, 18);
+				ctx.drawImage(base_image, lightX/500 * canvas.width, (1 - (lightY/500)) * canvas.height, 15, 18);
 			}
 		}
 	}

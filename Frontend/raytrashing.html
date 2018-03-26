@@ -7,15 +7,16 @@
 </head>
 <body>
 <header style="text-align: center;">
-<h1 id="title">RAYTRASHING</h1>
+<!--<h1 id="title">RAYTRASHING</h1>-->
+<img src="./images/logo.png" style="width:20%; margin-top:-1.5%;" />
 </header>
 
 <div id="left">
 
 	<div id = "sideNav">
-		<a href = "#lightDiv" class = "lightNav" id = "lightNav"> <img align = "right" src = "./images/idea.png"></a>
-		<a href = "#shapesDiv" id = "shapesNav"><img align = "right" src = "./images/shapes.png"></a>
-		<a href = "#settingsDiv" id = "settingsNav"><img align = "right" src = "./images/settings.png"></a>
+		<a href = "#lightDiv" class="hover" class = "lightNav" id = "lightNav"> <img align = "right" src = "./images/idea.png"></a>
+		<a href = "#shapesDiv" class="hover" id = "shapesNav"><img align = "right" src = "./images/shapes.png"></a>
+		<a href = "#settingsDiv" class="hover" id = "settingsNav"><img align = "right" src = "./images/settings.png"></a>
 	</div>
 
 	<div id="lightDiv">
@@ -45,8 +46,7 @@
 			<br><br>
 		<div id="inputText">
 			<select id="shape" class="boxes" onchange="sliderDrag(2)">
-				<option value"title" selected disabled>Shape</option>
-				<option value="Circle">Circle</option>
+				<option value="Circle" selected>Sphere</option>
 				<option value="Cube">Cube</option>
 				<option value="Cylinder">Cylinder</option>
 				<option value="Cone">Cone</option>
@@ -68,7 +68,7 @@
 				<option value="3.4">Silicone(3.4)</option>
 			</select>
 
-			<h4 id="coor">Coordinates(-250,250)</h4>
+			<h4 id="coor">Coordinates</h4>
 			<input id="shape_x" class="inputs" type="text" name="Coordinates x" placeholder="x">
 			<input id="shape_y" style="margin-left:3%;"  class="inputs" type="text" name="Coordinates y" placeholder="y">
 			<input id="shape_z" style="margin-left:3%;" class="inputs" type="text" name="Coordinates z" value="10">
@@ -106,8 +106,9 @@
 		</div>
 	</div>
 	<div id = "settingsDiv">
-		<h4>Floor</h4>
+		<h4>Floor &nbsp; Room</h4>
 		<input type="checkbox" name="floor" value="true" id="floor">
+		<input type="checkbox" name="room" value="true" id="room" style="margin-left:14%;">
 		<h4 >Image Size</h4>
 		<select style ="display:inline" align = "center" item-width="10%" onchange="" style="width: 200px; margin-left:33%; " id = "sizeOfScreen" >
 			<option value="500">500x500</option>
@@ -117,6 +118,8 @@
 			<option value="900">900x900</option>
 			<option value="1000">1000x1000</option>
 		</select>
+		<h4>Anti-Aliasing</h4>
+		<input type="checkbox" name="antialiasing" value="true" id="antialiasing">
 		<br>
 		<h4>Camera</h4>
 		<select id="camAngle" class="boxes" onchange="cameraAngle()">
@@ -185,7 +188,7 @@
 			<input id="change_z" style = "width:15%; height:15%; " type="text" placeholder="z">
 			<br>
 			<input id="change_s" style = "width:52.5%; height:15%; margin-left:4%;margin-top:5px;" type="text" placeholder="size">
-			<input id="change_h" style = "width:52.5%; height:15%; margin-left:4%;margin-top:5px; display:none;" type="text" placeholder="height">
+			<input id="change_h" style = "width:52.5%; height:15%; margin-left:4%;margin-top:5px;" type="text" placeholder="height">
 		</div>
 		<br>
 		<button style = "width:50%; padding-left:10%;  margin-left:3%;" class ="buttons" onclick="changeItem()">Change</button>
