@@ -49,7 +49,6 @@
 				<option value="Circle">Circle</option>
 				<option value="Cube">Cube</option>
 				<option value="Cylinder">Cylinder</option>
-				<option value="Pyramid">Pyramid</option>
 				<option value="Cone">Cone</option>
 			</select>
 			<select id="material" class="boxes" onchange="materialValues()">
@@ -92,6 +91,7 @@
 			<img class="drop" src = "./images/sphere.png" onclick="autoPaint(0)">
 			<img class="drop" src = "./images/cube.png" onclick="autoPaint(1)" style="margin-left:2%;"><br><br>
 			<img class="drop" src = "./images/cylinder.png" onclick="autoPaint(2)">
+			<img class="drop" src = "./images/cone.png" onclick="autoPaint(3)">
 		</div>
 		</form>
 
@@ -184,7 +184,8 @@
 			<input id="change_y" style = "width:15%; height:15%;" type="text" placeholder="y">
 			<input id="change_z" style = "width:15%; height:15%; " type="text" placeholder="z">
 			<br>
-			<input id="change_s" style = "width:50%; height:15%; margin-left:4%;margin-top:5px;" type="text" placeholder="size">
+			<input id="change_s" style = "width:52.5%; height:15%; margin-left:4%;margin-top:5px;" type="text" placeholder="size">
+			<input id="change_h" style = "width:52.5%; height:15%; margin-left:4%;margin-top:5px; display:none;" type="text" placeholder="height">
 		</div>
 		<br>
 		<button style = "width:50%; padding-left:10%;  margin-left:3%;" class ="buttons" onclick="changeItem()">Change</button>
