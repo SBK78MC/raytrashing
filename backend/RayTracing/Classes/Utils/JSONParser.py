@@ -24,7 +24,7 @@ class JSONParser:
         imageplane = self.createImageplane(json)
         camera = self.deserializeCamera(json)
         scene = self.deserializeScene(json)
-        antialiasing = self.deserializeAntialiasing(json)
+        antialiasing = self.deserializeAntialiasing(json["Antialiasing"])
 
         return RayTracer(imageplane, scene, camera, antialiasing)
 
