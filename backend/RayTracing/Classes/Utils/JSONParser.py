@@ -24,8 +24,9 @@ class JSONParser:
         imageplane = self.createImageplane(json)
         camera = self.deserializeCamera(json)
         scene = self.deserializeScene(json)
+        antialiasing = self.deserializeAntialiasing(json)
 
-        return RayTracer(imageplane, scene, camera)
+        return RayTracer(imageplane, scene, camera, antialiasing)
 
 
     def deserializeScene(self, json):
@@ -151,6 +152,10 @@ class JSONParser:
         return active
 
     def deserializeRoom(self, sceneJson):
+        active = sceneJson["active"] != "false"
+        return active
+
+    def deserializeAntialiasing(self, sceneJson):
         active = sceneJson["active"] != "false"
         return active
 
