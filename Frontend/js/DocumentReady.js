@@ -46,12 +46,19 @@ function handleMouseDown(e) {
 				var shapeR = (arrayListForObject[i].Sphere.radius*50*15)/arrayListForObject[i].Sphere.center.z;
 				var shapeX = (arrayListForObject[i].Sphere.center.x/3.3)*250 ;
 				var shapeY = (arrayListForObject[i].Sphere.center.y/3.3)*250 ;
-				shapeR = shapeR/75* canvas.width* 0.0914;
+				//shapeR = shapeR/75* canvas.width* 0.0914;
+				shapeR = shapeR/75* canvas.width* 0.119;
 				
+				if(Math.pow((canMouseX - shapeX), 2) + Math.pow((canMouseY - shapeY),2) < Math.pow(shapeR,2)){
+					isDragging=true;
+					index = i;
+				}
+				/*
 				if(canMouseX > shapeX - shapeR && canMouseX < shapeX + shapeR && canMouseY > shapeY - shapeR && canMouseY < shapeY + shapeR) {
 					isDragging=true;
 					index = i;
 				}
+				*/
 		  	} else if(typeof arrayListForObject[i].Cube != 'undefined') {
 					var shapeR = (arrayListForObject[i].Cube.sideLength*50*15)/arrayListForObject[i].Cube.center.z;
 					var shapeX = (arrayListForObject[i].Cube.center.x/3.3)*250 ;
@@ -79,22 +86,36 @@ function handleMouseDown(e) {
 					var shapeH = (arrayListForObject[i].Cone.height*50*15)/arrayListForObject[i].Cone.center.z;
 					var shapeX = (arrayListForObject[i].Cone.center.x/3.3)*250 ;
 					var shapeY = (arrayListForObject[i].Cone.center.y/3.3)*250 ;
-					shapeR = shapeR/75* canvas.width* 0.0914;
-					shapeH = shapeH/75* canvas.width* 0.0914;
+					shapeR = (shapeR/75* canvas.width* 0.0914)*1.5;
+					shapeH = (shapeH/75* canvas.width* 0.0914)*1.5;
 					
-					if(canMouseX > shapeX - shapeR && canMouseX < shapeX  && canMouseY > shapeY && canMouseY < shapeY + shapeH  ){
-						if(Math.abs(canMouseX - shapeX - shapeR) < Math.abs(canMouseY - shapeH)){
-							isDragging=true;
+					//get the 3 points of our cone
+					var leftPointX = shapeX - shapeR/2;
+					var leftPointY = shapeY;
+					
+					var topPointX = shapeX;
+					var topPointY = shapeY + shapeH;
+					
+					var rightPointX = shapeX + shapeR/2;
+					var rightPointY = shapeY;
+					
+					//find the m constant of the equation left and right side 
+					var mLeft = (topPointY - leftPointY)/(topPointX - leftPointX);
+					var mRight = (topPointY - rightPointY)/(topPointX - rightPointX);
+					
+					
+					//find the a constant of the equation left and right side 
+					var aLeft = leftPointY - (mLeft * leftPointX);
+					var aRight = rightPointY - (mRight * rightPointX);
+					
+					//console.log(" mouseY: " + canMouseY + " mouseX: " + canMouseX);
+					//console.log(" left equation: " + (mLeft * canMouseX + aLeft) + " right equation: " + (mRight * canMouseX + aRight));
+					
+					//check if the user clicked the left side or the right side of the cone
+					if(canMouseY < (mRight * canMouseX + aRight) && canMouseY > shapeY && canMouseY < (mLeft * canMouseX + aLeft) ){
+						isDragging=true;
 							index = i;
-						}
-					}else if(canMouseX < shapeX + shapeR && canMouseX > shapeX  && canMouseY > shapeY && canMouseY < shapeY + shapeH  ){
-						if(Math.abs(canMouseX - shapeX) < Math.abs(canMouseY- shapeH)){
-							isDragging=true;
-							index = i;
-						}
-						
 					}
-					
 		 	}
 	  	}
 	}
@@ -199,7 +220,7 @@ function handleMouseMove(e){
 
 			var shapeC = arrayListForObject[index].Cone.color;
 			var color = rgbToHex(shapeC.r * 255, shapeC.g * 255, shapeC.b * 255);
-			
+			ctx.strokeStyle = color;
 			positionX = canMouseX - convertSizeR/2;
 			positionY = canMouseY;
 			ctx.lineJoin = "miter";
