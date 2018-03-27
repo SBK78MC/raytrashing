@@ -8,14 +8,31 @@ function renderShapes() {
 
 	//for Ambient Light
 	var active  = "true";
-	var checked = document.getElementById('floor').checked;
-	if(checked == true)	checked = "true";
-	else checked = "false";
 	if(document.getElementById('brightness').value == 0) active = "false";
 	var ambientLight 		 = new AmbientLight(active, document.getElementById('ambient').value / 100);
 	globalAmbientLight  	 = ambientLight;
-	var floor				 = new Floor(checked);
+	
+	//for floor in the scene
+	var floorChecked 		= document.getElementById('floor').checked;
+	if(floorChecked == true) floorChecked = "true";
+	else floorChecked = "false";
+	var floor				 = new Floor(floorChecked);
 	globalFloor				 = floor;
+	
+	//for room in the scene
+	var roomChecked 		= document.getElementById('room').checked;
+	if(roomChecked == true) roomChecked   = "true";
+	else roomChecked = "false";
+	var room 				 = new Room(roomChecked);
+	globalRoom				 = room;
+	
+	//for antialiasing
+	var antiAliasingChecked = document.getElementById('antialiasing').checked;
+	if(antiAliasingChecked == true) antiAliasingChecked = "true";
+	else antiAliasingChecked = "false";
+	var antiAl 				 = new Antialiasing(antiAliasingChecked);
+	globalAntialiasingObject = antiAl;
+
 	var modal				 = document.getElementById('myModal1');
 	document.getElementById("loadingKati").src = "./images/spinner.gif";
 	modal.style.display = "block";
@@ -33,7 +50,7 @@ function renderShapes() {
 	//var url = "http://52.20.143.165:8000/raytrace";
 	xhr.open("POST", url, true);
 	var jsonData = JSON.stringify(globalRaytracerObject);
-	//console.log(jsonData);
+	console.log(jsonData);
 	xhr.send(jsonData);
 
 	//get binary and make it an image... {there is a problem with headers called CORS from backend.. we have to fix it} (fixed as of 13.02.2018!)
