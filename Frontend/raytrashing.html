@@ -8,7 +8,9 @@
 <body>
 <header style="text-align: center;">
 <!--<h1 id="title">RAYTRASHING</h1>-->
-<img src="./images/logo.png" style="width:20%; margin-top:-1.5%;" />
+<a href="./raytrashing.html" >
+	<img src="./images/logo.png" style="width:20%; margin-top:-1.5%;" />
+</a>
 </header>
 
 <div id="left">
@@ -31,10 +33,10 @@
 		<input id = "ambient" type="range" min="0" max="100" value="20" class="bar">
 		<br><br>
 		<div>
-			<button id="render" class="buttons" type="button" onclick="addLight()">Add Light</button>
+			<button id="render" class="buttons" type="buttons"  onclick="addLight()">Add Light</button>
 		</div>
-		<button id="render" class="buttons" type="button" onclick="clearGrid()">Clear Grid</button>
-	</form>
+		<button id="render" class="buttons" type="buttons"  onclick="clearGrid()">Clear Grid</button>
+	</form> 
 	</div>
 
 	<div id = "shapesDiv">
@@ -170,7 +172,7 @@
 	<div style="margin-left: 10%;">
 		<h4 style = "color:black;">Shapes</h4>
 	
-		<select id="Shapes" style = "width:50%;" onclick="shapeOption()"  size ="3"></select>
+		<select id="Shapes" style = "width:50%; color:white;" onclick="shapeOption()"  size ="3"></select>
 
 	
 		<h4 style = "color:black;">Lights</h4>
@@ -197,7 +199,7 @@
 </div>
 
 <div id="screenSize" align = "center">
-	<button id="render" class="buttons" type="button" onclick="renderShapes()">Render</button>
+	<button id="render" class="buttons" type="button" Style="background:#ffcc66; color:black;" onclick="renderShapes()">Render</button>
 </div>
 
 
