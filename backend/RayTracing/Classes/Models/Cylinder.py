@@ -88,10 +88,8 @@ class Cylinder(Object3D):
             epsilon = 0.00001
 
             if point.y > self.top.y - epsilon:
-                surfaceNormal.y = 1
                 return Vector(0.0, 1.0, 0.0)
             elif self.bottom.y - epsilon < point.y < self.bottom.y + epsilon :
-                surfaceNormal.y = -1
                 return Vector(0.0, -1.0, 0.0)
 
             v = Vector(self.center.x, point.y, self.center.z)

@@ -258,7 +258,9 @@ class RayTracer:
             lightToPoint = light.getLightRay(intersection.getPoint().sub(light.getPosition()))
 
             shadowIntersection = objectIter.intersection(lightToPoint, 0.001, 0.9999)
-            if shadowIntersection:
+            if shadowIntersection and objectIter != intersection.getObject():
+                shadowIntersection.getPoint().print()
+                shadowIntersection.getObject().getCenter().print()
                 if isShadow is not None:
                     if isShadow > objectIter.getTransparency():
                         isShadow = objectIter.getTransparency()
