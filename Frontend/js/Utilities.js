@@ -1,8 +1,10 @@
+//name of download image
 function fileName() {
 	var file       = document.getElementById("downloadName").value;
 	globalFileName = file;
 }
 
+//convert color from hex to rgb
 function hexToRgb(hex) {
     var c;
     if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
@@ -16,15 +18,16 @@ function hexToRgb(hex) {
     throw new Error('Bad Hex');
 }
 
+//convert color to hex
 function componentToHex(c) {
     var hex = c.toString(16);
     return hex.length == 1 ? "0" + hex : hex;
 }
-
 function rgbToHex(r, g, b) {
     return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
+//clear canvas and arrays
 function clearGrid() {
 	var c = document.getElementById("myCanvas");
 	var ctx = c.getContext("2d");
@@ -43,6 +46,7 @@ function clearGrid() {
 	globalFileName				= "";
 };
 
+//set default camera angle
 function cameraAngle() {
 	var view = document.getElementById("camAngle").value;
 	if(view == "front") {
@@ -84,6 +88,7 @@ function cameraAngle() {
 	}
 }
 
+//function for the slides happening around the page
 function sliderDrag(choice) {
 	var height = document.getElementById("change_h");
 	var size = document.getElementById("change_s");
@@ -149,6 +154,7 @@ function keepActiveButton(active) {
 	}
 }
 
+//function to paint shapes on click
 function autoPaint(shape) {
 	document.getElementById("shape").selectedIndex = shape;
 	document.getElementById("shape_x").value = '0';
@@ -156,6 +162,7 @@ function autoPaint(shape) {
 	addShape();
 }
 
+//function to set default material values
 function materialValues() {
 	var value = document.getElementById("material").value;
 	if(value == 'solid') {
