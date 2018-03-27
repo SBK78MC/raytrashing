@@ -31,10 +31,10 @@
 		<input id = "ambient" type="range" min="0" max="100" value="20" class="bar">
 		<br><br>
 		<div>
-			<button id="render" class="buttons" type="button" onclick="addLight()">Add Light</button>
+			<button id="render" class="buttons" type="button" style="background-color: #808080;" onclick="addLight()">Add Light</button>
 		</div>
-		<button id="render" class="buttons" type="button" onclick="clearGrid()">Clear Grid</button>
-	</form>
+		<button id="render" class="buttons" type="button" style="background-color: #808080;" onclick="clearGrid()">Clear Grid</button>
+	</form> 
 	</div>
 
 	<div id = "shapesDiv">
@@ -129,7 +129,7 @@
 		</select>
 		<br><br>
 		
-		<button id="render" class="buttons" type="button" onclick="sliderDrag(1)">Advanced Camera</button>
+		<button id="render" class="buttons" type="button" style="background-color: #808080;" onclick="sliderDrag(1)">Advanced Camera</button>
 		<div id="advancedCam" style="display: none;">
 			<h4>Camera Position</h4>
 			<input id="camera_pos_x" class="inputs" type="text" name="Coordinates Pos x" placeholder="x">
@@ -170,7 +170,7 @@
 	<div style="margin-left: 10%;">
 		<h4 style = "color:black;">Shapes</h4>
 	
-		<select id="Shapes" style = "width:50%;" onclick="shapeOption()"  size ="3"></select>
+		<select id="Shapes" style = "width:50%; color:white;" onclick="shapeOption()"  size ="3"></select>
 
 	
 		<h4 style = "color:black;">Lights</h4>
