@@ -224,11 +224,11 @@ function cameraObjectCreation() {
 }
 
 function raytracerObjectCreation() {
-	var raytracerObject    = new RayTracer(globalImagePlaneSizeObject, globalCameraObject, globalSceneObject);
+	var raytracerObject    = new RayTracer(globalImagePlaneSizeObject, globalAntialiasingObject, globalCameraObject, globalSceneObject);
 	globalRaytracerObject  = raytracerObject;
 }
 
 function sceneObjectCreation() {
-	var sceneObject   	   = new Scene(arrayListForObject, arrayListForLight, globalAmbientLight, globalFloor);
+	var sceneObject   	   = new Scene(arrayListForObject, arrayListForLight, globalAmbientLight, globalFloor, globalRoom);
 	globalSceneObject 	   = sceneObject;
 }
