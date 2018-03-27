@@ -74,8 +74,8 @@ function addShape() {
 	var radius		 		 = document.getElementById('size').value;
 	var height				 = document.getElementById('height').value;
 	var reflection   		 = document.getElementById('reflection').value / 100;
-	var specular			 = document.getElementById('specular').value / 100;
-	var transparency		 = document.getElementById('transparency').value;
+	var specular			 = document.getElementById('specular').value;
+	var transparency		 = document.getElementById('transparency').value / 100;
 	var refIndex 			 = document.getElementById('refractive').value;
 
 	//converting Hex to RGB.
