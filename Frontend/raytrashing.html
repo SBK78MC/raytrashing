@@ -109,8 +109,8 @@
 	</div>
 	<div id = "settingsDiv">
 		<h4>Floor &nbsp; Room</h4>
-		<input type="checkbox" name="floor" value="true" id="floor">
-		<input type="checkbox" name="room" value="true" id="room" style="margin-left:14%;">
+		<input type="checkbox" name="floor" id="floor" onclick="checkBoxToRadio(0)">
+		<input type="checkbox" name="room" id="room" style="margin-left:14%;" onclick="checkBoxToRadio(1)">
 		<h4 >Image Size</h4>
 		<select style ="display:inline" align = "center" item-width="10%" onchange="" style="width: 200px; margin-left:33%; " id = "sizeOfScreen" >
 			<option value="500">500x500</option>

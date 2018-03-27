@@ -143,6 +143,17 @@ if(choice == 0){
 }
 }
 
+//function to only allow the user to add floor or room or none
+function checkBoxToRadio(choice){
+	var floor = document.getElementById("floor").checked;
+	var room = document.getElementById("room").checked;
+	if(choice == 0 && floor){
+		$("#room").prop("checked", false);
+	}else if(choice == 1 && room){
+		$("#floor").prop("checked", false);
+	}
+}
+
 function keepActiveButton(active) {
 	var sides = ["front", "top", "side"];
 	for(i = 0; i < 3; i++){
