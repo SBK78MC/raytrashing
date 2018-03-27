@@ -160,8 +160,10 @@ function redraw(canvas, ctx) {
 			ctx.strokeStyle = color;
 			ctx.lineJoin = "miter";
 			
+			
+			
 			if(currentView == "front") {
-				positionX = shapeX - shapeR/2;
+				positionX = ((shapeX - shapeR/2)/500)*canvas.width;
 				positionY = ((1 - (shapeY/500)) * canvas.height);
 				ctx.moveTo(positionX, positionY);
 				
