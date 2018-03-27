@@ -15,45 +15,46 @@ function shapeList(name, color) {
 	shape.add(option);
 }
 
-function shapeOption()
-{
+function shapeOption() {
 	var clickedItem = 0;
 	var shape = document.getElementById("Shapes");
 	globalItem = "shape";
-	if(typeof shape[shape.selectedIndex] != 'undefined') {
-		var item_value = shape[shape.selectedIndex].value;
-	if(typeof arrayListForObject[item_value].Sphere != 'undefined' && item_value > -1) {
-		document.getElementById('change_x').value = parseFloat(arrayListForObject[item_value].Sphere.center.x);
-		document.getElementById('change_y').value = parseFloat(arrayListForObject[item_value].Sphere.center.y);
-		document.getElementById('change_z').value = parseFloat(arrayListForObject[item_value].Sphere.center.z);
-		document.getElementById('change_s').value = parseFloat(arrayListForObject[item_value].Sphere.radius);
-		clickedItem = 0;
-		sliderDrag(4);
-	} else if(typeof arrayListForObject[item_value].Cube != 'undefined' && item_value > -1) {
-		document.getElementById('change_x').value = parseFloat(arrayListForObject[item_value].Cube.center.x);
-		document.getElementById('change_y').value = parseFloat(arrayListForObject[item_value].Cube.center.y);
-		document.getElementById('change_z').value = parseFloat(arrayListForObject[item_value].Cube.center.z);
-		document.getElementById('change_s').value = parseFloat(arrayListForObject[item_value].Cube.sideLength);
-		clickedItem = 0;
-		sliderDrag(4);
-	} else if(typeof arrayListForObject[item_value].Cylinder != 'undefined' && item_value > -1) {
-		document.getElementById('change_x').value = parseFloat(arrayListForObject[item_value].Cylinder.center.x);
-		document.getElementById('change_y').value = parseFloat(arrayListForObject[item_value].Cylinder.center.y);
-		document.getElementById('change_z').value = parseFloat(arrayListForObject[item_value].Cylinder.center.z);
-		document.getElementById('change_s').value = parseFloat(arrayListForObject[item_value].Cylinder.radius);
-		document.getElementById('change_h').value = parseFloat(arrayListForObject[item_value].Cylinder.height);
-		clickedItem = 1;
-	} else if(typeof arrayListForObject[item_value].Cone != 'undefined' && item_value > -1) {
-		document.getElementById('change_x').value = parseFloat(arrayListForObject[item_value].Cone.center.x);
-		document.getElementById('change_y').value = parseFloat(arrayListForObject[item_value].Cone.center.y);
-		document.getElementById('change_z').value = parseFloat(arrayListForObject[item_value].Cone.center.z);
-		document.getElementById('change_s').value = parseFloat(arrayListForObject[item_value].Cone.radius);
-		document.getElementById('change_h').value = parseFloat(arrayListForObject[item_value].Cone.height);
-		clickedItem = 1;
-	}
-	if(clickedItem == 1 && document.getElementById("change_h").style.display == 'none'){
+	if(typeof shape.selectedIndex != 'undefined') {
+		var item_value = shape.selectedIndex;
+		try {
+			if(typeof arrayListForObject[item_value].Sphere != 'undefined' && item_value > -1) {
+				document.getElementById('change_x').value = parseFloat(arrayListForObject[item_value].Sphere.center.x);
+				document.getElementById('change_y').value = parseFloat(arrayListForObject[item_value].Sphere.center.y);
+				document.getElementById('change_z').value = parseFloat(arrayListForObject[item_value].Sphere.center.z);
+				document.getElementById('change_s').value = parseFloat(arrayListForObject[item_value].Sphere.radius);
+				clickedItem = 0;
+				sliderDrag(4);
+			} else if(typeof arrayListForObject[item_value].Cube != 'undefined' && item_value > -1) {
+				document.getElementById('change_x').value = parseFloat(arrayListForObject[item_value].Cube.center.x);
+				document.getElementById('change_y').value = parseFloat(arrayListForObject[item_value].Cube.center.y);
+				document.getElementById('change_z').value = parseFloat(arrayListForObject[item_value].Cube.center.z);
+				document.getElementById('change_s').value = parseFloat(arrayListForObject[item_value].Cube.sideLength);
+				clickedItem = 0;
+				sliderDrag(4);
+			} else if(typeof arrayListForObject[item_value].Cylinder != 'undefined' && item_value > -1) {
+				document.getElementById('change_x').value = parseFloat(arrayListForObject[item_value].Cylinder.center.x);
+				document.getElementById('change_y').value = parseFloat(arrayListForObject[item_value].Cylinder.center.y);
+				document.getElementById('change_z').value = parseFloat(arrayListForObject[item_value].Cylinder.center.z);
+				document.getElementById('change_s').value = parseFloat(arrayListForObject[item_value].Cylinder.radius);
+				document.getElementById('change_h').value = parseFloat(arrayListForObject[item_value].Cylinder.height);
+				clickedItem = 1;
+			} else if(typeof arrayListForObject[item_value].Cone != 'undefined' && item_value > -1) {
+				document.getElementById('change_x').value = parseFloat(arrayListForObject[item_value].Cone.center.x);
+				document.getElementById('change_y').value = parseFloat(arrayListForObject[item_value].Cone.center.y);
+				document.getElementById('change_z').value = parseFloat(arrayListForObject[item_value].Cone.center.z);
+				document.getElementById('change_s').value = parseFloat(arrayListForObject[item_value].Cone.radius);
+				document.getElementById('change_h').value = parseFloat(arrayListForObject[item_value].Cone.height);
+				clickedItem = 1;
+			} 
+		} catch (err) {}
+	if(clickedItem == 1 && document.getElementById("change_h").style.display == 'none') {
 		sliderDrag(3);
-	}else if(clickedItem == 0 && document.getElementById("change_h").style.display != 'none'){
+	} else if(clickedItem == 0 && document.getElementById("change_h").style.display != 'none') {
 		sliderDrag(3);
 	}
 }
@@ -61,17 +62,17 @@ function shapeOption()
     for(var i = 0; i < elements.length; i++) {
     	elements[i].selected = false;
     }
-	
 }
 
 function lightOption() {
 	var light = document.getElementById("Lights");
-	var item_value = light[light.selectedIndex].value;
-	
-	document.getElementById('change_x').value = arrayListForLight[item_value].center.x;
-	document.getElementById('change_y').value = arrayListForLight[item_value].center.y;
-	document.getElementById('change_z').value = arrayListForLight[item_value].center.z;
-	document.getElementById('change_s').value = "--";
+	var item_value = light.selectedIndex;
+	try {
+		document.getElementById('change_x').value = arrayListForLight[item_value].center.x;
+		document.getElementById('change_y').value = arrayListForLight[item_value].center.y;
+		document.getElementById('change_z').value = arrayListForLight[item_value].center.z;
+		document.getElementById('change_s').value = "--";
+	} catch(err) {}
 	
     var elements = document.getElementById("Shapes").options;
     for(var i = 0; i < elements.length; i++) {
@@ -88,7 +89,7 @@ function changeItem()
 	//Change Shape
 	if(globalItem == "shape") {	
 		var shape = document.getElementById("Shapes");
-		var item_value = shape[shape.selectedIndex].value;
+		var item_value = shape.selectedIndex;
 
 		if(typeof arrayListForObject[item_value].Sphere != 'undefined') {
 			arrayListForObject[item_value].Sphere.center.x 	   = (document.getElementById('change_x').value);
@@ -117,7 +118,7 @@ function changeItem()
 	//Change Light
 	else if(globalItem == "light") {
 		var light = document.getElementById("Lights");
-		var item_value = light[light.selectedIndex].value;
+		var item_value = light.selectedIndex;
 		
 		arrayListForLight[item_value].center.x = (document.getElementById('change_x').value);
 		arrayListForLight[item_value].center.y = (document.getElementById('change_y').value);
@@ -130,33 +131,29 @@ function changeItem()
 }
 
 // Deleting the shape from list and all scenes
-function deleteItem()
-{
+function deleteItem() {
 	canvas  = document.getElementById("myCanvas");
 	ctx		= canvas.getContext("2d");
 	if(globalItem == "shape") {
 		//Delete Shape
 		var shape = document.getElementById("Shapes");
-		var item_value = shape[shape.selectedIndex].value;
+		var item_value = shape.selectedIndex;
 		arrayListForObject.splice(item_value, 1);
 
 		//Delete Select Shape
 		var shape_select = document.getElementById("Shapes");
 		shape_select.remove(shape.selectedIndex);
-		
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		redraw(canvas, ctx);
 	} else {
 		//Delete Lights
 		var light 			= document.getElementById("Lights");
-		var light_value 	= light[light.selectedIndex].value;
+		var light_value 	= light.selectedIndex;
 		arrayListForLight.splice(light_value, 1);
 
 		//Delete Select Light
 		light.remove(light.selectedIndex);
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		redraw(canvas, ctx);
 	}
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	redraw(canvas, ctx);
 	//clear values
 	document.getElementById("change_x").value = "";
 	document.getElementById("change_y").value = "";

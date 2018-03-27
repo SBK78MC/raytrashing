@@ -15,6 +15,12 @@ class Worker:
         y = y - self.fromY
         self.img[y][x] = rgb
 
+    def setColorAntialiasing(self, y, x, rgbV, rgb0, rgb1, rgb2, rgb3):
+        y = y - self.fromY
+
+        rgbAntialiasing = [rgb0, rgb1, rgb2, rgb3]
+        print( rgbV.averageColors(rgbAntialiasing).getArray() )
+        self.img[y][x] = rgbV.averageColors(rgbAntialiasing).getArray()
 
     def getHeight(self):
         return self.height

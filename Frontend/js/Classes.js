@@ -1,20 +1,22 @@
 
 class RayTracer {
 	//to encompass all the objects in one parent class - RayTracer
-	constructor(imagePlane, camera, scene) {
-		this.ImagePlane = imagePlane;
-		this.Camera 	= camera;
-		this.Scene 		= scene;
+	constructor(imagePlane, antiAl, camera, scene) {
+		this.ImagePlane   = imagePlane;
+		this.Antialiasing = antiAl;
+		this.Camera 	  = camera;
+		this.Scene 		  = scene;
 	}
 }
 
 class Scene {
 	//to add all the shapes, lights and ambient light to a single class for cleaner JSON
-	constructor(shapes, light, ambientLight, floor) {
+	constructor(shapes, light, ambientLight, floor, room) {
 		this.Object3D 	  = shapes;
 		this.Light 		  = light;
 		this.AmbientLight = ambientLight;
 		this.Floor		  = floor;
+		this.Room		  = room;
 	}
 }
 
@@ -70,6 +72,7 @@ class LightSource {
 }
 
 class AmbientLight {
+	//adds ambient light to the scene
 	constructor(active, value) {
 		this.active = active;
 		this.brightness = value;
@@ -77,6 +80,21 @@ class AmbientLight {
 }
 
 class Floor {
+	//adds floor to the scene
+	constructor(active) {
+		this.active = active;
+	}
+}
+
+class Room {
+	//adds room to the scene
+	constructor(active) {
+		this.active = active;
+	}
+}
+
+class Antialiasing {
+	//adds antialiasing to the raytracer object
 	constructor(active) {
 		this.active = active;
 	}

@@ -17,5 +17,7 @@ var globalSceneObject;
 var globalRaytracerObject;
 var globalAmbientLight;
 var globalFloor;
+var globalRoom;
+var globalAntialiasingObject;
 var globalItem;
 var globalFileName;
