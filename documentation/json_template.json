@@ -3,6 +3,9 @@
         "width":"INTEGER VALUE",
         "height": "INTEGER VALUE"
     },
+	"Antialiasing":{
+        "active":"BOOLEAN VALUE"
+    },
     "Camera":{
         "position": {
             "x":"DOUBLE VALUE",
@@ -10,6 +13,11 @@
             "z":"DOUBLE VALUE"
         },
         "pointOfView": {
+            "x":"DOUBLE VALUE",
+            "y":"DOUBLE VALUE",
+            "z":"DOUBLE VALUE"
+        },
+		"cameraRightAngle": {
             "x":"DOUBLE VALUE",
             "y":"DOUBLE VALUE",
             "z":"DOUBLE VALUE"
@@ -111,6 +119,9 @@
           "brightness":"DOUBLE VALUE"
       },
       "Floor":{
+          "active":"BOOLEAN VALUE"
+      },
+	  "Room":{
           "active":"BOOLEAN VALUE"
       }
    }

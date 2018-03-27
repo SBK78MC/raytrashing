@@ -24,8 +24,9 @@ class JSONParser:
         imageplane = self.createImageplane(json)
         camera = self.deserializeCamera(json)
         scene = self.deserializeScene(json)
+        antialiasing = self.deserializeAntialiasing(json["Antialiasing"])
 
-        return RayTracer(imageplane, scene, camera)
+        return RayTracer(imageplane, scene, camera, antialiasing)
 
 
     def deserializeScene(self, json):
@@ -51,6 +52,16 @@ class JSONParser:
 
         if self.deserializeFloor(jsonScene["Floor"]):
             scene.addObject3D(Plane(Vector(0, -3, 0), Vector(0, 1, 0), Color(1.0, 1.0, 1.0), 200, 0.3))
+
+        if self.deserializeRoom(jsonScene["Room"]):
+            scene.addObject3D(Plane(Vector(0, -3, 0), Vector(0, 1, 0), Color(0.75, 0.7, 0.75), 500, 0.3))
+            scene.addObject3D(Plane(Vector(0, 10, 0), Vector(0, 1, 0), Color(0., 0.6, 0.2), 0, 0))
+
+            scene.addObject3D(Plane(Vector(0, 0, 30), Vector(0, 0, -1), Color(0.63, 0.73, 0.65), 0, 0))
+            scene.addObject3D(Plane(Vector(0, 0, -1), Vector(0, 0, 1), Color(0.9, 0.6, 0.4), 0, 0))
+
+            scene.addObject3D(Plane(Vector(-10, 0, 0), Vector(1, 0, 0), Color(1., 0.4, 0.4), 0, 0))
+            scene.addObject3D(Plane(Vector(10, 0, 0), Vector(-1, 0, 0), Color(0.6, 0.8, 1.0), 0, 0))
 
         return scene
 
@@ -137,6 +148,14 @@ class JSONParser:
         return Color(r, g, b)
 
     def deserializeFloor(self, sceneJson):
+        active = sceneJson["active"] != "false"
+        return active
+
+    def deserializeRoom(self, sceneJson):
+        active = sceneJson["active"] != "false"
+        return active
+
+    def deserializeAntialiasing(self, sceneJson):
         active = sceneJson["active"] != "false"
         return active
 

@@ -21,7 +21,7 @@ from multiprocessing.managers import BaseManager
 
 class RayTracer:
 
-    def __init__(self, imageplane=Imageplane(), mainscene=Scene(), camera=Camera()):
+    def __init__(self, imageplane=Imageplane(), mainscene=Scene(), camera=Camera(), antialiasing=False):
         self.recursionLimit = 3
         self.backgroundColor = Color(0, 0, 0)
         self.imageplane = imageplane
@@ -29,6 +29,7 @@ class RayTracer:
         self.camera = camera
         self.imageAspectRatio = imageplane.width/imageplane.height
         self.img = numpy.zeros((imageplane.getHeight(), imageplane.getWidth(), 3))
+        self.antialiasing = antialiasing
 
 
     def startRayTracing(self):
@@ -66,6 +67,11 @@ class RayTracer:
         return final
 
     def trace(self, worker):
+
+        if self.antialiasing:
+            samplingdistanceX = 1/self.imageplane.getWidth()
+            samplingdistanceY = 1 / self.imageplane.getHeight()
+
         for y in worker.getYRange():
             for x in worker.getXRange():
                 pixelX = 2 * x / self.imageplane.getWidth() - 1
@@ -73,7 +79,14 @@ class RayTracer:
 
                 pixelRay = self.camera.getRay(pixelX, pixelY)
 
-                worker.setColor(y, x, self.traceRay(pixelRay, 0).getArray())
+                if self.antialiasing:
+                    pixelRayAntialiasing0 = self.camera.getRay(pixelX + samplingdistanceX, pixelY + samplingdistanceY)
+                    pixelRayAntialiasing1 = self.camera.getRay(pixelX + samplingdistanceX, pixelY - samplingdistanceY)
+                    pixelRayAntialiasing2 = self.camera.getRay(pixelX - samplingdistanceX, pixelY + samplingdistanceY)
+                    pixelRayAntialiasing3 = self.camera.getRay(pixelX - samplingdistanceX, pixelY - samplingdistanceY)
+                    worker.setColorAntialiasing(y, x, self.traceRay(pixelRay, 0), self.traceRay(pixelRayAntialiasing0, 0), self.traceRay(pixelRayAntialiasing1, 0), self.traceRay(pixelRayAntialiasing2, 0), self.traceRay(pixelRayAntialiasing3, 0))
+                else:
+                    worker.setColor(y, x, self.traceRay(pixelRay, 0).getArray())
 
     def traceRay(self, pixelRay, recursionDepth):
 
