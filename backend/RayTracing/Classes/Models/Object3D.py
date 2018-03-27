@@ -3,6 +3,9 @@ from RayTracing.Classes.Models.Vector import Vector
 
 
 class Object3D:
+    """Object3D is the superclass of every other shape that can exist, it includes the basic properties that
+    all objects share, like a center, a color, their refractiveIndex and also the degree of specular reflection,
+     reflectivity and transparency"""
 
     def __init__(self, x=0, y=0, z=0, color=Color(), specular=100, reflection=0.1, transparency=0, refractiveIndex=1.0):
         self.center = Vector(x, y, z)
@@ -49,6 +52,7 @@ class Object3D:
     def getTransparency(self):
         return self.transparency
 
+    # Checks that the sum of reflection and transparency is not over 1.0 and if it is it reduces them accordingly
     def checkReflectionAndTransparencyLimit(self):
         totalReflAndTrans = self.reflection + self.transparency
         if totalReflAndTrans > 1.0:

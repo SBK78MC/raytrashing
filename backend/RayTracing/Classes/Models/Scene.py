@@ -2,6 +2,8 @@ from . import Object3D, Light
 
 
 class Scene(object):
+    """This class includes two lists, one for the objects and one for the lights that are included in the scene
+        It provides with appropriate functions to return said lists, as well as add and remove objects and lights"""
 
     def __init__(self, objects=None, lights=None):
         if objects == None:

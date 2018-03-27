@@ -4,6 +4,8 @@ import sys
 
 
 class Vector:
+    """This class specifies a 3D Vector by having 3 values, the x,y and z that specify the Vector
+    position on the 3D space"""
 
     def __init__(self, x=0, y=0, z=0):
         self.x = x

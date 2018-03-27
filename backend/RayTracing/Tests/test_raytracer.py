@@ -35,12 +35,12 @@ if __name__ == '__main__':
     s1 = Sphere(sCenter1, 1, Color(1.0, 0, 0), 600, 0, 0)
     s2 = Sphere(sCenter2, 1.3, Color(0, 1.0, 0), 500, 0, 0)
 
-    cube = Cube(Vector(0, 4, 12), 1, Color(0, 1, 0), 1000, 0, 0)
+    cube = Cube(Vector(0, 0, 25), 10, Color(0, 1, 0), 1000, 0, 0)
 
     cone = Cone(Vector(0, 0, 10), 1, 1, Color(1, 0, 0), 1000, 0, 0)
-    cylinder = Cylinder(Vector(-0, -3, 8), 1, 1, Color(1, 0, 0), 1000, 0, 0)
+    cylinder = Cylinder(Vector(0, -3, 8), 1, 1, Color(1, 0, 0), 1000, 0.8, 0)
 
-    light1 = Light(0, 3, 6, 0.5)
+    light1 = Light(0, 3, 8, 0.5)
     light2 = Light(1, 3, 5, 0.3)
 
     light0 = AmbientLight(0.2)
@@ -49,17 +49,17 @@ if __name__ == '__main__':
 
     scene.addLight(light0)
     scene.addLight(light1)
-    #scene.addLight(light2)
+    scene.addLight(light2)
 
-    #scene.addObject3D(s1)
-    #scene.addObject3D(cylinder)
+    scene.addObject3D(s1)
+    scene.addObject3D(cylinder)
 
 
 
     scene.addObject3D(cone)
-    #scene.addObject3D(cube)
+    scene.addObject3D(cube)
 
-    #scene.addObject3D(p1)
+    scene.addObject3D(p1)
     #scene.addObject3D(p2)
     #scene.addObject3D(p3)
     #scene.addObject3D(p4)
@@ -69,8 +69,8 @@ if __name__ == '__main__':
 
     imagepl = Imageplane(300, 300)
 
-    #camera = Camera(Vector(0, 0, 0), Vector(0, 0, 1), Vector(1, 0, 0), math.pi / 8)
-    camera = Camera(Vector(0, 10, 10), Vector(0, 0, 10), Vector(1, 0, 0), math.pi/8)
+    camera = Camera(Vector(0, 0, 0), Vector(0, 0, 1), Vector(1, 0, 0), math.pi / 8)
+    #camera = Camera(Vector(0, 10, 10), Vector(0, 0, 10), Vector(1, 0, 0), math.pi/8)
     #camera = Camera(Vector(10, 0, 10), Vector(0, 0, 10), Vector(0, 0, 1), math.pi / 4)
 
     #camera = Camera(Vector(3, -4, 2), Vector(0, 0, 10), Vector(1, 1, 1), math.pi / 4)

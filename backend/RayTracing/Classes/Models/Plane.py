@@ -5,6 +5,7 @@ from RayTracing.Classes.Models.Intersection import Intersection
 
 
 class Plane(Object3D):
+    """This class is used to specify a basic plane with a center, a direction and infinite sides"""
 
     def __init__(self, point, normal, color=Color(), specular=100, reflection=0.1, transparency=0.0, refractiveIndex=1.0):
         super().__init__(point, color, specular, reflection, transparency, refractiveIndex)
