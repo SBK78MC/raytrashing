@@ -20,7 +20,7 @@ h4, input{
     overflow: visible;
 }
 
-#right{
+#right {
 	margin-right:5%;
     text-align: center;
     width: 20.5%;
@@ -34,7 +34,7 @@ h4, input{
     overflow: visible;
 }
 
-#center{
+#center {
 	margin-top: -0.6%;
     margin-left: 26%;
     text-align: center;
@@ -167,7 +167,6 @@ body {
     background-color: rgba(0,0,0,0.4);
 }
 
-
 .modal-content {
     background-color: #fefefe;
     margin: auto;
@@ -224,10 +223,8 @@ body {
     border-radius: 0 5px 5px 0;
 }
 
-
 .hover:hover {
-	margin-left: 2%;
-	
+	margin-left: 2%;	
 }
 
 #lightNav {
@@ -314,19 +311,11 @@ body {
 	background-color:#ffaa80;
 	padding:3px;
 	padding-top: 13px;
-	margin-left: 10px;
-	
-	
-	
+	margin-left: 10px;	
 }
 #dragImage:hover {
-	background-color:#ff9966;
-	
-	
-	
+	background-color:#ff9966;	
 }
-
-
 
 /* Style the buttons inside the tab */
 .tab button {
