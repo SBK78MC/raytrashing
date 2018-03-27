@@ -12,6 +12,8 @@ class Vector:
 
     def normalize(self):
         length = self.calcLength()
+        if length == 0:
+            return self
         return Vector(self.x/length, self.y/length, self.z/length)
 
     def getNormalizedLength(self):
