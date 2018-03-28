@@ -121,6 +121,7 @@ function handleMouseDown(e) {
 	}
 }
 
+//change value for our dragged shape
 function handleMouseUp(e) {
 	canMouseX=parseInt(e.clientX-$("#myCanvas").offset().left);
 	canMouseY=parseInt(e.clientY-$("#myCanvas").offset().top);
@@ -154,6 +155,7 @@ function handleMouseOut(e){
 	handleMouseUp(e);
 }
 
+//paint the dragged shape around the mouse while dragging
 function handleMouseMove(e){
 
     canMouseX=parseInt(e.clientX-$("#myCanvas").offset().left);
