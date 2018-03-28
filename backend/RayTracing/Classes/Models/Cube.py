@@ -6,6 +6,7 @@ from RayTracing.Classes.Models.Vector import Vector
 
 
 class Cube(Cuboid):
+    """Basic class that implements object Cube and the intersection of a cube to a ray"""
 
     def __init__(self, x=0, y=0, z=0, l=0, color=Color(), specular=100, reflection=0.1, transparency=0, refractiveIndex=1.0):
         super().__init__(x, y, z, l, l, l, color, specular, reflection, transparency, refractiveIndex)

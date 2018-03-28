@@ -2,6 +2,7 @@ from RayTracing.Classes.Models.Vector import Vector
 
 
 class Ray:
+    """With this class we can create a Ray from two vectors, a starting point and a direction point"""
 
     def __init__(self, startp=Vector(0, 0, 0), directionPoint=Vector(0, 0, 0)):
         self.startPoint = startp

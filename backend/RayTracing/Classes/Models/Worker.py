@@ -1,6 +1,7 @@
 import numpy
 
 class Worker:
+    """Class to be used in multiprocessing, it is the object that is shared between processes"""
 
     def __init__(self, fromY = 0, toY = 0, fromX = 0, toX = 0, height = 0, width = 0):
         self.fromY = int(fromY)
@@ -19,7 +20,6 @@ class Worker:
         y = y - self.fromY
 
         rgbAntialiasing = [rgb0, rgb1, rgb2, rgb3]
-        print( rgbV.averageColors(rgbAntialiasing).getArray() )
         self.img[y][x] = rgbV.averageColors(rgbAntialiasing).getArray()
 
     def getHeight(self):
