@@ -8,9 +8,7 @@
 <body>
 <header style="text-align: center;">
 <!--<h1 id="title">RAYTRASHING</h1>-->
-<a href="./raytrashing.html" >
-	<img src="./images/logo.png" style="width:20%; margin-top:-1.5%;" />
-</a>
+<img src="./images/logo.png" style="width:20%; margin-top:-1.5%;" />
 </header>
 
 <div id="left">
@@ -33,9 +31,9 @@
 		<input id = "ambient" type="range" min="0" max="100" value="20" class="bar">
 		<br><br>
 		<div>
-			<button id="render" class="buttons" type="buttons"  onclick="addLight()">Add Light</button>
+			<button id="light" class="buttons wideButtons" type="button"  onclick="addLight()">Add Light</button>
 		</div>
-		<button id="render" class="buttons" type="buttons"  onclick="clearGrid()">Clear Grid</button>
+		<button id="clear" class="buttons wideButtons" type="button"  onclick="clearGrid()">Clear Grid</button>
 	</form> 
 	</div>
 
@@ -131,7 +129,7 @@
 		</select>
 		<br><br>
 		
-		<button id="render" class="buttons" type="button" onclick="sliderDrag(1)">Advanced Camera</button>
+		<button  class="buttons wideButtons" type="button" onclick="sliderDrag(1)">Advanced Camera</button>
 		<div id="advancedCam" style="display: none;">
 			<h4>Camera Position</h4>
 			<input id="camera_pos_x" class="inputs" type="text" name="Coordinates Pos x" placeholder="x">
@@ -199,7 +197,7 @@
 </div>
 
 <div id="screenSize" align = "center">
-	<button id="render" class="buttons" type="button" Style="background:#ffcc66; color:black;" onclick="renderShapes()">Render</button>
+	<button id="render" class="buttons wideButtons" type="button" Style="background:#ffcc66; color:black;" onclick="renderShapes()">Render</button>
 </div>
 
 

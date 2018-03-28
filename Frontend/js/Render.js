@@ -50,7 +50,7 @@ function renderShapes() {
 	//var url = "http://52.20.143.165:8000/raytrace";
 	xhr.open("POST", url, true);
 	var jsonData = JSON.stringify(globalRaytracerObject);
-	console.log(jsonData);
+	//console.log(jsonData);
 	xhr.send(jsonData);
 
 	//get binary and make it an image... {there is a problem with headers called CORS from backend.. we have to fix it} (fixed as of 13.02.2018!)
