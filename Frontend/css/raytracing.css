@@ -127,7 +127,7 @@ body {
     display: inline-block;
     font-size: 15px;
 	width: 175px;
-    margin: 4px 2px;
+    margin: -2px 2px;
     cursor: pointer;
 	padding: 10px 24px;
 }
