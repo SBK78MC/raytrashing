@@ -92,6 +92,7 @@ body {
 	background-image: url("../images/bc.jpg");
 }
 
+
 .buttons {
     background-color: #6d6c6d;
     border: none;
@@ -118,18 +119,20 @@ body {
 	
 }
 
-#render {
+.wideButtons{
 	margin-top: 8%;
-    border: none;
-    color: black;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 15px;
 	width: 175px;
-    margin: -2px 2px;
+    margin: 4px 2px;
     cursor: pointer;
 	padding: 10px 24px;
+}
+
+#render {
+	 margin: -10px;
 }
 
 #render:hover {
