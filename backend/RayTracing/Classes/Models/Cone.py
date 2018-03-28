@@ -41,8 +41,10 @@ class Cone(Cylinder):
             tSmallest = math.inf
             if tMin < t.getx1() < tMax and t.getx1() < tSmallest:
                 tSmallest = t.getx1()
+                tSecond = t.getx2()
             if tMin < t.getx2() < tMax and t.getx2() < tSmallest:
                 tSmallest = t.getx2()
+                tSecond = t.getx1()
 
             if tSmallest == math.inf:
                 return None
@@ -54,7 +56,11 @@ class Cone(Cylinder):
                 tmp = None
                 if not self.isAbove(point):
                     tmp = self.intersect_base(ray, self.bottom, Vector(0, -1, 0))
-
+                else:
+                    point = ray.getPointOfRay(tSecond)
+                    intersect.point.y = point.y
+                    if self.inCylinder(point):
+                        return intersect
                 if tmp:
                     intersect.point = tmp.point
                 else:
@@ -63,7 +69,8 @@ class Cone(Cylinder):
         return intersect
 
     def inCylinder(self, point):
-        if point.y < self.bottom.y or point.y > self.center.y:
+        epsilon = 0.0001
+        if point.y < self.bottom.y - epsilon or point.y > self.center.y + epsilon:
             return False
         else:
             return True

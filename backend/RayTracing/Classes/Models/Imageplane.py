@@ -1,4 +1,7 @@
-class Imageplane():
+class Imageplane:
+    """ This class helps to specify the plane that represents the final image in the Scene
+        It gives the specifications for width and height on the desired image
+    """
 
     def __init__(self, width=500, height=500):
         self.width = width

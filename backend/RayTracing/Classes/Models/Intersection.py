@@ -4,6 +4,10 @@ from RayTracing.Classes.Models.Vector import Vector
 
 
 class Intersection:
+    """The class Intersection can help keep track of an intersection after it is located
+        The point of the intersection, the object that is intersected the initial Ray and the distance from
+        the starting point are all kept here and can be returned using the getters
+    """
 
     def __init__(self, point=Vector(), object3d=Object3D(), ray=Ray(), distance=0):
         self.point = point

@@ -20,6 +20,7 @@ from multiprocessing.managers import BaseManager
 
 
 class RayTracer:
+    """This is the main class that is used to ray trace a scene and returns the array of the image"""
 
     def __init__(self, imageplane=Imageplane(), mainscene=Scene(), camera=Camera(), antialiasing=False):
         self.recursionLimit = 3
@@ -33,6 +34,9 @@ class RayTracer:
 
 
     def startRayTracing(self):
+        """In this function we calculate the number of processes we can use to ray trace an image.
+        It creates the necessary number of workers that start the ray tracing and then waits until they finish
+        to join their outputs to create the final image"""
 
         final = numpy.zeros((self.imageplane.getHeight(), self.imageplane.getWidth(), 3))
 
@@ -67,6 +71,8 @@ class RayTracer:
         return final
 
     def trace(self, worker):
+        """ In this function each worker initiates the ray trace through each pixel, in the case of
+        antialiasing we use supersampling and trace 5 rays per pixel"""
 
         if self.antialiasing:
             samplingdistanceX = 1/self.imageplane.getWidth()
@@ -89,6 +95,7 @@ class RayTracer:
                     worker.setColor(y, x, self.traceRay(pixelRay, 0).getArray())
 
     def traceRay(self, pixelRay, recursionDepth):
+        """ Calculates if a ray intersects the objects in the scene and returns the closest intersection"""
 
         minDist = -1
         minObjInter = None
@@ -108,9 +115,11 @@ class RayTracer:
         return returnColor
 
     def getColorForIntersection(self, intersection, recursionDepth):
+        """ Calculates the color that a point on an object has """
 
         colorBrightness = 0.0
 
+        """Calculate the brightness that one object receives from the lights in the scene"""
         for light in self.scene.getLights():
             if type(light) is AmbientLight:
                 colorBrightness += light.getBrightness()
@@ -118,7 +127,8 @@ class RayTracer:
 
             else:
                 isShadow = self.getShadows(intersection, light)
-
+                """If the point is in shadow and if it is calculates how little light it gets depending on the 
+                    transparency of the object that casts the shadow"""
                 if isShadow is not None:
                     colorBrightnessFromDiffuse = self.diffuseAndSpecularReflection(light, intersection)
                     colorBrightness += colorBrightnessFromDiffuse * isShadow
@@ -135,21 +145,28 @@ class RayTracer:
 
         #surfaceNormal = intersection.getObject().getSurfaceNormal(intersection.getPoint())
         #viewDirection = intersection.getRay().getDirection()
-
+        """ Calculate Fresnel to see how much a object reflects or is transparent based on the angle 
+         (not used right now since it was hard to combine it with the degree of reflectiveness and transparency)"""
         #fresnelEffect = self.getFresnel(viewDirection, surfaceNormal, intersection.getObject().getRefractiveIndex())
 
         if refractionColor and reflectionColor:
+            """If the object is both reflective and transparent(refractive) calculate the color using both values"""
 
             reflectionColorWithFresnel = reflectionColor.multiply(intersection.getObject().getReflection())
             refractionColorWithFresnel = refractionColor.multiply(intersection.getObject().getTransparency())
             if 1 - intersection.getObject().getTransparency() - intersection.getObject().getReflection() > 0:
+                """ If the sum of reflectiveness and transparency is less than one, then add diffusion color"""
                 brightColorWithInverseRate = initialColor.multiply(1 - intersection.getObject().getTransparency() - intersection.getObject().getReflection())
                 finalColor = (reflectionColorWithFresnel.add(refractionColorWithFresnel).add(brightColorWithInverseRate)).multiply(colorBrightness)
 
             else:
+                """ Else just add the reflected color and the transparent color"""
                 finalColor = (reflectionColorWithFresnel.add(refractionColorWithFresnel))
 
         elif reflectionColor:
+            """ In the case that we have only reflection or only transparency, calculate the final color
+                        as diffusion color plus reflection/refraction color accordingly"""
+
             reflectionColorWithRate = reflectionColor.multiply(intersection.getObject().getReflection())
             brightColorWithInverseRate = initialColor.multiply(1 - intersection.getObject().getReflection())
             finalColor = reflectionColorWithRate.add(brightColorWithInverseRate).multiply(colorBrightness)
@@ -167,6 +184,7 @@ class RayTracer:
         return finalColor
 
     def getReflection(self, intersection, recursionDepth):
+        """ Cast a new ray to calculate reflections from a point of an object"""
         if intersection.getObject().getReflection() <= 0:
             return None
 
@@ -186,6 +204,7 @@ class RayTracer:
         return reflectedColor
 
     def getRefraction(self, intersection, recursionDepth):
+        """ Cast a new ray to calculate refraction from a point of an object """
         if intersection.getObject().getTransparency() <= 0:
             return None
 
@@ -229,6 +248,7 @@ class RayTracer:
         return refractedColor
 
     def diffuseAndSpecularReflection(self, light, intersection):
+        """ Calculate the diffusion color of a certain object based on the angle of the light"""
 
         lightToPoint = light.getPosition().sub(intersection.getPoint())
         surfaceNormal = intersection.getObject().getSurfaceNormal(intersection.getPoint())
@@ -253,12 +273,14 @@ class RayTracer:
         return colorBrightness
 
     def getShadows(self, intersection, light):
+        """ Locate intersections from a point to the light to locate if an object casts a shadow"""
         isShadow = None
         for objectIter in self.scene.getObjects():
             lightToPoint = light.getLightRay(intersection.getPoint().sub(light.getPosition()))
 
             shadowIntersection = objectIter.intersection(lightToPoint, 0.001, 0.9999)
-            if shadowIntersection:
+            if shadowIntersection and objectIter != intersection.getObject():
+                """ Locates the object that intersects the ray that is least transparent"""
                 if isShadow is not None:
                     if isShadow > objectIter.getTransparency():
                         isShadow = objectIter.getTransparency()
@@ -268,6 +290,8 @@ class RayTracer:
         return isShadow
 
     def getFresnel(self, viewDirection, surfaceNormal, ior):
+        """Calculates the Fresnel effect of a point based on the angle of the ray that hits it and the refractive index
+        of the object. """
         cosi = viewDirection.dotProduct(surfaceNormal)
         etai = 1
         etat = ior

@@ -4,6 +4,9 @@ from RayTracing.Classes.Models.Vector import Vector
 
 
 class Light(AmbientLight):
+    """Subclass of AmbientLight
+        It is used to position point Lights to the scene with a certain position (self.position)
+    """
 
     def __init__(self, position=Vector(0, 0, 0),brightness=0.1):
         AmbientLight.__init__(self, brightness)

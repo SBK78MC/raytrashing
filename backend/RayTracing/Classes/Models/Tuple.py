@@ -1,4 +1,5 @@
 class Tuple:
+    """This class is used to save two numbers and return the smallest of the two when needed"""
 
     def __init__(self, x1=0.0, x2=1.0):
         self.x1 = x1

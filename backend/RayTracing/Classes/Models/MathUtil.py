@@ -4,6 +4,7 @@ from RayTracing.Classes.Models.Tuple import Tuple
 
 
 class MathUtil:
+    """This class includes functions that solve basic math equations used in calculating intersections"""
 
     @classmethod
     def solveQuadraticFormula(self, a, b, c):

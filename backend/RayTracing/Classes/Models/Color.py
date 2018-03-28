@@ -1,4 +1,8 @@
 class Color(object):
+    """This class is used to give Colors to different objects
+        a color (self.color) is essentially a list of three values, all ranging from 0.0 to 1.0
+        The first value of the list represents Red, the second Green and the third Blue
+    """
 
     def __init__(self):
         self.color = [0, 0, 0]
@@ -14,6 +18,8 @@ class Color(object):
         else:
             return False
 
+    ''' These functions can be used to create the most basic colors easily, 
+        they are mostly used in tests.'''
     def red(self):
         self.color = [1.0, 0.0, 0.0]
 
@@ -47,6 +53,7 @@ class Color(object):
         else:
             return False
 
+    #Multiply a color with a float or integer value by multiplying it with each basic color value
     def multiply(self, multiplier):
         redV = self.checkNotOutbound(self.color[0] * multiplier)
         greenV = self.checkNotOutbound(self.color[1] * multiplier)
@@ -54,6 +61,7 @@ class Color(object):
         newColor = Color(redV, greenV, blueV)
         return newColor
 
+    # Multiply a color with another color by multiplying the respective basic color values
     def multiplyColor(self, color):
         redV = self.checkNotOutbound(self.color[0] * color.getR())
         greenV = self.checkNotOutbound(self.color[1] * color.getG())
@@ -68,6 +76,7 @@ class Color(object):
         newColor = Color(redV, greenV, blueV)
         return newColor
 
+    # Get the average color of a list of colors
     def averageColors(self, colors):
         totalR = self.getR()
         totalG = self.getG()
@@ -82,7 +91,7 @@ class Color(object):
         bValue = totalB / (len(colors)+1)
         return Color(rValue, gValue, bValue)
 
-
+    # Check that the basic color values are in the range 0.0-1.0
     def checkNotOutbound(self, value):
         if value > 1:
             value = 1

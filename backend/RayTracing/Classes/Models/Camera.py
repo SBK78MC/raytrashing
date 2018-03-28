@@ -4,8 +4,10 @@ from RayTracing.Classes.Models.Ray import Ray
 from RayTracing.Classes.Models.Vector import Vector
 
 
-class Camera():
-
+class Camera:
+    """Class for the camera, it includes the position and the direction (self.pointOfView) of the camera
+        and vectors related to the rotation of the camera
+    """
     angle = 0
 
     def __init__(self, position=Vector(0, 0, 0), pointOfView=Vector(0, 0, 1), upGuide=Vector(1, 0, 0), fov=40):
