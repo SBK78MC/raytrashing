@@ -364,6 +364,10 @@ body {
 		float:right;
 		margin-right:-50px;
     }
+	body
+	{
+		height:1500px;
+	}
 }
 
 @media only screen and (max-width: 1200px) {
