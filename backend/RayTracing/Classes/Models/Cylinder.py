@@ -10,6 +10,7 @@ from RayTracing.Classes.Models.Vector import Vector
 
 
 class Cylinder(Object3D):
+    """Basic class that implements object Cylinder and the intersection of a cylinder to a ray"""
 
     def __init__(self, x=0, y=0, z=0, height=0, radius=0, color=Color(), specular=50, reflection=0.1, transparency=0, refractiveIndex=1.0):
         super().__init__(x, y, z, color, specular, reflection, transparency, refractiveIndex)

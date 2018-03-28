@@ -146,7 +146,7 @@ class RayTracer:
         #surfaceNormal = intersection.getObject().getSurfaceNormal(intersection.getPoint())
         #viewDirection = intersection.getRay().getDirection()
         """ Calculate Fresnel to see how much a object reflects or is transparent based on the angle 
-         (not used right now since it was hard to combine it with the degree of reflectiveness and transparency)"""
+         (not used right now since it was hard to combine it with the degree of reflectivity and transparency)"""
         #fresnelEffect = self.getFresnel(viewDirection, surfaceNormal, intersection.getObject().getRefractiveIndex())
 
         if refractionColor and reflectionColor:
