@@ -371,10 +371,20 @@ body {
 }
 
 @media only screen and (max-width: 1200px) {
-    #right{
+	#center 
+	{
+
+		margin-left:6%;
+	}
+    #right
+	{
 		position:relative;
 		float:right;
-		margin-right:80%;
-		margin-top:30%;
+		margin-right:-50px;
     }
+	body
+	{
+		height:1500px;
+	}
+
 }
